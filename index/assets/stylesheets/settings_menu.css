@@ -1,6 +1,6 @@
 #settingsMenu {
     display: none;
-    position: fixed;
+    position: fixed !important;
     top: 0;
     right: 0;
     width: 200px;
@@ -8,5 +8,5 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+    z-index: 10001 !important;
 }
