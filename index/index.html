@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<HTML lang="en">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <link rel="icon" href="assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
+    <title>HtWebz Homepage</title>
+    <link rel="stylesheet" href="assets/stylesheets/app_list_menu.css">
+    <link rel="stylesheet" href="assets/stylesheets/top_user_interface.css">
+    <link rel="stylesheet" href="assets/stylesheets/notification_system.css">
+    <link rel="stylesheet" href="assets/stylesheets/content_arrangment.css">
+    <link rel="stylesheet" href="assets/stylesheets/content_pin.css">
+    <link rel="stylesheet" href="assets/stylesheets/about_content.css">
+    <link rel="stylesheet" href="assets/stylesheets/games_menu.css">
+    <link rel="stylesheet" href="assets/stylesheets/search_menu.css">
+</head>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial;
+        background: aquamarine;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-snap-type: proximity;
+    }
+
+    body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: lightseagreen;
+        border-radius: 15px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background: darkcyan;
+        border-radius: 15px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
+    }
+
+    body::-webkit-scrollbar-thumb:hover + body::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    #menuBlur {
+        display: none;
+        /*filter: blur(300px) !important;
+        backdrop-filter: grayscale(0.5) opacity(0.4);*/
+        background: white;
+        opacity: 0.5;
+        flex: 1 1 auto !important;
+        position: fixed !important;
+        height: 100%;
+        width: 100%;
+        z-index: 10000 !important;
+        top: 0;
+        left: 0;
+        transition: all 0.3s ease !important;
+        pointer-events: visible !important;
+        user-select: none !important;
+    }
+</style>
+
+<body>
+    <div id="appMenu">
+        <div class="top-app-menu-section">
+            <h2 id="appMenuTitle">Apps & Settings</h2>
+            <button id="closeAppMenu">X</button>
+        </div>
+        <div class="settings-container" id="settingsContainer">
+            <text class="">This is the settings section here you will find user costumization. Such as text size, color
+                theme, and much more!</text>
+        </div>
+        <div class="appsContainer">
+            <p id="appsTextTag">Apps</p>
+        </div>
+    </div>
+
+    <span id="notification">...</span>
+
+    <section id="topUserInterfaceBar">
+        <div class="appMenuOpenButtons">
+            <div id="appMenuOpen"><img id="appMenuIcon" srcset="assets/images/app_button_icon.png" preload="auto"
+                    aria-busy="false" height="25" width="25" /><span class="apps-menu-text">App Menu</span></div>
+            <div id="settingsQuick"><img id="settingsIcon" srcset="assets/images/Settings_icon.png" preload="auto"
+                    aria-busy="false" height="25" width="25" /><span class="settings-quick-text">Settings</span></div>
+        </div>
+
+        <h1 id="pageTitle">HtWebz Homepage - V2</h1>
+
+        <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
+            <div id="gamesMenuOpen"><img id="gamesMenuIcon" src="assets/images/console_remote_controller.png"
+                    preload="auto" height="27.5" width="27.5" />
+                <span class="games-menu-text">Games</span>
+            </div>
+            <div id="resourcesMenuOpen"><img id="resourcesMenuIcon" src="assets/images/Tab_Icons/HtWebz_Searcher_Icon.png" preload="auto" height="27.5"
+                    width="27.5" contenteditable="false" />
+                <span class="resources-menu-text">Search</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Root Page Interface -->
+    <section id="rootPageSection">
+        <section class="main-content-section" name="content">
+            <div id="pinnedContentTop">
+                <h3 class="pinned-content-title">- Main Content -</h3>
+
+                <div class="about-page-container">
+
+                    <h4 id="aboutTag">About</h4>
+                    <div id="aboutPageContentText">
+                        <span class="questionOneText">Why was this page made?</span>
+                        <p class="aboutText">
+                            This page called HtWebz was mainly made for fun. Furthermore, the page was fabricated for
+                            the making of games, and entertainment and resources for education.
+                        </p>
+                    </div>
+
+                </div>
+                <div class="content-one">
+                    <h4 id="contentOneTag">Personal</h4>
+                    <div class="content-one-text">
+                        <span id="recentTag">Recent</span>
+                        <p class="about-recent-info">
+                            What you have visited recently on this site.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Menus HTML Section -->
+        <div id="menuBlur"></div>
+
+        <!-- Game Menu -->
+        <section id="gameMenu">
+            <div class="game-menu-hotbar">
+                <button id="closeGameMenuButton">X</button>
+                <button id="themeGameMenuBtn"></button>
+            </div>
+            <div id="gameContainerDisplay">
+                <hr class="top-game-divider" style="width: 100%;">
+                <div id="displayG">
+
+                </div>
+                <hr class="bottom-game-divider" style="width: 100%;">
+            </div>
+        </section>
+
+        <!-- Search Menu -->
+        <section id="searchMenu">
+            <div class="search-menu-hotbar">
+                <button id="closeSearchMenuBtn">X</button>
+                <button></button>
+            </div>
+            <div>
+                <div class="search-menu-managment">
+                    <button id="exapndSearchMenuBtn" style="text-rendering: optimizeSpeed !important;">⇱</button>
+                </div>
+                <iframe id="searchPageDisplay" src="search_index_menu_version.html"></iframe>
+            </div>
+        </section>
+        <!---->
+        <!-- Featured Section -->
+        <div class="featuredTagBackdrop">
+            <h1 class="featuredTag">Featured</h1>
+        </div>
+
+        <section id="featuredContentSection">
+            <div id="verticalShowcase">
+                <div id="v-showcase">
+                    <span class=""></span>
+                    <img src="assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" aria-describedby="featured one" />
+                    <p class="featured-description">
+                        Say Hello to your new friend, HTAssistant! <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently a work in progress.</text>
+                    </p>
+                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
+                </div>
+                <div id="v-showcase">
+                    <img src="assets/images/" aria-describedby="featured two" />
+                </div>
+                <div id="v-showcase">
+                    <img src="assets/images/" aria-describedby="featured three" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Child script for quick access user interface functions -->
+        <script>
+            // Document elements variables
+            const gamesMenuOpen = document.getElementById("gamesMenuOpen");
+            const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
+            const moreFromHtWebzContainer = document.getElementById("moreFromHtWebzContainer");
+
+            // Element function effect for the resize of the media
+            appMenuOpen.addEventListener("mouseover", () => {
+                if (appMenuOpen.style.transform === "scale(0.825)") {
+                    appMenuOpen.style.transform = 'scale(0.925)';
+                    appMenuOpen.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
+                    appMenuOpen.style.border = '3px solid #8d8d8d';
+                    appMenuOpen.style.background = 'rgb(215, 215, 215)';
+                }
+                if (appMenuOpen.style.transform === "scale(1)" || appMenuOpen.style.transform === '') {
+                    appMenuOpen.style.transform = 'scale(1.1)';
+                    appMenuOpen.style.background = 'rgb(215, 215, 215)';
+                    appMenuOpen.style.border = '3px solid #8d8d8d';
+                    appMenuOpen.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
+                }
+            });
+            appMenuOpen.addEventListener("mouseout", () => {
+                if (appMenuOpen.style.transform === "scale(0.925)") {
+                    appMenuOpen.style.transform = 'scale(0.825)';
+                    appMenuOpen.style.background = 'white';
+                    appMenuOpen.style.border = '3px solid #ccc';
+                    appMenuOpen.style.boxShadow = 'none';
+                }
+                if (appMenuOpen.style.transform === "scale(1.1)") {
+                    appMenuOpen.style.transform = 'scale(1)';
+                    appMenuOpen.style.background = 'white';
+                    appMenuOpen.style.border = '3px solid #ccc';
+                    appMenuOpen.style.boxShadow = 'none';
+                }
+            });
+
+            // Element function effect for the resize of the media
+            settingsQuick.addEventListener("mouseover", () => {
+                if (settingsQuick.style.transform === "scale(0.825)") {
+                    settingsQuick.style.transform = 'scale(0.925)';
+                    settingsQuick.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
+                    settingsQuick.style.border = '3px solid #8d8d8d';
+                    settingsQuick.style.background = 'rgb(215, 215, 215)';
+                }
+                if (settingsQuick.style.transform === "scale(1)" || appMenuOpen.style.transform === '') {
+                    settingsQuick.style.transform = 'scale(1.1)';
+                    settingsQuick.style.background = 'rgb(215, 215, 215)';
+                    settingsQuick.style.border = '3px solid #8d8d8d';
+                    settingsQuick.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
+                }
+            });
+            settingsQuick.addEventListener("mouseout", () => {
+                if (settingsQuick.style.transform === "scale(0.925)") {
+                    settingsQuick.style.transform = 'scale(0.825)';
+                    settingsQuick.style.background = 'white';
+                    settingsQuick.style.border = '3px solid #ccc';
+                    settingsQuick.style.boxShadow = 'none';
+                }
+                if (settingsQuick.style.transform === "scale(1.1)") {
+                    settingsQuick.style.transform = 'scale(1)';
+                    settingsQuick.style.background = 'white';
+                    settingsQuick.style.border = '3px solid #ccc';
+                    settingsQuick.style.boxShadow = 'none';
+                }
+            });
+
+            // 
+            gamesMenuOpen.addEventListener("mouseover", () => {
+                if (gamesMenuOpen.style.transform === "scale(1)" || gamesMenuOpen.style.transform === '') {
+                    gamesMenuOpen.classList.add("hoveringGamesMenuDefault");
+                    moreFromHtWebzContainer.style.paddingInlineStart = "10px";
+                    moreFromHtWebzContainer.style.paddingBlock = "5px";
+                } else if (gamesMenuOpen.style.transform === "scale(0.825)" || gamesMenuOpen.style.transform === '') {
+                    gamesMenuOpen.classList.add("hoveringGamesMenuSmall");
+                }
+            });
+            gamesMenuOpen.addEventListener("mouseout", () => {
+                if (gamesMenuOpen.style.transform === "scale(1.1)" || gamesMenuOpen.style.transform === '') {
+                    gamesMenuOpen.classList.remove("hoveringGamesMenuDefault");
+                    moreFromHtWebzContainer.style.paddingInlineStart = "5px";
+                    moreFromHtWebzContainer.style.paddingBlock = "2.5px";
+                } else if (gamesMenuOpen.style.transform === "scale(0.925)" || gamesMenuOpen.style.transform === '') {
+                    gamesMenuOpen.classList.remove("hoveringGamesMenuSmall");
+                }
+            });
+
+            // Resources open button effect managment
+            resourcesMenuOpen.addEventListener("mouseover", () => {
+                if (resourcesMenuOpen.style.transform === "scale(1)" || resourcesMenuOpen.style.transform === '') {
+                    resourcesMenuOpen.classList.add("hoveringResourcesDefault");
+                    moreFromHtWebzContainer.style.paddingInlineEnd = "10px";
+                    moreFromHtWebzContainer.style.paddingBlock = "5px";
+                    moreFromHtWebzContainer.style.right = "15px";
+                } else if (resourcesMenuOpen.style.transform === "scale(0.825)" || resourcesMenuOpen.style.transform === '') {
+                    resourcesMenuOpen.classList.add("hoveringResourcesSmall");
+                }
+            });
+            resourcesMenuOpen.addEventListener("mouseout", () => {
+                if (resourcesMenuOpen.style.transform === "scale(1.1)" || resourcesMenuOpen.style.transform === '') {
+                    resourcesMenuOpen.classList.remove("hoveringResourcesDefault");
+                    moreFromHtWebzContainer.style.paddingInlineEnd = "5px";
+                    moreFromHtWebzContainer.style.paddingBlock = "2.5px";
+                    moreFromHtWebzContainer.style.right = "10px";
+                } else if (resourcesMenuOpen.style.transform === "scale(0.925)" || resourcesMenuOpen.style.transform === '') {
+                    resourcesMenuOpen.classList.remove("hoveringResourcesSmall");
+                }
+            });
+        </script>
+
+        <noscript>
+            Javascript not enabled, please consult to enabling it for the page to function properly
+        </noscript>
+
+    </section>
+</body>
+
+<script src="assets/scripts/main_user_interface.js"></script>
+<script src="assets/scripts/app_menu_script.js"></script>
+<script src="assets/scripts/search_process.js"></script>
+
+</HTML>

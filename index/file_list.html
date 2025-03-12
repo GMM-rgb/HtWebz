@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" type="x-icon" href="assets/images/HtDocs_App_icon.png" style="border-radius: 10px;">
+    <!--Tab Icon image-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HⓣEditor File List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1.25em;
+            margin: 0;
+            padding: 20px;
+            background-color: rgb(112, 255, 236);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            overflow-y: scroll;
+        }
+
+        body::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #00a2ad;
+            border: 2px solid #ccc;
+            border-radius: 15px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            cursor: pointer;
+            background: #00e0f0;
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            visibility: visible;
+            opacity: 0.25;
+        }
+
+        .page-title {
+            color: black;
+            -webkit-text-stroke: 1px darkcyan;
+            -webkit-text-fill-color: rgb(49, 210, 215);
+            font-weight: bolder;
+            font-size: 2em;
+            word-break: keep-all;
+            word-spacing: 2.25px;
+        }
+
+        .file-list-container {
+            max-width: 800px;
+            min-height: 20px;
+            margin: 0 auto;
+            background: #30acff;
+            border: 2px solid darkcyan;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-list {
+            list-style-type: none;
+            background-color: cyan;
+            border-radius: 10px;
+            padding: 0;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 5px solid #0091a1;
+            border-radius: 10px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .file-item button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            transition: background-color 0.4s ease-in-out;
+        }
+
+        .load-btn {
+            background-color: #007bff;
+            color: white;
+            -webkit-text-fill-color: blue;
+            -webkit-text-stroke: 0.5px skyblue;
+        }
+
+        .load-btn:hover {
+            background-color: #0060c7;
+        }
+
+        .rename-btn {
+            background-color: #ffc107;
+            color: white;
+            -webkit-text-fill-color: lightgray;
+            -webkit-text-stroke: 1px gray;
+        }
+
+        .rename-btn:hover {
+            background-color: #cf9c04;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            -webkit-text-fill-color: lightgray;
+            -webkit-text-stroke: 1px gray;
+        }
+
+        .delete-btn:hover {
+            background-color: #b81828;
+        }
+
+        .create-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 6.5px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-weight: bolder;
+            font-size: 1.25em;
+            cursor: pointer;
+            margin-bottom: 20px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            transition: background-color 0.4s ease-in-out;
+            -webkit-text-fill-color: lightgray;
+            -webkit-text-stroke: 1px gray;
+        }
+
+        .create-btn:hover {
+            background-color: #098125;
+        }
+
+        .file-controls {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .file-info {
+            cursor: default;
+            position: relative;
+            word-spacing: 4px;
+        }
+
+        #fileButton {
+            font-weight: bold;
+            font-size: 0.9em;
+            width: 85px;
+            text-align: center;
+            text-indent: auto;
+        }
+
+        .apps-button {
+            position: absolute;
+            border: 1px solid cyan;
+            border-left-style: dashed;
+            border-right-style: dashed;
+            border-radius: 10px;
+            padding: 1.5px;
+            margin: -15px;
+            height: 5vh;
+            width: 5vh;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .apps-button-label {
+            display: none;
+            visibility: hidden;
+            position: absolute;
+            margin-top: -16.5px;
+            margin-left: 22.5px;
+            padding: 5px;
+            padding-inline: 2px;
+            font-size: 0.85em;
+            font-weight: bolder;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: #0865fc;
+            border-top: 1px solid cyan;
+            border-bottom: 1px solid cyan;
+        }
+
+        .app-context-menu {
+            display: none;
+            visibility: hidden;
+            opacity: 0.95;
+            position: absolute;
+            border: 1px solid black;
+            border-radius: 10px;
+            height: 300px;
+            width: 325px;
+            background-color: cyan;
+            margin-top: 20px;
+            margin-left: -13.5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+        }
+
+        .HtDocs-go-to-button {
+            position: absolute;
+            cursor: pointer;
+            margin: 5px;
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: #00e0f0;
+            height: 40px;
+            width: 100px;
+            text-align: left;
+            font-weight: bolder;
+            font-size: 1em;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            transition: background-color 0.4s ease-in-out;
+        }
+
+        .HtDocs-go-to-button:hover {
+            background-color: #00ecfc;
+        }
+
+        .filler-frame-1 {
+            position: absolute;
+            background-color: darkcyan;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin: 5px;
+            margin-top: 47.5px;
+            height: 22.5px;
+            width: 98px;
+            cursor: no-drop;
+            transition: background-color 0.4s ease-in-out;
+        }
+
+        .filler-frame-1:hover {
+            background-color: #00a2ad;
+        }
+
+        .HtDocs-app-icon {
+            position: absolute;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin: 5px;
+            margin-left: 110px;
+            height: 65px;
+            width: 65px;
+        }
+
+        .file-managment-toolbar {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: center flex-end;
+            align-items: flex-start;
+            padding: 4.5px;
+            border: 2px solid darkcyan;
+            border-radius: 5px;
+            background: linear-gradient(4.25deg, darkcyan, rgb(0, 186, 186));
+            transition: all 0.3s ease;
+            gap: 4px;
+            transform-origin: center;
+        }
+
+        @keyframes springFileManagment {
+            0% { transform: translateX(0px); }
+            25% { transform: translateX(5px) scale(0.95); }
+            50% { transform: translateX(4px) scale(1.05) scaleX(0.85); }
+            75% { transform: translateX(-7px) scaleX(1.1); }
+            100% { transform: translateX(0px); }
+        }
+
+        .file-managment-toolbar:hover {
+            box-shadow: 0 3.5px 15px rgba(0, 0, 0, 0.425);
+            top: -2px;
+            animation: springFileManagment 0.5s ease-in !important;
+            transform: scale(1.125);
+        }
+
+        .file-managment-toolbar:active {
+            transform: scale(0.975);
+        }
+
+        .storage-button {
+            cursor: pointer;
+            position: relative !important;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            background: orange;
+            transition: all 0.3s ease;
+            padding: 10px 6.5px;
+            font-weight: bold;
+        }
+
+        .storage-button:hover {
+            background: rgb(255, 128, 81);
+        }
+
+        .storage-button:active {
+            background: orangered;
+        }
+
+        .settings-button {
+            cursor: pointer;
+            position: relative !important;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            padding: 10px 6.5px;
+            font-weight: bold;
+        }
+
+        .overlay-close {
+            cursor: pointer;
+            position: relative;
+            top: 5px;
+            left: 5px;
+            background: red;
+            border: 2px solid #ccc;
+            border-radius: 1cm;
+            padding: 4px 11px;
+            transition: all 0.3s linear;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+            color: black;
+            -webkit-text-fill-color: red;
+            -webkit-text-stroke: 1px darkred;
+            font-weight: bold;
+            font-size: 1.25em;
+        }
+
+        .overlay-close:hover {
+            background: rgb(210, 0, 0);
+            box-shadow: 0 2px 6.15px rgba(0, 0, 0, 0.625);
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+
+<link rel="stylesheet" href="assets/styles/overlay_menus_text_editor_list.css">
+
+<body>
+    <section id="overlayMenus">
+        <button class="overlay-close" id="closeOverlayButton">X</button>
+        <div id="settingMenu">
+            <section class="setting-tabs">
+                <button class="settingTabButton" id="settingOrganizingTab">Oragnizing</button>
+                <button class="settingTabButton" id="settingcolorTab">Colors</button>
+                <button class="settingTabButton" id="settingLayoutTab">Layouts</button>
+                <button class="settingTabButton" id="settingSoundsTab">Sounds</button>
+            </section>
+            <section class="setting-body-container">
+                <!-- The setting tab content will appear here -->
+            </section>
+        </div>
+        <div id="storageMenu">
+
+        </div>
+    </section>
+    <script>
+        const closeOverlayMenu = document.getElementById('closeOverlayButton');
+        const overlayMenuContainer = document.getElementById('overlayMenus');
+
+        closeOverlayMenu.addEventListener('click', () => {
+            if(overlayMenuContainer.style.display === 'flex' || overlayMenuContainer.style.display === '') {
+                overlayMenuContainer.style.display = 'none';
+            }
+        });
+    </script>
+    <div class="file-list-container">
+        <img class="apps-button" id="apps-button" src="assets/images/app_button_icon.png"></img>
+        <label class="apps-button-label" id="apps-button-label">Hⓣ Apps</label>
+        <script>
+            document.getElementById('apps-button').addEventListener('mouseover', function () {
+                var buttonLabel = document.getElementById('apps-button-label');
+                buttonLabel.style.display = 'block';
+                buttonLabel.style.visibility = 'visible';
+            });
+            document.getElementById('apps-button').addEventListener('mouseout', function () {
+                var buttonLabel = document.getElementById('apps-button-label');
+                buttonLabel.style.display = 'none';
+                buttonLabel.style.visibility = 'hidden';
+            });
+        </script>
+        <div class="app-context-menu" id="app-context-menu">
+            <form action="file_list.html" method="get">
+                <button class="HtDocs-go-to-button" id="HtDocs-go-to-button">HⓣEditor</button>
+                <canvas class="filler-frame-1"></canvas>
+                <img class="HtDocs-app-icon" id="HtDocs-app-icon" src="assets/images/HtDocs_App_icon.png"></img>
+            </form>
+            <script>
+                // Function to display or hide app menu when click
+                document.getElementById('apps-button').addEventListener('click', function () {
+                    var contextMenu = document.getElementById('app-context-menu');
+                    if (contextMenu.style.display === 'none' || contextMenu.style.visibility === 'hidden' || contextMenu.style.display === '') {
+                        contextMenu.style.display = 'block';
+                        contextMenu.style.visibility = 'visible';
+                    } else {
+                        contextMenu.style.display = 'none'
+                        contextMenu.style.visibility = 'hidden'
+                    } if (condition) {
+                        contextMenu.style.display = 'null';
+                        contextMenu.style.visibility = 'null';
+                    } else {
+                        return
+                    }
+                    console.warn(`styles were not found`);
+                });
+            </script>
+        </div>
+        <h1 class="page-title">HⓣEditor - Text Editor</h1>
+        <div class="file-managment-toolbar" for="fileTabButton">
+            <button name="fileTabButton" class="create-btn" onclick="createNewFile()">Create New</button>
+            <button name="fileTabButton" class="storage-button" id="storageButton">Storage</button>
+            <button name="fileTabButton" class="settings-button" id="settingsButton">Settings</button>
+        </div>
+        <ul class="file-list" id="fileList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadFileList);
+
+        function loadFileList() {
+            const fileList = document.getElementById('fileList');
+            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                listItem.className = 'file-item';
+                listItem.innerHTML = `
+                    <span class="file-info"><text style="font-weight: bold;">${file.name}</text> - Modified on: <p>${new Date(file.created).toLocaleString()}</p></span>
+                    <div class="file-controls">
+                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')">Load</button>
+                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')">Rename</button>
+                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')">Delete</button>
+                    </div>
+                `;
+                fileList.appendChild(listItem);
+            });
+        }
+
+        function createNewFile() {
+            window.location.href = 'editor.html';
+        }
+
+        function loadFile(name) {
+            // Redirect to the editor with the selected file's name as a query parameter
+            window.location.href = `editor.html?file=${encodeURIComponent(name)}`;
+        }
+
+        function renameFile(name) {
+            const newName = prompt('Enter new name for the file:', name);
+            if (newName) {
+                let files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                const fileIndex = files.findIndex(file => file.name === name);
+                if (fileIndex !== -1) {
+                    files[fileIndex].name = newName;
+                    localStorage.setItem('odocsFiles', JSON.stringify(files));
+                    location.reload();
+                }
+            }
+        }
+
+        function deleteFile(name) {
+            if (confirm('Are you sure you want to delete this file?')) {
+                let files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                files = files.filter(file => file.name !== name);
+                localStorage.setItem('odocsFiles', JSON.stringify(files));
+                location.reload();
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+#searchMenu {
+    display: none;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    position: fixed !important;
+    border: 3px solid #ccc;
+    background: linear-gradient(white, whitesmoke, lightgray);
+    border-radius: 15px;
+    box-sizing: border-box !important;
+    z-index: 10002 !important;
+    margin: 20px;
+    margin-top: 95px;
+    top: 0 !important;
+    left: 0 !important;
+    padding: 10px;
+    gap: 8px;
+    width: 96.5%;
+    opacity: 1;
+    transition: all 0.65s;
+}
+
+@keyframes dropSearchMenu {
+    0% { transform: translateY(-500px) scale(0.5); }
+    25% { transform: translateY(50px) scale(0.45); height: 200px; }
+    50% { transform: translateY(25px) scale(0.6); height: 60px; }
+    75% { transform: translateY(-50px) scale(0.785); height: 200px; }
+    100% { transform: translateY(0) scale(1); height: 400px; }
+}
+
+#searchMenu.dropDownSearchMenu {
+    animation: dropSearchMenu 0.65s linear !important;
+}
+
+.search-menu-hotbar {
+    display: flex !important;
+    flex-direction: row;
+    position: relative !important;
+    padding: 3.5px;
+    padding-inline: 6.5px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    max-height: 43.75px;
+    width: 50%;
+    background: #0586e3;
+}
+
+#closeSearchMenuBtn {
+    cursor: pointer !important;
+    position: relative;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    padding: 10px 14px !important;
+    background: red;
+    font-weight: bold;
+}
+
+.search-menu-managment {
+    display: flex !important;
+    flex-direction: row;
+    position: relative !important;
+    padding: 3.5px;
+    padding-inline: 6.5px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    max-height: 43.75px;
+    width: 50%;
+    background: #0586e3;
+    top: -5px;
+    width: 10%;
+}
+
+#searchPageDisplay {
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 15px;
+    background: white;
+    width: 100%;
+    height: 100%;
+    transition: all 0.65s;
+}

@@ -1,0 +1,59 @@
+.pinned-content-title {
+    cursor: pointer;
+    position: relative !important;
+    font-weight: bold;
+    left: 0;
+    top: -40px;
+    justify-self: center;
+    font-size: 2.9em;
+    user-select: none;
+    -webkit-user-select: none !important;
+    -webkit-user-drag: none !important;
+    color: black;
+    -webkit-text-stroke: 1px darkslategray;
+    -webkit-text-fill-color: lightslategray;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.375);
+    transition: all 0.3s linear;
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 1cm;
+    padding: 12.5px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 762px) {
+    .pinned-content-title {
+        display: flex !important;
+        transform: scale(0.65) !important;
+        transform-origin: top left !important;
+        justify-self: left !important;
+        left: 0 !important;
+    }
+
+    .pinned-content-title:hover {
+        background: #73ffff;
+        transform: scale(0.75) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25), inset 0 0 20px rgba(0, 0, 0, 0.45) !important;    
+    }
+
+    .content-one {
+        top: -70px !important;
+    }
+}
+
+.pinned-content-title:hover {
+    background: #73ffff;
+    transform: scale(1.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25), inset 0 0 20px rgba(0, 99, 87, 0.65) !important;
+}
+
+.content-one {
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    background: white;
+    padding: 3.75px;
+    top: -40px;
+    transition: all 0.4s ease;
+}

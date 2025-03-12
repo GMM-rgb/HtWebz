@@ -1,0 +1,42 @@
+.font-type-controls {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap-reverse;
+    flex: auto;
+}
+
+#fontTypeSelectionContainer {
+    display: none;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: fit-content;
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    gap: 4px;
+    padding: 8.5px;
+}
+
+.fontButton {
+    cursor: pointer;
+    border: 2px solid #ccfe;
+    border-radius: 1cm;
+}
+
+.font-button-change {
+    cursor: pointer;
+    border: 2px solid #ccc;
+    border-radius: 1cm;
+    background: orange;
+    transition: all 0.3s ease-out;
+}
+
+.font-button-change:hover {
+    background: rgb(255, 166, 70);
+}
+
+.font-button-change:active {
+    background: orangered;
+}

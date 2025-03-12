@@ -1,0 +1,4 @@
+https://github.com/GMM-rgb/self_generating_ai_model/tree/main/public
+== == == ==
+https://github.com/GMM-rgb/self_generating_ai_model/tree/main/public/assets/styles/toolbar_styles.css
+== == == ==
