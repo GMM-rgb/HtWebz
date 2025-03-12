@@ -107,6 +107,7 @@ searchMenuOpen.onclick = () => {
             searchMenu.classList.remove("dropDownSearchMenu");
             searchMenu.style.height = "535px";
             searchPageDisplay.style.height = "205%";
+            searchPageDisplay.style.flex = "1 1 auto";
         });
         wait(10).then(() => {
             menuBlur.style.opacity = "0.5";
@@ -121,9 +122,13 @@ searchMenuOpen.onclick = () => {
 closeSearchMenuBtn.onclick = () => {
     if(searchMenu.style.display === "flex" || searchMenu.style.displsy === '') {
         document.title = "HtWebz Homepage";
-        searchMenu.style.display = " none";
-        menuBlur.style.display = "none";
-        searchMenu.style.height = "fit-content";
+        menuBlur.style.opacity = "0";
+        searchMenu.style.opacity = "0";
+        wait(650).then(() => {
+            searchMenu.style.display = " none";
+            searchMenu.style.opacity = "1";
+            menuBlur.style.display = "none";
+        });
         searchPageDisplay.style.height = "100%";
         notify("Search Menu Closed...");
     }
@@ -145,5 +150,18 @@ settingsQuick.onclick = () => {
     } else {
         settingsMenu.style.display = "none";
         menuBlur.style.display = "none";
+    }
+}
+
+closeSettingsMenuBtn.onclick = () => {
+    if(settingsMenu.style.display === "flex" || settingsMenu.style.display === '') {
+        menuBlur.style.opacity = "0";
+        settingsMenu.style.opacity = "0";
+        wait(650).then(() => {
+            settingsMenu.style.display = "none";
+            settingsMenu.style.opacity = "1";
+            menuBlur.style.display = "none";
+        });
+        notify("Settings Menu Closed...");
     }
 }
