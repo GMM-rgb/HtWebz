@@ -149,6 +149,7 @@ settingsQuick.onclick = () => {
     settingsMenu.style.display === "none" ||
     settingsMenu.style.display === ""
   ) {
+    document.title = "Settings Menu";
     notify("Settings Menu Opened...");
     menuBlur.style.display = "block";
     settingsMenu.style.display = "flex";
@@ -172,6 +173,7 @@ closeSettingsMenuBtn.onclick = () => {
     settingsMenu.style.display === "flex" ||
     settingsMenu.style.display === ""
   ) {
+    document.title = "HtWebz Homepage";
     menuBlur.style.opacity = "0";
     settingsMenu.style.opacity = "0";
     wait(650).then(() => {
