@@ -43,3 +43,13 @@
     width: 50%;
     background: #0586e3;
 }
+
+#closeSettingsMenuBtn {
+    cursor: pointer !important;
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    padding: 10px 14px !important;
+    background: red;
+    font-weight: bold;
+}
