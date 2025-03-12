@@ -113,9 +113,9 @@ searchMenuOpen.onclick = () => {
     searchMenu.classList.add("dropDownSearchMenu");
     wait(650).then(() => {
       searchPageDisplay.style.minHeight = "25%";
-      searchPageDisplay.style.maxHeight = "1500px";
+      searchPageDisplay.style.maxHeight = "100%";
       searchMenu.classList.remove("dropDownSearchMenu");
-      searchMenu.style.flex = "1 2 auto";
+      searchMenu.style.flex = "1 1 auto";
       searchPageDisplay.style.flex = "auto";
     });
     wait(10).then(() => {
