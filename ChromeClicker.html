@@ -1,0 +1,2855 @@
+<!DOCTYPE html=5.0>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="x-icon"
+    href="https://assets.onecompiler.app/42w3zjd8h/43a9shgmn/google_chrome_logo_comic.png" />
+  <title>Google Chrome Clicker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(rgb(255, 66, 66), rgb(255, 66, 66), yellow, yellow, green, green);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+      /* Ensure body is positioned correctly */
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      z-index: 1;
+      /* Ensure header is above other elements */
+    }
+
+    .page-title {
+      color: #333;
+      font-size: 3em;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin: 0;
+      user-select: none;
+      text-align: center;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-text-stroke: #222222 1px;
+      -webkit-text-fill-color: #333;
+    }
+
+    .main-container {
+      display: flex;
+      flex-grow: 1;
+      gap: 20px;
+      z-index: 1;
+      /* Ensure main container is above other elements */
+    }
+
+    .workspace {
+      flex: auto;
+      flex-grow: 1;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      overflow-y: auto;
+      max-height: 67.5vh;
+      z-index: 5;
+      /* Ensure workspace is above other elements */
+    }
+
+    .workspace::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .workspace::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 5px;
+    }
+
+    .workspace::-webkit-scrollbar-track {
+      background: #aeaeae;
+      border-radius: 5px;
+    }
+
+    .category-group {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    .category-group h3 {
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      color: #444;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+      display: inline-block;
+    }
+
+    .auto-merge-btn {
+      float: right;
+      background: #2196F3;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 5;
+      /* Ensure auto-merge button is above other elements */
+    }
+
+    .auto-merge-btn:hover {
+      background: #1976d2;
+    }
+
+    .upgrade-card {
+      background: rgb(231, 231, 231);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+      border: 2px solid transparent;
+      z-index: 6;
+      /* Ensure upgrades are above other elements */
+    }
+
+    .upgrade-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .upgrade-card.selected {
+      border-color: #2196F3;
+      outline: 2px solid #2196F3;
+    }
+
+    .store {
+      width: 250px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      height: safe-area-inset-bottom;
+      max-height: 67.5vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      z-index: 2;
+      /* Ensure store is above other elements */
+    }
+
+    .store-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .store-header h2 {
+      margin: 0;
+    }
+
+    .toggle-btn {
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background: #1976d2;
+    }
+
+    .expanded-store {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(199, 199, 199, 0.915);
+      z-index: 1000;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      transform: scale(0);
+      transform-origin: top left;
+      transition: transform 0.3s ease;
+    }
+
+    .expanded-store.active {
+      transform: scale(1);
+    }
+
+    .expanded-store::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .expanded-store::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+
+    .expanded-store::-webkit-scrollbar-thumb:hover {
+      background: #bbb;
+      border: 2px solid rgb(0, 219, 219);
+    }
+
+    .expanded-store::-webkit-scrollbar-track {
+      background: #aeaeae;
+      border-radius: 5px;
+    }
+
+    .close-expanded {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .expanded-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .corner-indicator {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 20px 20px 0 0;
+      border-color: #2196F3 transparent transparent transparent;
+      transform: rotate(0deg);
+      display: block;
+    }
+
+    .store-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .store-item:hover {
+      background: #f0f0f0;
+    }
+
+    .click-area {
+      text-align: center;
+      margin: 20px 0;
+      position: fixed;
+      bottom: 15px !important;
+      left: 45% !important;
+      z-index: 3;
+      /* Ensure click area is above other elements */
+    }
+
+    #clickButton {
+      width: 150px;
+      cursor: pointer;
+      transition: all 0.1s;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      z-index: 10;
+      position: relative;
+      opacity: 0.75;
+      transform: scale(1);
+      animation: errorPop 0.3s ease-out;
+    }
+
+    #clickButton:hover {
+      opacity: 1 !important;
+      transform: scale(1.05);
+    }
+
+    #clickButton:active {
+      transform: scale(0.95) rotate(360deg);
+      transition: all 0.2s;
+    }
+
+    .score-display {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border: 2px solid #2196F3;
+      border-radius: 8px;
+      width: 100%;
+      height: fit-content auto !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 4;
+      box-sizing: border-box;
+      cursor: default;
+      /* Ensure score display is above other elements */
+    }
+
+    /* Notification styles */
+    .notification {
+      position: fixed;
+      bottom: -75px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: bottom 0.5s ease, 0.3s font-size ease-out;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .notification.show {
+      bottom: 20px;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .notification.size-up {
+      font-size: 1.5em;
+    }
+
+    /* Error message styles */
+    .error-message {
+      position: absolute;
+      color: #f44336;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.5s, transform 1.5s;
+      font-size: 1.45em;
+      z-index: 1000;
+      border: 2px solid darkred;
+      border-radius: 8.75px;
+      background: rgb(250, 128, 114);
+      padding-inline-end: 40px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+      transform-origin: center;
+      animation: errorPop 0.3s ease-out;
+      user-select: none !important;
+    }
+
+    .error-message.show {
+      opacity: 0.985;
+      background: rgba(250, 128, 114, 0.75);
+    }
+
+    .error-icon {
+      position: absolute;
+      top: 50%;
+      left: -70px;
+      transform: translateY(-50%);
+      font-size: 1.5em;
+      border: 2px solid darkred;
+      border-radius: 1cm;
+      padding: 10px 25px;
+      color: darkred;
+      background: rgba(255, 51, 5, 0.65);
+      user-select: none;
+    }
+
+    @keyframes flyAcross {
+      0% {
+        transform: translateX(0) rotate(0deg);
+      }
+
+      100% {
+        transform: translateX(100vw) rotate(360deg);
+      }
+    }
+
+    @keyframes flyUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+      }
+    }
+
+    @keyframes flyDiagonal {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(100vw, -100vh) rotate(360deg);
+      }
+    }
+
+    @keyframes flyUTurn {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(50vw, 50vh);
+      }
+
+      100% {
+        transform: translate(0, 100vh);
+      }
+    }
+
+    @keyframes flyStraight {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(100vw);
+      }
+    }
+
+    .fly-across {
+      animation: flyAcross 2s linear forwards;
+    }
+
+    .fly-up {
+      animation: flyUp 2s linear forwards;
+    }
+
+    .fly-diagonal {
+      animation: flyDiagonal 2s linear forwards;
+    }
+
+    .fly-u-turn {
+      animation: flyUTurn 2s linear forwards;
+    }
+
+    .fly-straight {
+      animation: flyStraight 2s linear forwards;
+    }
+
+    /* Finish button */
+    .finish-button {
+      background: #4CAF50;
+      color: white;
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+      display: none;
+      margin: 20px auto;
+      user-select: none;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Victory overlay styles */
+    .victory-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    .victory-overlay.show {
+      opacity: 1 !important;
+    }
+
+    .victory-message {
+      color: white;
+      font-size: 3em;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      user-select: none;
+    }
+
+    .victory-button {
+      background: #4CAF50;
+      color: white;
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 30px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .store-title {
+      color: black;
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      -webkit-text-stroke: #1976d2 2px;
+      -webkit-text-fill-color: #2196F3;
+      user-select: none;
+    }
+
+    /* CPU Card Styles */
+    .cpu-card {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 15px 0;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    .cpu-circuits {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        linear-gradient(90deg, transparent 50%, rgba(0, 255, 255, 0.1) 50%),
+        linear-gradient(0deg, transparent 50%, rgba(0, 255, 255, 0.1) 50%);
+      background-size: 20px 20px;
+      animation: circuitFlow 2s linear infinite;
+    }
+
+    @keyframes circuitFlow {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 20px 20px;
+      }
+    }
+
+    .cpu-content {
+      position: relative;
+      z-index: 1;
+      color: #00ffff;
+    }
+
+    .cpu-upgrade-btn {
+      background: rgba(0, 255, 255, 0.2);
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cpu-upgrade-btn:hover {
+      background: rgba(0, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* AI Control Card Styles */
+    .ai-card {
+      background: #1a1a2e;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 15px 0;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #4d4dff;
+      box-shadow: 0 0 20px rgba(77, 77, 255, 0.3);
+    }
+
+    .ai-circuits {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        linear-gradient(45deg, transparent 45%, rgba(77, 77, 255, 0.1) 45%, rgba(77, 77, 255, 0.1) 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(77, 77, 255, 0.1) 45%, rgba(77, 77, 255, 0.1) 55%, transparent 55%);
+      background-size: 30px 30px;
+      animation: aiCircuitFlow 3s linear infinite;
+    }
+
+    .ai-data-stream {
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background: #4d4dff;
+      opacity: 0;
+    }
+
+    @keyframes aiCircuitFlow {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 30px 30px;
+      }
+    }
+
+    @keyframes dataStream {
+      0% {
+        transform: translateY(-100%);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .ai-content {
+      position: relative;
+      z-index: 1;
+      color: #4d4dff;
+    }
+
+    .ai-controls {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .ai-toggle {
+      background: rgba(77, 77, 255, 0.2);
+      border: 1px solid #4d4dff;
+      color: #4d4dff;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .ai-toggle:hover {
+      background: rgba(77, 77, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .ai-toggle.active {
+      background: rgba(77, 77, 255, 0.6);
+      color: white;
+    }
+
+    .ai-slider {
+      width: 100%;
+      margin: 10px 0;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(77, 77, 255, 0.2);
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .ai-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4d4dff;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .ai-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(77, 77, 255, 0.5);
+    }
+
+    .ai-priority {
+      background: rgba(77, 77, 255, 0.1);
+      border: 1px solid #4d4dff;
+      color: #4d4dff;
+      padding: 5px;
+      border-radius: 5px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .ai-priority option {
+      background: #1a1a2e;
+      color: #4d4dff;
+    }
+
+    /* Hide main content initially */
+    .header, .main-container, .click-area {
+      display: none;
+    }
+
+    /* Cutscene styles */
+    .cutscene {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chrome-icon {
+      width: 150px;
+      height: 150px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 1s ease;
+    }
+
+    .chrome-icon.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .loading-bar-container {
+      width: 300px;
+      height: 20px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin-top: 30px;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-bar {
+      width: 0%;
+      height: 100%;
+      background: #4285f4;
+      transition: width 3s ease-in-out;
+    }
+
+    .loading-bar.error {
+      background: #ff0000;
+    }
+
+    .error-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f0f0f0;
+      border: 1px solid #999;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 10003;
+    }
+
+    .error-box .title-bar {
+      background: #0055e5;
+      color: white;
+      padding: 5px;
+      margin: -20px -20px 20px -20px;
+    }
+
+    .black-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 9998;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      display: none;
+      pointer-events: none;
+      flex: 1;
+    }
+
+    .reboot-text {
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 9999;
+    }
+
+    .start-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 15px 30px;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      z-index: 10000;
+    }
+
+    .skip-button {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      padding: 10px 20px;
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 10000;
+      display: none;
+    }
+
+    .console-interface {
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 9999;
+      white-space: pre-wrap;
+      text-align: left;
+      background-color: rgba(0, 0, 135, 0.8);
+      padding: 20px;
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      max-height: 80vh;
+      width: 90vw;
+      min-width: 300px;
+      max-width: 90vw;
+      overflow-x: hidden;
+      min-height: 200px;
+      overflow-y: auto;
+      transition: all 0.5s ease-out;
+    }
+
+    .error-spam {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10001;
+      transition: transform 0.5s ease-out;
+      animation-fill-mode: forwards;
+    }
+
+    .error-spam.fall {
+      animation: errorFall 3s ease-in forwards;
+    }
+
+    .error-spam.float {
+      animation: errorFloat 4s ease-in-out infinite;
+    }
+
+    .error-spam.shake {
+      animation: errorShake 0.5s ease-in-out infinite;
+    }
+
+    .error-spam.spin {
+      animation: errorSpin 2s linear infinite;
+    }
+
+    .error-spam.bounce {
+      animation: bounceAround 8s linear infinite;
+    }
+
+    .error-spam.chaos {
+      animation: chaosWave 6s linear infinite;
+    }
+
+    .error-spam.zigzag {
+      animation: zigzag 7s linear infinite;
+    }
+
+    .mega-error {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f0f0f0;
+      border: 2px solid #ff0000;
+      padding: 20px;
+      box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+      z-index: 10002;
+      min-width: 300px;
+      display: none;
+      animation: shake 0.2s infinite;
+    }
+
+    .mega-error .title-bar {
+      background: #ff0000;
+      color: white;
+      padding: 8px;
+      margin: -20px -20px 20px -20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @keyframes errorFall {
+      0% { transform: translateY(-100vh) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    @keyframes errorFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    @keyframes errorShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    @keyframes errorSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes errorBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      25% { transform: translate(-52%, -48%) scale(1.02); }
+      75% { transform: translate(-48%, -52%) scale(0.98); }
+    }
+
+    .error-trail {
+      position: absolute;
+      opacity: 0.3;
+      pointer-events: none;
+      animation: fadeOut 1s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes chaosWave {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(100vw, 50vh) rotate(90deg); }
+      50% { transform: translate(50vw, 100vh) rotate(180deg); }
+      75% { transform: translate(-50vw, 50vh) rotate(270deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
+    }
+
+    @keyframes zigzag {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(100vw, -50vh) rotate(-45deg); }
+      50% { transform: translate(0, 100vh) rotate(45deg); }
+      75% { transform: translate(-100vw, -50vh) rotate(-45deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes bounceAround {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(calc(100vw - 100%), 50vh) rotate(90deg); }
+      50% { transform: translate(50vw, calc(100vh - 100%)) rotate(180deg); }
+      75% { transform: translate(0, 50vh) rotate(270deg); }
+    }
+
+    .error-spam.chaos {
+      animation: chaosWave 8s linear infinite;
+    }
+
+    .error-spam.zigzag {
+      animation: zigzag 6s linear infinite;
+    }
+
+    .click-count {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    @keyframes errorPop {
+      0% { transform: scale(0) rotate(-10deg); }
+      50% { transform: scale(1.2) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Add cutscene elements before existing content -->
+  <div class="cutscene">
+    <img src="https://assets.onecompiler.app/42w3zjd8h/43a9shgmn/google_chrome_logo_comic.png" alt="Chrome Logo" class="chrome-icon">
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
+    </div>
+    <div class="black-screen"></div>
+    <button class="skip-button">Skip Intro</button>
+  </div>
+
+  <div class="error-box">
+    <div class="title-bar">Google Chrome</div>
+    <p>Google Chrome is not responding...</p>
+    <p>Would you like to terminate the process?</p>
+    <div>
+      <button class="terminate-button">Yes</button><button class="cancel-terminate-button">No</button>
+    </div>
+  </div>
+
+  <div class="console-interface"></div>
+  <button class="start-button">Launch Clicking Software</button>
+
+  <div class="header">
+    <h1 class="page-title">Chrome Clicker</h1>
+    <div class="score-display">
+      <p class="click-count">Errors: <span id="score">0</span></p>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="workspace" id="workspace">
+      <!-- Upgrades will be rendered here -->
+    </div>
+    <div class="store">
+      <div class="store-header">
+        <h2>Store</h2>
+        <button id="expandStoreBtn" class="toggle-btn">Expand ↗</button>
+      </div>
+      <div class="store-items">
+        <div class="store-item" data-type="basic" data-cost="10">
+          <h3>Basic Upgrade</h3>
+          <p>+1 click bonus</p>
+          <p>Cost: $<span class="cost">10</span></p>
+        </div>
+        <div class="store-item" data-type="multiplier" data-cost="50">
+          <h3>Multiplier</h3>
+          <p>+10% to all upgrades</p>
+          <p>Cost: $<span class="cost">50</span></p>
+        </div>
+        <div class="store-item" data-type="auto" data-cost="100">
+          <h3>Auto-Clicker</h3>
+          <p>Automatically clicks every second</p>
+          <p>Cost: $<span class="cost">100</span></p>
+        </div>
+        <div class="store-item" data-type="speed" data-cost="200">
+          <h3>Speed Booster</h3>
+          <p>Makes auto-clickers click faster</p>
+          <p>Cost: $<span class="cost">200</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="click-area">
+    <img id="clickButton" src="https://assets.onecompiler.app/42w3zjd8h/43a9shgmn/google_chrome_logo_comic.png"
+      alt="Click Button" draggable="false" oncontextmenu="return false" />
+    <button id="finishButton" class="finish-button">Launch Chrome!</button>
+  </div>
+
+  <!-- Add the audio elements -->
+  <audio id="errorSound" src="index/Google_Chrome_Clicker/sounds/Microsoft_Windows_XP_Error.m4a" preload="auto"></audio>
+  <audio id="clickSound" src="index/Google_Chrome_Clicker/sounds/Windows_XP_Startup.mp3" preload="auto"></audio>
+  <audio id="notificationSound" src="index/Google_Chrome_Clicker/sounds/notification.mp3" preload="auto"></audio>
+  <audio id="buttonSound" src="index/Google_Chrome_Clicker/sounds/button_click.mp3" preload="auto"></audio>
+  <audio id="backgroundMusic" src="index/Google_Chrome_Clicker/sounds/background_music.mp3" preload="auto" loop></audio>
+  <audio id="cutsceneSound1" src="" preload="auto"></audio>
+  <audio id="cutsceneSound2" src="" preload="auto"></audio>
+  <audio id="cutsceneSound3" src="" preload="auto"></audio>
+  <audio id="megaErrorSound" preload="auto"></audio>
+
+  <!-- Expanded store overlay -->
+  <div id="expandedStore" class="expanded-store">
+    <div class="corner-indicator"></div>
+    <button id="closeExpandedBtn" class="close-expanded">Close ✕</button>
+    <h1 class="store-title">Chrome Upgrade Lab</h1>
+    <div class="expanded-grid">
+      <!-- Basic Upgrades -->
+      <div class="store-item" data-type="basic" data-cost="10">
+        <h3>Basic Upgrade</h3>
+        <p>+1 click bonus</p>
+        <p>Cost: $<span class="cost">10</span></p>
+      </div>
+      <div class="store-item" data-type="multiplier" data-cost="50">
+        <h3>Multiplier</h3>
+        <p>+10% to all upgrades</p>
+        <p>Cost: $<span class="cost">50</span></p>
+      </div>
+      <div class="store-item" data-type="auto" data-cost="100">
+        <h3>Auto-Clicker</h3>
+        <p>Automatically clicks every second</p>
+        <p>Cost: $<span class="cost">100</span></p>
+      </div>
+      <div class="store-item" data-type="speed" data-cost="200">
+        <h3>Speed Booster</h3>
+        <p>Makes auto-clickers click faster</p>
+        <p>Cost: $<span class="cost">200</span></p>
+      </div>
+
+      <!-- Advanced Upgrades -->
+      <div class="store-item" data-type="power" data-cost="500">
+        <h3>Power Core</h3>
+        <p>+5 to basic click power</p>
+        <p>Cost: $<span class="cost">500</span></p>
+      </div>
+      <div class="store-item" data-type="turbo" data-cost="1000">
+        <h3>Turbo Engine</h3>
+        <p>+50% click value for 30 seconds</p>
+        <p>Cost: $<span class="cost">1000</span></p>
+      </div>
+      <div class="store-item" data-type="quantum" data-cost="2500">
+        <h3>Quantum Processor</h3>
+        <p>Chance to get critical clicks (3x value)</p>
+        <p>Cost: $<span class="cost">2500</span></p>
+      </div>
+      <div class="store-item" data-type="ram" data-cost="5000">
+        <h3>RAM Upgrade</h3>
+        <p>Increases all multipliers by 20%</p>
+        <p>Cost: $<span class="cost">5000</span></p>
+      </div>
+
+      <!-- Premium Upgrades -->
+      <div class="store-item" data-type="ssd" data-cost="10000">
+        <h3>SSD Upgrade</h3>
+        <p>Doubles all auto-clicker speed</p>
+        <p>Cost: $<span class="cost">10000</span></p>
+      </div>
+      <div class="store-item" data-type="gpu" data-cost="25000">
+        <h3>GPU Accelerator</h3>
+        <p>+100% critical click chance</p>
+        <p>Cost: $<span class="cost">25000</span></p>
+      </div>
+      <div class="store-item" data-type="datacenter" data-cost="50000">
+        <h3>Google Datacenter</h3>
+        <p>+500% to all click values</p>
+        <p>Cost: $<span class="cost">50000</span></p>
+      </div>
+      <div class="store-item" data-type="ai" data-cost="100000">
+        <h3>AI Assistant</h3>
+        <p>Auto-purchase upgrades when affordable</p>
+        <p>Cost: $<span class="cost">100000</span></p>
+      </div>
+      <div class="store-item" data-type="cloud" data-cost="250000">
+        <h3>Cloud Computing</h3>
+        <p>+10,000 base click value</p>
+        <p>Cost: $<span class="cost">250000</span></p>
+      </div>
+      <div class="store-item" data-type="blockchain" data-cost="500000">
+        <h3>Blockchain Network</h3>
+        <p>All upgrades generate 1% of their value every second</p>
+        <p>Cost: $<span class="cost">500000</span></p>
+      </div>
+      <div class="store-item" data-type="quantum-internet" data-cost="1000000">
+        <h3>Quantum Internet</h3>
+        <p>Chance to get mega-clicks (10x value)</p>
+        <p>Cost: $<span class="cost">1000000</span></p>
+      </div>
+      <div class="store-item" data-type="modular-cpu" data-cost="75000">
+        <h3>Modular CPU</h3>
+        <p>Unlocks CPU Core upgrades</p>
+        <p>Cost: $<span class="cost">75000</span></p>
+      </div>
+      <div class="store-item" data-type="hyper-ai" data-cost="500000">
+        <h3>Hyper Algorithms</h3>
+        <p>5x faster AI Assistant with previous AI speed bonus</p>
+        <p>Cost: $<span class="cost">500000</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification element -->
+  <div id="notification" class="notification"></div>
+
+  <!-- Victory Overlay -->
+  <div id="victoryOverlay" class="victory-overlay">
+    <div class="victory-message">Congratulations! You've launched Chrome! After... Error: Too many clicks.</div>
+    <button id="victoryButton" class="victory-button">Restart Game</button>
+  </div>
+
+  <div class="mega-error">
+    <div class="title-bar">
+      <span>CRITICAL_SYSTEM_ERROR</span>
+      <span>!</span>
+    </div>
+    <h2>Fatal Error</h2>
+    <p>Chrome.exe has encountered a catastrophic error.</p>
+    <p>Error code: 0xDEADBEEF</p>
+    <p>System will now restart...</p>
+  </div>
+
+  <script>
+    // Add cutscene logic at the start of your script
+    window.addEventListener('load', () => {
+      const cutscene = document.querySelector('.cutscene');
+      const chromeIcon = document.querySelector('.chrome-icon');
+      const loadingBarContainer = document.querySelector('.loading-bar-container');
+      const loadingBar = document.querySelector('.loading-bar');
+      const errorBox = document.querySelector('.error-box');
+      const blackScreen = document.querySelector('.black-screen');
+      const consoleInterface = document.querySelector('.console-interface');
+      const startButton = document.querySelector('.start-button');
+      const skipButton = document.querySelector('.skip-button');
+      const mainContent = document.querySelectorAll('.header, .main-container, .click-area');
+      const backgroundMusic = document.getElementById('backgroundMusic');
+      const cutsceneSound1 = document.getElementById('cutsceneSound1');
+      const cutsceneSound2 = document.getElementById('cutsceneSound2');
+      const cutsceneSound3 = document.getElementById('cutsceneSound3');
+      let scoreDisplay = document.getElementById('score');
+      let cutsceneActive = true;
+
+      async function playCutscene() {
+        if (!cutsceneActive) return;
+
+        // Show Chrome icon
+        chromeIcon.classList.add('show');
+        cutsceneSound1.play();
+        await wait(1000);
+        if (!cutsceneActive) return;
+
+        // Show and animate loading bar
+        loadingBarContainer.style.opacity = '1';
+        await wait(500);
+        loadingBar.style.width = '100%';
+        cutsceneSound2.play();
+        await wait(3000);
+        if (!cutsceneActive) return;
+
+        // Show error state
+        loadingBar.classList.add('error');
+        await wait(1000);
+        if (!cutsceneActive) return;
+
+        // Start error spam sequence
+        spawnErrorWave();
+        await wait(2000);
+        if (!cutsceneActive) return;
+
+        // Second wave of errors
+        spawnErrorWave();
+        await wait(2000);
+        if (!cutsceneActive) return;
+
+        // Final wave with mega error
+        spawnErrorWave();
+        const megaError = document.querySelector('.mega-error');
+        megaError.style.display = 'block';
+        createDistortedErrorSound(); // Play distorted sound
+        cutsceneSound3.play();
+        await wait(3000);
+        if (!cutsceneActive) return;
+
+        // Simulate shutdown
+        blackScreen.style.display = 'block';
+        loadingBarContainer.style.opacity = '0';
+        loadingBarContainer.style.display = 'none';
+        megaError.style.display = 'none';
+        chromeIcon.style.opacity = '0';
+        chromeIcon.style.display = 'none';
+
+        // Remove all error spams
+        document.querySelectorAll('.error-spam, .error-message').forEach(el => el.remove());
+
+        // Continue with existing shutdown sequence...
+        // Show error dialog
+        errorBox.style.display = 'block';
+        await wait(2000);
+        if (!cutsceneActive) return;
+
+        // Show critical error
+        errorBox.innerHTML = `
+          <div class="title-bar">Critical Error</div>
+          <p>A critical error has occurred.</p>
+          <p>Your system will now restart.</p>
+        `;
+        await wait(350);
+        // Clear any remaining error spam
+        document.querySelectorAll('.error-spam, .error-message').forEach(el => el.remove());
+
+        cutsceneSound3.play();
+        await wait(2000);
+        if (!cutsceneActive) return;
+
+        // Simulate shutdown
+        blackScreen.style.display = 'block';
+        loadingBarContainer.style.opacity = '0';
+        loadingBarContainer.style.display = 'none';
+        errorBox.style.opacity = '0';
+        errorBox.style.display = 'none';
+        chromeIcon.style.opacity = '0';
+        chromeIcon.style.display = 'none';
+        await wait(1000);
+        await wait(100);
+        blackScreen.style.opacity = '1';
+        errorBox.style.display = 'none';
+        await wait(500);
+        if (!cutsceneActive) return;
+
+        // Show reboot text
+        const rebootText = document.createElement('div');
+        rebootText.classList.add('reboot-text');
+        rebootText.textContent = 'Rebooting...';
+        document.body.appendChild(rebootText);
+        await wait(2000);
+        await wait(1000);
+        if (!cutsceneActive) return;
+
+        // Show console interface
+        consoleInterface.style.display = 'block';
+        blackScreen.style.background = 'rgb(0, 0, 170)';
+        const consoleLines = [
+          'Starting Windows XP Recovery Console...',
+          "Checking file system on C:/",
+          'The type of the file system is NTFS.',
+          'Volume label is System.',
+          'CHKDSK is verifying files (stage 1 of 3)...',
+          'File verification completed.',
+          'CHKDSK is verifying indexes (stage 2 of 3)...',
+          'Index verification completed.',
+          'CHKDSK is verifying security descriptors (stage 3 of 3)...',
+          'Security descriptor verification completed.',
+          'Repairing corrupted files...',
+          'Repair failed.',
+          'Please click to initialize emergency recovery.'
+        ];
+
+        for (const line of consoleLines) {
+          consoleInterface.textContent += line + '\n';
+          await wait(1000);
+          if (!cutsceneActive) return;
+        }
+
+        // Show start button
+        await wait(1000);
+        consoleInterface.style.marginTop = '-13.75%';
+        consoleInterface.style.maxHeight = '50vh';
+        consoleInterface.style.overflowY = 'auto';
+        consoleInterface.style.top = 'safe-area-inset-top';
+        startButton.style.display = 'block';
+        skipButton.style.display = 'none';
+
+        // Add click handler for start button
+        startButton.addEventListener('click', () => {
+          blackScreen.style.opacity = '0';
+          setTimeout(() => {
+            cutscene.style.display = 'none';
+            consoleInterface.style.display = 'none';
+            blackScreen.style.display = 'none';
+            startButton.style.display = 'none';
+            // Show main game content
+            mainContent.forEach(el => el.style.display = 'flex');
+            updateDisplay(); // Ensure score is updated
+            startBackgroundMusic(); // Start background music
+          }, 500);
+        });
+      }
+
+      // Skip button functionality
+      skipButton.addEventListener('click', () => {
+        cutsceneActive = false;
+        cutscene.style.display = 'none';
+        blackScreen.style.display = 'none';
+        startButton.style.display = 'none';
+        consoleInterface.style.display = 'none';
+        errorBox.style.display = 'none';
+        mainContent.forEach(el => el.style.display = 'flex');
+        updateDisplay(); // Ensure score is updated
+        startBackgroundMusic(); // Start background music
+      });
+
+      // Show skip button after a delay
+      setTimeout(() => {
+        skipButton.style.display = 'block';
+      }, 3000);
+
+      // Start the cutscene
+      playCutscene();
+    });
+
+    // Game variables
+    let score = parseInt(localStorage.getItem('score')) || 0;
+    let upgrades = JSON.parse(localStorage.getItem('upgrades')) || [];
+    let multiplierValue = 1;
+    let speedMultiplier = 1;
+    let turboActive = false;
+    let turboTimer = null;
+    let aiAssistantActive = false;
+    let aiAssistantInterval = null;
+    const completionThreshold = 1e12; // 1,000,000,000,000 for finish button
+    let hyperAIActive = false;
+    let cpuUnlocked = false;
+    let aiSpendingLimit = Infinity;
+    let aiPriority = 'expensive';
+    let aiEnabled = true;
+    let modularCpuInstalled = false;
+    let gameLoopInterval;
+    let lastUIUpdate = 0;
+    const UI_UPDATE_THROTTLE = 100; // Minimum ms between UI updates
+    let isUpdating = false;
+    let uiUpdateQueued = false;
+
+    // Error messages for clicking
+    const errorMessages = [
+      "Chrome is not responding...",
+      "Failed to launch Chrome!",
+      "Unresponsive page...",
+      "Chrome has crashed!",
+      "Not enough memory!",
+      "Chrome is eating your RAM!",
+      "Browser not responding!",
+      "Too many tabs open!",
+      "Task failed successfully!",
+      "Click harder!",
+      "Loading... forever",
+      "Google Chrome (Not Responding)",
+      "Browser.exe has stopped working",
+      "Critical Error #404",
+      "Browser needs more clicks!",
+      "RAM usage at 99%!",
+      "CPU overheating!",
+      "Disk space critically low!",
+      "Runtime Error #5492",
+      "Failed to download more RAM",
+      "OS not responding",
+      "Tabs multiplying uncontrollably!",
+      "Chrome.exe is not responding",
+      "Attempting recovery...",
+      "Attempting to restart browser...",
+      "Memory leak detected!",
+      "Page unresponsive: Wait or Kill?",
+      "Window has unexpectedly closed",
+      "Error: out of memory",
+      "CPU usage at maximum",
+      "Broswer crashed: cause: yourmom.dll",
+      "Failed to load page",
+      "Browser is out of clicks!",
+      "Not enough clicks to proceed",
+      "Browser is hungry for clicks!",
+      "Browser is running low on clicks",
+      "Browser is running out of clicks",
+      "Chrome wants to eat your RAM!",
+      "Switch to Linux???",
+      "Windows has encountered a problem",
+      "Windows does not like you...",
+      "Your computer is not happy",
+      "Browser is not happy",
+      "Browser is not satisfied",
+      "Browser is not content",
+      "Browser is not pleased",
+      "Browser is not amused",
+      "Browser is not entertained",
+      "Browser is not impressed",
+      "Browser is not excited",
+      "Computer is damaged",
+      "Your PC is f***ed",
+      "Your PC is broken",
+      "Your PC is dead",
+      "Your PC is dying",
+      "Your PC is not happy",
+      "You installed a virus",
+      "You broke the internet",
+      "You broke the browser",
+      "You broke the computer",
+      "You broke the PC",
+      "You broke the laptop",
+      "You broke the desktop",
+      "You broke the server",
+      "You broke the network",
+      "You broke the system",
+      "You broke the software",
+      "You broke the hardware",
+      "You broke the firmware",
+      "You broke the BIOS",
+      "You broke the OS",
+      "Your mom is not happy",
+      "Your mom is disappointed",
+      "Google is disappointed",
+      "ChatGPT hacked your browser",
+      "Google hacked your browser",
+      "You hacked the browser",
+      "You hacked the computer",
+      "You hacked the system",
+      "You hacked the network",
+      "You hacked the server",
+      "You hacked the software",
+      "You were hacking too much",
+      "Error code: 0x00000000",
+      "Error code: 0xDEADBEEF",
+      "Error code: 0xCAFEBABE",
+      "Error code: 0x12345678",
+      "Error code: 0xABCDEF01",
+      "Error code: 0x00000001",
+      "Error code: yourmom",
+      "Error code: Too much brainrot",
+      "system32 has stopped working",
+      "system32 has crashed",
+      "system32 is missing",
+      "system32 is corrupted",
+      "system32 is broken",
+      "system32 is dead",
+      "system32 is dying",
+      "system32 is not happy",
+      "system32 is not satisfied",
+      "system32 is not content",
+      "Your pc power supply is dead",
+      "Your pc power supply is dying",
+      "Status: Potato",
+      "Status: Toaster",
+      "Status: Microwave",
+      "Status: Fridge",
+      "Status: Oven",
+      "Status: Washing machine",
+      "Status: Dishwasher",
+    ];
+
+    // Ensure that all elements are selected after the DOM is loaded
+    let scoreDisplay;
+
+    window.onload = function () {
+      scoreDisplay = document.getElementById('score');
+      const clickButton = document.getElementById('clickButton');
+      const workspace = document.getElementById('workspace');
+      const expandStoreBtn = document.getElementById('expandStoreBtn');
+      const expandedStore = document.getElementById('expandedStore');
+      const closeExpandedBtn = document.getElementById('closeExpandedBtn');
+      const finishButton = document.getElementById('finishButton');
+      const victoryOverlay = document.getElementById('victoryOverlay');
+      const victoryButton = document.getElementById('victoryButton');
+      backgroundMusic.volume = 0.35; // Set volume to 35%
+      notificationSound.volume = 0.425; // Set volume to 42.5%
+      clickSound.volume = 0.25; // Set volume to 25%
+      buttonSound.volume = 0.75; // Set volume to 75%
+
+      function attachEventListeners() {
+        // Re-select storeItems here after the DOM is fully loaded
+        const storeItems = document.querySelectorAll('.store-item');
+
+        clickButton.addEventListener('click', handleClick);
+
+        storeItems.forEach(item => {
+          item.addEventListener('click', () => {
+            const type = item.dataset.type;
+            const baseCost = parseInt(item.dataset.cost);
+            buyUpgrade(type, baseCost);
+            playButtonSound();
+          });
+        });
+
+        expandStoreBtn.addEventListener('click', () => {
+          expandedStore.classList.add('active');
+          setZIndex(expandedStore, 1000);
+          playButtonSound();
+        });
+
+        closeExpandedBtn.addEventListener('click', () => {
+          expandedStore.classList.remove('active');
+          setZIndex(expandedStore, -1);
+          playButtonSound();
+        });
+
+        finishButton.addEventListener('click', () => {
+          launchChrome();
+          playButtonSound();
+        });
+
+        victoryButton.addEventListener('click', () => {
+          resetGame();
+          playButtonSound();
+        });
+      }
+
+      attachEventListeners();
+      startDisplayLoop();
+      loadGame();
+      updateGameLoopInterval();
+      initializeCPU(); // Initialize CPU on window load
+    };
+
+    // Add this function to initialize the CPU module
+    function initializeCPU() {
+      if (modularCpuInstalled) {
+        renderUpgrades();
+      }
+    }
+
+    // Ensure CPU module is created on first interaction
+    document.body.addEventListener('click', () => {
+      if (!modularCpuInstalled) {
+        modularCpuInstalled = true;
+        cpuUnlocked = true;
+        renderUpgrades();
+        saveGame();
+      }
+    }, { once: true });
+
+    function setZIndex(element, zIndex) {
+      element.style.zIndex = zIndex;
+    }
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Play background music with a delay between loops
+    async function startBackgroundMusic() {
+      while (true) {
+        backgroundMusic.play();
+        await wait(backgroundMusic.duration * 1000);
+        backgroundMusic.pause();
+        await wait(10000); // 10 seconds pause between loops
+      }
+    }
+
+    // Define startupSoundPlayed outside the function to maintain state
+    let startupSoundPlayed = false;
+
+    // Handle click event
+    function handleClick() {
+      wait(2100).then(() => {
+        createErrorMessage();
+        // Clone and play the error sound
+        const errorSound = document.getElementById('errorSound').cloneNode();
+        errorSound.play();
+      });
+      // Clone and play the click sound
+      const clickSound = document.getElementById('clickSound');
+      clickSound.play();
+
+      let clickValue = calculateClickValue();
+
+      // Critical Click Logic
+      let criticalChance = upgrades.filter(u => u.type === 'quantum')
+        .reduce((sum, u) => sum + (u.value), 0); // Each Quantum Processor adds 10%
+      if (upgrades.some(u => u.type === 'gpu')) {
+        criticalChance += 100; // GPU adds 100%
+      }
+
+      if (Math.random() < criticalChance / 100) {
+        clickValue *= 3;
+        showNotification("Critical click! 3x value!");
+      }
+
+      // Mega Click Logic
+      if (upgrades.some(u => u.type === 'quantum-internet') && Math.random() < 0.05) {
+        clickValue *= 10;
+        showNotification("MEGA CLICK! 10x value!");
+      }
+
+      score += clickValue;
+      updateDisplay();
+      checkCompletion();
+      saveGame();
+      return startupSoundPlayed;
+    }
+
+    // Play button sound
+    function playButtonSound() {
+      const buttonSound = document.getElementById('buttonSound').cloneNode();
+      buttonSound.play();
+    }
+
+    // Play notification sound
+    function playNotificationSound() {
+      const notificationSound = document.getElementById('notificationSound');
+      notificationSound.play();
+    }
+
+    // Calculate click value
+    function calculateClickValue() {
+      let clickValue = 1;
+
+      // Basic upgrades
+      const basicBonuses = upgrades.filter(u => u.type === 'basic')
+        .reduce((sum, u) => sum + u.value, 0);
+      clickValue += basicBonuses;
+
+      // Power cores
+      const powerBonuses = upgrades.filter(u => u.type === 'power')
+        .reduce((sum, u) => sum + u.value * 5, 0);
+      clickValue += powerBonuses;
+
+      // Cloud computing
+      if (upgrades.some(u => u.type === 'cloud')) {
+        clickValue += 10000 * upgrades.filter(u => u.type === 'cloud').length;
+      }
+
+      // Apply multiplier
+      clickValue = applyMultiplier(clickValue);
+
+      // Datacenter boost
+      if (upgrades.some(u => u.type === 'datacenter')) {
+        clickValue *= 6; // 500% increase = multiply by 6 total
+      }
+
+      // Turbo boost
+      if (turboActive) {
+        clickValue *= 1.5; // 50% bonus
+      }
+
+      return Math.round(clickValue);
+    }
+
+    // Apply multiplier
+    function applyMultiplier(value) {
+      let totalMultiplier = multiplierValue;
+
+      // RAM upgrades
+      const ramBonuses = upgrades.filter(u => u.type === 'ram')
+        .reduce((sum, u) => sum + u.value, 0);
+      totalMultiplier += ramBonuses;
+
+      return Math.round(value * totalMultiplier);
+    }
+
+    // Buy upgrade
+    function buyUpgrade(type, baseCost) {
+      const currentCost = calculateCurrentCost(type, baseCost);
+      if (score >= currentCost) {
+        score -= currentCost;
+
+        let upgradeValue = 1;
+        let totalSpent = currentCost;
+
+        switch (type) {
+          case 'basic':
+            upgradeValue = 1;
+            break;
+          case 'multiplier':
+            upgradeValue = 0.1;
+            multiplierValue += upgradeValue;
+            break;
+          case 'auto':
+            upgradeValue = 1;
+            break;
+          case 'speed':
+            upgradeValue = 1;
+            speedMultiplier *= 1.5; // Increase speed multiplier
+            updateGameLoopInterval();
+            break;
+          case 'power':
+            upgradeValue = 1;
+            break;
+          case 'turbo':
+            activateTurbo();
+            break;
+          case 'quantum':
+            upgradeValue = 0.1; // 10% critical chance per processor
+            break;
+          case 'ram':
+            upgradeValue = 0.2;
+            multiplierValue += upgradeValue;
+            break;
+          case 'ssd':
+            speedMultiplier *= 2;
+            updateGameLoopInterval();
+            break;
+          case 'gpu':
+            // Critical chance handled in handleClick
+            break;
+          case 'datacenter':
+            // Datacenter boost applied in calculateClickValue
+            break;
+          case 'ai':
+            activateAIAssistant();
+            break;
+          case 'cloud':
+            // Cloud bonus handled in calculateClickValue
+            break;
+          case 'blockchain':
+            // Passive income handled separately
+            break;
+          case 'quantum-internet':
+            // Mega click chance handled in handleClick
+            break;
+          case 'modular-cpu':
+            if (modularCpuInstalled) {
+              showNotification("Modular CPU already installed");
+              return;
+            }
+            modularCpuInstalled = true;
+            cpuUnlocked = true;
+            // Set upgrade value to 1 – it will now be merged as a cumulative CPU core value.
+            upgradeValue = 1;
+            break;
+          case 'hyper-ai':
+            activateHyperAI();
+            break;
+          default:
+            console.warn(`Unknown upgrade type: ${type}`);
+            return;
+        }
+
+        upgrades.push({ type: type, value: parseFloat(upgradeValue.toFixed(2)), totalSpent: totalSpent });
+        updateMultipliers();
+        updateStorePrices();
+        renderUpgrades();
+        updateDisplay();
+        saveGame();
+
+        showNotification(`${capitalize(type)} upgrade purchased! Cost: $${currentCost.toLocaleString('en-US')}`);
+      } else {
+        showNotification(`Not enough clicks! Need: $${currentCost.toLocaleString('en-US')}`);
+      }
+    }
+
+    // Update multipliers
+    function updateMultipliers() {
+      // Already handled within respective functions
+    }
+
+    // Update store prices
+    function updateStorePrices() {
+      document.querySelectorAll('.store-item').forEach(item => {
+        const type = item.dataset.type;
+        const baseCost = parseInt(item.dataset.cost);
+        const currentCost = calculateCurrentCost(type, baseCost);
+        item.querySelector('.cost').textContent = currentCost.toLocaleString();
+      });
+    }
+
+    // Calculate current cost
+    function calculateCurrentCost(type, baseCost) {
+      const numOwned = upgrades.filter(u => u.type === type).length;
+      return Math.round(baseCost * Math.pow(1.15, numOwned));
+    }
+
+    let selectedUpgrade = null;
+
+    // Render upgrades
+    function renderUpgrades() {
+      const workspace = document.getElementById('workspace');
+      workspace.innerHTML = ''; // Clear existing upgrades
+      const groupedUpgrades = groupBy(upgrades, 'type');
+
+      // Add AI Control Card if AI Assistant or Hyper AI is owned
+      if (upgrades.some(u => u.type === 'ai' || u.type === 'hyper-ai')) {
+        const aiCard = document.createElement('div');
+        aiCard.className = 'ai-card';
+
+        const circuits = document.createElement('div');
+        circuits.className = 'ai-circuits';
+        aiCard.appendChild(circuits);
+
+        // Add animated data streams
+        for (let i = 0; i < 10; i++) {
+          const stream = document.createElement('div');
+          stream.className = 'ai-data-stream';
+          stream.style.left = `${Math.random() * 100}%`;
+          stream.style.animation = `dataStream ${2 + Math.random() * 3}s linear infinite ${Math.random() * 2}s`;
+          aiCard.appendChild(stream);
+        }
+
+        const content = document.createElement('div');
+        content.className = 'ai-content';
+        content.innerHTML = `
+          <h3>AI Control Module</h3>
+          <p>Status: ${hyperAIActive ? 'Hyper AI' : (aiEnabled ? 'Standard AI' : 'Inactive')}</p>
+          <div class="ai-controls">
+            <button class="ai-toggle ${aiEnabled ? 'active' : ''}" onclick="toggleAI()">
+              ${aiEnabled ? 'AI Active' : 'AI Inactive'}
+            </button>
+            <button class="ai-toggle" onclick="resetAIPreferences()">Reset Preferences</button>
+          </div>
+          <p>Spending Limit: $${aiSpendingLimit === Infinity ? '∞' : aiSpendingLimit.toLocaleString('en-US')}</p>
+          <input type="range" class="ai-slider" min="0" max="100" value="${aiSpendingLimit === Infinity ? 100 : (aiSpendingLimit / 1000)}"
+            onchange="updateSpendingLimit(this.value)">
+          <select class="ai-priority" onchange="updateAIPriority(this.value)">
+            <option value="expensive" ${aiPriority === 'expensive' ? 'selected' : ''}>Priority: Most Expensive</option>
+            <option value="efficient" ${aiPriority === 'efficient' ? 'selected' : ''}>Priority: Most Efficient</option>
+            <option value="basic" ${aiPriority === 'basic' ? 'selected' : ''}>Priority: Basic Upgrades</option>
+            <option value="auto" ${aiPriority === 'auto' ? 'selected' : ''}>Priority: Auto Clickers</option>
+          </select>
+        `;
+        aiCard.appendChild(content);
+        workspace.appendChild(aiCard);
+      }
+
+      if (cpuUnlocked) {
+        const cpuCard = document.createElement('div');
+        cpuCard.className = 'cpu-card';
+
+        const circuits = document.createElement('div');
+        circuits.className = 'cpu-circuits';
+        cpuCard.appendChild(circuits);
+
+        const content = document.createElement('div');
+        content.className = 'cpu-content';
+        content.innerHTML = `
+            <h3>CPU Core Control</h3>
+            <p>Current Cores: ${upgrades.filter(u => u.type === 'cpu-core').reduce((sum, u) => sum + u.value, 0)}</p>
+            <button class="cpu-upgrade-btn" onclick="buyCPUCore()">Add Core ($${calculateCurrentCost('cpu-core', 10000).toLocaleString('en-US')})</button>
+        `;
+        cpuCard.appendChild(content);
+        workspace.appendChild(cpuCard);
+      }
+
+      for (let type in groupedUpgrades) {
+        // For modular-cpu: if installed, render a special card.
+        if (type === 'modular-cpu') {
+          const modCard = document.createElement('div');
+          modCard.className = 'category-group';
+          const header = document.createElement('h3');
+          header.textContent = "Modular CPU";
+          modCard.appendChild(header);
+          const installedMsg = document.createElement('div');
+          installedMsg.style.fontSize = '1.5em';
+          installedMsg.style.fontWeight = 'bold';
+          installedMsg.style.textAlign = 'center';
+          installedMsg.textContent = "Installed";
+          modCard.appendChild(installedMsg);
+          workspace.appendChild(modCard);
+          continue;
+        }
+        const categoryGroup = document.createElement('div');
+        categoryGroup.className = 'category-group';
+
+        const header = document.createElement('h3');
+        header.textContent = capitalize(type);
+        categoryGroup.appendChild(header);
+
+        const autoMergeBtn = document.createElement('button');
+        autoMergeBtn.className = 'auto-merge-btn';
+        autoMergeBtn.textContent = 'Auto-Merge';
+        autoMergeBtn.addEventListener('click', () => {
+          autoMergeCategory(type);
+          playButtonSound();
+        });
+        categoryGroup.appendChild(autoMergeBtn);
+
+        groupedUpgrades[type].forEach(upgrade => {
+          const upgradeCard = document.createElement('div');
+          upgradeCard.className = 'upgrade-card';
+          upgradeCard.textContent = `${capitalize(type)} Upgrade
+Value: ${upgrade.value}
+Total Spent: ${upgrade.totalSpent.toLocaleString()}`;
+          upgradeCard.addEventListener('click', () => handleUpgradeClick(upgrade, upgradeCard));
+          categoryGroup.appendChild(upgradeCard);
+        });
+
+        workspace.appendChild(categoryGroup);
+      }
+    }
+
+    // Handle upgrade card click
+    function handleUpgradeClick(upgrade, upgradeCard) {
+      if (selectedUpgrade) {
+        if (selectedUpgrade === upgrade) {
+          showNotification("Cannot merge an upgrade into itself.");
+        } else if (selectedUpgrade.type === upgrade.type) {
+          mergeUpgrades(selectedUpgrade, upgrade);
+        } else {
+          showNotification("Upgrades are not compatible for merging.");
+        }
+        selectedUpgrade = null;
+        document.querySelectorAll('.upgrade-card').forEach(card => card.classList.remove('selected'));
+      } else {
+        selectedUpgrade = upgrade;
+        upgradeCard.classList.add('selected');
+      }
+      playButtonSound();
+    }
+
+    // Merge upgrades
+    function mergeUpgrades(upgrade1, upgrade2) {
+      // For CPU cores, their values add up instead of defaulting.
+      let newValue = (upgrade1.value + upgrade2.value);
+      const newTotalSpent = upgrade1.totalSpent + upgrade2.totalSpent;
+      upgrades = upgrades.filter(u => u !== upgrade1 && u !== upgrade2);
+      upgrades.push({ type: upgrade1.type, value: parseFloat(newValue.toFixed(2)), totalSpent: newTotalSpent });
+      renderUpgrades();
+      updateDisplay();
+      saveGame();
+      showNotification(`${capitalize(upgrade1.type)} upgrades merged!`);
+    }
+
+    // Auto-merge category
+    function autoMergeCategory(type) {
+      const upgradesOfType = upgrades.filter(u => u.type === type);
+      if (upgradesOfType.length >= 2) {
+        const mergeCost = upgradesOfType.length * 200;
+        if (score >= mergeCost) {
+          score -= mergeCost;
+          const newValue = upgradesOfType.reduce((sum, u) => sum + u.value, 0);
+          const newTotalSpent = upgradesOfType.reduce((sum, u) => sum + u.totalSpent, 0);
+          upgrades = upgrades.filter(u => u.type !== type);
+          upgrades.push({ type: type, value: parseFloat(newValue.toFixed(2)), totalSpent: newTotalSpent });
+          renderUpgrades();
+          updateDisplay();
+          saveGame();
+          showNotification(`${capitalize(type)} upgrades merged!`);
+        } else {
+          showNotification("Not enough clicks to merge upgrades.");
+        }
+      } else {
+        showNotification("Not enough upgrades to merge.");
+      }
+    }
+
+    // Activate turbo mode
+    function activateTurbo() {
+      if (!turboActive) {
+        turboActive = true;
+        showNotification("Turbo mode activated! +50% click value for 30 seconds.");
+        turboTimer = setTimeout(() => {
+          turboActive = false;
+          showNotification("Turbo mode has ended.");
+        }, 30000);
+      } else {
+        showNotification("Turbo mode is already active.");
+      }
+    }
+
+    // Activate AI Assistant
+    function activateAIAssistant() {
+      if (aiEnabled) {
+        aiAssistantActive = true;
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+
+        const interval = calculateAIInterval(false);
+        aiAssistantInterval = setInterval(processAIAction, interval);
+
+        showNotification("AI Assistant activated!");
+        saveAIState();
+        renderUpgrades();
+      }
+    }
+
+    // Add Hyper AI activation function
+    function activateHyperAI() {
+      if (aiEnabled) {
+        hyperAIActive = true;
+        aiAssistantActive = true;
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+
+        const interval = calculateAIInterval(true);
+        aiAssistantInterval = setInterval(processAIAction, interval);
+
+        showNotification('Hyper AI activated!');
+        saveAIState();
+        renderUpgrades();
+      }
+    }
+
+    // Add CPU Core purchase function
+    function buyCPUCore() {
+      const baseCost = 10000;
+      const currentCost = calculateCurrentCost('cpu-core', baseCost);
+
+      if (score >= currentCost) {
+        score -= currentCost;
+        upgrades.push({
+          type: 'cpu-core',
+          value: 1,
+          totalSpent: currentCost
+        });
+        updateDisplay();
+        saveGame();
+        showNotification('CPU Core added!');
+        playButtonSound();
+      } else {
+        showNotification('Not enough clicks for CPU Core upgrade');
+      }
+    }
+
+    // Main game loop
+    function gameLoop() {
+      try {
+        const autoClickerUpgrades = upgrades.filter(u => u.type === 'auto');
+        let autoClickerValue = autoClickerUpgrades.reduce((sum, u) => sum + u.value, 0);
+
+        autoClickerValue = applyMultiplier(autoClickerValue);
+
+        if (upgrades.some(u => u.type === 'datacenter')) {
+          autoClickerValue *= 6;
+        }
+
+        if (turboActive) {
+          autoClickerValue *= 1.5;
+        }
+
+        if (autoClickerValue > 0) {
+          score += autoClickerValue;
+          scoreDisplay.textContent = Math.floor(score).toLocaleString();
+
+          // Only trigger full UI update occasionally
+          const now = Date.now();
+          if (now - lastUIUpdate > 1000) {
+            updateDisplay();
+            saveGame();
+            checkCompletion();
+          }
+        }
+      } catch (error) {
+        console.error('Game loop error:', error);
+      }
+    }
+
+    // Add this with other game variables
+    let lastRenderTime = Date.now();
+
+    function updateGameLoopInterval() {
+      clearInterval(gameLoopInterval);
+      gameLoopInterval = setInterval(gameLoop, 1000 / speedMultiplier);
+    }
+
+    // Load game
+    function loadGame() {
+      score = parseInt(localStorage.getItem('score')) || 0;
+      upgrades = JSON.parse(localStorage.getItem('upgrades')) || [];
+
+      // Load CPU state
+      modularCpuInstalled = localStorage.getItem('modularCpuInstalled') === 'true';
+      cpuUnlocked = modularCpuInstalled || localStorage.getItem('cpuUnlocked') === 'true';
+
+      // Load AI state
+      try {
+        const aiState = JSON.parse(localStorage.getItem('aiState'));
+        if (aiState) {
+          aiEnabled = aiState.enabled;
+          aiSpendingLimit = aiState.spendingLimit || Infinity;
+          aiPriority = aiState.priority || 'expensive';
+          hyperAIActive = aiState.hyperActive || false;
+          aiAssistantActive = aiState.active || false;
+        }
+      } catch (error) {
+        console.error('AI State Load Error:', error);
+        resetAISystem();
+      }
+
+      // Initialize display
+      updateDisplay();
+      renderUpgrades();
+      updateStorePrices();
+      checkCompletion();
+
+      // Start AI if enabled
+      if (aiEnabled && (upgrades.some(u => u.type === 'ai' || u.type === 'hyper-ai'))) {
+        if (hyperAIActive) {
+          setTimeout(activateHyperAI, 100);
+        } else {
+          setTimeout(activateAIAssistant, 100);
+        }
+      }
+    }
+
+    // Save game
+    function saveGame() {
+      localStorage.setItem('score', score);
+      localStorage.setItem('upgrades', JSON.stringify(upgrades));
+      localStorage.setItem('modularCpuInstalled', modularCpuInstalled);
+      localStorage.setItem('cpuUnlocked', cpuUnlocked);
+
+      // Save AI state
+      saveAIState();
+    }
+
+    // Replace the updateDisplay function
+    function updateDisplay() {
+      if (isUpdating) {
+        uiUpdateQueued = true;
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastUIUpdate < UI_UPDATE_THROTTLE) {
+        if (!uiUpdateQueued) {
+          uiUpdateQueued = true;
+          setTimeout(updateDisplay, UI_UPDATE_THROTTLE);
+        }
+        return;
+      }
+
+      isUpdating = true;
+      lastUIUpdate = now;
+      uiUpdateQueued = false;
+
+      try {
+        // Use toLocaleString to format the score with commas
+        scoreDisplay.textContent = Math.floor(score).toLocaleString('en-US');
+        requestAnimationFrame(() => {
+          renderUpgrades();
+          isUpdating = false;
+          if (uiUpdateQueued) {
+            updateDisplay();
+          }
+        });
+      } catch (error) {
+        console.error('Update display error:', error);
+        isUpdating = false;
+      }
+    }
+
+    // Replace the gameLoop function
+    function gameLoop() {
+      try {
+        const autoClickerUpgrades = upgrades.filter(u => u.type === 'auto');
+        let autoClickerValue = autoClickerUpgrades.reduce((sum, u) => sum + u.value, 0);
+
+        autoClickerValue = applyMultiplier(autoClickerValue);
+
+        if (upgrades.some(u => u.type === 'datacenter')) {
+          autoClickerValue *= 6;
+        }
+
+        if (turboActive) {
+          autoClickerValue *= 1.5;
+        }
+
+        if (autoClickerValue > 0) {
+          score += autoClickerValue;
+          // Use toLocaleString here as well
+          scoreDisplay.textContent = Math.floor(score).toLocaleString('en-US');
+
+          const now = Date.now();
+          if (now - lastUIUpdate > 1000) {
+            updateDisplay();
+            saveGame();
+            checkCompletion();
+          }
+        }
+      } catch (error) {
+        console.error('Game loop error:', error);
+      }
+    }
+
+    // Update processAIAction function
+    function processAIAction() {
+      if (!aiEnabled || score <= 0 || isUpdating) return;
+
+      try {
+        const storeItems = document.querySelectorAll('.store-item');
+        const affordableUpgrades = Array.from(storeItems)
+          .filter(item => {
+            const type = item.dataset.type;
+            const cost = calculateCurrentCost(type, parseInt(item.dataset.cost));
+            return score >= cost &&
+              cost <= aiSpendingLimit &&
+              isValidUpgrade(type);
+          })
+          .sort((a, b) => getUpgradePriority(a) - getUpgradePriority(b));
+
+        if (affordableUpgrades.length > 0) {
+          const bestUpgrade = affordableUpgrades[0];
+          const type = bestUpgrade.dataset.type;
+          const cost = parseInt(bestUpgrade.dataset.cost);
+
+          // Use setTimeout to prevent UI blocking
+          setTimeout(() => {
+            if (!isUpdating) {
+              buyUpgrade(type, cost);
+            }
+          }, 0);
+        }
+      } catch (error) {
+        console.error('AI Processing Error:', error);
+        resetAISystem();
+      }
+    }
+
+    // Update the activateAIAssistant and activateHyperAI functions
+    function activateAIAssistant() {
+      if (aiEnabled && !isUpdating) {
+        aiAssistantActive = true;
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+
+        const interval = Math.max(calculateAIInterval(false), UI_UPDATE_THROTTLE);
+        aiAssistantInterval = setInterval(processAIAction, interval);
+
+        showNotification("AI Assistant activated!");
+        saveAIState();
+        requestAnimationFrame(renderUpgrades);
+      }
+    }
+
+    function activateHyperAI() {
+      if (aiEnabled && !isUpdating) {
+        hyperAIActive = true;
+        aiAssistantActive = true;
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+
+        const interval = Math.max(calculateAIInterval(true), UI_UPDATE_THROTTLE);
+        aiAssistantInterval = setInterval(processAIAction, interval);
+
+        showNotification('Hyper AI activated!');
+        saveAIState();
+        requestAnimationFrame(renderUpgrades);
+      }
+    }
+
+    // Update display
+    function updateDisplay() {
+      scoreDisplay.textContent = score.toFixed(0);
+      debouncedRenderUpgrades();
+    }
+
+    // Create debounced version of renderUpgrades
+    const debouncedRenderUpgrades = debounce(() => {
+      requestAnimationFrame(() => {
+        renderUpgrades();
+      });
+    }, 100); // Only update every 100ms at most
+
+    // Check completion
+    function checkCompletion() {
+      if (score >= completionThreshold && finishButton.style.display !== 'block') {
+        finishButton.style.display = 'block';
+        showNotification("You can finally launch Chrome! Click the button!");
+      }
+    }
+
+    // Launch Chrome (Victory)
+    function launchChrome() {
+      victoryOverlay.classList.add('show');
+    }
+
+    // Reset Game
+    function resetGame() {
+      localStorage.clear();
+      location.reload();
+    }
+
+    // Utility functions
+    function createErrorMessage() {
+      const clickArea = document.querySelector('.click-area');
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'error-message';
+      errorMsg.textContent = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+      errorMsg.innerHTML = `
+        <div class="error-icon">!</div>
+        <div class="error-text">${errorMsg.textContent}</div>
+      `;
+
+      const randomX = Math.random() * 80 - 75; // Ensure messages appear between 10% and 90% of the viewport width
+      const randomY = Math.random() * 80 - 75; // Ensure messages appear between 10% and 90% of the viewport height
+      errorMsg.style.left = `${randomX}vw`;
+      errorMsg.style.top = `${randomY}vh`;
+
+      const animations = ['fly-across', 'fly-up', 'fly-diagonal', 'fly-u-turn', 'fly-straight'];
+      const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+      errorMsg.classList.add(randomAnimation);
+
+      clickArea.appendChild(errorMsg);
+
+      setTimeout(() => {
+        errorMsg.classList.add('show');
+      }, 10);
+
+      setTimeout(() => {
+        errorMsg.remove();
+      }, 2000);
+    }
+
+    function showNotification(message) {
+      const notif = document.getElementById('notification');
+      notif.textContent = message;
+      notif.classList.add('show');
+      wait(150).then(() => {
+        playNotificationSound();
+        notif.classList.add('size-up');
+      });
+      wait(850).then(() => {
+        notif.classList.remove('size-up');
+      });
+      wait(2750).then(() => {
+        notif.classList.remove('show');
+      });
+    }
+
+    function capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function groupBy(array, key) {
+      return array.reduce((result, currentValue) => {
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
+        return result;
+      }, {});
+    }
+
+    // AI Control Functions
+    function toggleAI() {
+      aiEnabled = !aiEnabled;
+      if (aiEnabled) {
+        if (hyperAIActive) {
+          activateHyperAI();
+        } else {
+          activateAIAssistant();
+        }
+      } else {
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+          aiAssistantInterval = null;
+        }
+        aiAssistantActive = false;
+      }
+      saveAIState();
+      renderUpgrades();
+      showNotification(aiEnabled ? 'AI Assistant activated' : 'AI Assistant deactivated');
+    }
+
+    function updateSpendingLimit(value) {
+      aiSpendingLimit = value < 100 ? value * 1000 : Infinity;
+      showNotification(`AI spending limit set to ${aiSpendingLimit === Infinity ? '∞' : '$' + aiSpendingLimit.toLocaleString('en-US')}`);
+      saveAIState();
+      renderUpgrades();
+    }
+
+    function updateAIPriority(value) {
+      aiPriority = value;
+      showNotification(`AI priority set to ${value}`);
+      saveAIState();
+      renderUpgrades();
+    }
+
+    function resetAIPreferences() {
+      aiSpendingLimit = Infinity;
+      aiPriority = 'expensive';
+      showNotification('AI preferences reset to default');
+      saveAIState();
+      renderUpgrades();
+    }
+
+    function saveAIState() {
+      const aiState = {
+        enabled: aiEnabled,
+        active: aiAssistantActive,
+        hyperActive: hyperAIActive,
+        spendingLimit: aiSpendingLimit,
+        priority: aiPriority,
+        lastInterval: calculateAIInterval(hyperAIActive)
+      };
+      localStorage.setItem('aiState', JSON.stringify(aiState));
+    }
+
+    // Modify activateHyperAI and activateAIAssistant to respect preferences
+    function getUpgradePriority(upgrade) {
+      const type = upgrade.dataset.type;
+      const cost = calculateCurrentCost(type, parseInt(upgrade.dataset.cost));
+
+      switch (aiPriority) {
+        case 'efficient':
+          return cost / calculateUpgradeValue(type);
+        case 'basic':
+          return type === 'basic' ? -1 : 1;
+        case 'auto':
+          return type === 'auto' ? -1 : 1;
+        default: // expensive
+          return -cost;
+      }
+    }
+
+    function calculateUpgradeValue(type) {
+      // Simple value calculation - can be expanded
+      switch (type) {
+        case 'basic': return 1;
+        case 'multiplier': return 5;
+        case 'auto': return 10;
+        default: return 1;
+      }
+    }
+
+    // Modify the upgrade filtering in AI functions to use preferences
+    const affordableUpgrades = Array.from(document.querySelectorAll('.store-item'))
+      .filter(item => {
+        const type = item.dataset.type;
+        const cost = calculateCurrentCost(type, parseInt(item.dataset.cost));
+        return score >= cost &&
+          cost <= aiSpendingLimit &&
+          isValidUpgrade(type);
+      })
+      .sort((a, b) => getUpgradePriority(a) - getUpgradePriority(b));
+
+    // Add these utility functions near the top on load
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Add to game variables
+    const AI_CONFIG = {
+      minInterval: 750,  // Minimum 750ms between actions
+      maxInterval: 2000, // Maximum 2s between actions
+      baseSpeed: 1500,   // Base speed of 1.5s
+      speedMultiplier: {
+        ai: 0.2,       // Speed bonus per AI upgrade
+        hyperAi: 0.5,  // Speed bonus for Hyper AI
+        cpuCore: 0.1   // Speed bonus per CPU core
+      }
+    };
+
+    // Modify AI Assistant activation
+    function activateAIAssistant() {
+      if (aiEnabled) {
+        aiAssistantActive = true;
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+
+        const interval = calculateAIInterval(false);
+        aiAssistantInterval = setInterval(processAIAction, interval);
+
+        showNotification("AI Assistant activated!");
+        saveAIState();
+        renderUpgrades();
+      }
+    }
+
+    // Modify Hyper AI activation
+    function activateHyperAI() {
+      if (aiEnabled) {
+        hyperAIActive = true;
+        aiAssistantActive = true;
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+
+        const interval = calculateAIInterval(true);
+        aiAssistantInterval = setInterval(processAIAction, interval);
+
+        showNotification('Hyper AI activated!');
+        saveAIState();
+        renderUpgrades();
+      }
+    }
+
+    // Add new AI helper functions
+    function calculateAIInterval(isHyper) {
+      const aiCount = upgrades.filter(u => u.type === 'ai').length;
+      const cpuCores = upgrades.filter(u => u.type === 'cpu-core').length;
+
+      let speedBonus = aiCount * AI_CONFIG.speedMultiplier.ai;
+      speedBonus += cpuCores * AI_CONFIG.speedMultiplier.cpuCore;
+
+      if (isHyper) {
+        speedBonus += AI_CONFIG.speedMultiplier.hyperAi;
+      }
+
+      const interval = AI_CONFIG.baseSpeed / (1 + speedBonus);
+
+      // Clamp interval between min and max values
+      return Math.max(AI_CONFIG.minInterval,
+        Math.min(AI_CONFIG.maxInterval, interval));
+    }
+
+    function processAIAction() {
+      try {
+        if (!aiEnabled || score <= 0) return;
+
+        const affordableUpgrades = Array.from(document.querySelectorAll('.store-item'))
+          .filter(item => {
+            const type = item.dataset.type;
+            const cost = calculateCurrentCost(type, parseInt(item.dataset.cost));
+            return score >= cost &&
+              cost <= aiSpendingLimit &&
+              isValidUpgrade(type);
+          })
+          .sort((a, b) => getUpgradePriority(a) - getUpgradePriority(b));
+
+        if (affordableUpgrades.length > 0) {
+          const bestUpgrade = affordableUpgrades[0];
+          requestAnimationFrame(() => {
+            buyUpgrade(bestUpgrade.dataset.type,
+              parseInt(bestUpgrade.dataset.cost));
+          });
+        }
+      } catch (error) {
+        console.error('AI Processing Error:', error);
+        // Attempt to recover AI state
+        resetAISystem();
+      }
+    }
+
+    function isValidUpgrade(type) {
+      // Prevent AI from buying itself or Hyper AI if already owned
+      if (type === 'ai' && upgrades.some(u => u.type === 'ai')) return false;
+      if (type === 'hyper-ai' && hyperAIActive) return false;
+      return true;
+    }
+
+    function resetAISystem() {
+      if (aiAssistantInterval) {
+        clearInterval(aiAssistantInterval);
+      }
+      aiAssistantActive = false;
+      hyperAIActive = false;
+
+      // Attempt to restore AI if enabled
+      if (aiEnabled) {
+        if (upgrades.some(u => u.type === 'hyper-ai')) {
+          setTimeout(activateHyperAI, 1000);
+        } else if (upgrades.some(u => u.type === 'ai')) {
+          setTimeout(activateAIAssistant, 1000);
+        }
+      }
+    }
+
+    // Enhance AI state management
+    function saveAIState() {
+      const aiState = {
+        enabled: aiEnabled,
+        active: aiAssistantActive,
+        hyperActive: hyperAIActive,
+        spendingLimit: aiSpendingLimit,
+        priority: aiPriority,
+        lastInterval: calculateAIInterval(hyperAIActive)
+      };
+      localStorage.setItem('aiState', JSON.stringify(aiState));
+    }
+
+    // Modify loadGame function to include enhanced AI state loading
+    function loadGame() {
+      score = parseInt(localStorage.getItem('score')) || 0;
+      upgrades = JSON.parse(localStorage.getItem('upgrades')) || [];
+      modularCpuInstalled = localStorage.getItem('modularCpuInstalled') === 'true';
+      cpuUnlocked = modularCpuInstalled || localStorage.getItem('cpuUnlocked') === 'true';
+      JSON.parse(localStorage.getItem('aiState'));
+
+      try {
+        const aiState = JSON.parse(localStorage.getItem('aiState'));
+        if (aiState) {
+          aiEnabled = aiState.enabled;
+          aiSpendingLimit = aiState.spendingLimit;
+          aiPriority = aiState.priority;
+
+          // Delay AI activation to ensure DOM is ready
+          if (aiEnabled) {
+            setTimeout(() => {
+              if (hyperAIActive) {
+                activateHyperAI();
+              } else if (upgrades.some(u => u.type === 'ai')) {
+                activateAIAssistant();
+              }
+            }, 1000);
+          }
+        }
+      } catch (error) {
+        console.error('AI State Load Error:', error);
+        resetAISystem();
+      }
+    }
+
+    // Add window visibility handling to pause AI when tab is inactive
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (aiAssistantInterval) {
+          clearInterval(aiAssistantInterval);
+        }
+      } else if (aiEnabled) {
+        if (hyperAIActive) {
+          activateHyperAI();
+        } else if (aiAssistantActive) {
+          activateAIAssistant();
+        }
+      }
+    });
+
+    function createErrorSpam(x, y, animationType) {
+      const error = document.createElement('div');
+      error.className = 'error-spam';
+      error.innerHTML = `
+        <div style="background: #f0f0f0; border: 1px solid #999; padding: 15px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+          <div style="background: #0055e5; color: white; padding: 5px; margin: -15px -15px 10px -15px;">
+            Chrome Error
+          </div>
+          <p>${errorMessages[Math.floor(Math.random() * errorMessages.length)]}</p>
+        </div>
+      `;
+      
+      // Calculate maximum positions based on viewport and error size
+      const errorWidth = 300; // Approximate width of error message
+      const errorHeight = 150; // Approximate height of error message
+      const maxX = window.innerWidth - errorWidth;
+      const maxY = window.innerHeight - errorHeight;
+      
+      // Constrain position to viewport
+      x = Math.min(Math.max(0, x), maxX);
+      y = Math.min(Math.max(0, y), maxY);
+      
+      error.style.left = `${x}px`;
+      error.style.top = `${y}px`;
+      
+      // Add random size variation
+      const scale = 0.5 + Math.random() * 0.5;
+      error.style.transform = `scale(${scale})`;
+      
+      // Add animation class
+      error.classList.add(animationType);
+      
+      document.body.appendChild(error);
+      
+      // Create trailing effect for bouncing errors
+      if (['bounce', 'chaos', 'zigzag'].includes(animationType)) {
+        let lastX = x;
+        let lastY = y;
+        
+        function createTrail() {
+          const rect = error.getBoundingClientRect();
+          const newX = rect.left;
+          const newY = rect.top;
+          
+          if (Math.abs(newX - lastX) > 5 || Math.abs(newY - lastY) > 5) {
+            const trail = error.cloneNode(true);
+            trail.classList.add('error-trail');
+            trail.style.left = `${lastX}px`;
+            trail.style.top = `${lastY}px`;
+            trail.style.transform = `scale(${scale * 0.9})`;
+            document.body.appendChild(trail);
+            
+            setTimeout(() => trail.remove(), 500);
+            
+            lastX = newX;
+            lastY = newY;
+          }
+        }
+        
+        const trailInterval = setInterval(createTrail, 50);
+        
+        setTimeout(() => {
+          clearInterval(trailInterval);
+        }, 8000);
+      }
+      
+      // Play error sound
+      const errorSound = document.getElementById('errorSound').cloneNode();
+      errorSound.volume = 0.15;
+      errorSound.playbackRate = 1 + Math.random() * 0.5;
+      errorSound.play();
+      
+      // Remove error after animation
+      setTimeout(() => {
+        error.remove();
+      }, 8000);
+    }
+
+    function spawnErrorWave() {
+      const animations = ['fall', 'float', 'shake', 'spin', 'bounce', 'chaos', 'zigzag'];
+      const waves = 4;
+      const errorsPerWave = 25;
+      
+      for (let wave = 0; wave < waves; wave++) {
+        setTimeout(() => {
+          for (let i = 0; i < errorsPerWave; i++) {
+            setTimeout(() => {
+              const x = Math.random() * (window.innerWidth - 300); // Account for error width
+              const y = Math.random() * (window.innerHeight - 150); // Account for error height
+              const animation = animations[Math.floor(Math.random() * animations.length)];
+              createErrorSpam(x, y, animation);
+            }, i * 100);
+          }
+        }, wave * 1000);
+      }
+    }
+
+    function createDistortedErrorSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      const distortion = ctx.createWaveShaper();
+      
+      // Create distortion curve
+      function makeDistortionCurve(amount) {
+        const k = typeof amount === 'number' ? amount : 50;
+        const n_samples = 44100;
+        const curve = new Float32Array(n_samples);
+        const deg = Math.PI / 180;
+        
+        for (let i = 0; i < n_samples; i++) {
+          const x = (i * 2) / n_samples - 1;
+          curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+        }
+        return curve;
+      }
+      
+      distortion.curve = makeDistortionCurve(200);
+      oscillator.connect(distortion);
+      distortion.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      oscillator.type = 'square';
+      oscillator.frequency.value = 440;
+      gainNode.gain.value = 0.05;
+      
+      oscillator.start();
+      setTimeout(() => {
+        oscillator.stop();
+        ctx.close();
+      }, 500);
+    }
+  </script>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script> <!-- Tailwind CSS JIT Compiler -->
+  <!-- SweetAlert2 -->
+  <!--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.24"></script> <!-- Axios -->
+</body>
+
+</html>
