@@ -219,6 +219,34 @@
             </div>
         </section>
 
+        <style>
+            #footerContainer {
+                display: flex;
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                background: repeating-linear-gradient(rgba(0, 120, 139, 0.5), rgba(5, 134, 227, 0.5));
+                border: 3px solid #ccc;
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+            }
+
+            #developer {
+                cursor: pointer !important;
+                position: relative !important;
+                border: 2px solid #ccc;
+                border-radius: 15px;
+                user-select: none !important;
+                background: rgba(245, 245, 245, 0.5);
+                filter: blur(4px);
+            }
+
+            .developerText {
+                color: black;
+                font-size: 1.4em;
+            }
+        </style>
+
         <div id="footerContainer">
             <div id="developer">
                 <span class="developerText">Made By Maximus Farvour</span>
