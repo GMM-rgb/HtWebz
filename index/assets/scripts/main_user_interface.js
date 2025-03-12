@@ -144,6 +144,7 @@ closeSearchMenuBtn.onclick = () => {
   }
 };
 
+// Opens the settings menu when the settings button is clicked
 settingsQuick.onclick = () => {
   if (
     settingsMenu.style.display === "none" ||
@@ -168,6 +169,7 @@ settingsQuick.onclick = () => {
   }
 };
 
+// Closes the settings menu when the close button is clicked
 closeSettingsMenuBtn.onclick = () => {
   if (
     settingsMenu.style.display === "flex" ||
