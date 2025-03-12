@@ -116,8 +116,8 @@ searchMenuOpen.onclick = () => {
       searchMenu.style.height = "fit-content";
       searchMenu.style.flex = "1 2 auto";
       searchPageDisplay.style.minHeight = "25%";
-      searchPageDisplay.style.height = "115%";
-      searchPageDisplay.style.maxHeight = "125%";
+      searchPageDisplay.style.height = "1000px";
+      searchPageDisplay.style.maxHeight = "1500px";
       searchPageDisplay.style.flex = "auto";
     });
     wait(10).then(() => {
@@ -160,6 +160,7 @@ settingsQuick.onclick = () => {
     settingsMenu.style.display = "flex";
     settingsMenu.classList.add("dropDownSettingsMenu");
     settingsMenu.style.flex = "1 1 auto";
+    settingsMenu.style.height = "100%";
     wait(650).then(() => {
       settingsMenu.classList.remove("dropDownSettingsMenu");
       settingsMenu.style.height = "fit-content";
@@ -186,6 +187,7 @@ closeSettingsMenuBtn.onclick = () => {
       settingsMenu.style.display = "none";
       settingsMenu.style.opacity = "1";
       settingsMenu.style.flex = "0";
+      settingsMenu.style.height = "100%";
       menuBlur.style.display = "none";
     });
     notify("Settings Menu Closed...");
