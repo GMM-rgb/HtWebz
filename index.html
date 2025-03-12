@@ -135,13 +135,28 @@
         </section>
 
     <!-- Menus HTML Section -->
-        <div id="menuBlur"></div>
+     <div id="menuBlur"></div>
+
+        <!-- Settings Menu -->
+        <section id="settingsMenu">
+            <div class="settings-menu-hotbar">
+                <button id="closeSettingsMenuBtn">X</button>
+                <button id="themeSettingsMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
+            </div>
+            <div id="settingsContainerDisplay">
+                <hr class="top-settings-divider" style="width: 100%;">
+                <div id="displayS">
+
+                </div>
+                <hr class="bottom-settings-divider" style="width: 100%;">
+            </div>
+        </section>
 
         <!-- Game Menu -->
         <section id="gameMenu">
             <div class="game-menu-hotbar">
                 <button id="closeGameMenuButton">X</button>
-                <button id="themeGameMenuBtn"></button>
+                <button id="themeGameMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
             </div>
             <div id="gameContainerDisplay">
                 <hr class="top-game-divider" style="width: 100%;">

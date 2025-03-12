@@ -7,6 +7,9 @@ const closeGameMenuButton = document.getElementById('closeGameMenuButton');
 const closeSearchMenuBtn = document.getElementById('closeSearchMenuBtn');
 const searchMenuOpen = document.getElementById('resourcesMenuOpen');
 const searchPageDisplay = document.getElementById('searchPageDisplay');
+const closeSettingsMenuBtn = document.getElementById('closeSettingsMenuBtn');
+const settingsMenu = document.getElementById('settingsMenu');
+const settingsQuick = document.getElementById('settingsQuick');
 
 // Multifunction wait timer
 function wait(ms) {
@@ -123,5 +126,24 @@ closeSearchMenuBtn.onclick = () => {
         searchMenu.style.height = "fit-content";
         searchPageDisplay.style.height = "100%";
         notify("Search Menu Closed...");
+    }
+}
+
+settingsQuick.onclick = () => {
+    if(settingsMenu.style.display === "none" || settingsMenu.style.display === '') {
+        notify("Settings Menu Opened...");
+        menuBlur.style.display = "block";
+        settingsMenu.style.display = "flex";
+        settingsMenu.classList.add("dropDownSettingsMenu");
+        wait(650).then(() => {
+            settingsMenu.classList.remove("dropDownSettingsMenu");
+            settingsMenu.style.height = "535px";
+        });
+        wait(10).then(() => {
+            menuBlur.style.opacity = "0.5";
+        });
+    } else {
+        settingsMenu.style.display = "none";
+        menuBlur.style.display = "none";
     }
 }

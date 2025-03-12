@@ -1,7 +1,7 @@
 ﻿function searchFiles() {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
     const files = [
-        { name: "index.html", displayName: "homepage" },
+        { name: "../index.html", displayName: "homepage" },
         { name: "search_index.html", displayName: "search" }
         // We can add other files as the site gets bigger
     ];
