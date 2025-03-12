@@ -114,9 +114,11 @@ searchMenuOpen.onclick = () => {
     wait(650).then(() => {
       searchMenu.classList.remove("dropDownSearchMenu");
       searchMenu.style.height = "fit-content";
-      searchMenu.style.flex = "1 1 auto";
-      searchPageDisplay.style.height = "fit-content";
-      searchPageDisplay.style.flex = "1 1 auto";
+      searchMenu.style.flex = "1 2 auto";
+      searchPageDisplay.style.minHeight = "25%";
+      searchPageDisplay.style.height = "115%";
+      searchPageDisplay.style.maxHeight = "125%";
+      searchPageDisplay.style.flex = "auto";
     });
     wait(10).then(() => {
       menuBlur.style.opacity = "0.5";
@@ -140,6 +142,8 @@ closeSearchMenuBtn.onclick = () => {
       searchMenu.style.flex = "0";
     });
     searchPageDisplay.style.height = "100%";
+    searchPageDisplay.style.minHeight = "none";
+    searchPageDisplay.style.maxHeight = "none";
     notify("Search Menu Closed...");
   }
 };
