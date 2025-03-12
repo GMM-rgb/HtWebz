@@ -162,7 +162,19 @@
             <div id="gameContainerDisplay">
                 <hr class="top-game-divider" style="width: 100%;">
                 <div id="displayG">
+                    <div id="chromeClickerGame">
+                        <h3 class="game-title
+                        ">Chrome Clicker</h3>
+                        <p class="game-description">A simple clicker game that is based on the browser Google Chrome. <hr class="dividerGame"><br><text class="furthermoreDescription">This is currently a work in progress.</text></p>
+                        <button onclick="notify('Redirecting...')" id="tryButtonGame">Play</button>
+                        <script>
+                            var tryGame = document.getElementById('tryButtonGame');
 
+                            tryGame.addEventListener('click', () => {
+                                window.location.href = 'GameLibrary/Google_Chrome_Clicker/index.html';
+                            });
+                        </script>
+                    </div>
                 </div>
                 <hr class="bottom-game-divider" style="width: 100%;">
             </div>
