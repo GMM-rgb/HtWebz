@@ -18,3 +18,28 @@
     opacity: 1;
     transition: all 0.65s;
 }
+
+@keyframes dropSettingsMenu {
+    0% { transform: translateY(-500px) scale(0.5); }
+    25% { transform: translateY(50px) scale(0.45); height: 200px; }
+    50% { transform: translateY(25px) scale(0.6); height: 60px; }
+    75% { transform: translateY(-50px) scale(0.785); height: 200px; }
+    100% { transform: translateY(0) scale(1); height: 400px; }
+}
+
+#settingsMenu.dropDownSettingsMenu {
+    animation: dropSettingsMenu 0.65s linear !important;
+}
+
+.settings-menu-hotbar {
+    display: flex !important;
+    flex-direction: row;
+    position: relative !important;
+    padding: 3.5px;
+    padding-inline: 6.5px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    max-height: 43.75px;
+    width: 50%;
+    background: #0586e3;
+}
