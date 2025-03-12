@@ -138,6 +138,7 @@ closeSearchMenuBtn.onclick = () => {
       searchMenu.style.opacity = "1";
       menuBlur.style.display = "none";
       searchMenu.style.flex = "0";
+      searchMenu.style.height = "90%";
     });
     searchPageDisplay.style.minHeight = "none";
     searchPageDisplay.style.maxHeight = "none";
