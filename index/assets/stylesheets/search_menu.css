@@ -72,11 +72,11 @@
 #exapndSearchMenuBtn {
   cursor: pointer !important;
   position: relative !important;
+  background: radial-gradient(rgb(1, 156, 1) green, limegreen, rgb(1, 156, 1));
   border: 3px solid #ccc;
   border-radius: 1cm;
   padding: 10px 14px !important;
   font-weight: bold;
-  font-size: x-large;
 }
 
 .search-menu-managment {
