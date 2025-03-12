@@ -114,7 +114,7 @@ searchMenuOpen.onclick = () => {
     wait(650).then(() => {
       searchPageDisplay.style.minHeight = "25%";
       searchPageDisplay.style.maxHeight = "1500px";
-      searchPageDisplay.style.height = "min-content";
+      searchPageDisplay.style.height = "env-safe-area-bottom";
       searchMenu.classList.remove("dropDownSearchMenu");
       searchMenu.style.height = "fit-content";
       searchMenu.style.flex = "1 2 auto";
