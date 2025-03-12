@@ -42,6 +42,7 @@
     max-height: 43.75px;
     width: 50%;
     background: #0586e3;
+    gap: 8px;
 }
 
 #closeSearchMenuBtn {
