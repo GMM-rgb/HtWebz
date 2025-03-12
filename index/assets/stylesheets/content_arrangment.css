@@ -34,7 +34,8 @@
     border: 3px solid #ccc;
     border-radius: 15px;
     background: white;
-    height: fit-content;
+    min-width: 65%;
+    max-width: 75%;
     width: fit-content;
     padding-inline: 10px;
     box-sizing: border-box;
@@ -51,6 +52,8 @@
     background: #80b5db;
     width: fit-content;
     padding: 8.5px;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 #featuredContentSection {
