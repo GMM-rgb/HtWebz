@@ -1,138 +1,192 @@
 #appMenu {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    background: linear-gradient(#0586e3, #2ea8ff, whitesmoke, whitesmoke, #8b8b8b);
-    height: 100%;
-    width: 40%;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    z-index: 9999 !important;
-    top: 0 !important;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background: linear-gradient(
+    #0586e3,
+    #2ea8ff,
+    whitesmoke,
+    whitesmoke,
+    #8b8b8b
+  );
+  height: 100%;
+  width: 40%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  z-index: 9999 !important;
+  top: 0 !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes dragIn {
+  0% {
+    transform: translateX(-500px);
+  }
+  10% {
+    transform: translateX(-200px);
+  }
+  20% {
+    transform: translateX(-50px);
+  }
+  30% {
+    transform: translateX(50px);
+    rotate: 0deg;
+  }
+  40% {
+    transform: translateX(72px);
+    offset-rotate: 10px;
+    rotate: 15deg;
+  }
+  50% {
+    transform: translateX(13px);
+    offset-rotate: 10px;
+    rotate: 21deg;
+  }
+  80% {
+    rotate: 0deg;
+    offset-rotate: 0;
+  }
+  90% {
+    transform: translateX(15px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+#appMenu.dragAppMenuIn {
+  animation: ;
 }
 
 .top-app-menu-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 #appMenuTitle {
-    color: black;
-    position: relative;
-    -webkit-text-stroke: 1px darkcyan !important;
-    -webkit-text-fill-color: cyan !important;
-    -webkit-user-select: none !important;
-    user-select: none;
-    font-size: 1.8em;
-    top: -10px;
-    transition: all 0.5s ease-in-out;
-    text-align: center;
+  color: black;
+  position: relative;
+  -webkit-text-stroke: 1px darkcyan !important;
+  -webkit-text-fill-color: cyan !important;
+  -webkit-user-select: none !important;
+  user-select: none;
+  font-size: 1.8em;
+  top: -10px;
+  transition: all 0.5s ease-in-out;
+  text-align: center;
 }
 
 #closeAppMenu {
-    cursor: pointer !important;
-    position: absolute;
-    border: 3px solid darkred;
-    border-radius: 1cm;
-    background: red;
-    box-sizing: border-box;
-    font-weight: bold;
-    font-size: 2em;
-    padding-inline: 18.5px;
-    padding-block: 10px;
-    transform: scale(0.75);
-    transition: all 0.3s ease-in;
-    right: 5px;
-    user-select: none !important;
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
+  cursor: pointer !important;
+  position: absolute;
+  border: 3px solid darkred;
+  border-radius: 1cm;
+  background: red;
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 2em;
+  padding-inline: 18.5px;
+  padding-block: 10px;
+  transform: scale(0.75);
+  transition: all 0.3s ease-in;
+  right: 5px;
+  user-select: none !important;
+  box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
 }
 
 #closeAppMenu:hover {
-    transform: scale(0.85);
-    box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275);
+  transform: scale(0.85);
+  box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275);
 }
 
 @media (max-width: 763px) {
-    #appMenu {
-        width: 80% !important;
-    }
+  #appMenu {
+    width: 80% !important;
+  }
 
-    .settings-container {
-        justify-self: bottom !important;
-        align-self: bottom !important;
-        background: lime !important;
-        padding-block: 5px !important;
-        height: fit-content;
-        max-height: 50%;
-    }
+  .settings-container {
+    justify-self: bottom !important;
+    align-self: bottom !important;
+    background: lime !important;
+    padding-block: 5px !important;
+    height: fit-content;
+    max-height: 50%;
+  }
 
-    #appMenuTitle {
-        font-size: 2em !important;
-    }
+  #appMenuTitle {
+    font-size: 2em !important;
+  }
 }
 
 @keyframes spin {
-    0% { rotate: 0deg; }
-    50% { rotate: 180deg; }
-    75% { rotate: 195deg; }
-    100% { rotate: 180deg; }
+  0% {
+    rotate: 0deg;
+  }
+  50% {
+    rotate: 180deg;
+  }
+  75% {
+    rotate: 195deg;
+  }
+  100% {
+    rotate: 180deg;
+  }
 }
 
 #expandOrCollapseSM:hover {
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.275);
+  box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.275);
 }
 
 #expandOrCollapseSM.spin {
-    animation: spin 0.6s ease;
+  animation: spin 0.6s ease;
 }
 
 .settings-container {
-    display: flex !important;
-    position: relative !important;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding-inline: 7.5px;
-    padding-block: 12.5px;
-    height: auto !important;
-    max-height: auto !important;
-    width: 100% !important;
-    box-sizing: border-box;
-    transition: all 0.65s ease;
-    background: rgb(150, 255, 150);
-    descent-override: x y;
-    text-rendering: optimizeSpeed !important;
-    text-overflow: ellipsis clip auto;
+  display: flex !important;
+  position: relative !important;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding-inline: 7.5px;
+  padding-block: 12.5px;
+  height: auto !important;
+  max-height: auto !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  transition: all 0.65s ease;
+  background: rgb(150, 255, 150);
+  descent-override: x y;
+  text-rendering: optimizeSpeed !important;
+  text-overflow: ellipsis clip auto;
 }
 
 .appsContainer {
-    position: relative;
-    width: 100%;
-    border: 2px solid black;
-    border-radius: 15px;
-    background: white;
+  position: relative;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 15px;
+  background: white;
 }
 
 #appsTextTag {
-    cursor: pointer;
-    position: relative;
-    font-size: 1.725em;
-    text-align: center;
-    width: fit-content;
-    justify-self: center;
-    border: 2px solid rgb(127, 127, 127);
-    border-radius: 20px;
-    padding-inline: 14.5px;
-    padding-block: 3.45px;
-    user-select: none !important;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.725em;
+  text-align: center;
+  width: fit-content;
+  justify-self: center;
+  border: 2px solid rgb(127, 127, 127);
+  border-radius: 20px;
+  padding-inline: 14.5px;
+  padding-block: 3.45px;
+  user-select: none !important;
 }
 
 #appsTextTag:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

@@ -12,16 +12,14 @@ const settingsMenu = document.getElementById("settingsMenu");
 const settingsQuick = document.getElementById("settingsQuick");
 
 // Multifunction wait timer
-function wait(ms) {
+function wait(time) {
   if (wait) {
-    console.log("Creating Timer...");
   }
   try {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, time));
   } catch (error) {
-    console.log("Timer promise was not successfully created!", error);
+    console.error("Timer promise was not successfully created!", error);
   } finally {
-    console.log("Timer Created");
   }
 }
 
