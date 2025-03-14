@@ -60,7 +60,7 @@
 }
 
 #appMenu.dragAppMenuIn {
-  animation: ;
+  animation: dragIn 0.65s linear;
 }
 
 .top-app-menu-section {
