@@ -7,14 +7,30 @@
     body {
       background: gray;
     }
+
     .error-section {
-      position: fixed;
+      position: fixed !important;
+      border: 2px solid #444;
+      border-radius: 0.45cm;
+      background: lightgray;
+    }
+
+    .error-title {
+      position: relative;
+      border: 2px solid #333;
+      border-radius: 1cm;
+    }
+
+    .title {
+      position: relative;
+      border-radius: 1cm;
+      padding: 5px 10px;
     }
   </style>
   <body>
     <section class="error-section">
       <div class="error-title">
-        <h1>Content Not Found!</h1>
+        <h1 class="title">Content Not Found!</h1>
       </div>
       <div class="error-description">
         <p class="text">Error: Your search was not found.</p>
