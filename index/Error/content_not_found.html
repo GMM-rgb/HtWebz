@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<title>404 Not Found</title>
 <html lang="en">
   <style>
     body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: gray;
+      font-family: Arial, Helvetica, sans-serif !important;
+      margin: 0;
     }
 
     .error-section {
@@ -19,12 +24,37 @@
       position: relative;
       border: 2px solid #333;
       border-radius: 1cm;
+      user-select: none;
     }
 
     .title {
       position: relative;
       border-radius: 1cm;
       padding: 5px 10px;
+      font-size: 2.45em;
+    }
+
+    .error-description {
+      position: relative;
+      margin-inline: 12.5px;
+      padding: 9.5px;
+    }
+
+    #error {
+      cursor: pointer;
+      position: relative;
+      border: 2px solid #333;
+      border-radius: 1cm;
+      padding: 10px;
+      background: white;
+    }
+
+    .text-info {
+      position: relative;
+      border: 2px solid #333;
+      border-radius: 1cm;
+      padding: 10px;
+      background: white;
     }
   </style>
   <body>
@@ -33,10 +63,13 @@
         <h1 class="title">Content Not Found!</h1>
       </div>
       <div class="error-description">
-        <p class="text">Error: Your search was not found.</p>
+        <p id="error">Error 404: Your search was not found.</p>
         <span class="text-info"
           >Try checking your search to make sure you spelled it right. Or
           confirm the content exists.</span
+        >
+        <span class="help-info"
+          >If the problem persits please contact the devloper this page.</span
         >
       </div>
     </section>
