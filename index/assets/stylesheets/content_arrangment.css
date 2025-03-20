@@ -1,6 +1,6 @@
 #rootPageSection {
     display: flex !important;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     position: relative !important;
     margin-top: 100px !important;
