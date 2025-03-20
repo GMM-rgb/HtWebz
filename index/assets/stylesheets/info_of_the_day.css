@@ -3,6 +3,8 @@
     flex-direction: column;
     justify-content: center;
     border: 3px solid #ccc;
+    position: absolute;
+    margin-right: 10px;
     border-radius: 15px;
     background: #479dda;
     transition: all 0.85s ease;
