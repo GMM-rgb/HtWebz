@@ -1,7 +1,7 @@
 @media (max-width: 762px) {
     #InfoTheDay {
         top: 407.5px !important;
-        left: 20px !important;
+        left: 180px !important;
         height: 60px !important;
     }
 }
@@ -22,6 +22,7 @@
     transition: all 0.5s ease;
     margin-top: -42.5px;
     height: auto;
+    left: 157.5px;
 }
 
 #motivationMessageContainer {
