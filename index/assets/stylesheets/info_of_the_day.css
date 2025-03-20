@@ -1,3 +1,10 @@
+@media (max-width: 762px) {
+    #InfoTheDay {
+        top: 0px !important;
+        left: 0 !important;
+    }
+}
+
 #InfoTheDay {
     display: flex !important;
     flex-direction: column;
@@ -8,10 +15,12 @@
     border-radius: 15px;
     background: #479dda;
     margin-right: 10px;
-    margin-left: 10px;
     min-width: 245px;
     max-width: max-content;
     transition: all 0.85s ease;
+    margin-top: -42.5px;
+    height: auto;
+    max-height: 60px;
 }
 
 #motivationMessageContainer {

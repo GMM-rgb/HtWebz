@@ -21,8 +21,6 @@ function wait(time) {
     console.error("Timer promise was not successfully created!", error);
   } finally {
     return;
-  } else {
-    return console.warn("Wait not found.");
   }
 }
 
