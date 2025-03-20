@@ -285,7 +285,7 @@
 #pageTitle {
     position: relative !important;
     display: flex;
-    margin: 0 20px;
+    margin-left: 20px;
     justify-content: center;
     align-items: center;
     font-weight: bolder;
