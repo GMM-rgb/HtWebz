@@ -12,7 +12,7 @@
 }
 
 #motivationMessageContainer {
-    display: grid;
+    display: flex;
     place-content: center;
     place-items: center;
     position: relative !important;
@@ -21,11 +21,6 @@
     background: #80b5db;
     padding-inline: 5px;
     padding-block: 2.5px;
-}
-
-#motivationMessage::before {
-    position: relative;
-    content: '';
 }
 
 #motivationMessage {
