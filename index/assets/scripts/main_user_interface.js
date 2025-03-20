@@ -20,7 +20,7 @@ function wait(time) {
   } catch (error) {
     console.error("Timer promise was not successfully created!", error);
   } finally {
-    return;
+    console.log("Timer promise successfully created!");
   }
 }
 
