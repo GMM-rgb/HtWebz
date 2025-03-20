@@ -3,12 +3,13 @@
     flex-direction: column;
     justify-content: center;
     border: 3px solid #ccc;
+    padding: 12.5px;
     position: absolute;
     margin-right: 10px;
     border-radius: 15px;
     background: #479dda;
+    margin-inline-end: 28.5vw;
     transition: all 0.85s ease;
-    padding: 12.5px;
 }
 
 #motivationMessageContainer {
@@ -28,4 +29,8 @@
     border: 2px solid #ccc;
     border-radius: 0.5cm;
     background: whitesmoke;
+    padding-inline: 12.5px;
+    padding-block: 10px;
+    font-size: 2em;
+    font-weight: bold;
 }

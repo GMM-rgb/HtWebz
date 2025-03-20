@@ -20,6 +20,9 @@ function wait(time) {
   } catch (error) {
     console.error("Timer promise was not successfully created!", error);
   } finally {
+    return;
+  } else {
+    return console.warn("Wait not found.");
   }
 }
 

@@ -76,7 +76,6 @@
     box-sizing: border-box;
     transition: all 0.3s;
     transform: scale(1);
-    transform-style: preserve-3d;
 }
 
 #appMenuIcon {
@@ -99,10 +98,6 @@
     transform: scaleY(1.25);
 }
 
-#appMenuOpen:hover {
-    transform: rotateX(-17.5deg);
-}
-
 #settingsQuick {
     pointer-events: all !important;
     cursor: pointer;
@@ -122,7 +117,6 @@
     box-sizing: border-box;
     transition: all 0.3s;
     transform: scale(1);
-    transform-style: preserve-3d;
 }
 
 #settingsIcon {
@@ -143,10 +137,6 @@
     -webkit-user-drag: none !important;
     letter-spacing: 1.25px;
     transform: scaleY(1.25);
-}
-
-#settingsQuick:hover {
-    transform: rotateX(-17.5deg);
 }
 
 /* Right side interface menu buttons (More from HtWebz) */
