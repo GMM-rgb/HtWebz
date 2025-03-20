@@ -10,4 +10,4 @@ const messages = [
 ];
 
 const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-motivationMessage.textContent = randomMessage;
+motivationMessage.innerHTML = `<span>${randomMessage}</span>`;
