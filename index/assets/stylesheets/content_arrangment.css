@@ -1,7 +1,8 @@
 #rootPageSection {
     display: flex !important;
-    flex-direction: column;
+    flex-direction: column !important;
     justify-content: center;
+    align-items: top;
     position: relative !important;
     margin-top: 100px !important;
     margin-inline: 10px;
