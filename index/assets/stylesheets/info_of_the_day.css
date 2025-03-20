@@ -10,6 +10,8 @@
     background: #479dda;
     margin-right: 200px;
     margin-left: 10px;
+    min-width: 245px;
+    max-width: max-content;
     transition: all 0.85s ease;
 }
 
