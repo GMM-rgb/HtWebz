@@ -44,10 +44,10 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
     }
 
-    body::-webkit-scrollbar-thumb:hover + body::-webkit-scrollbar {
+    body::-webkit-scrollbar-thumb:hover+body::-webkit-scrollbar {
         width: 12px;
     }
-    
+
     #menuBlur {
         display: none;
         /*filter: blur(300px) !important;
@@ -69,7 +69,7 @@
 
 <script>
     const pageTitle = document.getElementById("pageTitle");
-    
+
     function waitLoads(timeMS) {
         return new Promise(resolve => setTimeout(resolve, timeMS));
     }
@@ -114,7 +114,8 @@
                     preload="auto" height="27.5" width="27.5" />
                 <span class="games-menu-text">Games</span>
             </div>
-            <div id="resourcesMenuOpen"><img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png" preload="auto" height="27.5"
+            <div id="resourcesMenuOpen"><img id="resourcesMenuIcon"
+                    src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png" preload="auto" height="27.5"
                     width="27.5" contenteditable="false" />
                 <span class="resources-menu-text">Search</span>
             </div>
@@ -149,16 +150,16 @@
                     </div>
                 </div>
             </div>
-            <!---->
-            <div id="InfoTheDay">
-                <div id="motivationMessageContainer">
-                    <span id="motivationMessage">...</span>
-                </div>
-            </div>
         </section>
 
-    <!-- Menus HTML Section -->
-     <div id="menuBlur"></div>
+        <div id="InfoTheDay">
+            <div id="motivationMessageContainer">
+                <span id="motivationMessage">...</span>
+            </div>
+        </div>
+
+        <!-- Menus HTML Section -->
+        <div id="menuBlur"></div>
         <!---->
         <!-- Settings Menu -->
         <section id="settingsMenu">
@@ -187,7 +188,10 @@
                     <div id="chromeClickerGame">
                         <h3 class="game-title
                         ">Chrome Clicker</h3>
-                        <p class="game-description">A simple clicker game that is based on the browser Google Chrome. <hr class="dividerGame"><br><text class="furthermoreDescription">This is currently a work in progress.</text></p>
+                        <p class="game-description">A simple clicker game that is based on the browser Google Chrome.
+                            <hr class="dividerGame"><br><text class="furthermoreDescription">This is currently a work in
+                                progress.</text>
+                        </p>
                         <button onclick="notify('Redirecting...')" id="tryButtonGame">Play</button>
                         <script>
                             var tryGame = document.getElementById('tryButtonGame');
@@ -211,7 +215,8 @@
             <div>
                 <div class="search-menu-managment">
                     <form method="get" action="index/search_index.html" target="_blank">
-                        <button type="submit" id="exapndSearchMenuBtn" style="text-rendering: optimizeSpeed !important;" onclick="notify('Opening Search As New...')">⇱</button>
+                        <button type="submit" id="exapndSearchMenuBtn" style="text-rendering: optimizeSpeed !important;"
+                            onclick="notify('Opening Search As New...')">⇱</button>
                     </form>
                 </div>
                 <iframe id="searchPageDisplay" src="index/search_index_menu_version.html"></iframe>
@@ -228,9 +233,13 @@
             <div id="verticalShowcase">
                 <div id="v-showcase">
                     <span class=""></span>
-                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" aria-describedby="featured" />
+                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
+                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                        aria-describedby="featured" />
                     <p class="featured-description">
-                        Say Hello to your new friend, HTAssistant! <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently a work in progress.</text>
+                        Say Hello to your new friend, HTAssistant!
+                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently a work in
+                            progress.</text>
                     </p>
                     <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
                 </div>
