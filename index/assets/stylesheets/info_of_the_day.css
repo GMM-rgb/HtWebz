@@ -2,7 +2,6 @@
     display: flex !important;
     flex-direction: column;
     justify-content: center;
-    position: relative !important;
     border: 3px solid #ccc;
     border-radius: 15px;
     background: #479dda;
