@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="index/assets/stylesheets/games_menu.css">
     <link rel="stylesheet" href="index/assets/stylesheets/search_menu.css">
     <link rel="stylesheet" href="index/assets/stylesheets/settings_menu.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/info_of_the_day.css">
 </head>
 <style>
     body {
@@ -67,13 +68,13 @@
 </style>
 
 <script>
-    var pageTitle = document.getElementById("pageTitle");
+    const pageTitle = document.getElementById("pageTitle");
     
     function waitLoads(timeMS) {
         return new Promise(resolve => setTimeout(resolve, timeMS));
     }
 
-    window.onload = () => {
+    pageTitle.onclick = () => {
         pageTitle.classList.add("JumpTitle");
         waitLoads(timeMS).then(() => {
             pageTitle.classList.remove("JumpTitle");
@@ -125,9 +126,9 @@
         <section class="main-content-section" name="content">
             <div id="pinnedContentTop">
                 <h3 class="pinned-content-title">- Main Content -</h3>
-
+                <!---->
                 <div class="about-page-container">
-
+                    <!---->
                     <h4 id="aboutTag">About</h4>
                     <div id="aboutPageContentText">
                         <span class="questionOneText">Why was this page made?</span>
@@ -136,7 +137,7 @@
                             the making of games, and entertainment and resources for education.
                         </p>
                     </div>
-
+                    <!---->
                 </div>
                 <div class="content-one">
                     <h4 id="contentOneTag">Personal</h4>
@@ -148,11 +149,17 @@
                     </div>
                 </div>
             </div>
+            <!---->
+            <div id="InfoTheDay">
+                <div id="motivationMessageContainer">
+                    <span id="motivationMessage">...</span>
+                </div>
+            </div>
         </section>
 
     <!-- Menus HTML Section -->
      <div id="menuBlur"></div>
-
+        <!---->
         <!-- Settings Menu -->
         <section id="settingsMenu">
             <div class="settings-menu-hotbar">
@@ -407,5 +414,6 @@
 <script src="index/assets/scripts/main_user_interface.js"></script>
 <script src="index/assets/scripts/app_menu_script.js"></script>
 <script src="index/assets/scripts/search_process.js"></script>
+<script src="index/assets/scripts/info_managment.js"></script>
 
 </HTML>

@@ -1,0 +1,35 @@
+#InfoTheDay {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: top;
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 15px;
+    background: #479dda;
+    transition: all 0.85s ease;
+    padding: 12.5px;
+}
+
+#motivationMessageContainer {
+    display: grid;
+    place-content: center;
+    place-items: center;
+    position: relative !important;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    background: #80b5db;
+    padding-inline: 5px;
+    padding-block: 2.5px;
+}
+
+#motivationMessage::before {
+    position: relative;
+    content: '';
+}
+
+#motivationMessage {
+    border: 2px solid #ccc;
+    border-radius: 0.5cm;
+    background: whitesmoke;
+}
