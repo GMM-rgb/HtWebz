@@ -66,6 +66,21 @@
     }
 </style>
 
+<script>
+    var pageTitle = document.getElementById("pageTitle");
+    
+    function waitLoads(timeMS) {
+        return new Promise(resolve => setTimeout(resolve, timeMS));
+    }
+
+    window.onload = () => {
+        pageTitle.classList.add("JumpTitle");
+        waitLoads(timeMS).then(() => {
+            pageTitle.classList.remove("JumpTitle");
+        });
+    }
+</script>
+
 <body>
     <div id="appMenu">
         <div class="top-app-menu-section">
