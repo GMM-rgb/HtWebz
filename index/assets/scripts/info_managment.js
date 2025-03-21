@@ -15,7 +15,7 @@ const messages = [
     "You're on the right path!",
 ];
 
-// Add CSS styles for animations
+// CSS styles for animations
 const style = document.createElement('style');
 style.textContent = `
   .message-wiggle {
@@ -25,14 +25,14 @@ style.textContent = `
     animation: morph 0.3s ease-in-out;
   }
   @keyframes wiggle {
-    0%, 100% { transform: rotate(0deg); }
+    0%, 100% { transform: rotate(0deg) translateY(-6px); }
     25% { transform: rotate(-5deg) scale(1.1); }
-    75% { transform: rotate(5deg) scale(1.1); }
+    75% { transform: rotate(5deg) scale(1.1) translateY(0); }
   }
   @keyframes morph {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.2); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(1) scaleX(1); opacity: 1; }
+    50% { transform: scale(1.2); scaleX(1.4) opacity: 0.5; }
+    100% { transform: scale(1) scaleX(1); opacity: 1; }
   }
 `;
 document.head.appendChild(style);
