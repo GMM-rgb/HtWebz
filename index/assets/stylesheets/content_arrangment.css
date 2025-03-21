@@ -15,7 +15,7 @@
 }
 
 .animate-in {
-    animation: elementFold 0.8s ease-out forwards;
+    animation: elementFold 0.8s ease-out forwards !important;
 }
 
 #rootPageSection {
