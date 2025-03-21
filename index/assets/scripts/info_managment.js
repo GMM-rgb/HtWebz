@@ -15,17 +15,48 @@ const messages = [
     "You're on the right path!",
 ];
 
-// Retrieve the last selected message from localStorage
-const lastMessage = localStorage.getItem("lastMotivationMessage");
+// Add CSS styles for animations
+const style = document.createElement('style');
+style.textContent = `
+  .message-wiggle {
+    animation: wiggle 0.5s ease-in-out;
+  }
+  .message-morph {
+    animation: morph 0.3s ease-in-out;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg) scale(1.1); }
+    75% { transform: rotate(5deg) scale(1.1); }
+  }
+  @keyframes morph {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+`;
+document.head.appendChild(style);
 
-// Filter out the last message from the pool of messages
-const filteredMessages = messages.filter(message => message !== lastMessage);
+// Function to update message with animations
+function updateMessage() {
+    const lastMessage = motivationMessage.textContent;
+    const availableMessages = messages.filter(msg => msg !== lastMessage);
+    const newMessage = availableMessages[Math.floor(Math.random() * availableMessages.length)];
+    
+    motivationMessage.classList.add('message-wiggle');
+    
+    setTimeout(() => {
+        motivationMessage.classList.add('message-morph');
+        motivationMessage.innerHTML = `<span>${newMessage}</span>`;
+        
+        setTimeout(() => {
+            motivationMessage.classList.remove('message-wiggle', 'message-morph');
+        }, 300);
+    }, 500);
+}
 
-// Select a new random message from the filtered pool
-const randomMessage = filteredMessages[Math.floor(Math.random() * filteredMessages.length)];
+// Remove the previous message selection code and replace with interval
+setInterval(updateMessage, 3000);
 
-// Update the DOM with the new message
-motivationMessage.innerHTML = `<span>${randomMessage}</span>`;
-
-// Store the new message in localStorage
-localStorage.setItem("lastMotivationMessage", randomMessage);
+// Initial message
+updateMessage();

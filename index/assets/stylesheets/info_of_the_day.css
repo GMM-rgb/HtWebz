@@ -3,6 +3,7 @@
         top: 407.5px !important;
         left: 180px !important;
         height: 60px !important;
+        width: fit-content !important;
     }
 }
 
@@ -10,19 +11,22 @@
     display: flex !important;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     border: 3px solid #ccc;
     padding: 12.5px;
     position: absolute;
     border-radius: 15px;
     background: #479dda;
-    margin-right: 10px;
-    min-width: 245px;
-    width: max-content;
+    margin-inline-end: 10px;
+    min-width: 250px;
+    /*width: 87.25%;*/
     max-width: 100%;
     transition: all 0.5s ease;
     margin-top: -42.5px;
     height: auto;
     left: 157.5px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
 #motivationMessageContainer {
@@ -34,8 +38,11 @@
     border: 2px solid #ccc;
     border-radius: 15px;
     background: #80b5db;
-    padding-inline: 5px;
-    padding-block: 2.5px;
+    padding: 2.5px;
+    padding-inline: 15px;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.65);
+    min-width: 100%;
 }
 
 #motivationMessage {
@@ -46,4 +53,5 @@
     padding-block: 10px;
     font-size: 2em;
     font-weight: bold;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.45));
 }
