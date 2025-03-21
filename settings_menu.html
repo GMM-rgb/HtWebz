@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" href="index/assets/stylesheets/settings_menu_page.css">
+</head>
+
+<style>
+    body {
+        background: aquamarine;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+    }
+</style>
+
+<body>
+    <div id="settings-menu">
+        <h1 id="pageTitle">Settings</h1>
+
+        <div>
+            <div id="settingsList">
+                <button class="SettingsListButton" action="settings_user_theme.html" id="PersonalizationButtonSettings">Personalization</button>
+                <button class="SettingsListButton" action="settings_user_account.html" id="AccountButtonSettings">Account</button>
+                <button class="SettingsListButton" action="settings_user_privacy.html" id="PrivacyButtonSettings">Privacy</button>
+                <button class="SettingsListButton" action="settings_user_notifications.html" id="NotificationsButtonSettings">Notifications</button>
+                <button class="SettingsListButton" action="settings_user_help.html" id="HelpButtonSettings">Help</button>
+                <button class="SettingsListButton" action="settings_user_about.html" id="AboutButtonSettings">About</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            window.location.href = button.getAttribute('action');
+        });
+    });
+</script>
+
+</html>

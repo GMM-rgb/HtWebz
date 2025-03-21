@@ -1,0 +1,51 @@
+#settings-menu {
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    background: white;
+    padding-inline: 10px;
+    padding-block: 7.5px;
+    margin-inline: 10px;
+}
+
+#pageTitle {
+    position: relative;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    background: #80b5db;
+    padding-inline: 10px;
+    padding-block: 7.5px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+    margin-inline-end: 10px;
+}
+
+#settingsList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    background: #4ea1dc;
+    padding-inline: 10px;
+    padding-block: 7.5px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+    margin-inline-end: 10px;
+    max-width: 300px;
+    gap: 10px;
+}
+
+.SettingsListButton {
+    cursor:  pointer !important;
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    background: #80b5db;
+    padding-inline: 10px;
+    padding-block: 7.5px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+    margin-inline-end: 10px;
+}
