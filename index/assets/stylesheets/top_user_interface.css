@@ -20,7 +20,7 @@
     #topUserInterfaceBar {
         transform: scale(1) !important;
         width: 100% !important;
-        height: 65px !important;
+        height: 62.5px !important;
     }
     
     #appMenuOpen {
@@ -35,7 +35,7 @@
 
     #pageTitle {
         transform: scale(0.85) !important;
-        margin: 0 -25px;
+        margin: 0 -65px;
         max-width: calc(10% - 400px);
         font-size: 1.1em !important;
         display: flex !important;
