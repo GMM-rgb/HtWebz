@@ -60,3 +60,44 @@ setInterval(updateMessage, 3000);
 
 // Initial message
 updateMessage();
+
+// Add page load animations
+document.addEventListener('DOMContentLoaded', () => {
+    // List all selectors to animate but skip fixed elements.
+    const selectors = [
+        '#topUserInterfaceBar',
+        '.main-content-section',
+        '#pinnedContentTop',
+        '.about-page-container',
+        '.content-one',
+        '#InfoTheDay',
+        '#motivationMessageContainer',
+        '.featuredTagBackdrop',
+        '#featuredContentSection',
+        '#verticalShowcase',
+        '#footerContainer'
+    ];
+    const fixedSelectors = ['#topUserInterfaceBar', '#footerContainer'];
+    selectors.forEach((selector, index) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            // For fixed elements, remove any animation classes so they remain fixed.
+            if (!fixedSelectors.includes(selector)) {
+                element.classList.add('page-element');
+                setTimeout(() => {
+                    element.classList.add('animate-in');
+                }, index * 200);
+            }
+        }
+    });
+    // Final flourish animation: [Optional] (Removed for Rendering Issues)
+    /*
+    setTimeout(() => {
+        document.body.style.transition = 'all 0.3s ease';
+        document.body.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            document.body.style.transform = 'scale(1)';
+        }, 300);
+    }, (selectors.length + 1) * 200);
+    */
+});
