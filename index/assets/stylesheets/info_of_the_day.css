@@ -2,7 +2,7 @@
     #InfoTheDay {
         top: 407.5px !important;
         left: 180px !important;
-        height: 60px !important;
+        height: fit-content !important;
         width: fit-content !important;
     }
 }
