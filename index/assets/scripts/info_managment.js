@@ -63,7 +63,7 @@ updateMessage();
 
 // Add page load animations
 document.addEventListener('DOMContentLoaded', () => {
-    // List all selectors to animate but skip fixed elements.
+    // List all selectors to animate
     const selectors = [
         '#topUserInterfaceBar',
         '.main-content-section',
@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '#verticalShowcase',
         '#footerContainer'
     ];
+    // Skip fixed elements
     const fixedSelectors = ['#topUserInterfaceBar', '#footerContainer'];
     selectors.forEach((selector, index) => {
         const element = document.querySelector(selector);
@@ -101,3 +102,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }, (selectors.length + 1) * 200);
     */
 });
+
+// End of info_managment.js
