@@ -61,11 +61,17 @@ setInterval(updateMessage, 3000);
 // Initial message
 updateMessage();
 
+// Function to handle element animations
+function handleElementAnimation(element, delay = 0) {
+    setTimeout(() => {
+        element.classList.add('animate-in');
+    }, delay);
+}
+
 // Add page load animations
 document.addEventListener('DOMContentLoaded', () => {
     // List all selectors to animate
     const selectors = [
-        '#topUserInterfaceBar',
         '.main-content-section',
         '#pinnedContentTop',
         '.about-page-container',
@@ -77,30 +83,42 @@ document.addEventListener('DOMContentLoaded', () => {
         '#verticalShowcase',
         '#footerContainer'
     ];
+    
     // Skip fixed elements
-    const fixedSelectors = ['#topUserInterfaceBar', '#footerContainer'];
-    selectors.forEach((selector, index) => {
+    const fixedSelectors = ['#footerContainer'];
+
+    // Create intersection observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const index = Array.from(document.querySelectorAll('.page-element')).indexOf(entry.target);
+                handleElementAnimation(entry.target, index * 100);
+                observer.unobserve(entry.target); // Stop observing once animated
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+
+    selectors.forEach((selector) => {
         const element = document.querySelector(selector);
         if (element) {
-            // For fixed elements, remove any animation classes so they remain fixed.
             if (!fixedSelectors.includes(selector)) {
                 element.classList.add('page-element');
-                setTimeout(() => {
-                    element.classList.add('animate-in');
-                }, index * 200);
+                // Only observe non-fixed elements
+                observer.observe(element);
             }
         }
     });
-    // Final flourish animation: [Optional] (Removed for Rendering Issues)
-    /*
-    setTimeout(() => {
-        document.body.style.transition = 'all 0.3s ease';
-        document.body.style.transform = 'scale(1.02)';
-        setTimeout(() => {
-            document.body.style.transform = 'scale(1)';
-        }, 300);
-    }, (selectors.length + 1) * 200);
-    */
+
+    // Animate fixed elements immediately
+    fixedSelectors.forEach(selector => {
+        const element = document.querySelector(selector);
+        if (element) {
+            handleElementAnimation(element, 0);
+        }
+    });
 });
 
 // End of info_managment.js
