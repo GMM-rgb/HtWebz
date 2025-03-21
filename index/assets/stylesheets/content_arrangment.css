@@ -256,6 +256,10 @@ counter-increment {
         transform: scale(0.8);
         transform-origin: bottom left;
     }
+
+    .featuredTagBackdrop {
+        top: -95px !important;
+    }
 }
 
 .main-content-section::-webkit-scrollbar {
