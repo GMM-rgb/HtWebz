@@ -128,6 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
             '#topAppsSection',
             '#topAppsBackdrop',
             '#appsTrayBackdropContent',
+            '#searcherApp',
+            '#gamesApp',
+            '#resourcesApp',
         ];
         
         // Animate selected fixed elements
