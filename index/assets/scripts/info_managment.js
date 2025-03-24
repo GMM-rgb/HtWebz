@@ -81,7 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '.featuredTagBackdrop',
         '#featuredContentSection',
         '#verticalShowcase',
-        '#footerContainer'
+        '#footerContainer',
+        '#topAppsSection',
+        '#topAppsBackdrop',
+        '#appsTrayBackdropContent',
     ];
     
     // Skip fixed elements
@@ -120,5 +123,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-// End of info_managment.js

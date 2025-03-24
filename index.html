@@ -1,24 +1,35 @@
 <!DOCTYPE HTML>
-<HTML lang="en">
+<html lang="en">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-    <link rel="icon" href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
-    <title itemid="pageDocumentTitle" name="DocumentTitle">HtWebz Homepage</title>
-    <link rel="stylesheet" href="index/assets/stylesheets/app_list_menu.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/top_user_interface.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/notification_system.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/content_arrangment.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/content_pin.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/about_content.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/games_menu.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/search_menu.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/settings_menu.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/info_of_the_day.css">
-</head>
-<style>
+    <head>
+        <link rel="icon"
+            href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
+        <title itemid="pageDocumentTitle" name="DocumentTitle">HtWebz
+            Homepage</title>
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/app_list_menu.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/top_user_interface.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/notification_system.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/content_arrangment.css">
+        <link rel="stylesheet" href="index/assets/stylesheets/content_pin.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/about_content.css">
+        <link rel="stylesheet" href="index/assets/stylesheets/games_menu.css">
+        <link rel="stylesheet" href="index/assets/stylesheets/search_menu.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/settings_menu.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/info_of_the_day.css">
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/top_apps_arrangment.css">
+    </head>
+    <style>
     body {
         margin: 0;
         font-family: Arial;
@@ -67,7 +78,7 @@
     }
 </style>
 
-<script>
+    <script>
     const pageTitle = document.getElementById("pageTitle");
 
     function waitLoads(timeMS) {
@@ -82,184 +93,213 @@
     }
 </script>
 
-<body>
-    <div id="appMenu">
-        <div class="top-app-menu-section">
-            <h2 id="appMenuTitle">Apps & Settings</h2>
-            <button id="closeAppMenu">X</button>
-        </div>
-        <div class="settings-container" id="settingsContainer">
-            <text class="">This is the settings section here you will find user costumization. Such as text size, color
-                theme, and much more!</text>
-        </div>
-        <div class="appsContainer">
-            <p id="appsTextTag">Apps</p>
-        </div>
-    </div>
-
-    <span id="notification"></span>
-
-    <section id="topUserInterfaceBar">
-        <div class="appMenuOpenButtons">
-            <div id="appMenuOpen"><img id="appMenuIcon" src="index/assets/images/app_button_icon.png" preload="auto"
-                    aria-busy="false" height="25" width="25" /><span class="apps-menu-text">App Menu</span></div>
-            <div id="settingsQuick"><img id="settingsIcon" src="index/assets/images/Settings_icon.png" preload="auto"
-                    aria-busy="false" height="25" width="25" /><span class="settings-quick-text">Settings</span></div>
-        </div>
-
-        <h1 id="pageTitle">HtWebz Homepage - V2</h1>
-
-        <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-            <div id="gamesMenuOpen"><img id="gamesMenuIcon" src="index/assets/images/console_remote_controller.png"
-                    preload="auto" height="27.5" width="27.5" />
-                <span class="games-menu-text">Games</span>
+    <body>
+        <div id="appMenu">
+            <div class="top-app-menu-section">
+                <h2 id="appMenuTitle">Apps & Settings</h2>
+                <button id="closeAppMenu">X</button>
             </div>
-            <div id="resourcesMenuOpen"><img id="resourcesMenuIcon"
-                    src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png" preload="auto" height="27.5"
-                    width="27.5" contenteditable="false" />
-                <span class="resources-menu-text">Search</span>
+            <div class="settings-container" id="settingsContainer">
+                <text class>This is the settings section here you will find user
+                    costumization. Such as text size, color
+                    theme, and much more!</text>
+            </div>
+            <div class="appsContainer">
+                <p id="appsTextTag">Apps</p>
             </div>
         </div>
-    </section>
 
-    <!-- Root Page Interface -->
-    <section id="rootPageSection">
-        <section class="main-content-section" name="content">
-            <div id="pinnedContentTop">
-                <h3 class="pinned-content-title">- Main Content -</h3>
-                <!---->
-                <div class="about-page-container">
-                    <!---->
-                    <h4 id="aboutTag">About</h4>
-                    <div id="aboutPageContentText">
-                        <span class="questionOneText">Why was this page made?</span>
-                        <p class="aboutText">
-                            This page called HtWebz was mainly made for fun. Furthermore, the page was fabricated for
-                            the making of games, and entertainment and resources for education.
-                        </p>
-                    </div>
-                    <!---->
+        <span id="notification"></span>
+
+        <section id="topUserInterfaceBar">
+            <div class="appMenuOpenButtons">
+                <div id="appMenuOpen"><img id="appMenuIcon"
+                        src="index/assets/images/app_button_icon.png"
+                        preload="auto"
+                        aria-busy="false" height="25" width="25" /><span
+                        class="apps-menu-text">App Menu</span></div>
+                <div id="settingsQuick"><img id="settingsIcon"
+                        src="index/assets/images/Settings_icon.png"
+                        preload="auto"
+                        aria-busy="false" height="25" width="25" /><span
+                        class="settings-quick-text">Settings</span></div>
+            </div>
+
+            <h1 id="pageTitle">HtWebz Homepage - V2</h1>
+
+            <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
+                <div id="gamesMenuOpen"><img id="gamesMenuIcon"
+                        src="index/assets/images/console_remote_controller.png"
+                        preload="auto" height="27.5" width="27.5" />
+                    <span class="games-menu-text">Games</span>
                 </div>
-                <div class="content-one">
-                    <h4 id="contentOneTag">Personal</h4>
-                    <div class="content-one-text">
-                        <span id="recentTag">Recent</span>
-                        <p class="about-recent-info">
-                            What you have visited recently on this site.
-                        </p>
-                    </div>
+                <div id="resourcesMenuOpen"><img id="resourcesMenuIcon"
+                        src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                        preload="auto" height="27.5"
+                        width="27.5" contenteditable="false" />
+                    <span class="resources-menu-text">Search</span>
                 </div>
             </div>
         </section>
 
-        <div id="InfoTheDay">
-            <div id="motivationMessageContainer">
-                <span id="motivationMessage"></span>
-            </div>
-            <!-- <div id="infoOfTheDayContainer">
+        <!-- Root Page Interface -->
+        <section id="rootPageSection">
+            <section class="main-content-section" name="content">
+                <div id="pinnedContentTop">
+                    <h3 class="pinned-content-title">- Main Content -</h3>
+                    <!---->
+                    <div class="about-page-container">
+                        <!---->
+                        <h4 id="aboutTag">About</h4>
+                        <div id="aboutPageContentText">
+                            <span class="questionOneText">Why was this page
+                                made?</span>
+                            <p class="aboutText">
+                                This page called HtWebz was mainly made for fun.
+                                Furthermore, the page was fabricated for
+                                the making of games, and entertainment and
+                                resources for education.
+                            </p>
+                        </div>
+                        <!---->
+                    </div>
+                    <div class="content-one">
+                        <h4 id="contentOneTag">Personal</h4>
+                        <div class="content-one-text">
+                            <span id="recentTag">Recent</span>
+                            <p class="about-recent-info">
+                                What you have visited recently on this site.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="InfoTheDay">
+                <div id="motivationMessageContainer">
+                    <span id="motivationMessage"></span>
+                </div>
+                <!-- <div id="infoOfTheDayContainer">
                 <span id="infoOfTheDay">Daily Info</span>
                 <div>
                     <h3 id="infoOfTheDayTitle">Did you Know?</h3>
                     <h4 id="infoOfTheDayPrompt">...</h4>
                     <span id="infoOfTheDayText">...</span>
                 </div> -->
-        </div>
-
-        <!-- Menus HTML Section -->
-        <div id="menuBlur"></div>
-        <!---->
-        <!-- Settings Menu -->
-        <section id="settingsMenu">
-            <div class="settings-menu-hotbar">
-                <button id="closeSettingsMenuBtn">X</button>
-                <button id="themeSettingsMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
             </div>
-            <div id="settingsContainerDisplay">
-                <hr class="top-settings-divider" style="width: 100%;">
-                <div id="displayS">
-                    <iframe src="settings_menu.html" id="settingsMenuPageLinkage"></iframe>
+
+            <!-- Menus HTML Section -->
+            <div id="menuBlur"></div>
+            <!---->
+            <!-- Settings Menu -->
+            <section id="settingsMenu">
+                <div class="settings-menu-hotbar">
+                    <button id="closeSettingsMenuBtn">X</button>
+                    <button id="themeSettingsMenuBtn"
+                        onclick="notify('Currently Unavailable...')">Theme</button>
                 </div>
-                <hr class="bottom-settings-divider" style="width: 100%;">
-            </div>
-        </section>
+                <div id="settingsContainerDisplay">
+                    <hr class="top-settings-divider" style="width: 100%;">
+                    <div id="displayS">
+                        <iframe src="settings_menu.html"
+                            id="settingsMenuPageLinkage"></iframe>
+                    </div>
+                    <hr class="bottom-settings-divider" style="width: 100%;">
+                </div>
+            </section>
 
-        <!-- Game Menu -->
-        <section id="gameMenu">
-            <div class="game-menu-hotbar">
-                <button id="closeGameMenuButton">X</button>
-                <button id="themeGameMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
-            </div>
-            <div id="gameContainerDisplay">
-                <hr class="top-game-divider" style="width: 100%;">
-                <div id="displayG">
-                    <div id="chromeClickerGame">
-                        <h3 class="game-title
+            <!-- Game Menu -->
+            <section id="gameMenu">
+                <div class="game-menu-hotbar">
+                    <button id="closeGameMenuButton">X</button>
+                    <button id="themeGameMenuBtn"
+                        onclick="notify('Currently Unavailable...')">Theme</button>
+                </div>
+                <div id="gameContainerDisplay">
+                    <hr class="top-game-divider" style="width: 100%;">
+                    <div id="displayG">
+                        <div id="chromeClickerGame">
+                            <h3 class="game-title
                         ">Chrome Clicker</h3>
-                        <p class="game-description">A simple clicker game that is based on the browser Google Chrome.
-                            <hr class="dividerGame"><br><text class="furthermoreDescription">This is currently a work in
-                                progress.</text>
-                        </p>
-                        <button onclick="notify('Redirecting...')" id="tryButtonGame">Play</button>
-                        <script>
+                            <p class="game-description">A simple clicker game
+                                that is based on the browser Google Chrome.
+                                <hr class="dividerGame"><br><text
+                                    class="furthermoreDescription">This is
+                                    currently a work in
+                                    progress.</text>
+                            </p>
+                            <button onclick="notify('Redirecting...')"
+                                id="tryButtonGame">Play</button>
+                            <script>
                             var tryGame = document.getElementById('tryButtonGame');
 
                             tryGame.addEventListener('click', () => {
                                 window.location.href = 'gameDisplayChromeClicker.html';
                             });
                         </script>
+                        </div>
+                    </div>
+                    <hr class="bottom-game-divider" style="width: 100%;">
+                </div>
+            </section>
+
+            <!-- Search Menu -->
+            <section id="searchMenu">
+                <div class="search-menu-hotbar">
+                    <button id="closeSearchMenuBtn">X</button>
+                    <button></button>
+                </div>
+                <div>
+                    <div class="search-menu-managment">
+                        <form method="get" action="index/search_index.html"
+                            target="_blank">
+                            <button type="submit" id="exapndSearchMenuBtn"
+                                style="text-rendering: optimizeSpeed !important;"
+                                onclick="notify('Opening Search As New...')">⇱</button>
+                        </form>
+                    </div>
+                    <iframe id="searchPageDisplay"
+                        src="index/search_index_menu_version.html"></iframe>
+                </div>
+            </section>
+
+            <!---->
+            <!-- Featured Section -->
+            <div class="featuredTagBackdrop">
+                <h1 class="featuredTag">Featured</h1>
+            </div>
+
+            <section id="featuredContentSection">
+                <div id="verticalShowcase">
+                    <div id="v-showcase">
+                        <span class></span>
+                        <img
+                            src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
+                            style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                            aria-describedby="featured" height="auto"
+                            width="auto" class="showcasePreviewImage" />
+                        <p class="featured-description">
+                            Say Hello to your new friend, HTAssistant!
+                            <hr class="dividerShowcase"><br><text
+                                class="furthermoreDescription">This is currently
+                                a work in
+                                progress.</text>
+                        </p>
+                        <button onclick="notify('Currently Unavailable...')"
+                            id="tryButtonShowcase">Coming Soon...</button>
+                    </div>
+                    <div id="v-showcase">
+                        <img src="index/assets/images/"
+                            aria-describedby="featured" />
+                    </div>
+                    <div id="v-showcase">
+                        <img src="index/assets/images/"
+                            aria-describedby="featured" />
                     </div>
                 </div>
-                <hr class="bottom-game-divider" style="width: 100%;">
-            </div>
-        </section>
+            </section>
 
-        <!-- Search Menu -->
-        <section id="searchMenu">
-            <div class="search-menu-hotbar">
-                <button id="closeSearchMenuBtn">X</button>
-                <button></button>
-            </div>
-            <div>
-                <div class="search-menu-managment">
-                    <form method="get" action="index/search_index.html" target="_blank">
-                        <button type="submit" id="exapndSearchMenuBtn" style="text-rendering: optimizeSpeed !important;"
-                            onclick="notify('Opening Search As New...')">⇱</button>
-                    </form>
-                </div>
-                <iframe id="searchPageDisplay" src="index/search_index_menu_version.html"></iframe>
-            </div>
-        </section>
-
-        <!---->
-        <!-- Featured Section -->
-        <div class="featuredTagBackdrop">
-            <h1 class="featuredTag">Featured</h1>
-        </div>
-
-        <section id="featuredContentSection">
-            <div id="verticalShowcase">
-                <div id="v-showcase">
-                    <span class=""></span>
-                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        aria-describedby="featured" height="auto" width="auto" class="showcasePreviewImage" />
-                    <p class="featured-description">
-                        Say Hello to your new friend, HTAssistant!
-                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently a work in
-                            progress.</text>
-                    </p>
-                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
-                </div>
-                <div id="v-showcase">
-                    <img src="index/assets/images/" aria-describedby="featured" />
-                </div>
-                <div id="v-showcase">
-                    <img src="index/assets/images/" aria-describedby="featured" />
-                </div>
-            </div>
-        </section>
-
-        <style>
+            <style>
             #footerContainer {
                 display: flex;
                 flex-direction: row !important;
@@ -304,17 +344,17 @@
             }
         </style>
 
-        <div id="footerContainer">
-            <div id="developer">
-                <span class="developerText">Maximus</span>
+            <div id="footerContainer">
+                <div id="developer">
+                    <span class="developerText">Maximus</span>
+                </div>
+                <div id="developer">
+                    <span class="developerText">The HtWebz Project</span>
+                </div>
             </div>
-            <div id="developer">
-                <span class="developerText">The HtWebz Project</span>
-            </div>
-        </div>
 
-        <!-- Child script for quick access user interface functions -->
-        <script>
+            <!-- Child script for quick access user interface functions -->
+            <script>
             // Document elements variables
             const gamesMenuOpen = document.getElementById("gamesMenuOpen");
             const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
@@ -423,16 +463,54 @@
             });
         </script>
 
-        <noscript>
-            Javascript not enabled, please consult to enabling it for the page to function properly
-        </noscript>
+            <noscript>
+                Javascript not enabled, please consult to enabling it for the
+                page to function properly
+            </noscript>
 
-    </section>
-</body>
+        </section>
 
-<script src="index/assets/scripts/main_user_interface.js"></script>
-<script src="index/assets/scripts/app_menu_script.js"></script>
-<script src="index/assets/scripts/search_process.js"></script>
-<script src="index/assets/scripts/info_managment.js"></script>
+        <section id="bottomPageSection">
+            <section id="topAppsSection">
+                <div id="topAppsBackdrop">
+                    <h1 id="topAppsTitle">Top Apps</h1>
+                </div>
+                <div id="appsTrayBackdropContent">
+                    <div id="appsTrayContent">
+                        <div id="appTray">
+                            <div id="searcherApp">
+                                <img
+                                    src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                                    aria-describedby="featured"
+                                    height="auto" width="auto"
+                                    class="appTrayPreviewImage hoverable"
+                                    id="searcherAppImageButton"
+                                    onclick="notify('Redirecting...')" onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')"/>
+                                <p class="app-description">
+                                    Search the web with the HtWebz Searcher.
+                                    <hr class="dividerAppTray"><br><text
+                                        class="furthermoreDescription">This is
+                                        currently a work in
+                                        progress.</text> </p>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </body>
 
-</HTML>
+            <!-- Add before other scripts -->
+            <script src="index/assets/scripts/tooltip_system.js"></script>
+            <script>
+                // // Example usage
+                // setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
+                // // Or for multiple elements with same message
+                // setupTooltips('.hoverable', 'This element has a tooltip');
+            </script>
+
+            <script src="index/assets/scripts/main_user_interface.js"></script>
+            <script src="index/assets/scripts/app_menu_script.js"></script>
+            <script src="index/assets/scripts/search_process.js"></script>
+            <script src="index/assets/scripts/info_managment.js"></script>
+            <script src="index/assets/scripts/navigation_managment.js"></script>
+
+        </html>
