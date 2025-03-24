@@ -165,7 +165,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
-#searcherApp, #gamesApp:hover {
+#searcherApp:hover, #gamesApp:hover {
     transform: translateY(-5px);
 }
 
