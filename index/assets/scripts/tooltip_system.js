@@ -4,16 +4,18 @@ tooltip.className = 'tooltip';
 tooltip.style.cssText = `
     display: none;
     position: fixed;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 65, 156, 0.8);
+    font-weight: bold;
     color: white;
     padding: 5px 10px;
-    border-radius: 5px;
+    border: 2px solid cyan;
+    border-radius: 5px 10px 7.5px;
     font-size: 14px;
     pointer-events: none;
     z-index: 99999;
     max-width: 200px;
     transition: opacity 0.2s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(0, 225, 255, 0.4);
 `;
 document.body.appendChild(tooltip);
 

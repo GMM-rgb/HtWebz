@@ -132,12 +132,12 @@
 
         <section id="topUserInterfaceBar">
             <div class="appMenuOpenButtons">
-                <div id="appMenuOpen"><img id="appMenuIcon"
+                <div id="appMenuOpen" onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img id="appMenuIcon"
                         src="index/assets/images/app_button_icon.png"
                         preload="auto"
                         aria-busy="false" height="25" width="25" /><span
                         class="apps-menu-text">App Menu</span></div>
-                <div id="settingsQuick"><img id="settingsIcon"
+                <div id="settingsQuick" onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img id="settingsIcon"
                         src="index/assets/images/Settings_icon.png"
                         preload="auto"
                         aria-busy="false" height="25" width="25" /><span
@@ -147,15 +147,15 @@
             <h1 id="pageTitle">HtWebz Homepage - V2</h1>
 
             <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-                <div id="gamesMenuOpen"><img id="gamesMenuIcon"
+                <div id="gamesMenuOpen" onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')"><img id="gamesMenuIcon"
                         src="index/assets/images/console_remote_controller.png"
                         preload="auto" height="27.5" width="27.5" />
                     <span class="games-menu-text">Games</span>
                 </div>
-                <div id="resourcesMenuOpen"><img id="resourcesMenuIcon"
+                <div id="resourcesMenuOpen" onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')"><img id="resourcesMenuIcon"
                         src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
                         preload="auto" height="27.5"
-                        width="27.5" contenteditable="false" />
+                        width="27.5" />
                     <span class="resources-menu-text">Search</span>
                 </div>
             </div>
