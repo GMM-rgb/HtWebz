@@ -44,10 +44,12 @@
     }
 
     #pageTitle {
-        transform: scale(0.85) !important;
+        transform: scale(0.5) scaleX(0.5) !important;
         margin: 0 -65px;
         max-width: calc(10% - 400px);
-        font-size: 1.1em !important;
+        width: 150px !important;
+        padding: 2.5px !important;
+        font-size: 0.7em !important;
         display: flex !important;
     }
 
@@ -57,7 +59,9 @@
 
     .moreFromHtWebzContainer {
         transform: scale(0.825) !important;
-        margin-right: -35px !important;
+        right: -25px !important;
+        background: rgba(210, 210, 210, 0.5) !important;
+        opacity: 0.75 !important;
     }
 }
 
