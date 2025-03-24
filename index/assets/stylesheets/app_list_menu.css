@@ -2,16 +2,15 @@
   display: none;
   flex-direction: column;
   position: fixed;
-  border: 2px solid black;
+  border: 3px solid #ccc;
   border-radius: 10px;
   padding: 10px;
-  background: linear-gradient(
-    #0586e3,
-    #2ea8ff,
-    whitesmoke,
-    whitesmoke,
-    #8b8b8b
-  );
+  padding-block-end: 50px;
+  background: linear-gradient(rgba(5, 134, 227, 0.75),
+      rgba(46, 168, 255, 0.65),
+      rgba(245, 245, 245, 0.5),
+      rgba(245, 245, 245, 0.4),
+      rgba(139, 139, 139, 0.35));
   height: 100%;
   width: 40%;
   box-sizing: border-box;
@@ -27,33 +26,48 @@
   0% {
     transform: translateX(-500px);
   }
+
   10% {
     transform: translateX(-200px);
   }
+
   20% {
     transform: translateX(-50px);
   }
+
   30% {
     transform: translateX(50px);
     rotate: 0deg;
   }
+
   40% {
     transform: translateX(72px);
     offset-rotate: 10px;
-    rotate: 15deg;
+    rotate: 2.5deg;
   }
+
   50% {
-    transform: translateX(13px);
+    transform: translateX(83px);
     offset-rotate: 10px;
-    rotate: 21deg;
+    rotate: 4deg;
   }
+
+  70%,
+  100% {
+    transform: translateX(10px);
+    offset-rotate: 0;
+    rotate: 0deg;
+  }
+
   80% {
     rotate: 0deg;
     offset-rotate: 0;
   }
+
   90% {
     transform: translateX(15px);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -76,7 +90,7 @@
   -webkit-text-fill-color: cyan !important;
   -webkit-user-select: none !important;
   user-select: none;
-  font-size: 1.8em;
+  font-size: 3em;
   top: -10px;
   transition: all 0.5s ease-in-out;
   text-align: center;
@@ -128,12 +142,15 @@
   0% {
     rotate: 0deg;
   }
+
   50% {
     rotate: 180deg;
   }
+
   75% {
     rotate: 195deg;
   }
+
   100% {
     rotate: 180deg;
   }
@@ -167,10 +184,16 @@
 
 .appsContainer {
   position: relative;
-  width: 100%;
-  border: 2px solid black;
+  height: auto;
+  max-height: auto !important;
+  width: 100% !important;
+  border: 2px solid #ccc;
   border-radius: 15px;
   background: white;
+  padding-inline: 7.5px;
+  padding-block: 12.5px;
+  box-sizing: border-box;
+  transition: all 0.65s ease;
 }
 
 #appsTextTag {

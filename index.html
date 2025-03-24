@@ -106,6 +106,16 @@
             </div>
             <div class="appsContainer">
                 <p id="appsTextTag">Apps</p>
+                <div id="appList">
+                    <button id="searcherAppButton"
+                        onclick="notify('Currently Unavailable...')">Searcher</button>
+                    <button id="gamesAppButton"
+                        onclick="notify('Currently Unavailable...')">Games</button>
+                    <button id="resourcesAppButton"
+                        onclick="notify('Currently Unavailable...')">Resources</button>
+                    <button id="settingsAppButton"
+                        onclick="notify('Currently Unavailable...')">Settings</button>  
+                </div>
             </div>
         </div>
 
@@ -271,6 +281,8 @@
 
             <section id="featuredContentSection">
                 <div id="verticalShowcase">
+
+
                     <div id="v-showcase">
                         <span class></span>
                         <img
@@ -288,14 +300,71 @@
                         <button onclick="notify('Currently Unavailable...')"
                             id="tryButtonShowcase">Coming Soon...</button>
                     </div>
+                    
+
                     <div id="v-showcase">
+                        <span class></span>
                         <img src="index/assets/images/"
-                            aria-describedby="featured" />
+                            aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                        <p class="featured-description">
+                            <!--  -->
+                            <hr class="dividerShowcase"><br><text
+                            class="furthermoreDescription">This is currently
+                            a work in
+                            progress.</text>
+                        </p>
+                        <button onclick="notify('Currently Unavailable...')"
+                            id="tryButtonShowcase">Coming Soon...</button>
                     </div>
+
+
                     <div id="v-showcase">
+                        <span class></span>
                         <img src="index/assets/images/"
-                            aria-describedby="featured" />
+                            aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                        <p class="featured-description">
+                            <!--  -->
+                            <hr class="dividerShowcase"><br><text
+                            class="furthermoreDescription">This is currently
+                            a work in
+                            progress.</text>
+                        </p>
+                        <button onclick="notify('Currently Unavailable...')"
+                            id="tryButtonShowcase">Coming Soon...</button>
                     </div>
+
+                    
+                    <div id="v-showcase">
+                        <span class></span>
+                        <img src="index/assets/images/"
+                            aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                        <p class="featured-description">
+                            <!--  -->
+                            <hr class="dividerShowcase"><br><text
+                            class="furthermoreDescription">This is currently
+                            a work in
+                            progress.</text>
+                        </p>
+                        <button onclick="notify('Currently Unavailable...')"
+                            id="tryButtonShowcase">Coming Soon...</button>
+                    </div>
+
+
+                    <div id="v-showcase">
+                        <span class></span>
+                        <img src="index/assets/images/"
+                            aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                        <p class="featured-description">
+                            <!--  -->
+                            <hr class="dividerShowcase"><br><text
+                            class="furthermoreDescription">This is currently
+                            a work in
+                            progress.</text>
+                        </p>
+                        <button onclick="notify('Currently Unavailable...')"
+                            id="tryButtonShowcase">Coming Soon...</button>
+                    </div>
+
                 </div>
             </section>
 
@@ -509,6 +578,23 @@
                                         class="furthermoreDescription">This is
                                         currently a work in
                                         progress.</text> </p>
+                            </div>
+                            <!-- Resources App -->
+                            <div id="resourcesApp">
+                                <img
+                                    src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png"
+                                    aria-describedby="featured"
+                                    height="auto" width="auto"
+                                    class="appTrayPreviewImage hoverable"
+                                    id="resourcesAppImageButton"
+                                    onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')"/>
+                                <p class="app-description">
+                                    Find resources with the HtWebz Resources App.
+                                    <hr class="dividerAppTray"><br><text
+                                        class="furthermoreDescription">This is
+                                        currently a work in
+                                        progress.</text> </p>
+                            </div>
                         </div>
                     </section>
                 </section>

@@ -71,6 +71,9 @@
     font-size: 2.45em;
     font-weight: bold;
     text-align: center;
+    -webkit-user-select: none !important;
+    user-select: none;
+    -webkit-usser-drag: none !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 42.5px rgba(0, 238, 255, 0.45);
     transition: all 0.3s;
 }
@@ -130,6 +133,26 @@
     transition: all 0.3s ease;
 }
 
+#resourcesApp {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: top;
+    justify-self: start !important;
+    justify-content: center !important;
+    width: 100%;
+    max-width: 100% !important;
+    min-width: 15% !important;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    background: #80b5db;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+    transition: all 0.3s ease;
+}
+
 #appsTrayContent {
     display: flex;
     flex-direction: column;
@@ -149,7 +172,7 @@
     place-items: center;
 }
 
-#searcherApp, #gamesApp {
+#searcherApp, #gamesApp, #resourcesApp {
     width: 100%;
     aspect-ratio: 4/3;
     margin: 0;
@@ -165,7 +188,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
-#searcherApp:hover, #gamesApp:hover {
+#searcherApp:hover, #gamesApp:hover, #resourcesApp:hover {
     transform: translateY(-5px);
 }
 
@@ -199,7 +222,7 @@
         gap: 25px;
     }
     
-    #searcherApp, #gamesApp {
+    #searcherApp, #gamesApp, #resourcesApp {
         min-width: 280px;
         max-width: 65% !important;
         aspect-ratio: 3/4;  /* Adjusted for better vertical layout */
