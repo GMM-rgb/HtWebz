@@ -137,29 +137,28 @@
 
 #appTray {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 2fr));
-    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    grid-auto-flow: row;
-    grid-auto-rows: minmax(min-content, max-content);
-    align-items: start;
-    justify-items: center;
+    place-items: center;
 }
 
 #searcherApp, #gamesApp {
-    width: 100% !important;
-    max-width: 600px;
-    min-width: 350px;
-    min-height: 300px;
+    width: 100%;
+    aspect-ratio: 4/3;
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     transition: transform 0.3s ease;
-    padding: 20px;
+    padding: 25px;
+    background: #80b5db;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
 #searcherApp:hover, #gamesApp:hover {
@@ -167,10 +166,11 @@
 }
 
 .appTrayPreviewImage {
-    width: 200px;
-    height: 200px;
+    width: 45%;
+    height: auto;
+    aspect-ratio: 1;
     object-fit: contain;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .app-description {
@@ -183,15 +183,20 @@
 @media (max-width: 768px) {
     #appTray {
         grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 25px;
     }
     
     #searcherApp, #gamesApp {
         min-width: 280px;
-        min-height: 250px;
+        aspect-ratio: 3/4;  /* Adjusted for better vertical layout */
+        padding: 20px;
     }
     
     .appTrayPreviewImage {
-        width: 150px;
-        height: 150px;
+        width: 60%;  /* Increased from 45% */
+        min-height: 180px;  /* Set minimum height */
+        max-height: 200px;  /* Set maximum height */
+        margin-bottom: 20px;
     }
 }
