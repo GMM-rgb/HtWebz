@@ -1,4 +1,4 @@
-// Create tooltip element once when script loads
+// Create tooltip element once script loads
 const tooltip = document.createElement('div');
 tooltip.className = 'tooltip';
 tooltip.style.cssText = `

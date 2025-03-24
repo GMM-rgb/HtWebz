@@ -472,12 +472,13 @@
 
         <section id="bottomPageSection">
             <section id="topAppsSection">
-                <div id="topAppsBackdrop">
-                    <h1 id="topAppsTitle">Top Apps</h1>
-                </div>
+                    <div id="topAppsBackdrop">
+                        <h1 id="topAppsTitle">Top Apps</h1>
+                    </div>
                 <div id="appsTrayBackdropContent">
                     <div id="appsTrayContent">
                         <div id="appTray">
+                            <!-- Searcher App -->
                             <div id="searcherApp">
                                 <img
                                     src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
@@ -493,6 +494,21 @@
                                         currently a work in
                                         progress.</text> </p>
                             </div>
+                            <!-- Games App -->
+                            <div id="gamesApp">
+                                <img
+                                    src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png"
+                                    aria-describedby="featured"
+                                    height="auto" width="auto"
+                                    class="appTrayPreviewImage hoverable"
+                                    id="gamesAppImageButton"
+                                    onclick="notify('Redirecting...')" onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')"/>
+                                <p class="app-description">
+                                    Play games with the HtWebz Games App.
+                                    <hr class="dividerAppTray"><br><text
+                                        class="furthermoreDescription">This is
+                                        currently a work in
+                                        progress.</text> </p>
                         </div>
                     </section>
                 </section>
@@ -501,7 +517,7 @@
             <!-- Add before other scripts -->
             <script src="index/assets/scripts/tooltip_system.js"></script>
             <script>
-                // // Example usage
+                // // Example usage:
                 // setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
                 // // Or for multiple elements with same message
                 // setupTooltips('.hoverable', 'This element has a tooltip');

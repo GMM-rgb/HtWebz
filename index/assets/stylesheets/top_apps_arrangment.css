@@ -27,9 +27,52 @@
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 15px;
+    background: #70b5e6;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+}
+
+#topAppsBackdrop {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: top;
+    justify-self: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    min-width: 25%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
     background: #479dda;
     box-sizing: border-box;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+}
+
+#topAppsTitle {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: top;
+    justify-self: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    min-width: 25%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    background: whitesmoke;
+    box-sizing: border-box;
+    font-size: 2.45em;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 42.5px rgba(0, 238, 255, 0.45);
+    transition: all 0.3s;
 }
 
 .appTrayPreviewImage {
@@ -52,12 +95,31 @@
     display: flex !important;
     flex-direction: column;
     align-items: top;
-    justify-self: start;
-    justify-content: center;
+    justify-self: start !important;
+    justify-content: center !important;
     width: 25%;
-    max-width: 25%;
-    min-width: 25%;
-    margin-bottom: 60px;
+    max-width: 25% !important;
+    min-width: 15% !important;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    background: #80b5db;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
+}
+
+#gamesApp {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: top;
+    justify-self: start !important;
+    justify-content: center !important;
+    width: 25%;
+    max-width: 25% !important;
+    min-width: 15% !important;
+    margin-bottom: 10px;
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 15px;

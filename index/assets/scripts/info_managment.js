@@ -62,64 +62,110 @@ setInterval(updateMessage, 3000);
 updateMessage();
 
 // Function to handle element animations
-function handleElementAnimation(element, delay = 0) {
+function handleElementAnimation(element, delay = 0, direction = 'in') {
     setTimeout(() => {
-        element.classList.add('animate-in');
+        element.classList.add(`animate-${direction}`);
     }, delay);
 }
 
-// Add page load animations
-document.addEventListener('DOMContentLoaded', () => {
-    // List all selectors to animate
-    const selectors = [
-        '.main-content-section',
-        '#pinnedContentTop',
-        '.about-page-container',
-        '.content-one',
-        '#InfoTheDay',
-        '#motivationMessageContainer',
-        '.featuredTagBackdrop',
-        '#featuredContentSection',
-        '#verticalShowcase',
-        '#footerContainer',
-        '#topAppsSection',
-        '#topAppsBackdrop',
-        '#appsTrayBackdropContent',
-    ];
-    
-    // Skip fixed elements
-    const fixedSelectors = ['#footerContainer'];
+// Handle page reload animations
+window.addEventListener('beforeunload', (event) => {
+    // Only show warning if there are actual unsaved changes
+    if (!sessionStorage.getItem('intentionalReload')) {
+        event.preventDefault();
+        return event.returnValue = '';
+    }
+});
 
-    // Create intersection observer
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const index = Array.from(document.querySelectorAll('.page-element')).indexOf(entry.target);
-                handleElementAnimation(entry.target, index * 100);
-                observer.unobserve(entry.target); // Stop observing once animated
+// Add reload function that handles animations properly
+function reloadPageWithAnimation() {
+    // Mark this as an intentional reload
+    sessionStorage.setItem('intentionalReload', 'true');
+    
+    // Get all animated elements
+    const elements = document.querySelectorAll('.page-element');
+    
+    // Animate all elements out
+    elements.forEach((element, index) => {
+        handleElementAnimation(element, index * 50, 'out');
+    });
+    
+    // Calculate total animation time
+    const totalDelay = (elements.length * 50) + 600;
+    
+    // Reload after animations complete
+    setTimeout(() => {
+        sessionStorage.removeItem('intentionalReload'); // Clean up
+        window.location.reload();
+    }, totalDelay);
+}
+
+// Replace any direct reload calls with the animated version
+// For example, if you have a reload button:
+// document.getElementById('reloadButton').onclick = reloadPageWithAnimation;
+
+// Add page load unfold animations with Intersection Observer
+document.addEventListener('DOMContentLoaded', () => {
+    const isReloading = sessionStorage.getItem('isReloading') === 'true';
+    sessionStorage.removeItem('isReloading');
+    
+    // Add initial delay if reloading
+    const initialDelay = isReloading ? 100 : 0;
+    
+    setTimeout(() => {
+        // List all selectors to animate
+        const selectors = [
+            '.main-content-section',
+            '#pinnedContentTop',
+            '.about-page-container',
+            '.content-one',
+            '#InfoTheDay',
+            '#motivationMessageContainer',
+            '.featuredTagBackdrop',
+            '#featuredContentSection',
+            '#verticalShowcase',
+            '#footerContainer',
+            '#topAppsSection',
+            '#topAppsBackdrop',
+            '#appsTrayBackdropContent',
+        ];
+        
+        // Animate selected fixed elements
+        const fixedSelectors = ['#footerContainer'];
+
+        // Create intersection observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(document.querySelectorAll('.page-element')).indexOf(entry.target);
+                    // Add slight delay on reload to allow fold-up to complete
+                    const delay = isReloading ? 600 + (index * 100) : index * 100;
+                    handleElementAnimation(entry.target, delay, 'in');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+
+        selectors.forEach((selector) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                if (!fixedSelectors.includes(selector)) {
+                    element.classList.add('page-element');
+                    // Only observe non-fixed elements
+                    observer.observe(element);
+                }
             }
         });
-    }, {
-        threshold: 0.1,
-        rootMargin: '50px'
-    });
 
-    selectors.forEach((selector) => {
-        const element = document.querySelector(selector);
-        if (element) {
-            if (!fixedSelectors.includes(selector)) {
-                element.classList.add('page-element');
-                // Only observe non-fixed elements
-                observer.observe(element);
+        // Animate fixed elements immediately
+        fixedSelectors.forEach(selector => {
+            const element = document.querySelector(selector);
+            if (element) {
+                handleElementAnimation(element, 0);
             }
-        }
-    });
-
-    // Animate fixed elements immediately
-    fixedSelectors.forEach(selector => {
-        const element = document.querySelector(selector);
-        if (element) {
-            handleElementAnimation(element, 0);
-        }
-    });
+        });
+    }, initialDelay);
 });

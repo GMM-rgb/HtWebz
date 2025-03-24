@@ -5,6 +5,12 @@
     100% { transform: scale(1) scaleX(1) translateY(0); opacity: 1; }
 }
 
+@keyframes elementFoldUp {
+    0% { transform: scale(1) scaleX(1) translateY(0); opacity: 1; }
+    40% { transform: scale(1.1) scaleX(1.2) translateY(10px); opacity: 0.8; }
+    100% { transform: scale(0.1) scaleX(0.5) translateY(-50px); opacity: 0; }
+}
+
 .page-element {
     opacity: 0;
     transform: scale(0.1);
@@ -16,6 +22,10 @@
 
 .animate-in {
     animation: elementFold 0.8s ease-out forwards !important;
+}
+
+.animate-out {
+    animation: elementFoldUp 0.6s ease-in forwards !important;
 }
 
 #rootPageSection {
@@ -96,6 +106,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
     overflow-y: auto !important;
     overflow-x: auto !important;
+    transition: all 0.3s;
 }
 
 #verticalShowcase {
