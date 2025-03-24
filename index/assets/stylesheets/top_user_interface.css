@@ -57,7 +57,7 @@
 
     .moreFromHtWebzContainer {
         transform: scale(0.825) !important;
-        right: 0 !important;
+        margin-right: -35px !important;
     }
 }
 
