@@ -177,8 +177,8 @@
     cursor: pointer;
     transition: all 0.3s;
     overflow: hidden;
-    max-height: 255px;
-    max-width: 255px;
+    max-height: 240px;
+    max-width: 240px;
 }
 
 .featured-description {
