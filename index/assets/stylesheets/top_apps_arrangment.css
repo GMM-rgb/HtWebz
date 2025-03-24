@@ -52,6 +52,7 @@
 }
 
 #topAppsTitle {
+    cursor: pointer;
     position: relative;
     display: flex !important;
     flex-direction: column;
@@ -76,6 +77,11 @@
     -webkit-usser-drag: none !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 42.5px rgba(0, 238, 255, 0.45);
     transition: all 0.3s;
+}
+
+#topAppsTitle:hover {
+    transform: scale(1.015);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.375), inset 0 0 60px rgba(0, 238, 255, 0.45);
 }
 
 .appTrayPreviewImage {
