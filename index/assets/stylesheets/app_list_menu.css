@@ -215,3 +215,71 @@
 #appsTextTag:hover {
   text-decoration: underline;
 }
+
+#appList {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  background: rgb(5, 134, 227);
+  padding-inline: 7.5px;
+  padding-block: 12.5px;
+  box-sizing: border-box;
+  transition: all 0.65s ease;
+  gap: 10px;
+}
+
+#appListContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  background: #80b5db;
+  padding-inline: 3.5px;
+  padding-block: 6.5px;
+  box-sizing: border-box;
+  transition: all 0.65s ease;
+  gap: 10px;
+}
+
+:root {
+  --textColor: black;
+  --borderColor: #ccc;
+  --fontFamily: 'Arial', sans-serif;
+  --background: #afdeff;
+  --borderRadius: 15px;
+}
+
+.appButton {
+  cursor: pointer;
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: var(--borderRadius);
+  background: var(--background);
+  padding-inline: 3.5px;
+  padding-block: 6.5px;
+  box-sizing: border-box;
+  transition: all 0.65s ease;
+  user-select: none !important;
+  font-weight: bold;
+  font-size: 1.75em;
+  text-align: center;
+}
+
+#appListFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  background: #80b5db;
+  padding-inline: 3.5px;
+  padding-block: 6.5px;
+  box-sizing: border-box;
+  transition: all 0.65s ease;
+  gap: 10px;
+}
