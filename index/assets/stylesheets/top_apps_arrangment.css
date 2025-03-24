@@ -170,11 +170,15 @@
 }
 
 .appTrayPreviewImage {
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
     width: 45%;
     height: auto;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
     margin-bottom: 15px;
+    transition: all 0.3s !important;
 }
 
 .app-description {
@@ -193,7 +197,7 @@
     
     #searcherApp, #gamesApp {
         min-width: 280px;
-        max-width: 45% !important;
+        max-width: 65% !important;
         aspect-ratio: 3/4;  /* Adjusted for better vertical layout */
         padding: 20px;
     }
