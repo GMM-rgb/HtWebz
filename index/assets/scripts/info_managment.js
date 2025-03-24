@@ -55,7 +55,7 @@ function updateMessage() {
     }, 500);
 }
 
-// Remove the previous message selection code and replace with interval
+// Removed the previous message selection code and replace with interval
 setInterval(updateMessage, 3000);
 
 // Initial message
