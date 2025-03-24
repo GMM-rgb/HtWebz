@@ -101,7 +101,7 @@ function reloadPageWithAnimation() {
 }
 
 // Replace any direct reload calls with the animated version
-// For example, if you have a reload button:
+// For example, if we have a reload button:
 // document.getElementById('reloadButton').onclick = reloadPageWithAnimation;
 
 // Add page load unfold animations with Intersection Observer
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('isReloading');
     
     // Add initial delay if reloading
-    const initialDelay = isReloading ? 100 : 0;
+    const initialDelay = isReloading ? 500 : 0;
     
     setTimeout(() => {
         // List all selectors to animate
