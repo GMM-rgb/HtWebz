@@ -79,9 +79,21 @@
 }
 
 .top-app-menu-section {
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  background: inherit;
+  padding: 10px;
+  margin: -10px;
+  margin-bottom: 0;
+  z-index: 10;
+  height: 125px;
+  box-sizing: border-box;
+  border-bottom: 2px solid #ccc;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 #appMenuTitle {
@@ -108,16 +120,17 @@
   font-size: 2em;
   padding-inline: 18.5px;
   padding-block: 10px;
-  transform: scale(0.75);
+  transform: translateY(-50%) scale(0.75);
   transition: all 0.3s ease-in;
   right: 5px;
+  top: 50%;
   color: black;
   user-select: none !important;
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
 }
 
 #closeAppMenu:hover {
-  transform: scale(0.85);
+  transform: scale(1) translateY(-38.5%);
   box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275);
 }
 
