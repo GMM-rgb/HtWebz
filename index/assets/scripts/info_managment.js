@@ -61,10 +61,11 @@ setInterval(updateMessage, 3000);
 // Initial message
 updateMessage();
 
-// Function to handle element animations
-function handleElementAnimation(element, delay = 0, direction = 'in') {
+// Function to handle element animations - updated to support direction detection
+function handleElementAnimation(element, delay = 0, direction = 'in', fromDirection = 'top') {
     setTimeout(() => {
         element.classList.add(`animate-${direction}`);
+        element.classList.add(`from-${fromDirection}`); // Add direction-specific class
     }, delay);
 }
 
@@ -136,19 +137,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate selected fixed elements
         const fixedSelectors = ['#footerContainer'];
 
-        // Create intersection observer that triggers with minimal visibility
+        // Create intersection observer with direction detection
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     const index = Array.from(document.querySelectorAll('.page-element')).indexOf(entry.target);
                     const delay = isReloading ? 600 + (index * 100) : index * 100;
-                    handleElementAnimation(entry.target, delay, 'in');
+                    
+                    // Determine animation direction based on element position relative to viewport
+                    const elementRect = entry.boundingClientRect;
+                    const viewportHeight = window.innerHeight;
+                    const fromDirection = elementRect.top > viewportHeight ? 'bottom' : 'top';
+                    
+                    handleElementAnimation(entry.target, delay, 'in', fromDirection);
                     observer.unobserve(entry.target);
                 }
             });
         }, {
             threshold: 0.01,  // Trigger when just 1% of element is visible
-            rootMargin: "-50px 0px -50px 0px"  // Reduced margin for more precise triggering
+            rootMargin: "50px 0px 50px 0px"  // Equal margins for bidirectional detection
         });
 
         selectors.forEach((selector) => {
@@ -171,3 +178,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, initialDelay);
 });
+
+// Add CSS styles for directional animations
+const animationStyles = document.createElement('style');
+animationStyles.textContent = `
+    .animate-in.from-top {
+        animation: slideInFromTop 0.6s ease-out forwards;
+    }
+    .animate-in.from-bottom {
+        animation: slideInFromBottom 0.6s ease-out forwards;
+    }
+    @keyframes slideInFromTop {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideInFromBottom {
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+`;
+document.head.appendChild(animationStyles);
