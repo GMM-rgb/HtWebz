@@ -17,29 +17,97 @@
 </style>
 
 <body>
-    <div id="settings-menu">
+    <section id="settings-menu">
         <h1 id="pageTitle">Settings</h1>
 
-        <div>
+        <div id="settingsContainer">
             <div id="settingsList">
-                <button class="SettingsListButton" action="settings_user_theme.html" id="PersonalizationButtonSettings">Personalization</button>
-                <button class="SettingsListButton" action="settings_user_account.html" id="AccountButtonSettings">Account</button>
-                <button class="SettingsListButton" action="settings_user_privacy.html" id="PrivacyButtonSettings">Privacy</button>
-                <button class="SettingsListButton" action="settings_user_notifications.html" id="NotificationsButtonSettings">Notifications</button>
-                <button class="SettingsListButton" action="settings_user_help.html" id="HelpButtonSettings">Help</button>
-                <button class="SettingsListButton" action="settings_user_about.html" id="AboutButtonSettings">About</button>
+                <button class="SettingsListButton" action="personalization" id="PersonalizationButtonSettings">Personalization</button>
+                <button class="SettingsListButton" action="account" id="AccountButtonSettings">Account</button>
+                <button class="SettingsListButton" action="privacy" id="PrivacyButtonSettings">Privacy</button>
+                <button class="SettingsListButton" action="notifications" id="NotificationsButtonSettings">Notifications</button>
+                <button class="SettingsListButton" action="help" id="HelpButtonSettings">Help</button>
+                <button class="SettingsListButton" action="about" id="AboutButtonSettings">About</button>
             </div>
-        </div>
 
-    </div>
+            <div class="settingsContent" id="settingsContentPersonalization">
+                <div id="settingsContentHeader">
+                    <p id="settingsContentTitle">Personalization settings</p>
+                </div>
+                <div id="themeContainer">
+                    <p id="settingsContentText">Theme</p>
+                    <select id="themeSelect">
+                        <script>
+                            const themeSelect = document.getElementById('themeSelect');
+                            const themes = ['Light', 'Dark', 'System'];
+                            themes.forEach(theme => {
+                                const option = document.createElement('option');
+                                option.value = theme;
+                                option.text = theme;
+                                themeSelect.appendChild(option);
+                                console.log(theme);
+                                
+                            });
+                        </script>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </section>
 </body>
 
 <script>
+    let openedContentId = null;
     const buttons = document.querySelectorAll('button');
+    const menuContent = document.querySelectorAll('.settingsContent');
     buttons.forEach(button => {
         button.addEventListener('click', () => {
-            window.location.href = button.getAttribute('action');
+            const action = button.getAttribute('action');
+            const targetContentId = `settingsContent${action.charAt(0).toUpperCase() + action.slice(1)}`;
+            const targetContent = document.getElementById(targetContentId);
+
+            if (openedContentId === targetContentId) {
+                // If the same content is clicked again, close it
+                targetContent.style.display = 'none';
+                openedContentId = null;
+            } else {
+                // Close all content
+                menuContent.forEach(content => {
+                    content.style.display = 'none';
+                });
+                // Open the clicked content
+                if (targetContent) {
+                    targetContent.style.display = 'block';
+                }
+                // Update the openedContentId
+                openedContentId = targetContentId;
+            }
         });
+    });
+
+    // Save preferences to localStorage
+    const savePreference = (key, value) => {
+        localStorage.setItem(key, value);
+    };
+
+    // Load preferences from localStorage
+    const loadPreference = (key) => {
+        return localStorage.getItem(key);
+    };
+
+    // Apply saved preferences on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = loadPreference('theme');
+        if (savedTheme) {
+            themeSelect.value = savedTheme;
+        }
+    });
+
+    // Save theme preference when changed
+    themeSelect.addEventListener('change', () => {
+        const selectedTheme = themeSelect.value;
+        savePreference('theme', selectedTheme);
     });
 </script>
 
