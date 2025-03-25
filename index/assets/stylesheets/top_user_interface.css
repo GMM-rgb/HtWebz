@@ -344,9 +344,9 @@
     position: relative !important;
     overflow: hidden;
     animation: expandWidth 0.8s ease-in-out forwards;
-    /*position: absolute !important;*/
+    position: absolute !important;
     display: flex;
-    left: 465px;
+    left: 427.5px;
     justify-content: center;
     align-items: center;
     font-weight: bolder;
