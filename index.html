@@ -35,17 +35,75 @@
                 --theme-secondary: #80b5db;
                 --theme-text: black;
                 --theme-border: #ccc;
+                --theme-menuBackground: rgba(5, 134, 227, 0.75);
+                --theme-cardBackground: white;
+                --theme-headerBackground: #479dda;
+                --theme-buttonBackground: #afdeff;
+                --theme-inputBackground: white;
+                --theme-topBar: #0586e3;
+                --theme-sideMenu: rgba(5, 134, 227, 0.75);
+                --theme-modalBackground: white;
+                --theme-gradient1: linear-gradient(#479dda, #80b5db);
+                --theme-gradient2: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8));
+                --theme-shadowColor: rgba(0, 0, 0, 0.3);
+                --theme-glowColor: rgba(0, 238, 255, 0.4);
+                --theme-overlayBackground: rgba(255, 255, 255, 0.8);
+                --theme-hoverBackground: #5aa5e0;
+                --theme-activeBackground: #6ab5f0;
+                --theme-scrollbarTrack: lightseagreen;
+                --theme-scrollbarThumb: darkcyan;
+                --theme-footerBackground: rgba(0, 120, 139, 0.5);
+                --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
+                --theme-motivationBackground: #80b5db;
+                --theme-showcaseBackground: #479dda;
+                --theme-appCardBackground: #80b5db;
             }
-            
+
+            * {
+                color: var(--theme-text);
+                border-color: var(--theme-border);
+            }
+
             body {
                 background: var(--theme-background);
                 color: var(--theme-text);
             }
-            
-            /* Update other themed elements to use CSS variables */
-            .main-content-section {
-                background: var(--theme-primary);
-                border-color: var(--theme-border);
+
+            #topUserInterfaceBar {
+                background: var(--theme-topBar);
+            }
+
+            .main-content-section,
+            #appMenu,
+            #settingsMenu,
+            #gameMenu,
+            #searchMenu {
+                background: var(--theme-gradient1);
+            }
+
+            .appButton,
+            .SettingsListButton,
+            #closeAppMenu,
+            #closeSettingsMenuBtn,
+            #closeGameMenuButton,
+            #closeSearchMenuBtn {
+                background: var(--theme-buttonBackground);
+                color: var(--theme-text);
+            }
+
+            #motivationMessageContainer {
+                background: var(--theme-motivationBackground);
+            }
+
+            #verticalShowcase {
+                background: var(--theme-showcaseBackground);
+            }
+
+            .appTrayPreviewImage,
+            #searcherApp,
+            #gamesApp,
+            #resourcesApp {
+                background: var(--theme-appCardBackground);
             }
         </style>
         <script src="index/assets/scripts/theme_managment.js"></script>

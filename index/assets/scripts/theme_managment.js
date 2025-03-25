@@ -36,21 +36,36 @@ const themes = {
         accent: '#00ffff',
         
         // Components
-        menuBackground: 'rgba(20, 40, 60, 0.9)',
+        menuBackground: 'rgba(20, 40, 60, 0.95)',
         cardBackground: '#2a2a2a',
         buttonBackground: '#2c557d',
         inputBackground: '#333',
+        headerBackground: '#1e3a54',
         
-        // Shadows and effects
+        // UI Elements
+        topBar: '#1e3a54',
+        sideMenu: 'rgba(20, 40, 60, 0.95)',
+        modalBackground: '#2a2a2a',
+        
+        // Gradients
+        gradient1: 'linear-gradient(#2c557d, #1e3a54)',
+        gradient2: 'linear-gradient(rgba(20, 40, 60, 0.95), rgba(26, 26, 26, 0.9))',
+        
+        // Effects
         shadowColor: 'rgba(0, 0, 0, 0.5)',
         glowColor: 'rgba(0, 150, 255, 0.3)',
         overlayBackground: 'rgba(0, 0, 0, 0.8)',
+        hoverBackground: '#3c658d',
+        activeBackground: '#4c759d',
         
         // Specific elements
         scrollbarTrack: '#2a2a2a',
         scrollbarThumb: '#444',
-        footerBackground: 'rgba(20, 40, 60, 0.8)',
-        tooltipBackground: 'rgba(0, 20, 40, 0.9)'
+        footerBackground: 'rgba(20, 40, 60, 0.95)',
+        tooltipBackground: 'rgba(0, 20, 40, 0.95)',
+        motivationBackground: '#2c557d',
+        showcaseBackground: '#1e3a54',
+        appCardBackground: '#2c557d'
     }
 };
 
