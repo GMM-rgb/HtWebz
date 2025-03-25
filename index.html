@@ -28,6 +28,27 @@
             href="index/assets/stylesheets/info_of_the_day.css">
         <link rel="stylesheet"
             href="index/assets/stylesheets/top_apps_arrangment.css">
+        <style>
+            :root {
+                --theme-background: aquamarine;
+                --theme-primary: #479dda;
+                --theme-secondary: #80b5db;
+                --theme-text: black;
+                --theme-border: #ccc;
+            }
+            
+            body {
+                background: var(--theme-background);
+                color: var(--theme-text);
+            }
+            
+            /* Update other themed elements to use CSS variables */
+            .main-content-section {
+                background: var(--theme-primary);
+                border-color: var(--theme-border);
+            }
+        </style>
+        <script src="index/assets/scripts/theme_managment.js"></script>
     </head>
     <style>
     body {
