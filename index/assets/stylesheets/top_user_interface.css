@@ -346,7 +346,7 @@
     animation: expandWidth 0.8s ease-in-out forwards;
     position: absolute !important;
     display: flex;
-    left: 365px;
+    left: 405px;
     justify-content: center;
     align-items: center;
     font-weight: bolder;
