@@ -69,20 +69,24 @@
                     <script>
                         themeSelect.addEventListener('change', () => {
                             const selectedTheme = themeSelect.value;
-                            document.documentElement.className = selectedTheme;
-                            document.body.className = selectedTheme;
+                            document.documentElement.classList.add('theme-transitioning');
                             
-                            // Update root variables to match theme
-                            const theme = selectedTheme === 'dark' ? 
-                                { background: '#1a1a1a', text: 'white', primary: '#2c557d' } :
-                                { background: 'aquamarine', text: 'black', primary: '#479dda' };
+                            setTimeout(() => {
+                                // Apply theme changes
+                                document.documentElement.className = selectedTheme;
+                                document.body.className = selectedTheme;
                                 
-                            Object.entries(theme).forEach(([key, value]) => {
-                                document.documentElement.style.setProperty(`--theme-${key}`, value);
-                            });
-                            
-                            // Notify parent window
-                            window.parent.postMessage({ type: 'themeChange', theme: selectedTheme }, '*');
+                                // Notify parent window
+                                window.parent.postMessage({ 
+                                    type: 'themeChange', 
+                                    theme: selectedTheme 
+                                }, '*');
+                                
+                                // Remove transition class
+                                setTimeout(() => {
+                                    document.documentElement.classList.remove('theme-transitioning');
+                                }, 300);
+                            }, 50);
                         });
 
                         // Listen for theme changes from parent

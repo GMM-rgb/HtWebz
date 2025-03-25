@@ -57,11 +57,33 @@
                 --theme-motivationBackground: #80b5db;
                 --theme-showcaseBackground: #479dda;
                 --theme-appCardBackground: #80b5db;
+                
+                /* Add transition properties */
+                --theme-transition-time: 300ms;
+                --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
             }
 
+            /* Add universal transition for theme changes */
             * {
                 color: var(--theme-text);
                 border-color: var(--theme-border);
+                transition: background-color var(--theme-transition-time) var(--theme-transition-curve),
+                          color var(--theme-transition-time) var(--theme-transition-curve),
+                          border-color var(--theme-transition-time) var(--theme-transition-curve),
+                          box-shadow var(--theme-transition-time) var(--theme-transition-curve);
+            }
+
+            /* Theme transition class */
+            .theme-transitioning * {
+                transition: background-color var(--theme-transition-time) var(--theme-transition-curve),
+                          color var(--theme-transition-time) var(--theme-transition-curve),
+                          border-color var(--theme-transition-time) var(--theme-transition-curve),
+                          box-shadow var(--theme-transition-time) var(--theme-transition-curve) !important;
+            }
+
+            /* Exclude certain properties from transition */
+            .no-theme-transition {
+                transition: none !important;
             }
 
             body {

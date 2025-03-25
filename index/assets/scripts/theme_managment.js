@@ -69,34 +69,52 @@ const themes = {
     }
 };
 
+let themeTransitionInProgress = false;
+
 // Apply theme to main window
 function applyTheme(themeName) {
+    // Prevent multiple rapid theme changes
+    if (themeTransitionInProgress) return;
+    
     const theme = themes[themeName];
     const root = document.documentElement;
     
-    // Apply all theme properties automatically
-    Object.entries(theme).forEach(([key, value]) => {
-        root.style.setProperty(`--theme-${key}`, value);
-    });
+    themeTransitionInProgress = true;
+    root.classList.add('theme-transitioning');
     
-    // Add theme class to document for additional CSS targeting
-    document.body.className = `theme-${themeName}`;
-    
-    // Store theme preference
-    localStorage.setItem('theme', themeName);
-    
-    // Sync theme with all iframes
-    document.querySelectorAll('iframe').forEach(frame => {
-        try {
-            frame.contentWindow.postMessage({ 
-                type: 'themeChange', 
-                theme: themeName,
-                themeData: theme 
-            }, '*');
-        } catch (e) {
-            console.log('Frame not yet loaded');
+    // Apply theme after a brief delay to ensure transition is active
+    setTimeout(() => {
+        // Apply all theme properties
+        Object.entries(theme).forEach(([key, value]) => {
+            root.style.setProperty(`--theme-${key}`, value);
+        });
+        
+        // Update theme class without triggering observer
+        const currentClass = document.body.className;
+        if (!currentClass.includes(`theme-${themeName}`)) {
+            document.body.className = `theme-${themeName}`;
         }
-    });
+        
+        // Store preference
+        localStorage.setItem('theme', themeName);
+        
+        // Sync with iframes
+        document.querySelectorAll('iframe').forEach(frame => {
+            try {
+                frame.contentWindow.postMessage({ 
+                    type: 'themeChange', 
+                    theme: themeName,
+                    themeData: theme 
+                }, '*');
+            } catch (e) { /* Frame not loaded */ }
+        });
+
+        // Remove transition class and reset flag
+        setTimeout(() => {
+            root.classList.remove('theme-transitioning');
+            themeTransitionInProgress = false;
+        }, 300);
+    }, 50);
 }
 
 // Initialize theme
@@ -112,5 +130,32 @@ window.addEventListener('message', (event) => {
     }
 });
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', initTheme);
+// Add real-time theme update handler
+function setupThemeUpdates() {
+    const observer = new MutationObserver((mutations) => {
+        if (themeTransitionInProgress) return;
+        
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class' && 
+                mutation.target.className.includes('theme-')) {
+                const newTheme = mutation.target.className.includes('theme-dark') ? 'dark' : 'light';
+                const currentTheme = localStorage.getItem('theme');
+                
+                if (newTheme !== currentTheme) {
+                    applyTheme(newTheme);
+                }
+            }
+        });
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class']
+    });
+}
+
+// Initialize on load with transitions
+document.addEventListener('DOMContentLoaded', () => {
+    setupThemeUpdates();
+    initTheme();
+});
