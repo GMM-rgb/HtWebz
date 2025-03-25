@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate selected fixed elements
         const fixedSelectors = ['#footerContainer'];
 
-        // Create intersection observer
+        // Create intersection observer with updated threshold array for better triggering
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, {
-            threshold: 0.1,
-            rootMargin: '50px'
+            threshold: Array.from({ length: 101 }, (_, i) => i / 100), // trigger at any visible portion
+            rootMargin: "-100px 0px -100px 0px" // extend viewport by 100px at top and bottom
         });
 
         selectors.forEach((selector) => {
