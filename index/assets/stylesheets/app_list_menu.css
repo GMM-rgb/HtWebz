@@ -115,9 +115,9 @@
 #closeAppMenu {
   cursor: pointer !important;
   position: absolute;
-  border: 3px solid darkred;
+  border: 3px solid darkred !important;
   border-radius: 1cm;
-  background: red;
+  background: red !important;
   box-sizing: border-box;
   font-weight: bold;
   font-size: 2em;
@@ -127,7 +127,7 @@
   transition: all 0.3s ease-in;
   right: 5px;
   top: 50%;
-  color: black;
+  color: white !important;
   user-select: none !important;
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
 }
