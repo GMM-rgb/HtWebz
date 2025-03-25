@@ -97,6 +97,13 @@
     transform: scale(1);
 }
 
+#expandMenuToolbar:hover {
+    transform: scale(1.1);
+    background: rgb(215, 215, 215);
+    border: 3px solid #8d8d8d;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
+}
+
 #expandToolbarIcon {
     position: relative;
     user-select: none !important;
@@ -346,7 +353,7 @@
     animation: expandWidth 0.8s ease-in-out forwards;
     position: absolute !important;
     display: flex;
-    left: 427.5px;
+    left: 435px;
     justify-content: center;
     align-items: center;
     font-weight: bolder;
