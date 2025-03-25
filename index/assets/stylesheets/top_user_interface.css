@@ -76,6 +76,27 @@
     flex: 0 0 auto;
 }
 
+#expandMenuToolbar {
+    pointer-events: all !important;
+    cursor: pointer !important;
+    pointer-events: all !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    background: white;
+    user-select: none;
+    font-weight: bold;
+    padding: 10px;
+    gap: 9.5px !important;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    transform: scale(1);
+}
+
 #appMenuOpen {
     pointer-events: all !important;
     cursor: pointer !important;
