@@ -45,7 +45,7 @@
 
     #pageTitle {
         transform: scale(0.5) scaleX(0.5) !important;
-        margin: 0 -65px;
+        margin: 0 -55px;
         max-width: calc(10% - 400px);
         width: 150px !important;
         padding: 2.5px !important;
