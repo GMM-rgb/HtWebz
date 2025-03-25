@@ -136,20 +136,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate selected fixed elements
         const fixedSelectors = ['#footerContainer'];
 
-        // Create intersection observer with updated threshold array for better triggering
+        // Create intersection observer that triggers with minimal visibility
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     const index = Array.from(document.querySelectorAll('.page-element')).indexOf(entry.target);
-                    // Add slight delay on reload to allow fold-up to complete
                     const delay = isReloading ? 600 + (index * 100) : index * 100;
                     handleElementAnimation(entry.target, delay, 'in');
-                    observer.unobserve(entry.target); // Stop observing once animated
+                    observer.unobserve(entry.target);
                 }
             });
         }, {
-            threshold: Array.from({ length: 101 }, (_, i) => i / 100), // trigger at any visible portion
-            rootMargin: "-100px 0px -100px 0px" // extend viewport by 100px at top and bottom
+            threshold: 0.01,  // Trigger when just 1% of element is visible
+            rootMargin: "-50px 0px -50px 0px"  // Reduced margin for more precise triggering
         });
 
         selectors.forEach((selector) => {
