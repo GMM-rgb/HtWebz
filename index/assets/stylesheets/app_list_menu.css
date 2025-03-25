@@ -199,6 +199,7 @@
   text-rendering: optimizeSpeed !important;
   text-overflow: ellipsis clip auto;
   background: var(--theme-cardBackground);
+  margin-top: 10px;
 }
 
 .appsContainer {
