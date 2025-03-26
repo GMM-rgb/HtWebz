@@ -59,9 +59,20 @@
 }
 
 .page-element {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    will-change: transform, opacity;
+}
+
+.page-element.pre-animation {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.page-element.visible {
     opacity: 1;
-    transform: none;
-    transition: opacity 0.3s ease-out;
+    transform: scale(1);
 }
 
 .is-reloading .page-element {
@@ -70,6 +81,7 @@
 
 .animate-in {
     animation: elementFold 0.8s ease-out forwards !important;
+    animation-delay: 0.3s;  /* Allow time for old elements to fade */
 }
 
 .animate-out {

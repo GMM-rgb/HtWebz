@@ -135,6 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add initial delay if reloading
     const initialDelay = isReloading ? 500 : 0;
     
+    // Fade out old content first
+    document.querySelectorAll('.page-element').forEach(el => {
+        el.classList.add('pre-animation');
+    });
+    
     setTimeout(() => {
         // List all selectors to animate
         const selectors = [
