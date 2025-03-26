@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .page-title {
+          user-select: none;
+          color: black;
+          -webkit-text-stroke: 1px gray;
+          -webkit-text-fill-color: lightgray;
+          font-size: 2.65em;
+        }
+        .scoreboard {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .scoreboard:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            transform: translateY(-1px);
+        }
+        .scoreboard:active {
+            box-shadow: 0 2px 10px rba(0, 0, 0, 0.15);
+            transform: translateY(-0.5px);
+        }
+        .player-selector {
+            margin: 20px;
+        }
+        .slider {
+            display: inline-block;
+            width: 100px;
+            cursor: w-resize;
+        }
+        .game-board {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 5px;
+            background-color: #333;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .cell {
+            width: 90px;
+            height: 90px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 5px;
+        }
+        .cell.x {
+            color: #ff0000;
+        }
+        .cell.o {
+            color: #00ff00;
+        }
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .win-line {
+            position: absolute;
+            background-color: #000;
+            height: 5px;
+            transform-origin: left;
+            transition: width 0.5s, transform 0.5s;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            transition: transform 0.5s, right 0.5s;
+        }
+        .notification.show {
+            right: 20px;
+        }
+        .notification .close-btn {
+            margin-left: auto;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            width: 20px;
+            height: 20px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .notification .timer-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 50%;
+            border-top: 2px solid transparent;
+            animation: rotate 5s linear infinite;
+            position: relative;
+            margin-right: 2px;
+        }
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scoreboard">
+        <div style="pointer-events: none;">Player X Wins: <span id="playerXWins">0</span></div>
+        <div style="pointer-events: none;">Player O Wins: <span id="playerOWins">0</span></div>
+    </div>
+    <h1 class="page-title">Tic-Tac-Toe</h1>
+    <div class="player-selector">
+        <label>First Player: </label>
+        <input type="range" class="slider" min="0" max="1" value="1">
+        <span id="player">O</span>
+    </div>
+    <div class="game-board" id="board">
+        <button class="cell" data-cell data-index="0"></button>
+        <button class="cell" data-cell data-index="1"></button>
+        <button class="cell" data-cell data-index="2"></button>
+        <button class="cell" data-cell data-index="3"></button>
+        <button class="cell" data-cell data-index="4"></button>
+        <button class="cell" data-cell data-index="5"></button>
+        <button class="cell" data-cell data-index="6"></button>
+        <button class="cell" data-cell data-index="7"></button>
+        <button class="cell" data-cell data-index="8"></button>
+        <div class="win-line" id="win-line"></div>
+    </div>
+    <div class="controls">
+        <button onclick="resetGame()">Reset Game</button>
+    </div>
+    <div id="notification-container"></div>
+    <script>
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = true;
+        let playerXWins = localStorage.getItem('playerXWins') ? parseInt(localStorage.getItem('playerXWins')) : 0;
+        let playerOWins = localStorage.getItem('playerOWins') ? parseInt(localStorage.getItem('playerOWins')) : 0;
+        const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+        const cellElements = document.querySelectorAll('[data-cell]');
+        const playerSpan = document.getElementById('player');
+        const winLine = document.getElementById('win-line');
+        const playerXWinsSpan = document.getElementById('playerXWins');
+        const playerOWinsSpan = document.getElementById('playerOWins');
+        const notificationContainer = document.getElementById('notification-container');
+
+        playerXWinsSpan.textContent = playerXWins;
+        playerOWinsSpan.textContent = playerOWins;
+
+        cellElements.forEach(cell => {
+            cell.addEventListener('click', handleCellClick);
+        });
+
+        function handleCellClick(e) {
+            const cell = e.target;
+            const index = cell.getAttribute('data-index');
+            if (!gameActive || gameBoard[index] !== '') return;
+            placeMark(cell, index);
+            if (checkWin()) {
+                gameOver(currentPlayer + ' wins!');
+            } else if (checkDraw()) {
+                gameActive = false;
+                showNotification('Draw!');
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                playerSpan.textContent = currentPlayer;
+            }
+        }
+
+        function placeMark(cell, index) {
+            gameBoard[index] = currentPlayer;
+            cell.textContent = currentPlayer;
+            cell.classList.add(currentPlayer.toLowerCase());
+        }
+
+        function checkWin() {
+            return winningCombinations.some(combination => {
+                const [a, b, c] = combination;
+                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[b] === gameBoard[c]) {
+                    drawWinLine(a, c);
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        function checkDraw() {
+            return gameBoard.every(cell => cell !== '');
+        }
+
+        function gameOver(message) {
+            gameActive = false;
+            showNotification(message);
+            if (currentPlayer === 'X') {
+                playerXWins++;
+                localStorage.setItem('playerXWins', playerXWins);
+                playerXWinsSpan.textContent = playerXWins;
+            } else {
+                playerOWins++;
+                localStorage.setItem('playerOWins', playerOWins);
+                playerOWinsSpan.textContent = playerOWins;
+            }
+        }
+
+        function resetGame() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            currentPlayer = playerSpan.textContent === 'O' ? 'X' : 'O';
+            playerSpan.textContent = currentPlayer;
+            cellElements.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o');
+            });
+            winLine.style.width = '0';
+        }
+
+        function drawWinLine(startIndex, endIndex) {
+            const startCell = cellElements[startIndex];
+            const endCell = cellElements[endIndex];
+            const startRect = startCell.getBoundingClientRect();
+            const endRect = endCell.getBoundingClientRect();
+            const boardRect = document.getElementById('board').getBoundingClientRect();
+
+            const startX = startRect.left + startRect.width / 2 - boardRect.left;
+            const startY = startRect.top + startRect.height / 2 - boardRect.top;
+            const endX = endRect.left + endRect.width / 2 - boardRect.left;
+            const endY = endRect.top + endRect.height / 2 - boardRect.top;
+
+            const dx = endX - startX;
+            const dy = endY - startY;
+            const angle = Math.atan2(dy, dx);
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            winLine.style.transform = `rotate(${angle}rad)`;
+            winLine.style.width = `${distance}px`;
+            winLine.style.top = `${startY}px`;
+            winLine.style.left = `${startX}px`;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+
+            const timerCircle = document.createElement('div');
+            timerCircle.classList.add('timer-circle');
+
+            const closeBtn = document.createElement('button');
+            closeBtn.classList.add('close-btn');
+            closeBtn.textContent = '×';
+            closeBtn.onclick = () => notification.remove();
+
+            notification.innerHTML = `<div>${message}</div>`;
+            notification.appendChild(timerCircle);
+            notification.appendChild(closeBtn);
+            notificationContainer.appendChild(notification);
+
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => notification.remove(), 5000);
+        }
+
+        document.querySelector('.slider').addEventListener('input', function(e) {
+            const value = e.target.value;
+            const player = value == 0 ? 'X' : 'O';
+            playerSpan.textContent = currentPlayer = player;
+        });
+    </script>
+</body>
+</html>
