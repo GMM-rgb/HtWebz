@@ -190,3 +190,24 @@ closeSettingsMenuBtn.onclick = () => {
     notify("Settings Menu Closed...");
   }
 };
+
+// Add cursor tracking for liquid effects
+function handleButtonInteraction(event, element) {
+    const rect = element.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+    element.style.setProperty('--liquid-x', `${x}px`);
+    element.style.setProperty('--liquid-y', `${y}px`);
+}
+
+// Add event listeners for all buttons
+[appMenuOpen, settingsQuick, expandMenuToolbar, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
+    button.addEventListener('mousemove', (e) => handleButtonInteraction(e, button));
+    button.addEventListener('mouseenter', (e) => handleButtonInteraction(e, button));
+    button.addEventListener('click', (e) => {
+        handleButtonInteraction(e, button);
+        button.classList.add('clicked');
+        setTimeout(() => button.classList.remove('clicked'), 1000);
+    });
+});

@@ -405,3 +405,91 @@
 #pageTitle.JumpTitle {
     animation: jumpTitleUI 0.65s linear !important;
 }
+
+/* Add custom properties for liquid effect positioning */
+#appMenuOpen,
+#settingsQuick,
+#expandMenuToolbar,
+#gamesMenuOpen,
+#resourcesMenuOpen {
+    --liquid-x: 0px;
+    --liquid-y: 0px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Update liquid fill pseudo-elements */
+#appMenuOpen::before,
+#settingsQuick::before,
+#expandMenuToolbar::before,
+#gamesMenuOpen::before,
+#resourcesMenuOpen::before {
+    content: '';
+    position: absolute;
+    top: var(--liquid-y);
+    left: var(--liquid-x);
+    width: 0;
+    height: 0;
+    background: rgb(215, 215, 215);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease-out, height 0.5s ease-out;
+}
+
+/* Hover effect */
+#appMenuOpen:hover::before,
+#settingsQuick:hover::before,
+#expandMenuToolbar:hover::before,
+#gamesMenuOpen:hover::before,
+#resourcesMenuOpen:hover::before {
+    width: 300%;
+    height: 300%;
+}
+
+/* Click effect */
+#appMenuOpen.clicked::before,
+#settingsQuick.clicked::before,
+#expandMenuToolbar.clicked::before,
+#gamesMenuOpen.clicked::before,
+#resourcesMenuOpen.clicked::before {
+    background: rgb(180, 180, 180);
+    width: 350%;
+    height: 350%;
+    transition: width 0.35s cubic-bezier(0.1, 0.8, 0.3, 1), 
+                height 0.35s cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+/* Remove old hover styles */
+#appMenuOpen:hover,
+#settingsQuick:hover,
+#expandMenuToolbar:hover,
+#gamesMenuOpen.hoveringGamesMenuDefault,
+#gamesMenuOpen.hoveringGamesMenuSmall,
+#resourcesMenuOpen.hoveringResourcesDefault,
+#resourcesMenuOpen.hoveringResourcesSmall {
+    background: none;
+}
+
+/* Ensure content stays above liquid fill */
+#appMenuOpen *,
+#settingsQuick *,
+#expandMenuToolbar *,
+#gamesMenuOpen *,
+#resourcesMenuOpen * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Remove old hover backgrounds */
+#appMenuOpen:hover,
+#settingsQuick:hover,
+#expandMenuToolbar:hover {
+    background: none;
+}
+
+#gamesMenuOpen.hoveringGamesMenuDefault,
+#gamesMenuOpen.hoveringGamesMenuSmall,
+#resourcesMenuOpen.hoveringResourcesDefault,
+#resourcesMenuOpen.hoveringResourcesSmall {
+    background: none;
+}
