@@ -45,6 +45,24 @@
     100% { transform: scale(0.1) scaleX(0.5) translateY(-50px) translateX(-5000px); opacity: 0; }
 }
 
+@keyframes spaceDrift {
+    0% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 1;
+        filter: blur(0);
+    }
+    50% {
+        transform: scale(0.8) rotate(calc(var(--drift-angle) * 0.5)) translate(calc(var(--drift-distance) * 0.3));
+        opacity: 0.5;
+        filter: blur(calc(var(--drift-blur) * 0.5));
+    }
+    100% { 
+        transform: scale(0.1) rotate(var(--drift-angle)) translate(var(--drift-distance)); 
+        opacity: 0;
+        filter: blur(var(--drift-blur));
+    }
+}
+
 .page-element {
     opacity: 0;
     transform: scale(0.1);
@@ -52,6 +70,7 @@
     transform-style: preserve-3d;
     backface-visibility: hidden;
     will-change: transform, opacity;
+    perspective: 1000px;
 }
 
 .animate-in {
@@ -59,8 +78,26 @@
 }
 
 .animate-out {
-    animation: elementFoldReverse 1.5s ease-in forwards !important;
+    animation: spaceDrift 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
     pointer-events: none;
+}
+
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--theme-background);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+    z-index: 99999;
+    backdrop-filter: blur(10px);
+}
+
+.page-overlay.fade-in {
+    opacity: 0.8;
 }
 
 #rootPageSection {

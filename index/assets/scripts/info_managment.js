@@ -79,48 +79,55 @@ function handleElementAnimation(element, delay = 0, direction = 'in', fromDirect
 
 // Update the reload function to ensure animations play
 function reloadPageWithAnimation() {
+    let overlay = document.querySelector('.page-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'page-overlay';
+        document.body.appendChild(overlay);
+    }
+    
     sessionStorage.setItem('intentionalReload', 'true');
     sessionStorage.setItem('isReloading', 'true');
     
     const elements = document.querySelectorAll('.page-element');
-    let animationsCompleted = 0;
-    const totalElements = elements.length;
-    const animationDuration = 1500; // updated duration in ms
-    const staggerDelay = 50 / totalElements; // updated stagger delay in ms
-    const totalDelay = ((totalElements - 1) * staggerDelay) + animationDuration;
+    const animationDuration = 2500; // Match CSS animation duration
+    const staggerDelay = 150; // Increased for more visible stagger
     
-    // Reset each element and attach an animationend listener.
-    elements.forEach(el => {
-        el.style.visibility = 'visible';
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        el.classList.remove('animate-in', 'from-top', 'from-bottom');
-        void el.offsetWidth; // force reflow
-        
-        el.addEventListener('animationend', function handler() {
-            animationsCompleted++;
-            el.removeEventListener('animationend', handler);
-            if (animationsCompleted === totalElements) {
-                window.location.reload();
-            }
-        });
-    });
+    // Ensure overlay is ready
+    void overlay.offsetWidth;
     
-    // Trigger the reverse (fold-up) animation with stagger.
+    // Start animations
     requestAnimationFrame(() => {
+        // Start element animations first
         elements.forEach((el, index) => {
+            el.style.visibility = 'visible';
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            el.classList.remove('animate-in', 'from-top', 'from-bottom', 'animate-out');
+            
+            const angle = Math.random() * 360;
+            const distance = 300 + Math.random() * 200;
+            const blur = 5 + Math.random() * 10;
+            
+            el.style.setProperty('--drift-angle', `${angle}deg`);
+            el.style.setProperty('--drift-distance', `${distance}px`);
+            el.style.setProperty('--drift-blur', `${blur}px`);
+            
             setTimeout(() => {
-                el.classList.add('animate-out'); // uses elementFoldReverse from CSS
+                el.classList.add('animate-out');
             }, index * staggerDelay);
         });
-    });
-    
-    // Fallback: reload exactly after the total delay plus a small buffer.
-    setTimeout(() => {
-        if (animationsCompleted < totalElements) {
+        
+        // Add overlay fade-in after a short delay
+        setTimeout(() => {
+            overlay.classList.add('fade-in');
+        }, animationDuration * 0.3);
+        
+        // Reload after animations complete
+        setTimeout(() => {
             window.location.reload();
-        }
-    }, totalDelay + 100);
+        }, animationDuration + 800); // Added extra time for overlay fade
+    });
 }
 
 // Replace any direct reload calls with the animated version
