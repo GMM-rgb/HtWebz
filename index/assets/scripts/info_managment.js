@@ -128,18 +128,34 @@ function reloadPageWithAnimation() {
 // document.getElementById('reloadButton').onclick = reloadPageWithAnimation;
 
 // Add page load unfold animations with Intersection Observer
+function handleInitialState() {
+    const isDirectLoad = !document.referrer || !sessionStorage.getItem('isReloading');
+    
+    if (isDirectLoad) {
+        // Fresh load - just prepare for unfold animation
+        document.body.classList.add('fresh-load');
+        return true;
+    }
+    return false;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const isReloading = sessionStorage.getItem('isReloading') === 'true';
     sessionStorage.removeItem('isReloading');
     
-    // Add initial delay if reloading
-    const initialDelay = isReloading ? 500 : 0;
+    // Check if this is a direct load or navigation
+    const isFreshLoad = handleInitialState();
     
-    // Fade out old content first
-    document.querySelectorAll('.page-element').forEach(el => {
-        el.classList.add('pre-animation');
-    });
+    if (!isFreshLoad) {
+        // For reloads/navigation, start with fade state
+        document.querySelectorAll('.page-element').forEach(el => {
+            el.classList.add('fade-transition');
+        });
+    }
     
+    const initialDelay = isFreshLoad ? 0 : 300;
+    
+    // Rest of the animation setup
     setTimeout(() => {
         // List all selectors to animate
         const selectors = [
@@ -187,12 +203,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         selectors.forEach((selector) => {
             const element = document.querySelector(selector);
-            if (element) {
-                if (!fixedSelectors.includes(selector)) {
-                    element.classList.add('page-element');
-                    // Only observe non-fixed elements
-                    observer.observe(element);
+            if (element && !fixedSelectors.includes(selector)) {
+                element.classList.add('page-element');
+                if (isFreshLoad) {
+                    // Only use initial fade for fresh loads
+                    element.classList.add('initial-state');
                 }
+                observer.observe(element);
             }
         });
 
