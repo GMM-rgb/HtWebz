@@ -69,43 +69,58 @@ function handleElementAnimation(element, delay = 0, direction = 'in', fromDirect
     }, delay);
 }
 
-// Handle page reload animations
-window.addEventListener('beforeunload', (event) => {
-    // Only show warning if there are actual unsaved changes
-    if (!sessionStorage.getItem('intentionalReload')) {
-        event.preventDefault();
-        return event.returnValue = '';
-    }
-});
+// Remove or comment out the beforeunload listener to disable the unsaved changes alert.
+// window.addEventListener('beforeunload', (event) => {
+//     if (!sessionStorage.getItem('intentionalReload')) {
+//         event.preventDefault();
+//         return event.returnValue = '';
+//     }
+// });
 
 // Update the reload function to ensure animations play
 function reloadPageWithAnimation() {
     sessionStorage.setItem('intentionalReload', 'true');
     sessionStorage.setItem('isReloading', 'true');
+    
     const elements = document.querySelectorAll('.page-element');
+    let animationsCompleted = 0;
+    const totalElements = elements.length;
+    const animationDuration = 1500; // updated duration in ms
+    const staggerDelay = 50 / totalElements; // updated stagger delay in ms
+    const totalDelay = ((totalElements - 1) * staggerDelay) + animationDuration;
     
-    // Ensure elements are visible and reset any existing animations
-    elements.forEach(element => {
-        element.style.visibility = 'visible';
-        element.style.opacity = '1';
-        element.style.transform = 'none';
-        // Remove existing animation classes
-        element.classList.remove('animate-in', 'from-top', 'from-bottom');
-        // Force a reflow to ensure animation plays
-        void element.offsetWidth;
-    });
-    
-    // Add animation class to all elements
-    requestAnimationFrame(() => {
-        elements.forEach(element => {
-            element.classList.add('animate-out');
+    // Reset each element and attach an animationend listener.
+    elements.forEach(el => {
+        el.style.visibility = 'visible';
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.classList.remove('animate-in', 'from-top', 'from-bottom');
+        void el.offsetWidth; // force reflow
+        
+        el.addEventListener('animationend', function handler() {
+            animationsCompleted++;
+            el.removeEventListener('animationend', handler);
+            if (animationsCompleted === totalElements) {
+                window.location.reload();
+            }
         });
     });
     
-    // Wait for animation to complete before reload
+    // Trigger the reverse (fold-up) animation with stagger.
+    requestAnimationFrame(() => {
+        elements.forEach((el, index) => {
+            setTimeout(() => {
+                el.classList.add('animate-out'); // uses elementFoldReverse from CSS
+            }, index * staggerDelay);
+        });
+    });
+    
+    // Fallback: reload exactly after the total delay plus a small buffer.
     setTimeout(() => {
-        window.location.reload();
-    }, 1000); // Increased delay to ensure animation completes
+        if (animationsCompleted < totalElements) {
+            window.location.reload();
+        }
+    }, totalDelay + 100);
 }
 
 // Replace any direct reload calls with the animated version
@@ -205,34 +220,3 @@ animationStyles.textContent = `
     }
 `;
 document.head.appendChild(animationStyles);
-
-// Update the reload function to properly trigger the animation
-function reloadPageWithAnimation() {
-    sessionStorage.setItem('intentionalReload', 'true');
-    sessionStorage.setItem('isReloading', 'true');
-    
-    const elements = document.querySelectorAll('.page-element');
-    
-    // Reset any existing animations and make sure elements are visible
-    elements.forEach(element => {
-        element.style.removeProperty('opacity');
-        element.style.removeProperty('transform');
-        element.classList.remove('animate-in', 'from-top', 'from-bottom');
-        // Force a reflow
-        void element.offsetWidth;
-    });
-
-    // Trigger the fold reverse animation
-    requestAnimationFrame(() => {
-        elements.forEach((element, index) => {
-            setTimeout(() => {
-                element.classList.add('animate-out');
-            }, index * 50); // Stagger the animations
-        });
-    });
-    
-    // Wait for animations to complete before reloading
-    setTimeout(() => {
-        window.location.reload();
-    }, (elements.length * 50) + 800); // Account for stagger + animation duration
-}

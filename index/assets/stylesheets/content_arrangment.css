@@ -59,7 +59,7 @@
 }
 
 .animate-out {
-    animation: elementFoldReverse 0.8s ease-in forwards !important;
+    animation: elementFoldReverse 1.5s ease-in forwards !important;
     pointer-events: none;
 }
 
