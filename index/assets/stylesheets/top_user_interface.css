@@ -418,7 +418,7 @@
     position: relative;
 }
 
-/* Update liquid fill pseudo-elements */
+/* Update liquid fill pseudo-elements with shadow */
 #appMenuOpen::before,
 #settingsQuick::before,
 #expandMenuToolbar::before,
@@ -433,10 +433,12 @@
     background: rgb(215, 215, 215);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.5s ease-out, height 0.5s ease-out;
+    transition: width 0.5s ease-out, height 0.5s ease-out, box-shadow 0.5s ease-out;
+    box-shadow: inset 0 0 17.5px rgba(0, 0, 0, 0.45);
+    mix-blend-mode: multiply;
 }
 
-/* Hover effect */
+/* Enhanced hover effect with shadow */
 #appMenuOpen:hover::before,
 #settingsQuick:hover::before,
 #expandMenuToolbar:hover::before,
@@ -444,9 +446,11 @@
 #resourcesMenuOpen:hover::before {
     width: 300%;
     height: 300%;
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.45), 
+                inset 0 0 15px rgba(0, 0, 0, 0.35);
 }
 
-/* Click effect */
+/* Enhanced click effect with deeper shadow */
 #appMenuOpen.clicked::before,
 #settingsQuick.clicked::before,
 #expandMenuToolbar.clicked::before,
@@ -455,8 +459,11 @@
     background: rgb(180, 180, 180);
     width: 350%;
     height: 350%;
+    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.55),
+                inset 0 0 25px rgba(0, 0, 0, 0.45);
     transition: width 0.35s cubic-bezier(0.1, 0.8, 0.3, 1), 
-                height 0.35s cubic-bezier(0.1, 0.8, 0.3, 1);
+                height 0.35s cubic-bezier(0.1, 0.8, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.1, 0.8, 0.3, 1);
 }
 
 /* Remove old hover styles */
