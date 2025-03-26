@@ -38,6 +38,13 @@
     100% { transform: scale(0.1) scaleX(0.5) translateY(-50px); opacity: 0; }
 }
 
+@keyframes elementFoldReverse {
+    0% { transform: scale(1) scaleX(1) translateY(0) translateX(0); opacity: 1; }
+    40% { transform: scale(0.9) scaleX(0.8) translateY(-5px) translateX(50px); opacity: 0.9; }
+    60% { transform: scale(1.1) scaleX(1.2) translateY(10px) translateX(100px); opacity: 0.8; }
+    100% { transform: scale(0.1) scaleX(0.5) translateY(-50px) translateX(-5000px); opacity: 0; }
+}
+
 .page-element {
     opacity: 0;
     transform: scale(0.1);
@@ -52,7 +59,8 @@
 }
 
 .animate-out {
-    animation: elementFoldUp 0.6s ease-in forwards !important;
+    animation: elementFoldReverse 0.8s ease-in forwards !important;
+    pointer-events: none;
 }
 
 #rootPageSection {

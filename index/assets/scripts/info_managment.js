@@ -78,27 +78,34 @@ window.addEventListener('beforeunload', (event) => {
     }
 });
 
-// Add reload function that handles animations properly
+// Update the reload function to ensure animations play
 function reloadPageWithAnimation() {
-    // Mark this as an intentional reload
     sessionStorage.setItem('intentionalReload', 'true');
-    
-    // Get all animated elements
+    sessionStorage.setItem('isReloading', 'true');
     const elements = document.querySelectorAll('.page-element');
     
-    // Animate all elements out
-    elements.forEach((element, index) => {
-        handleElementAnimation(element, index * 50, 'out');
+    // Ensure elements are visible and reset any existing animations
+    elements.forEach(element => {
+        element.style.visibility = 'visible';
+        element.style.opacity = '1';
+        element.style.transform = 'none';
+        // Remove existing animation classes
+        element.classList.remove('animate-in', 'from-top', 'from-bottom');
+        // Force a reflow to ensure animation plays
+        void element.offsetWidth;
     });
     
-    // Calculate total animation time
-    const totalDelay = (elements.length * 50) + 600;
+    // Add animation class to all elements
+    requestAnimationFrame(() => {
+        elements.forEach(element => {
+            element.classList.add('animate-out');
+        });
+    });
     
-    // Reload after animations complete
+    // Wait for animation to complete before reload
     setTimeout(() => {
-        sessionStorage.removeItem('intentionalReload'); // Clean up
         window.location.reload();
-    }, totalDelay);
+    }, 1000); // Increased delay to ensure animation completes
 }
 
 // Replace any direct reload calls with the animated version
@@ -179,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, initialDelay);
 });
 
-// Add CSS styles for directional animations
+// Remove the duplicate animation styles since we're using the CSS file's animations
 const animationStyles = document.createElement('style');
 animationStyles.textContent = `
     .animate-in.from-top {
@@ -189,12 +196,43 @@ animationStyles.textContent = `
         animation: slideInFromBottom 0.6s ease-out forwards;
     }
     @keyframes slideInFromTop {
-        from { transform: translateY(-30px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+        from { transform: translateY(-30px) scale(0.95); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
     }
     @keyframes slideInFromBottom {
-        from { transform: translateY(30px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+        from { transform: translateY(30px) scale(0.95); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
     }
 `;
 document.head.appendChild(animationStyles);
+
+// Update the reload function to properly trigger the animation
+function reloadPageWithAnimation() {
+    sessionStorage.setItem('intentionalReload', 'true');
+    sessionStorage.setItem('isReloading', 'true');
+    
+    const elements = document.querySelectorAll('.page-element');
+    
+    // Reset any existing animations and make sure elements are visible
+    elements.forEach(element => {
+        element.style.removeProperty('opacity');
+        element.style.removeProperty('transform');
+        element.classList.remove('animate-in', 'from-top', 'from-bottom');
+        // Force a reflow
+        void element.offsetWidth;
+    });
+
+    // Trigger the fold reverse animation
+    requestAnimationFrame(() => {
+        elements.forEach((element, index) => {
+            setTimeout(() => {
+                element.classList.add('animate-out');
+            }, index * 50); // Stagger the animations
+        });
+    });
+    
+    // Wait for animations to complete before reloading
+    setTimeout(() => {
+        window.location.reload();
+    }, (elements.length * 50) + 800); // Account for stagger + animation duration
+}
