@@ -51,26 +51,21 @@
         opacity: 1;
         filter: blur(0);
     }
-    50% {
-        transform: scale(0.8) rotate(calc(var(--drift-angle) * 0.5)) translate(calc(var(--drift-distance) * 0.3));
-        opacity: 0.5;
-        filter: blur(calc(var(--drift-blur) * 0.5));
-    }
     100% { 
-        transform: scale(0.1) rotate(var(--drift-angle)) translate(var(--drift-distance)); 
+        transform: scale(0.5) rotate(var(--drift-angle, 45deg)) translate(var(--drift-distance, 300px));
         opacity: 0;
-        filter: blur(var(--drift-blur));
+        filter: blur(10px);
     }
 }
 
 .page-element {
-    opacity: 0;
-    transform: scale(0.1);
-    /* Preserve fixed positioning during animation */
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    will-change: transform, opacity;
-    perspective: 1000px;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.3s ease-out;
+}
+
+.is-reloading .page-element {
+    animation-delay: var(--animation-delay, 0ms);
 }
 
 .animate-in {
@@ -78,7 +73,8 @@
 }
 
 .animate-out {
-    animation: spaceDrift 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    animation: spaceDrift 1.2s ease-in-out forwards;
+    animation-delay: var(--animation-delay, 0ms);
     pointer-events: none;
 }
 
@@ -91,13 +87,14 @@
     background: var(--theme-background);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
     z-index: 99999;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(0px);
 }
 
 .page-overlay.fade-in {
-    opacity: 0.8;
+    opacity: 0.95;
+    backdrop-filter: blur(8px);
 }
 
 #rootPageSection {

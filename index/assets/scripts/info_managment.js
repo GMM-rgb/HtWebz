@@ -79,54 +79,47 @@ function handleElementAnimation(element, delay = 0, direction = 'in', fromDirect
 
 // Update the reload function to ensure animations play
 function reloadPageWithAnimation() {
-    let overlay = document.querySelector('.page-overlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'page-overlay';
-        document.body.appendChild(overlay);
-    }
-    
-    sessionStorage.setItem('intentionalReload', 'true');
-    sessionStorage.setItem('isReloading', 'true');
+    // Prevent multiple triggers
+    if (window._isReloading) return;
+    window._isReloading = true;
     
     const elements = document.querySelectorAll('.page-element');
-    const animationDuration = 2500; // Match CSS animation duration
-    const staggerDelay = 150; // Increased for more visible stagger
+    const animationDuration = 1500;
     
-    // Ensure overlay is ready
-    void overlay.offsetWidth;
+    // Create and append overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'page-overlay';
+    document.body.appendChild(overlay);
     
-    // Start animations
-    requestAnimationFrame(() => {
-        // Start element animations first
-        elements.forEach((el, index) => {
-            el.style.visibility = 'visible';
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-            el.classList.remove('animate-in', 'from-top', 'from-bottom', 'animate-out');
-            
-            const angle = Math.random() * 360;
-            const distance = 300 + Math.random() * 200;
-            const blur = 5 + Math.random() * 10;
-            
-            el.style.setProperty('--drift-angle', `${angle}deg`);
-            el.style.setProperty('--drift-distance', `${distance}px`);
-            el.style.setProperty('--drift-blur', `${blur}px`);
-            
-            setTimeout(() => {
-                el.classList.add('animate-out');
-            }, index * staggerDelay);
+    // Force all elements to their normal state first
+    elements.forEach(el => {
+        el.style.removeProperty('opacity');
+        el.style.removeProperty('transform');
+        el.style.removeProperty('visibility');
+        el.classList.remove('animate-in', 'from-top', 'from-bottom');
+    });
+    
+    // Start animation sequence
+    window.requestAnimationFrame(() => {
+        // Add reloading class to body for CSS targeting
+        document.body.classList.add('is-reloading');
+        
+        // Animate each element with stagger
+        elements.forEach((el, i) => {
+            el.style.setProperty('--drift-angle', `${Math.random() * 360}deg`);
+            el.style.setProperty('--drift-distance', `${300 + Math.random() * 200}px`);
+            el.style.setProperty('--animation-delay', `${i * 100}ms`);
+            el.classList.add('animate-out');
         });
         
-        // Add overlay fade-in after a short delay
-        setTimeout(() => {
-            overlay.classList.add('fade-in');
-        }, animationDuration * 0.3);
+        // Show overlay
+        setTimeout(() => overlay.classList.add('fade-in'), 300);
         
-        // Reload after animations complete
+        // Ensure reload happens after animations complete
         setTimeout(() => {
+            sessionStorage.setItem('isReloading', 'true');
             window.location.reload();
-        }, animationDuration + 800); // Added extra time for overlay fade
+        }, animationDuration);
     });
 }
 
