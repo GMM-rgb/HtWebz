@@ -31,8 +31,8 @@ class LetterEffect {
             // Create dropping letters with proper spacing
             const letters = text.split('').map((char, i) => ({
                 char,
-                x: Math.random() * 50 - 25,  // Reduced random spread
-                y: -50 - (Math.random() * 50),  // Reduced height
+                x: Math.random() * 1,  // Reduced random spread
+                y: -50 - (Math.random() * 24),  // Reduced height
                 rotation: Math.random() * 180 - 90,  // -90 to 90 degrees
                 finalX: i * letterWidth,  // Use measured width
                 finalY: 0,
@@ -91,8 +91,11 @@ letterStyles.textContent = `
     .letter-effect-container {
         position: relative;
         display: inline-block;
-        min-height: 1.2em;
         white-space: nowrap;
+        overflow: hidden;           // Prevent container from expanding
+        line-height: 1;              // Force minimal line height
+        height: 1em;                // Set container height to match font-size
+        vertical-align: middle;
     }
     
     .final-text {
