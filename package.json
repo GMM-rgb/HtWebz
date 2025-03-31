@@ -2,7 +2,8 @@
   "name": "express-app",
   "version": "1.0.0",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "echo \"No test currently please enter start. \" && exit 1"
   },
   "dependencies": {
     "express": "^4.21.2",
