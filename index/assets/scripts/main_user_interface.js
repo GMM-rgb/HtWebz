@@ -16,11 +16,11 @@ function wait(time) {
   if (wait) {
   }
   try {
-    return new Promise((resolve) => setTimeout(resolve, time));
+    return new Promise((resolve) => setTimeout(resolve, time)); // Return the timer promise.
   } catch (error) {
-    console.error("Timer promise was not successfully created!", error);
+    console.error("Timer promise was not successfully created!", error); // Added for debugging
   } finally {
-    console.log("Timer promise successfully created!");
+    console.log("Timer promise successfully created!"); // Added for debugging
   }
 }
 
