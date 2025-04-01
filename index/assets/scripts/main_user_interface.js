@@ -220,13 +220,17 @@ let animationDuration = 500; // Duration in milliseconds
 let toolbarExtensionStyle = window.getComputedStyle(toolbarExtension);
 
 expandMenuToolbar.onclick = () => {
-  if (toolbarExtension.style.display === "none" || toolbarExtension.style.display === "") {
-    toolbarExtension.style.display = "flex";
-    toolbarExtension.classList.add(animationClass);
+  const currentDisplay = toolbarExtension.style.display || toolbarExtensionStyle.display;
+
+  if (currentDisplay === "none" || currentDisplay === "") {
+    toolbarExtension.style.display = "flex"; // Ensure it's set to flex
+    toolbarExtension.classList.add(`${animationClass}`);
     wait(animationDuration).then(() => {
-      toolbarExtension.classList.remove(animationClass);
+      toolbarExtension.classList.remove(`${animationClass}`);
     });
   } else {
-      toolbarExtension.style.display = "none";
+    toolbarExtension.style.display = "none"; // Hide the toolbar
   }
-}
+
+  console.log("Toolbar display state:", toolbarExtension.style.display); // Debugging log
+};

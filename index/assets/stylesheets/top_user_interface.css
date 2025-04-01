@@ -500,3 +500,8 @@
 #resourcesMenuOpen.hoveringResourcesSmall {
     background: none;
 }
+
+#toolbarExtension {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+}
