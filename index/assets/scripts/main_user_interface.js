@@ -15,8 +15,8 @@ const gamesMenuOpen = document.getElementById("gamesMenuOpen");
 const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
 
 // Moved toolbar elements up so later code can use them:
-const expandMenuToolbar = document.getElementById("expandMenuToolbar");
-const toolbarExtension = document.getElementById("toolbarExtension");
+// const expandMenuToolbar = document.getElementById("expandMenuToolbar");
+// const toolbarExtension = document.getElementById("toolbarExtension");
 
 // Multifunction wait timer
 function wait(time) {
