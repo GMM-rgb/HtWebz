@@ -225,17 +225,9 @@ expandMenuToolbar.onclick = () => {
       toolbarExtension.classList.add(animationClass);
       wait(animationDuration).then(() => {
         toolbarExtension.classList.remove(animationClass);
-        toolbarExtension.style.height = "fit-content";
-        toolbarExtension.style.flex = "1 1 auto";
       });
     } else {
-      toolbarExtension.classList.add(animationClass);
-      wait(animationDuration).then(() => {
         toolbarExtension.style.display = "none";
-        toolbarExtension.classList.remove(animationClass);
-        toolbarExtension.style.height = "0%";
-        toolbarExtension.style.flex = "0 0 auto";
-      });
     }
   }
 }
