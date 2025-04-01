@@ -211,3 +211,31 @@ function handleButtonInteraction(event, element) {
         setTimeout(() => button.classList.remove('clicked'), 1000);
     });
 });
+
+const expandMenuToolbar = document.getElementById("expandMenuToolbar");
+const toolbarExtension = document.getElementById("toolbarExtension");
+
+var animationClass = "expandMenuAnimation"; // Animation name for the toolbarMenuExtension
+var animationDuration = 500; // Duration in milliseconds
+
+expandMenuToolbar.onclick = () => {
+  if (toolbarExtension) {
+    if (toolbarExtension.style.display === "none" || toolbarExtension.style.display === "") {
+      toolbarExtension.style.display = "flex";
+      toolbarExtension.classList.add(animationClass);
+      wait(animationDuration).then(() => {
+        toolbarExtension.classList.remove(animationClass);
+        toolbarExtension.style.height = "fit-content";
+        toolbarExtension.style.flex = "1 1 auto";
+      });
+    } else {
+      toolbarExtension.classList.add(animationClass);
+      wait(animationDuration).then(() => {
+        toolbarExtension.style.display = "none";
+        toolbarExtension.classList.remove(animationClass);
+        toolbarExtension.style.height = "0%";
+        toolbarExtension.style.flex = "0 0 auto";
+      });
+    }
+  }
+}

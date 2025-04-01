@@ -1,4 +1,31 @@
 #toolbarExtension {
     display: none;
-    position: fixed;
+    position: fixed !important;
+    border: 3px solid #ccc;
+    border-radius: 15px;
+    background-color: #0586e3;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box !important;
+    padding: 10px;
+    z-index: 9999 !important;
+    top: 65px !important;
+    left: 10px !important;
+}
+
+#appButtonContainerWarp {
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 15px;
+    background: #80b5db;
+    padding-inline: 6.15px;
+    padding-block: 2px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box !important;
+}
+
+#expandExtension {
+    border: 3px solid #ccc;
+    border-radius: 5cm;
+    background: limegreen;
+    padding: 5px;
 }
