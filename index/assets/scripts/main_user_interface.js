@@ -223,7 +223,7 @@ expandMenuToolbar.onclick = () => {
   const currentDisplay = toolbarExtension.style.display || toolbarExtensionStyle.display;
 
   if (currentDisplay === "none" || currentDisplay === "") {
-    toolbarExtension.style.display = "flex"; // Ensure it's set to flex
+    toolbarExtension.style.display = "flex"; // Ensures it's set to flex
     toolbarExtension.classList.add(`${animationClass}`);
     wait(animationDuration).then(() => {
       toolbarExtension.classList.remove(`${animationClass}`);
