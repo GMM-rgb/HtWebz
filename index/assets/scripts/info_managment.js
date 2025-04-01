@@ -3,16 +3,13 @@ let motivationMessage = document.querySelector("#motivationMessage");
 
 // Array of motivational messages
 const messages = [
-    "Keep pushing forward!",
     "You're doing amazing!",
     "Every great passion starts with small steps!",
     "Believe in yourself!",
     "Success is built on persistence!",
     "You're capable of amazing things!",
-    "You are unstoppable!",
-    "You can do it!",
-    "Don't give up!",
-    "You're on the right path!",
+    "Hope your having a great day!",
+    "Be happy and positive!"
 ];
 
 // CSS styles for animations
