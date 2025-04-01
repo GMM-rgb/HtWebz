@@ -229,12 +229,14 @@ expandMenuToolbar.onclick = () => {
   if (currentDisplay === "none" || currentDisplay === "") {
     toolbarExtension.style.display = "flex";
     toolbarExtension.classList.add("expandMenuAnimation");
+    alert("Toolbar is now visible!"); // Debugging log
     wait(animationDuration).then(() => {
       toolbarExtension.classList.remove("expandMenuAnimation");
       toolbarExtension.style.height = "fit-content";
       toolbarExtension.style.flex = "1 1 auto";
     });
   } else {
+    alert("Toolbar is now hidden!"); // Debugging log
     toolbarExtension.style.display = "none"; // Hide the toolbar
   }
 
