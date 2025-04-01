@@ -34,8 +34,21 @@ function toggleButtonEffect(checkbox) {
 
 function setInitialToggleState() {
   const checkbox = document.getElementById('effect-toggle');
-  checkbox.checked = buttonEffectsEnabled();
+  if (checkbox) {
+    checkbox.checked = buttonEffectsEnabled();
+  } else {
+    console.error("Element with ID 'effect-toggle' is missing.");
+  }
 }
 
 // Ensure the initial state of the toggle button is set when the page loads
-document.addEventListener('DOMContentLoaded', setInitialToggleState);
+document.addEventListener('DOMContentLoaded', () => {
+  setInitialToggleState();
+
+  const toggleButton = document.getElementById("toggleButton"); // Replace with the actual ID
+  if (toggleButton) {
+    toggleButton.checked = true; // Set the initial state
+  } else {
+    console.error("Element with ID 'toggleButton' is missing.");
+  }
+});

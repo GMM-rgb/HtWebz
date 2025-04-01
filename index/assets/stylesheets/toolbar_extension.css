@@ -1,41 +1,44 @@
 @keyframes expandMenuAnimation {
-    0% { rotate: -180deg; height: 5%; }
-    10%, 5% { rotate: -105deg; height: 25%; }
-    35% {  rotate: -90deg; height: 50%; }
-    50% { rotate: -45deg; height: 75%; }
-    65% { rotate: -25deg; height: 90%; }
-    77.5%, 80% { rotate: 0deg; height: 100%; }
-    85% { rotate: 15deg; height: 100%; }
-    87%, 91.5% { rotate: 30deg; height: 100%; }
-    100% { rotate: 0deg; height: 100%; }
+    0% { 
+        height: 0;
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    50% { 
+        height: 50%;
+        opacity: 0.5;
+        transform: translateY(0);
+    }
+    100% { 
+        height: 100%;
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #toolbarExtension {
     display: none;
     flex-direction: column !important;
-    justify-content: center !important;
-    align-items: top !important;
-    align-content: auto !important;
     position: fixed !important;
     border: 3px solid #ccc;
     border-radius: 15px;
     background-color: #0586e3;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
-    box-sizing: border-box !important;
     padding: 10px;
     z-index: 10000 !important;
-    top: 100px;
+    top: 85px !important;  /* Position below top bar */
     left: 12.5px !important;
-    min-width: 200px;
-    max-width: 300px;
-    min-height: 5%;
+    width: 200px;
+    min-height: 50px;
     max-height: 500px;
-    overflow-y: auto !important;
-    overflow: hidden !important;
+    overflow: hidden;
+    transform-origin: top center;
+    gap: 8px;
+    transition: all 0.65s;
 }
 
 #toolbarExtension.expandMenuAnimation {
-    animation: expandMenuAnimation 0.5s ease-in-out forwards !important;
+    animation: expandMenuAnimation 0.5s ease-out forwards;
 }
 
 #appButtonContainerWarp {

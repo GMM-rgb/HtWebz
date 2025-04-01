@@ -235,7 +235,7 @@
         </div>
     </div>
 
-    <span id="notification"></span>
+    <span id="notification" class="notification"></span>
 
     <section id="topUserInterfaceBar">
         <div class="appMenuOpenButtons">
@@ -267,14 +267,14 @@
                 onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')"><img
                     id="gamesMenuIcon"
                     src="index/assets/images/console_remote_controller.png"
-                    preload="auto" height="27.5" width="27.5" />
+                    alt="Games Icon" preload="auto" height="27.5" width="27.5" />
                 <span class="games-menu-text">Games</span>
             </div>
             <div id="resourcesMenuOpen"
                 onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')"><img
                     id="resourcesMenuIcon"
                     src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
-                    preload="auto" height="27.5"
+                    alt="Resources Icon" preload="auto" height="27.5"
                     width="27.5" />
                 <span class="resources-menu-text">Search</span>
             </div>
@@ -750,9 +750,14 @@
         </body>
 
         <!-- Add before other scripts -->
-        <script src="index/assets/scripts/tooltip_system.js"></script>
-        <script src="index/assets/scripts/letter_effects.js"></script>
-        <script src="index/assets/scripts/main_user_interface.js"></script>
+        <script src="index/assets/scripts/tooltip_system.js" defer></script>
+        <script src="index/assets/scripts/letter_effects.js" defer></script>
+        <script src="index/assets/scripts/main_user_interface.js" defer></script>
+        <script src="index/assets/scripts/app_menu_script.js" defer></script>
+        <script src="index/assets/scripts/search_process.js" defer></script>
+        <script src="index/assets/scripts/info_managment.js" defer></script>
+        <script src="index/assets/scripts/navigation_managment.js" defer></script>
+        <script src="index/assets/scripts/button_splash_effect.js" defer></script>
         
         <script>
                 // setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
@@ -760,12 +765,6 @@
                 // setupTooltips('.hoverable', 'This element has a tooltip');
         </script>
 
-        <script src="index/assets/scripts/app_menu_script.js"></script>
-        <script src="index/assets/scripts/search_process.js"></script>
-        <script src="index/assets/scripts/info_managment.js"></script>
-        <script src="index/assets/scripts/navigation_managment.js"></script>
-        <!-- <script src="index/assets/scripts/context_menu.js"></script> -->
-        <!-- <script src="index/assets/scripts/theme_managment.js"></script> -->
-        <!-- <script src="toolbar_extension_manager.js"></script> -->
+        <script src="index/assets/scripts/toolbar_extension_manager.js"></script>
 
     </html>
