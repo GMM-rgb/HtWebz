@@ -14,7 +14,7 @@ const appMenuOpen = document.getElementById("appMenuOpen");
 const gamesMenuOpen = document.getElementById("gamesMenuOpen");
 const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
 
-// Move toolbar elements up so later code can use them:
+// Moved toolbar elements up so later code can use them:
 const expandMenuToolbar = document.getElementById("expandMenuToolbar");
 const toolbarExtension = document.getElementById("toolbarExtension");
 
@@ -224,7 +224,7 @@ let animationDuration = 500; // Duration in milliseconds
 let toolbarExtensionStyle = window.getComputedStyle(toolbarExtension);
 
 expandMenuToolbar.onclick = () => {
-  const currentDisplay = toolbarExtension.style.display || toolbarExtensionStyle.display;
+  let currentDisplay = toolbarExtension.style.display || toolbarExtensionStyle.display;
 
   if (currentDisplay === "none" || currentDisplay === "") {
     toolbarExtension.style.display = "flex";
