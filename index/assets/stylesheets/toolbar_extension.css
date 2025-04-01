@@ -1,5 +1,9 @@
 #toolbarExtension {
     display: none;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: top !important;
+    align-content: auto !important;
     position: fixed !important;
     border: 3px solid #ccc;
     border-radius: 15px;
@@ -10,6 +14,11 @@
     z-index: 9999 !important;
     top: 65px !important;
     left: 10px !important;
+    min-width: 200px;
+    max-width: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow: hidden !important;
 }
 
 #appButtonContainerWarp {
@@ -21,11 +30,15 @@
     padding-block: 2px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
     box-sizing: border-box !important;
+    width: 100%;
+    height: 100%;
 }
 
 #expandExtension {
+    position: relative !important;
     border: 3px solid #ccc;
     border-radius: 5cm;
     background: limegreen;
     padding: 5px;
+    box-sizing: border-box !important;
 }
