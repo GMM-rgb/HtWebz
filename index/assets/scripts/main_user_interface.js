@@ -221,12 +221,9 @@ function handleButtonInteraction(event, element) {
 
 let animationClass = "expandMenuAnimation"; // Animation name for the toolbarMenuExtension
 let animationDuration = 500; // Duration in milliseconds
-let toolbarExtensionStyle = window.getComputedStyle(toolbarExtension);
 
 expandMenuToolbar.onclick = () => {
-  let currentDisplay = toolbarExtension.style.display || toolbarExtensionStyle.display;
-
-  if (currentDisplay === "none" || currentDisplay === "") {
+  if (toolbarExtension.style.display === "none" || toolbarExtension.style.display === "") {
     toolbarExtension.style.display = "flex";
     toolbarExtension.classList.add("expandMenuAnimation");
     alert("Toolbar is now visible!"); // Debugging log
