@@ -228,9 +228,11 @@ expandMenuToolbar.onclick = () => {
 
   if (currentDisplay === "none" || currentDisplay === "") {
     toolbarExtension.style.display = "flex";
-    toolbarExtension.classList.add(`${animationClass}`);
+    toolbarExtension.classList.add("expandMenuAnimation");
     wait(animationDuration).then(() => {
-      toolbarExtension.classList.remove(`${animationClass}`);
+      toolbarExtension.classList.remove("expandMenuAnimation");
+      toolbarExtension.style.height = "fit-content";
+      toolbarExtension.style.flex = "1 1 auto";
     });
   } else {
     toolbarExtension.style.display = "none"; // Hide the toolbar
