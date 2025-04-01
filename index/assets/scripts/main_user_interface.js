@@ -10,6 +10,13 @@ const searchPageDisplay = document.getElementById("searchPageDisplay");
 const closeSettingsMenuBtn = document.getElementById("closeSettingsMenuBtn");
 const settingsMenu = document.getElementById("settingsMenu");
 const settingsQuick = document.getElementById("settingsQuick");
+const appMenuOpen = document.getElementById("appMenuOpen");
+const gamesMenuOpen = document.getElementById("gamesMenuOpen");
+const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
+
+// Move toolbar elements up so later code can use them:
+const expandMenuToolbar = document.getElementById("expandMenuToolbar");
+const toolbarExtension = document.getElementById("toolbarExtension");
 
 // Multifunction wait timer
 function wait(time) {
@@ -211,9 +218,6 @@ function handleButtonInteraction(event, element) {
         setTimeout(() => button.classList.remove('clicked'), 1000);
     });
 });
-
-const expandMenuToolbar = document.getElementById("expandMenuToolbar");
-const toolbarExtension = document.getElementById("toolbarExtension");
 
 let animationClass = "expandMenuAnimation"; // Animation name for the toolbarMenuExtension
 let animationDuration = 500; // Duration in milliseconds
