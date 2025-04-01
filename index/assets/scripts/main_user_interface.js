@@ -9,13 +9,10 @@ const searchMenuOpen = document.getElementById("resourcesMenuOpen");
 const searchPageDisplay = document.getElementById("searchPageDisplay");
 const closeSettingsMenuBtn = document.getElementById("closeSettingsMenuBtn");
 const settingsMenu = document.getElementById("settingsMenu");
-const appMenuOpen = document.getElementById("appMenuOpen");
-const gamesMenuOpen = document.getElementById("gamesMenuOpen");
-const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
-
-// Moved toolbar elements up so later code can use them:
-// const expandMenuToolbar = document.getElementById("expandMenuToolbar");
-// const toolbarExtension = document.getElementById("toolbarExtension");
+const settingsQuick = document.getElementById("settingsQuick");
+const appMenuOpen = document.getElementById("appMenuOpen"); // New declaration
+const gamesMenuOpen = document.getElementById("gamesMenuOpen"); // New declaration
+const expandMenuToolbar = document.getElementById("expandMenuToolbar"); // New declaration
 
 // Multifunction wait timer
 function wait(time) {
@@ -134,12 +131,12 @@ searchMenuOpen.onclick = () => {
 
 // Closes search menu when the close button is clicked
 closeSearchMenuBtn.onclick = () => {
-  if (searchMenu.style.display === "flex" || searchMenu.style.displsy === "") {
+  if (searchMenu.style.display === "flex" || searchMenu.style.display === "") {
     document.title = "HtWebz Homepage";
     menuBlur.style.opacity = "0";
     searchMenu.style.opacity = "0";
     wait(650).then(() => {
-      searchMenu.style.display = " none";
+      searchMenu.style.display = "none"; // corrected from " displsy "
       searchMenu.style.opacity = "1";
       menuBlur.style.display = "none";
       searchMenu.style.flex = "0";
@@ -199,20 +196,21 @@ closeSettingsMenuBtn.onclick = () => {
 
 // Add cursor tracking for liquid effects
 function handleButtonInteraction(event, element) {
-  const rect = element.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-  
-  element.style.setProperty('--liquid-x', `${x}px`);
-  element.style.setProperty('--liquid-y', `${y}px`);
+    const rect = element.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+    element.style.setProperty('--liquid-x', `${x}px`);
+    element.style.setProperty('--liquid-y', `${y}px`);
 }
 
-[appMenuOpen, settingsQuick].forEach(button => {
-  button.addEventListener('mousemove', handleButtonInteraction);
-  button.addEventListener('mouseenter', handleButtonInteraction);
-  button.addEventListener('click', () => {
-    handleButtonInteraction(event, button);
-    button.classList.add('clicked');
-    setTimeout(() => button.classList.remove('clicked'), 1000);
-  });
+// Add event listeners for all buttons
+[appMenuOpen, settingsQuick, expandMenuToolbar, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
+    button.addEventListener('mousemove', (e) => handleButtonInteraction(e, button));
+    button.addEventListener('mouseenter', (e) => handleButtonInteraction(e, button));
+    button.addEventListener('click', (e) => {
+        handleButtonInteraction(e, button);
+        button.classList.add('clicked');
+        setTimeout(() => button.classList.remove('clicked'), 1000);
+    });
 });
