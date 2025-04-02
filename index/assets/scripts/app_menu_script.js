@@ -3,6 +3,7 @@ const settingsCon = document.getElementById("settingsContainer");
 const closeAppMenu = document.getElementById("closeAppMenu");
 const appMenu = document.getElementById("appMenu");
 const appMenuOpen = document.getElementById("appMenuOpen");
+const HtWebzEditor = document.getElementById("textEditorAppButton");
 
 let computeStyle = getComputedStyle;
 
@@ -33,3 +34,11 @@ appMenuOpen.onclick = () => {
     return;
   }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (HtWebzEditor) {
+    HtWebzEditor.onclick = () => {
+      window.open('index/file_list.html', '_blank');
+    };
+  }
+});
