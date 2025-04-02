@@ -133,6 +133,18 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // Add sticky scroll detection
+    const pinnedTitle = document.querySelector('.pinned-content-title');
+    if (pinnedTitle) {
+        const observer = new IntersectionObserver(
+            ([e]) => {
+                pinnedTitle.classList.toggle('sticky-active', e.intersectionRatio < 1);
+            },
+            { threshold: [1], rootMargin: '-85px 0px 0px 0px' }
+        );
+        observer.observe(pinnedTitle);
+    }
+
     // Helper function
     function wait(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
