@@ -2,7 +2,8 @@
     display: none !important;
     position: fixed !important;
     z-index: 15000 !important;
-    border: 2px solid rgb(100, 100, 100);
+    /* Remove the static border */
+    border: none;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.875);
     padding: 8px 16px;
@@ -16,14 +17,46 @@
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-user-drag: none !important;
-    color: black;
+    color: honeydew;
     box-sizing: border-box !important;
-    box-shadow: inset 0 0 13.5px rgba(0, 0, 0, 0.365);
+    box-shadow: inset 0 0 13.5px rgba(0, 0, 0, 0.365), 0 0 10px rgba(0, 0, 0, 0.375);
     min-width: 200px;
     max-height: 40px;
     text-align: center;
+    
+    /* Set relative positioning and hidden overflow for proper pseudo-element placement */
+    position: relative;
+    overflow: hidden;
 }
 
+#notification::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    /* Create a vibrant blue gradient background */
+    background: linear-gradient(270deg, #0072ff, #00c6ff, #0072ff, #00c6ff);
+    background-size: 400% 400%;
+    border-radius: inherit;
+    z-index: -1;
+    animation: gradientAnimation 10s linear infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Existing notification display and animation rules */
 #notification.showNotification {
     display: flex !important;
 }
@@ -66,6 +99,7 @@
     animation: hideNotify 0.45s linear !important;
 }
 
+/* Keeping the existing .notification styles unchanged */
 .notification {
   position: fixed;
   bottom: 20px;
