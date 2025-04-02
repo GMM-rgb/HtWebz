@@ -16,6 +16,24 @@
     }
 }
 
+@keyframes retractMenuAnimation {
+    0% { 
+        height: 100%;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% { 
+        height: 50%;
+        opacity: 0.5;
+        transform: translateY(-10px);
+    }
+    100% { 
+        height: 0;
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
 #toolbarExtension {
     display: none;
     flex-direction: column !important;
@@ -39,6 +57,10 @@
 
 #toolbarExtension.expandMenuAnimation {
     animation: expandMenuAnimation 0.5s ease-out forwards;
+}
+
+#toolbarExtension.retractMenuAnimation {
+    animation: retractMenuAnimation 0.5s ease-out forwards;
 }
 
 #appButtonContainerWarp {

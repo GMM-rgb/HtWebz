@@ -25,9 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle animation reset
-    toolbarExtension.addEventListener('animationend', () => {
-        if (!toolbarExtension.classList.contains('open')) {
+    toolbarExtension.addEventListener('animationend', (event) => {
+        if (event.animationName === 'retractMenuAnimation') {
             toolbarExtension.style.display = "none";
+            toolbarExtension.classList.remove('retractMenuAnimation');
         }
     });
 
@@ -38,16 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isHidden) {
             toolbarExtension.style.display = "flex";
             toolbarExtension.style.opacity = "1";
-            // Force reflow to restart animation
-            void toolbarExtension.offsetWidth;
-            toolbarExtension.classList.add(animationClass, 'open');
+            void toolbarExtension.offsetWidth; // Force reflow
+            toolbarExtension.classList.remove('retractMenuAnimation');
+            toolbarExtension.classList.add('expandMenuAnimation', 'open');
             notify("Toolbar opened");
         } else {
-            toolbarExtension.classList.remove('open');
-            toolbarExtension.style.opacity = "0";
-            // Remove animation class to allow it to be added again
-            toolbarExtension.classList.remove(animationClass);
+            toolbarExtension.classList.remove('expandMenuAnimation', 'open');
+            toolbarExtension.classList.add('retractMenuAnimation');
             notify("Toolbar closed");
+            
+            // Wait for retract animation to finish
+            setTimeout(() => {
+                toolbarExtension.style.display = "none";
+                toolbarExtension.classList.remove('retractMenuAnimation');
+            }, 500);
         }
     };
 });
@@ -95,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
 //         animation: slideIn ${animationDuration}ms ease forwards;
 //     }
 
+//     .retractMenuAnimation {
+//         animation: slideOut ${animationDuration}ms ease forwards;
+//     }
+
 //     @keyframes slideIn {
 //         from {
 //             transform: translateX(-100%);
@@ -103,6 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
 //         to {
 //             transform: translateX(0);
 //             opacity: 1;
+//         }
+//     }
+
+//     @keyframes slideOut {
+//         from {
+//             transform: translateX(0);
+//             opacity: 1;
+//         }
+//         to {
+//             transform: translateX(-100%);
+//             opacity: 0;
 //         }
 //     }
 // `;
