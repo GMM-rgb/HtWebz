@@ -25,7 +25,7 @@
     margin: 0;
     left: 50% !important;
     top: 20px !important;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scale(1.5);
     pointer-events: none !important;
     user-select: none !important;
     -webkit-user-select: none !important;
@@ -84,7 +84,7 @@
     }
     100% { 
       opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1) rotateX(0deg);
+      transform: translateX(-50%) translateY(0) scale(1.5) rotateX(0deg);
     }
   }
   
@@ -95,11 +95,15 @@
   @keyframes hideNotify {
     0% { 
       opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1);
+      transform: translateX(-50%) translateY(0) scale(1.5) rotateX(0deg);
+    }
+    25%, 35% { 
+      opacity: 0.8;
+      transform: translateX(-50%) translateY(5px) scale(1.1) rotateX(360deg);
     }
     50% { 
       opacity: 0.5;
-      transform: translateX(-50%) translateY(-10px) scale(0.95);
+      transform: translateX(-50%) translateY(-10px) scale(0.95) rotateX(0deg);
     }
     100% { 
       opacity: 0;
