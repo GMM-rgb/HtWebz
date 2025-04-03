@@ -198,6 +198,16 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        #filesStats {
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            padding: 10px 5px;
+            background: rgb(158, 158, 158);
+            color: honeydew;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
+        }
     </style>
 
     <link rel="stylesheet" href="assets/stylesheets/toolbar_styles.css">
@@ -209,6 +219,11 @@
             <button class="save-btn" onclick="saveFile()">Save</button>
             <button class="cancel-btn" onclick="cancel()">Return</button>
         </div>
+
+        <div id="fileStats">
+            <span id="fileStatsText">⚠ Unsaved!</span>
+        </div>
+
         <!--<h1 class="title">HtEditor - Text Editor</h1>-->
         <div id="titleContainer">
             <input type="text" id="fileName" placeholder="Enter file name" autocomplete="off">
@@ -317,6 +332,8 @@
                 return;
             }
 
+            let fileStats = document.getElementById('fileStatsText');
+
             const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
             const fileName = fileNameInput.replace(/\s+/g, '_') + '.html';
             const fileData = {
@@ -334,6 +351,16 @@
                 confirm(`Continue to create File, ${fileNameInput}?`);
                 if (confirm === 'cancel') {
                     return
+                }
+            }
+
+            if (files.push(fileData)) {
+                if (fileStats.innerText === "⚠ Unsaved!") {
+                    fileStats.innerText = "File saved!";
+                    fileStats.style.color = "green";
+                } else {
+                    fileStats.innerText = "⚠ Unsaved!"; // Reset to unsaved if the file was already saved before
+                    fileStats.style.color = "red";
                 }
             }
 

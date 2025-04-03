@@ -761,14 +761,16 @@
         
         <script>
             /*
+                Reminder on pre functions:
+
                 setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
                 For multiple elements with same message
                 setupTooltips('.hoverable', 'This element has a tooltip');
             */
         </script>
 
-        <script src="index/assets/scripts/toolbar_extension_manager.js"></script>
-        <script src="index/assets/scripts/project_file_validation.js"></script>
+        <script src="index/assets/scripts/toolbar_extension_manager.js" defer></script>
+        <script src="index/assets/scripts/project_file_validation.js" defer preload="auto"></script>
 
         <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
 
