@@ -4,10 +4,16 @@
         left: 180px !important;
         height: fit-content !important;
         width: fit-content !important;
+        margin-top: -53.5px !important;
+    }
+    #motivationMessageContainer {
+        transform: scale(0.5) !important;
+        width: calc(100% + 100%) !important;
     }
 }
 
 #InfoTheDay {
+    flex: auto;
     display: flex !important;
     flex-direction: column;
     justify-content: center;
@@ -22,9 +28,9 @@
     /*width: 87.25%;*/
     max-width: 100%;
     transition: all 0.5s ease;
-    margin-top: -47.5px;
     height: auto;
     left: 157.5px;
+    margin-top: -75px;
     box-sizing: border-box;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
 }
