@@ -120,7 +120,7 @@
 
         .color-box:hover {
             box-shadow: inset 0px 8px 16px 0px rgba(0, 0, 0, 0.2), 0px 8px 16px 2px rgba(0, 0, 0, 0.25); /* Subtle inner shadow for depth */
-            transform: scale(1.1); /* Slightly increase size on hover for better visibility */
+            transform: scale(1.275); /* Slightly increase size on hover for better visibility */
         }
 
         .toolbar .highlight-dropdown-content .color-box:hover {
@@ -331,20 +331,21 @@
                 <div class="highlight-dropdown">
                     <button class="highlight" onclick="toggleHighlightDropdown()">Highlight</button>
                     <div class="highlight-dropdown-content" id="highlightDropdown">
-                        <div class="color-box" style="background-color: yellow;" onclick="highlightText('yellow')">
+                        <div class="color-box" id="yellow" style="background-color: yellow;" onclick="highlightText('yellow')" onmouseenter="setupTooltip('#yellow', 'Highlight: Yellow')">
+                            <span class="tooltip-text" style="display:none;">Yellow</span>
                         </div>
-                        <div class="color-box" style="background-color: lightgreen;"
-                            onclick="highlightText('lightgreen')"></div>
-                        <div class="color-box" style="background-color: lightblue;"
-                            onclick="highlightText('lightblue')"></div>
-                        <div class="color-box" style="background-color: rgb(34, 30, 255);"
-                            onclick="highlightText('rgb(34, 30, 255)')"></div>
-                        <div class="color-box" style="background-color: rgb(126, 30, 255);"
-                            onclick="highlightText('rgb(126, 30, 255)')"></div>
-                        <div class="color-box" style="background-color: rgb(248, 95, 248);"
-                            onclick="highlightText('rgb(248, 95, 248)')"></div>
-                        <div class="color-box" style="background-color: rgb(255, 153, 0);"
-                            onclick="highlightText('rgb(255, 153, 0)')"></div>
+                        <div class="color-box" id="lightgreen" style="background-color: lightgreen;"
+                            onclick="highlightText('lightgreen')" onmouseenter="setupTooltip('#lightgreen', 'Highlight: Light-green')"></div>
+                        <div class="color-box" id="lightblue" style="background-color: lightblue;"
+                            onclick="highlightText('lightblue')" onmouseenter="setupTooltip('#lightblue', 'Highlight: Light-blue')"></div>
+                        <div class="color-box" id="bluepurple" style="background-color: rgb(34, 30, 255);"
+                            onclick="highlightText('rgb(34, 30, 255)')" onmouseenter="setupTooltip('#bluepurple', 'Highlight: Blue-purple')"></div>
+                        <div class="color-box" id="purple" style="background-color: rgb(126, 30, 255);"
+                            onclick="highlightText('rgb(126, 30, 255)')" onmouseenter="setupTooltip('#purple', 'Highlight: Purple')"></div>
+                        <div class="color-box" id="pink" style="background-color: rgb(248, 95, 248);"
+                            onclick="highlightText('rgb(248, 95, 248)')" onmouseenter="setupTooltip('#pink', 'Hightlight: Pink')"></div>
+                        <div class="color-box" id="orange" style="background-color: rgb(255, 153, 0);"
+                            onclick="highlightText('rgb(255, 153, 0)')" onmouseenter="setupTooltip('#orange', 'Hightlight: Orange')"></div>
                     </div>
                 </div>
                 <button class="remove-highlight" onclick="removeHighlight()">Remove Highlight</button>
@@ -586,6 +587,7 @@
             });
         });
     </script>
+    <script src="assets/scripts/tooltip_system.js"></script>
 </body>
 
 </html>
