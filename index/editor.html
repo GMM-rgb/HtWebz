@@ -65,19 +65,28 @@
         .toolbar button {
             padding: 10px;
             margin-right: 5px;
-            border: none;
+            border: 2px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
+            color: white;
+            text-rendering: optimizeSpeed !important; /* Ensure text is rendered quickly */
         }
 
         .toolbar button.bold {
             background-color: #007bff;
-            color: white;
+            font-weight: bold;
+        }
+
+        .bold {
+            -webkit-color: white !important; /* Fallback for other browsers */
+            color: white !important; /* Ensure text is white for visibility */
         }
 
         .toolbar button.underline {
             background-color: #dc3545;
-            color: white;
+            -webkit-color: white !important; /* Fallback for other browsers */
+            color: white !important; /* Ensure text is white for visibility */
+            font-weight: bold;
         }
 
         .toolbar .highlight-dropdown {
@@ -86,14 +95,15 @@
         }
 
         .toolbar .highlight-dropdown-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(3, 1fr)); /* Responsive grid for color boxes */
+            display: none;
+            flex-direction: grid; /* Use grid layout for color boxes */
+            grid-template-columns: repeat(3, minmax(25px, 2fr)); /* Responsive grid for color boxes */
             padding: 10px;
             position: absolute;
             background-color: #f9f9f9;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             z-index: 1;
+            gap: 4px;
         }
 
         .toolbar .highlight-dropdown-content .color-box {
@@ -104,6 +114,13 @@
             cursor: pointer;
             border: 1px solid #ddd;
             border-radius: 5px;
+            box-sizing: border-box !important;
+            transition: all 0.3s ease-out;
+        }
+
+        .color-box:hover {
+            box-shadow: inset 0px 8px 16px 0px rgba(0, 0, 0, 0.2), 0px 8px 16px 2px rgba(0, 0, 0, 0.25); /* Subtle inner shadow for depth */
+            transform: scale(1.1); /* Slightly increase size on hover for better visibility */
         }
 
         .toolbar .highlight-dropdown-content .color-box:hover {
@@ -121,7 +138,7 @@
             word-break: auto;
             word-spacing: auto;
             mask-composite: auto;
-            text-rendering: optimizeSpeed;
+            text-rendering: optimizeSpeed !important;
             text-anchor: middle;
             white-space: pre-wrap;
             /* For preserving whitespace in content */
@@ -396,8 +413,8 @@
 
         function toggleHighlightDropdown() {
             const dropdown = document.getElementById('highlightDropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-            if (dropdown.style.display === 'block') {
+            dropdown.style.display = dropdown.style.display === 'grid' ? 'none' : 'grid';
+            if (dropdown.style.display === 'grid') {
                 saveSelection();
             }
         }
