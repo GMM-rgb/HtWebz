@@ -31,17 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make notify function global
     window.notify = async function(text) {
         if (!text || notificationShowing || !elements.notification) return;
-        
+
         // Play notification sound if available
         if (notifySound) {
             try {
-                notifySound.currentTime = 0; // Reset the audio to start from the beginning
-                notifySound.play();
+                if (notifySound.readyState >= 2) { // Check if audio is ready
+                    notifySound.currentTime = 0; // Reset the audio to start from the beginning
+                    await notifySound.play(); // Use await to handle promise rejection
+                } else {
+                    console.warn("Notification sound is not ready to play.");
+                }
             } catch (e) {
                 console.error("Failed to play notification sound:", e);
+                console.warn("Ensure the action triggering 'notify' is user-initiated to comply with browser autoplay policies.");
             }
         }
-        
+
         if (typeof text !== 'string') {
             console.error("Notification text must be a string");
             return;
