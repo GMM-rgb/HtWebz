@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         expandMenuToolbar: document.getElementById("expandMenuToolbar")
     };
 
+    var notifySound = new Audio('assets/audio/notify.mp3'); // Load notification sound for notify function
+    notifySound.preload = 'auto'; // Preload the audio for better performance
+
     // Validate all elements exist
     Object.entries(elements).forEach(([name, element]) => {
         if (!element) console.error(`Required element "${name}" is missing`);
@@ -30,6 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
     window.notify = async function(text) {
         if (!text || notificationShowing || !elements.notification) return;
         
+        // Play notification sound if available
+        if (notifySound) {
+            try {
+                notifySound.currentTime = 0; // Reset the audio to start from the beginning
+                notifySound.play();
+            } catch (e) {
+                console.error("Failed to play notification sound:", e);
+            }
+        }
+        if (typeof text !== 'string') {
+            console.error("Notification text must be a string");
+            return;
+        }
+
         notificationShowing = true;
         elements.notification.innerText = text;
         elements.notification.classList.add("showNotification", "animateNotification");
