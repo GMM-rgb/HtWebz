@@ -208,12 +208,81 @@
             box-sizing: border-box;
             box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
         }
+
+        /* Add styles for the progress indicator and toast notification */
+        #savingIndicator {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .save-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: white;
+            transition: width 0.3s ease-out;
+        }
+
+        #toastNotification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            10%, 90% {
+                opacity: 1;
+                transform: scale(1);
+                right: 50px;
+            }
+            22.5%, 90% {
+                transform: scale(1.1);
+            }
+        }
     </style>
 
     <link rel="stylesheet" href="assets/stylesheets/toolbar_styles.css">
 </head>
 
 <body>
+    <!-- Add saving indicator and toast notification -->
+    <div id="savingIndicator">
+        Saving...
+        <div class="save-progress">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+    <div id="toastNotification"></div>
+
     <div class="editor-container">
         <div>
             <button class="save-btn" onclick="saveFile()">Save</button>
@@ -324,78 +393,84 @@
             document.execCommand(command, false, null);
         }
 
-        function saveFile() {
+        // Add debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Update save indicator functions
+        function showSavingProgress(progress) {
+            const indicator = document.getElementById('savingIndicator');
+            const progressBar = indicator.querySelector('.progress-bar');
+            indicator.style.display = 'block';
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Update save function with debouncing
+        const debouncedSave = debounce(async function() {
             const fileNameInput = document.getElementById('fileName').value;
             const contentInput = document.getElementById('content').innerHTML;
             const fontSize = document.getElementById('fontSize').value;
+
             if (!fileNameInput || !contentInput) {
-                return; // Do nothing if input fields are empty
+                showToast('File name or content is empty!', false);
+                return;
             }
 
-            let fileStats = document.getElementById('fileStatsText');
+            showSavingProgress(0);
+            await new Promise(r => setTimeout(r, 100));
+            showSavingProgress(30);
 
-            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-            const fileName = fileNameInput.replace(/\s+/g, '_') + '.html';
-            const fileData = {
-                name: fileNameInput,
-                content: contentInput,
-                fontSize: fontSize,
-                created: new Date().toISOString()
-            };
+            try {
+                const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                const fileData = {
+                    name: fileNameInput,
+                    content: contentInput,
+                    fontSize: fontSize,
+                    created: new Date().toISOString()
+                };
 
-            const existingFileIndex = files.findIndex(file => file.name === fileNameInput);
-            if (existingFileIndex !== -1) {
-                files[existingFileIndex] = fileData; // Update existing file
-            } else {
-                files.push(fileData); // Add new file
-                confirm(`Continue to create File, ${fileNameInput}?`);
-                if (confirm === 'cancel') {
-                    return
+                showSavingProgress(60);
+                await new Promise(r => setTimeout(r, 100));
+
+                const existingFileIndex = files.findIndex(file => file.name === fileNameInput);
+                if (existingFileIndex !== -1) {
+                    files[existingFileIndex] = fileData;
+                } else {
+                    files.push(fileData);
                 }
-            }
 
-            localStorage.setItem('odocsFiles', JSON.stringify(files)); // Save the updated files array to localStorage
-
-            /*
-              * Save the file to localStorage and update the file status
-              * This ensures that the file is saved correctly and reflects in the file list
-              * Also handles the case of updating an existing file or creating a new one as a backup
-            */
-            if (files.push(fileData)) {
-                try {
-                    fileStats.innerText = "Saving...";
-                    fileStats.style.color = "green";
-                    files.push(fileData); // Push the file data to the files array in localStorage
-                    if (editor.innerText === JSON.parse(localStorage.getItem('odocsFiles')) || []) {
-                        fileStats.innerText = "✅ Saved!";
-                        fileStats.style.color = "green";
-                    } else {
-                        // Handle the case where the save was unsuccessful
-                        fileStats.innerText = "⚠ Failed to save file!";
-                        fileStats.style.color = "red";
-                    }
-                    editor.innerText.onchange = () => {
-                        fileStats.innerText = "Unsaved!"; // Reset to unsaved if user changes the content again (will not appear if autosave)
-                        fileStats.style.color = "red";
-                    };
-                } catch (out) {
-                    fileStats.innerText = "⚠ Error in saving file!";
-                    fileStats.style.color = "red";
-                    console.error('Error saving file:', out); // Log the error for debugging purposes
-                } finally {
-                    // Ensure we always reset the fileStats after attempting to save
-                    //localStorage.setItem('odocsFiles', JSON.stringify(files)); // Ensure the files array is saved to localStorage
-                }
-            } else if(!files.push(fileData)) {
-                // Handle the case where saving failed silently
-                console.error('Failed to save the file. Attempting to save again.');
-                fileStats.innerText = "⚠ Failed to save file!";
-                fileStats.style.color = "red";
-                localStorage.setItem('odocsFiles', JSON.stringify(files)); // Ensure the files array is saved to localStorage
-            } else {
-                fileStats.innerText = "Unsaved!";
-                fileStats.style.color = "red";
+                localStorage.setItem('odocsFiles', JSON.stringify(files));
+                showSavingProgress(100);
+                
+                setTimeout(() => {
+                    document.getElementById('savingIndicator').style.display = 'none';
+                    showToast('✅ File saved successfully!');
+                }, 500);
+            } catch (error) {
+                console.error('Error saving file:', error);
+                showToast('⚠ Failed to save file!', false);
+                document.getElementById('savingIndicator').style.display = 'none';
             }
+        }, 500);
+
+        // Update event listeners to use debounced save
+        document.getElementById('content').addEventListener('input', debouncedSave);
+        document.getElementById('fileName').addEventListener('blur', debouncedSave);
+
+        // Show toast notification
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toastNotification');
+            toast.innerText = message;
+            toast.style.backgroundColor = isSuccess ? '#28a745' : '#dc3545';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
         }
 
         function cancel() {
@@ -416,7 +491,7 @@
                     fontElements[i].style.fontSize = fontSize + 'px';
                 }
             }
-            saveFile(); // Save the file after changing font size
+            debouncedSave(); // Save the file after changing font size
         }
 
         // Add keyboard shortcuts for font size changes
@@ -456,10 +531,6 @@
                 }
             }
         });
-
-        // Auto-save on input change, except when editing the title
-        document.getElementById('content').addEventListener('input', saveFile);
-        document.getElementById('fileName').addEventListener('blur', saveFile);
 
         // Update font size input when selecting text
         document.getElementById('content').addEventListener('mouseup', updateFontSizeInput);
