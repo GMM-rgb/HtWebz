@@ -54,14 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         menu.style.display = "flex";
         menu.style.opacity = "1";
-        menu.classList.add(menuClass); // Add animation class
+        menu.classList.add(menuClass); // Add animation class to menu
         
         if (blur && elements.menuBlur) {
             elements.menuBlur.style.display = "block";
             setTimeout(() => elements.menuBlur.style.opacity = "0.5", 10);
         }
         
-        // Remove animation class after animation completes
+        // Remove animation class after animation completes on menu
         setTimeout(() => {
             menu.classList.remove(menuClass);
         }, 650);
