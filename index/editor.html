@@ -33,14 +33,14 @@
             width: 100%;
             height: 100%;
             top: 0 !important;
-            left: 12.5%;
+            left: 0 !important; /* Ensure the container is centered in the viewport */
+            margin: auto; /* Center the container in the viewport */
             /* Ensures the container is centered in the viewport */
             background: whitesmoke;
-            border-radius: 10px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             color: black;
-            position: fixed;
+            position: relative;
             overflow-x: hidden; /* Prevent horizontal scrolling */
             overflow-y: auto; /* Allow vertical scrolling if content overflows */
         }
