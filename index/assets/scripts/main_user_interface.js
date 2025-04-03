@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         expandMenuToolbar: document.getElementById("expandMenuToolbar")
     };
 
-    var notifySound = new Audio('assets/audio/notify.mp3'); // Load notification sound for notify function
-    notifySound.preload = 'auto'; // Preload the audio for better performance
+    var notifySound = document.getElementById("notifySound"); // Get the notification sound element
 
     // Validate all elements exist
     Object.entries(elements).forEach(([name, element]) => {
@@ -42,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Failed to play notification sound:", e);
             }
         }
+        
         if (typeof text !== 'string') {
             console.error("Notification text must be a string");
             return;
