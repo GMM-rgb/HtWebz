@@ -1,0 +1,96 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.5); /* Start slightly off-screen to the right */
+    }
+    25%, 90% {
+        transform: translateX(-20px) scale(1.225);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1); /* Start in the final position */
+    }
+    25% {
+        transform: translateX(-20px) scale(1.225); /* Slightly to the left */
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.5); /* End off-screen to the right */
+    }
+}
+
+#formatingControls {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: stretch; /* Make sure children take full width */
+    position: fixed !important;
+    flex: 1 1 auto !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100%;
+    width: fit-content;
+    min-width: 325px !important;
+    max-width: 400px;
+    background: white;
+    border-left: 3px solid #7c7c7c;
+    border-radius: none;
+    box-sizing: border-box !important;
+    padding: 10px;
+}
+
+#formatingControls.fadeInAnimationFormater {
+    animation: fadeIn 0.65s ease-out !important; /* Apply the fadeIn animation */
+}
+
+#formatingControls.fadeOutAnimationFormater {
+    animation: fadeOut 0.65s ease-out !important; /* Apply the fadeOut animation */
+}
+
+#formattingControlsHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly; /* Space between the title and close button */
+    overflow: hidden;
+    border: 3px solid #ccc; /* Border for the header */
+    border-radius: 15px; /* Rounded corners for the header */
+    padding-inline: 10px;
+    padding-block: 5px;
+    background: rgb(227, 227, 227);
+}
+
+#closeFormatingControls {
+    position: relative !important;
+    cursor: pointer !important;
+    border: 2px solid darkred;
+    border-radius: 50px;
+    background: red;
+    padding: 5.75px 9.5px;
+    color: white;
+    font-weight: bold;
+    -webkit-user-select: none; /* For Safari */
+    -moz-user-select: none; /* For Firefox */
+    -ms-user-select: none; /* For IE/Edge */
+    user-select: none !important;
+    -webkit-user-drag: none; /* For Safari */
+    -moz-user-drag: none; /* For Firefox */
+    transition: all 0.3s ease-out;
+}
+
+#closeFormatingControls:hover{
+    transform: scale(1.1); /* Slightly increase size on hover */
+    box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275); /* Add shadow on hover */
+}
+
+.format-type-button {
+    cursor: pointer !important;
+    border-radius: 30px;
+    border: 3px solid #ccc;
+}

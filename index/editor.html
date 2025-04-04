@@ -34,7 +34,7 @@
             height: 100%;
             border-radius: 15px; /* Rounded corners for the container */
             top: 0 !important;
-            left: 0 !important; /* Ensure the container is centered in the viewport */
+            left: 165px !important; /* Ensure the container is centered in the viewport */
             /* Ensures the container is centered in the viewport */
             background: whitesmoke;
             padding: 20px;
@@ -312,6 +312,14 @@
     </div>
     <div id="toastNotification"></div>
 
+
+    <link rel="stylesheet" href="assets/stylesheets/page_mapping_preview.css">
+    <div id="pageMappingPreview">
+        <canvas id="mapPreviewPageCanvas"></canvas>
+    </div>
+    <script src="assets/scripts/page_minimap_preview_system.js"></script>
+
+    
     <div class="editor-container">
         <div>
             <button class="save-btn" onclick="debouncedSave()">Save</button>
@@ -377,9 +385,23 @@
                 <script src="assets/scripts/font_script.js"></script>
             </div>
         </div>
-        <div id="content" contenteditable="true" placeholder="Start typing..." style="outline: none;"></div>
+        <div id="content" contenteditable="true" placeholder="Start typing..." style="outline: none;" onfocus=""></div>
     </div>
-    <!--(Java Script) Script for editor-->
+
+    <!-- Formating controls interface -->
+    <link rel="stylesheet" href="assets/stylesheets/format_controls.css">
+    <section id="formatingControls">
+        <div id="formattingControlsHeader" class="formatting-controls-header">
+            <button id="closeFormatingControls">X</button>
+            <div id="formatingTypes">
+                <button id="elementFormatControls" class="format-type-button">Position & Size</button>
+                <button id="miscellaneousFormatControls" class="format-type-button">Miscellaneous</button>
+            </div>    
+        </div>
+    </section>
+    <script src="assets/scripts/format_controls_system.js"></script>
+
+    <!-- Editor functionality -->
     <script>
         let editor = document.getElementById('content');
         let savedSelection;

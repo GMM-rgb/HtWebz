@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         expandMenuToolbar: document.getElementById("expandMenuToolbar")
     };
 
-    var notifySound = document.getElementById("notifySound"); // Get the notification sound element
+    var notifySound = document.getElementById("notifySound"); // Grab the notification sound element
 
     // Validate all elements exist
     Object.entries(elements).forEach(([name, element]) => {

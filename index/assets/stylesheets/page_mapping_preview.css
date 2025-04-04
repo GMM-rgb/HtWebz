@@ -1,0 +1,33 @@
+#pageMappingPreview {
+    display: flex;
+    flex-direction: column;
+    justify-content: block-start;
+    align-content: center;
+    position: fixed; /* for proper positioning of child elements */
+    border: 3px solid #7c7c7c;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;;
+    height: 100%;
+    min-width: 170px;
+    box-sizing: border-box !important;
+    padding-inline: 5px;
+    padding-block: 2.5px;
+    background: white;
+    top: 0 !important;
+    left: 0 !important;
+}
+
+#mapPreviewPageCanvas {
+    cursor: pointer !important;
+    border: 3px solid #ccc;
+    border-radius: 5px;
+    background: rgb(171, 171, 171);
+    width: 135px;
+    height: 195px;
+    transition: all 0.3s ease;
+}
+
+#mapPreviewPageCanvas:hover {
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.275); /* subtle shadow on hover */
+    transform: scale(1.035);
+}
