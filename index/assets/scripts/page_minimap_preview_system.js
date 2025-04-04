@@ -22,8 +22,8 @@ function updatePreview() {
         return;
     }
 
-    // Set the content as plain text while maintaining line breaks
-    preview.textContent = currentFile.content.replace(/<br\s*\/?>/g, '\n').replace(/<\/?[^>]+(>|$)/g, '');
+    // Set the content directly from localStorage, preserving <br> tags for line breaks
+    preview.innerHTML = currentFile.content;
 
     // Scale the text to fit within the preview boundaries
     const previewWidth = preview.offsetWidth;
@@ -35,7 +35,7 @@ function updatePreview() {
     tempElement.style.visibility = "hidden";
     tempElement.style.whiteSpace = "pre-wrap";
     tempElement.style.fontSize = "16px"; // Start with a default font size
-    tempElement.textContent = preview.textContent;
+    tempElement.innerHTML = preview.innerHTML;
     document.body.appendChild(tempElement);
 
     // Adjust font size to fit within the preview
@@ -50,6 +50,7 @@ function updatePreview() {
 
     // Apply the calculated font size to the preview
     preview.style.fontSize = `${fontSize}px`;
+    preview.style.whiteSpace = "pre-wrap"; // Ensure line breaks are preserved
 
     // Clean up the temporary element
     document.body.removeChild(tempElement);
