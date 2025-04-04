@@ -1,59 +1,71 @@
 let contentEditor = document.getElementById("content");
 const previewContainer = document.getElementById("pageMappingPreview");
 
-// Create preview element if it doesn't exist
-if (!document.getElementById("mapPreviewPage")) {
+function createPreviewElement() {
     const preview = document.createElement("div");
-    preview.id = "mapPreviewPage";
+    preview.className = "mapPreviewPage";
     previewContainer.appendChild(preview);
+    return preview;
 }
 
 function updatePreview() {
-    const preview = document.getElementById("mapPreviewPage");
-    if (!preview) return;
+    previewContainer.innerHTML = '';
 
-    // Get current file content from localStorage
     const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
     const fileName = document.getElementById("fileName").value;
     const currentFile = files.find(f => f.name === fileName);
 
     if (!currentFile || !currentFile.content) {
-        preview.textContent = "No content available.";
+        const preview = createPreviewElement();
+        preview.innerHTML = '<div style="color: #666;">No content yet...</div>';
         return;
     }
 
-    // Set the content directly from localStorage, preserving formatting (HTML tags)
-    preview.innerHTML = currentFile.content;
+    const pageHeight = 225; // Height from CSS
+    let pages = [];
+    let currentPage = createPreviewElement();
+    pages.push(currentPage);
 
-    // Scale the text to fit within the preview boundaries
-    const previewWidth = preview.offsetWidth;
-    const previewHeight = preview.offsetHeight;
+    // Process the content
+    const cleanContent = currentFile.content
+        .replace(/undefined/g, '')
+        .replace(/(<div><br><\/div>|<div><\/div>)/g, '<br>')
+        .replace(/\n/g, '<br>');
 
-    // Create a temporary element to measure content size
-    const tempElement = document.createElement("div");
-    tempElement.style.position = "absolute";
-    tempElement.style.visibility = "hidden";
-    tempElement.style.whiteSpace = "pre-wrap";
-    tempElement.style.fontSize = "16px"; // Start with a default font size
-    tempElement.innerHTML = preview.innerHTML;
-    document.body.appendChild(tempElement);
+    // Split content into elements
+    const contentHolder = document.createElement('div');
+    contentHolder.innerHTML = cleanContent;
+    
+    let currentContent = '';
+    Array.from(contentHolder.childNodes).forEach(node => {
+        const nodeContent = node.outerHTML || node.textContent || '';
+        
+        // Test if adding this node would overflow
+        currentPage.innerHTML = currentContent + nodeContent;
+        
+        if (currentPage.scrollHeight > pageHeight && currentContent !== '') {
+            // Content overflows, create new page
+            currentPage = createPreviewElement();
+            pages.push(currentPage);
+            currentContent = nodeContent;
+            currentPage.innerHTML = currentContent;
+        } else {
+            currentContent += nodeContent;
+        }
+    });
 
-    // Adjust font size to fit within the preview
-    let fontSize = 16; // Default font size
-    while (
-        (tempElement.offsetWidth > previewWidth || tempElement.offsetHeight > previewHeight) &&
-        fontSize > 4 // Minimum font size
-    ) {
-        fontSize--;
-        tempElement.style.fontSize = `${fontSize}px`;
-    }
-
-    // Apply the calculated font size to the preview
-    preview.style.fontSize = `${fontSize}px`;
-    preview.style.whiteSpace = "pre-wrap"; // Ensure line breaks are preserved
-
-    // Clean up the temporary element
-    document.body.removeChild(tempElement);
+    // Ensure all pages are properly styled
+    pages.forEach(page => {
+        const elements = page.getElementsByTagName('*');
+        Array.from(elements).forEach(element => {
+            if (element.style) {
+                element.style.fontSize = '4px';
+                if (element.style.backgroundColor) {
+                    element.style.padding = '0 2px';
+                }
+            }
+        });
+    });
 }
 
 // Listen for changes in localStorage and update the preview

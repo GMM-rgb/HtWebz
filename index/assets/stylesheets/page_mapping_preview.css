@@ -18,6 +18,7 @@
     left: 0 !important;
     gap: 8px;
     overflow: hidden; /* Adjusted overflow */
+    overflow-y: auto; /* Allow scrolling for multiple pages */
     z-index: 1000;
 }
 
@@ -48,4 +49,43 @@
     position: fixed;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Adjusted box-shadow */
     transform: scale(1.1) translateX(8px) translateY(12px); /* Adjusted transform */
+}
+
+.mapPreviewPage {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #e8fdff;
+    width: 150px;
+    height: 225px; /* Fixed height for each preview page */
+    margin-bottom: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transform: scale(1);
+    transform-origin: top left;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 4px !important;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    white-space: pre-wrap;
+}
+
+.mapPreviewPage > * {
+    pointer-events: none;
+    font-size: 4px !important; /* Force small font size */
+}
+
+.mapPreviewPage span,
+.mapPreviewPage div,
+.mapPreviewPage p,
+.mapPreviewPage * {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    margin: 0;
+    padding: 0;
+}
+
+.mapPreviewPage [style*="background-color"] {
+    padding: 0 2px !important;
+    border-radius: 1px;
 }
