@@ -467,8 +467,8 @@
         // Update save function with debouncing
         const debouncedSave = debounce(async function() {
             const fileNameInput = document.getElementById('fileName').value;
-            // Convert plain text (with preserved line breaks) to HTML with <br> tags
-            const contentInput = document.getElementById('content').innerText.replace(/\n/g, '<br>');
+            // Save the content with formatting (HTML tags)
+            const contentInput = document.getElementById('content').innerHTML;
             const fontSize = document.getElementById('fontSize').value;
 
             if (!fileNameInput || !contentInput) {

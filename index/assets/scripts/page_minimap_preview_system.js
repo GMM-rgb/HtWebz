@@ -22,7 +22,7 @@ function updatePreview() {
         return;
     }
 
-    // Set the content directly from localStorage, preserving <br> tags for line breaks
+    // Set the content directly from localStorage, preserving formatting (HTML tags)
     preview.innerHTML = currentFile.content;
 
     // Scale the text to fit within the preview boundaries
