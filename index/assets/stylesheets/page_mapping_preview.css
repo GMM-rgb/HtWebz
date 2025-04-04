@@ -25,9 +25,11 @@
     width: 135px;
     height: 195px;
     transition: all 0.3s ease;
+    margin-left: 4.85px;
 }
 
 #mapPreviewPageCanvas:hover {
     box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.275); /* subtle shadow on hover */
     transform: scale(1.035);
+    transform-origin: top;
 }
