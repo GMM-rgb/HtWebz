@@ -26,10 +26,9 @@
     border: 1px solid #ccc; /* Adjusted border */
     border-radius: 5px;
     background: #e8fdff;
-    width: 150px; /* Smaller base size for better scaling */
+    width: 160px; /* Smaller base size for better scaling */
     height: calc(50vh - 50px);
     padding: 5px;
-    margin: 5px; /* Added margin */
     transition: all 0.3s ease;
     box-sizing: border-box;
     overflow-x: hidden; /* hidden to prevent horizontal scrollbars */
