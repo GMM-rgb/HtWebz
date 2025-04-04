@@ -8,28 +8,44 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;;
     height: 100%;
-    min-width: 170px;
+    min-width: 175px;
+    max-width: 175px;
     box-sizing: border-box !important;
     padding-inline: 5px;
     padding-block: 2.5px;
     background: white;
     top: 0 !important;
     left: 0 !important;
+    gap: 8px;
+    overflow: hidden; /* Adjusted overflow */
+    z-index: 1000;
 }
 
-#mapPreviewPageCanvas {
+#mapPreviewPage {
     cursor: pointer !important;
-    border: 3px solid #ccc;
+    border: 1px solid #ccc; /* Adjusted border */
     border-radius: 5px;
-    background: rgb(171, 171, 171);
-    width: 135px;
-    height: 195px;
+    background: #e8fdff;
+    width: 150px; /* Smaller base size for better scaling */
+    height: calc(50vh - 50px);
+    padding: 5px;
+    margin: 5px; /* Added margin */
     transition: all 0.3s ease;
-    margin-left: 4.85px;
+    box-sizing: border-box;
+    overflow: hidden; /* Change to hidden to prevent scrollbars */
+    transform: scale(1);
+    transform-origin: left center;
+    transform-style: preserve-3d; /* Ensure 3D transform is preserved for scaling */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Adjusted box-shadow */
 }
 
-#mapPreviewPageCanvas:hover {
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.275); /* subtle shadow on hover */
-    transform: scale(1.035);
-    transform-origin: top;
+#mapPreviewPage > * {
+    pointer-events: none;
+    font-size: 4px !important; /* Force small font size */
+}
+
+#mapPreviewPage:hover {
+    position: fixed;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Adjusted box-shadow */
+    transform: scale(1.1) translateX(8px) translateY(12px); /* Adjusted transform */
 }

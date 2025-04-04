@@ -315,11 +315,11 @@
 
     <link rel="stylesheet" href="assets/stylesheets/page_mapping_preview.css">
     <div id="pageMappingPreview">
-        <canvas id="mapPreviewPageCanvas"></canvas>
+        <div id="mapPreviewPage"></div>
     </div>
     <script src="assets/scripts/page_minimap_preview_system.js"></script>
 
-    
+
     <div class="editor-container">
         <div>
             <button class="save-btn" onclick="debouncedSave()">Save</button>
@@ -501,6 +501,9 @@
                 localStorage.setItem('odocsFiles', JSON.stringify(files));
                 showSavingProgress(100);
                 
+                // Update the preview after saving
+                renderPreview();
+
                 setTimeout(() => {
                     document.getElementById('savingIndicator').style.display = 'none';
                     showToast('✅ File saved successfully!');
@@ -582,6 +585,9 @@
                     document.getElementById('content').innerHTML = file.content;
                     document.getElementById('fontSize').value = file.fontSize || 16;
                     document.getElementById('content').style.fontSize = (file.fontSize || 16) + 'px';
+                    
+                    // Update preview after loading content
+                    setTimeout(renderPreview, 100);
                 }
             }
         });
