@@ -32,7 +32,8 @@
     margin: 5px; /* Added margin */
     transition: all 0.3s ease;
     box-sizing: border-box;
-    overflow: hidden; /* Change to hidden to prevent scrollbars */
+    overflow-x: hidden; /* hidden to prevent horizontal scrollbars */
+    overflow-y: auto; /* Allow vertical scrolling if content overflows */
     transform: scale(1);
     transform-origin: left center;
     transform-style: preserve-3d; /* Ensure 3D transform is preserved for scaling */
