@@ -503,6 +503,67 @@
                 }
             });
 
+            // Add tab/shift+tab handling for text indentation
+            editor.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    const sel = window.getSelection();
+                    if (!sel.rangeCount) return;
+
+                    const range = sel.getRangeAt(0);
+                    const lines = range.toString().split('\n');
+
+                    if (lines.length > 1) {
+                        // Multiple lines selected
+                        const startContainer = range.startContainer;
+                        const startOffset = range.startOffset;
+                        const endContainer = range.endContainer;
+                        const endOffset = range.endOffset;
+
+                        // Process each line
+                        const processedLines = lines.map(line => {
+                            if (e.shiftKey) {
+                                // Remove indentation
+                                return line.replace(/^(\t|    )/, '');
+                            } else {
+                                // Add indentation
+                                return '\t' + line;
+                            }
+                        });
+
+                        const newContent = processedLines.join('\n');
+                        range.deleteContents();
+                        range.insertNode(document.createTextNode(newContent));
+
+                        // Restore selection
+                        const newRange = document.createRange();
+                        newRange.setStart(startContainer, startOffset);
+                        newRange.setEnd(endContainer, endOffset);
+                        sel.removeAllRanges();
+                        sel.addRange(newRange);
+                    } else {
+                        // Single line or cursor position
+                        if (e.shiftKey) {
+                            // Remove indentation
+                            const lineStart = range.startContainer.textContent.substring(0, range.startOffset);
+                            if (lineStart.match(/^(\t|    )/)) {
+                                const newText = range.startContainer.textContent.replace(/^(\t|    )/, '');
+                                range.startContainer.textContent = newText;
+                            }
+                        } else {
+                            // Insert tab at cursor position
+                            const tabNode = document.createTextNode('\t');
+                            range.insertNode(tabNode);
+                            range.setStartAfter(tabNode);
+                            range.setEndAfter(tabNode);
+                            sel.removeAllRanges();
+                            sel.addRange(range);
+                        }
+                    }
+                    debouncedSave();
+                }
+            });
+
             // Initialize content change handlers
             editor.addEventListener('input', () => {
                 if (window.renderPreview) {

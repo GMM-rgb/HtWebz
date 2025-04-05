@@ -31,22 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentPage = createPreviewElement();
         let currentContent = '';
 
-        // Process content in chunks
+        // Process content while preserving whitespace
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = content;
+        tempDiv.innerHTML = content
+            .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')  // Convert tabs to spaces
+            .replace(/\n/g, '<br>')                       // Convert newlines
+            .replace(/(<div><br><\/div>)/g, '<br>');     // Clean up empty divs
         
+        // Process nodes while preserving indentation
         Array.from(tempDiv.childNodes).forEach(node => {
-            const nodeContent = node.outerHTML || node.textContent;
+            const nodeContent = node.nodeType === 3 ? 
+                node.textContent.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;') : 
+                node.outerHTML;
             
-            // Skip empty nodes
-            if (!nodeContent.trim()) return;
+            if (!nodeContent.trim() && !nodeContent.includes('&nbsp;')) return;
             
             // Test if content fits current page
             const testContent = currentContent + nodeContent;
             currentPage.innerHTML = testContent;
             
             if (currentPage.scrollHeight > pageHeight && currentContent) {
-                // Create new page if content overflows
                 currentPage.innerHTML = currentContent;
                 currentPage = createPreviewElement();
                 currentContent = nodeContent;
@@ -56,13 +60,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Apply styling to preview content
+        // Handle any remaining content
+        if (currentContent) {
+            currentPage.innerHTML = currentContent;
+        }
+
+        // Apply preview styling while preserving indentation
         const pages = previewContainer.getElementsByClassName('mapPreviewPage');
         Array.from(pages).forEach(page => {
             const elements = page.getElementsByTagName('*');
             Array.from(elements).forEach(element => {
                 if (element.style) {
                     element.style.fontSize = '4px';
+                    element.style.whiteSpace = 'pre-wrap';
                 }
             });
         });
