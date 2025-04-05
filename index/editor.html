@@ -11,13 +11,17 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             color: black;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             background-color: rgb(204, 204, 204); /* Light background color for the body */
-            display: flex; /* Use flexbox to center the editor container */
-            overflow: auto;
-            height: 100vh;
-            max-height: 100vh;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 100vh;
+            width: 100vw;
+            box-sizing: border-box;
             overflow: hidden;
+            height: 100vh;
         }
 
         .title {
@@ -31,23 +35,23 @@
         }
 
         .editor-container {
-            justify-self: center; /* Center the container horizontally */
-            flex: auto; /* Allow the container to grow and shrink as needed */
-            max-width: 800px;
-            width: 100%;
-            height: 100%;
+            position: relative;
+            flex: 1 1 auto;
+            min-width: 280px;
+            width: calc(100vw - 195px);
+            height: calc(100vh - 20px);
+            margin-left: 175px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
             border-radius: 15px; /* Rounded corners for the container */
-            top: 0 !important;
-            left: 165px !important; /* Ensure the container is centered in the viewport */
-            /* Ensures the container is centered in the viewport */
             background: whitesmoke;
             padding: 20px;
+            padding-top: 60px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.75); /* Subtle shadow for depth */
             color: black;
-            position: relative;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-            overflow-y: auto; /* Allow vertical scrolling if content overflows */
-            max-height: calc(100vh - 40px);
+            z-index: 1;
+            box-sizing: border-box;
         }
 
         .editor-container::-webkit-scrollbar {
@@ -55,12 +59,15 @@
         }
 
         #titleContainer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            -webkit-text-stroke: 0;
-            -webkit-text-fill-color: black;
-            color: black;
+            position: fixed;
+            top: 10px;
+            left: 185px;
+            right: 10px;
+            background: whitesmoke;
+            padding: 15px;
+            border-radius: 15px;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         #fileName {
@@ -69,6 +76,23 @@
             margin-bottom: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+            position: relative;
+            z-index: 3;
+        }
+
+        .toolbar-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
         }
 
         .toolbar button {
@@ -111,7 +135,7 @@
             position: absolute;
             background-color: #f9f9f9;
             border-radius: 5px;
-            z-index: 1;
+            z-index: 1000;
             gap: 4px;
         }
 
@@ -137,10 +161,14 @@
         }
 
         #content {
-            width: 97%;
-            height: 100%;
+            flex: 1 1 auto;
+            overflow-y: auto;
+            min-height: 100px;
+            width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
+            margin: 0;
+            margin-top: 105px;
+            margin-bottom: 5px;
             border: 1px solid #ddd;
             border-radius: 10px;
             background-color: #e8fdff;
@@ -151,12 +179,13 @@
             text-anchor: middle;
             white-space: pre-wrap;
             /* For preserving whitespace in content */
-            overflow-y: auto;
-            /* Added overflow to allow scrolling */
+            height: auto;
+            max-height: unset;
             font-size: 16px;
             /* Default font size */
-            max-height: calc(100vh - 250px);
-            overflow-y: auto;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
         }
 
         #content::-webkit-scrollbar {
@@ -236,22 +265,20 @@
         .font-size-controls {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .font-size-controls button {
-            padding: 5px 10px;
-            margin-right: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            gap: 5px;
+            margin: 0;
         }
 
         .font-size-controls input {
-            width: 50px;
+            width: 40px;
             text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .font-type-controls {
+            display: flex;
+            align-items: center;
+            position: relative;
         }
 
         #filesStats {
@@ -275,7 +302,7 @@
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            z-index: 2000;
             min-width: 200px;
             -webkit-user-select: none !important;
             user-select: none;
@@ -312,7 +339,7 @@
             padding: 10px 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            z-index: 2000;
             animation: fadeInOut 3s ease-in-out;
             -webkit-user-select: none !important;
             user-select: none;
@@ -328,7 +355,7 @@
             border-radius: 5px;
             padding: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
+            z-index: 1001;
             width: 160px;
             font-size: 12px;
         }
@@ -372,6 +399,84 @@
                 transform: scale(1.1);
             }
         }
+
+        .sizing-controls-font-type {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        #pageMappingPreview {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 165px;
+            background: white;
+            z-index: 1000;
+            overflow-y: auto;
+            max-height: 100vh;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding: 10px;
+                height: 100%;
+                overflow-y: auto;
+            }
+            
+            .editor-container {
+                margin-left: 0;
+                width: 100%;
+                height: auto;
+                min-height: 50vh;
+                order: 2;
+            }
+            
+            #pageMappingPreview {
+                position: relative;
+                width: 100%;
+                height: 165px;
+                order: 1;
+            }
+            
+            #content {
+                height: auto;
+                min-height: 50vh;
+            }
+
+            #titleContainer {
+                position: sticky;
+                top: 0;
+                left: 0;
+                right: 0;
+                width: auto;
+                margin: 0 0 10px 0;
+                z-index: 1000;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .editor-container {
+                margin-left: 175px;
+                height: calc(100vh - 20px);
+            }
+
+            #pageMappingPreview {
+                position: fixed;
+                width: 165px;
+                height: calc(100vh - 20px);
+            }
+            
+            #titleContainer {
+                position: fixed;
+                left: 185px;
+                right: 10px;
+            }
+        }
     </style>
 
     <link rel="stylesheet" href="assets/stylesheets/toolbar_styles.css">
@@ -395,68 +500,70 @@
 
 
     <div class="editor-container">
-        <div>
-            <button class="save-btn" onclick="debouncedSave()">Save</button>
-            <button class="cancel-btn" onclick="cancel()">Return</button>
-        </div>
-
-        <div id="fileStats">
-            <span id="fileStatsText"></span>
-        </div>
-
-        <!--<h1 class="title">HtEditor - Text Editor</h1>-->
         <div id="titleContainer">
             <input type="text" id="fileName" placeholder="Enter file name" autocomplete="off">
             <div class="toolbar">
-                <button class="bold" onclick="formatText('bold')">Bold</button>
-                <button class="underline" onclick="formatText('underline')">Underline</button>
-                <div class="highlight-dropdown">
-                    <button class="highlight" onclick="toggleHighlightDropdown()">Highlight</button>
-                    <div class="highlight-dropdown-content" id="highlightDropdown">
-                        <div class="color-box" id="yellow" style="background-color: yellow;" onclick="highlightText('yellow')" onmouseenter="setupTooltip('#yellow', 'Highlight: Yellow')">
-                            <span class="tooltip-text" style="display:none;">Yellow</span>
-                        </div>
-                        <div class="color-box" id="lightgreen" style="background-color: lightgreen;"
-                            onclick="highlightText('lightgreen')" onmouseenter="setupTooltip('#lightgreen', 'Highlight: Light-green')"></div>
-                        <div class="color-box" id="lightblue" style="background-color: lightblue;"
-                            onclick="highlightText('lightblue')" onmouseenter="setupTooltip('#lightblue', 'Highlight: Light-blue')"></div>
-                        <div class="color-box" id="bluepurple" style="background-color: rgb(34, 30, 255);"
-                            onclick="highlightText('rgb(34, 30, 255)')" onmouseenter="setupTooltip('#bluepurple', 'Highlight: Blue-purple')"></div>
-                        <div class="color-box" id="purple" style="background-color: rgb(126, 30, 255);"
-                            onclick="highlightText('rgb(126, 30, 255)')" onmouseenter="setupTooltip('#purple', 'Highlight: Purple')"></div>
-                        <div class="color-box" id="pink" style="background-color: rgb(248, 95, 248);"
-                            onclick="highlightText('rgb(248, 95, 248)')" onmouseenter="setupTooltip('#pink', 'Hightlight: Pink')"></div>
-                        <div class="color-box" id="orange" style="background-color: rgb(255, 153, 0);"
-                            onclick="highlightText('rgb(255, 153, 0)')" onmouseenter="setupTooltip('#orange', 'Hightlight: Orange')"></div>
-                        <div class="color-box" id="red" style="background-color: red;"
-                            onclick="highlightText('red')" onmouseenter="setupTooltip('#red', 'Highlight: Red')"></div>
-                    </div>
+                <div class="toolbar-group">
+                    <button class="save-btn" onclick="debouncedSave()">Save</button>
+                    <button class="cancel-btn" onclick="cancel()">Return</button>
                 </div>
-                <button class="remove-highlight" onclick="removeHighlight()">Remove Highlight</button>
-            </div>
-        </div>
-        <div class="sizing-controls-font-type">
-            <div class="font-size-controls">
-                <button onclick="changeFontSize(-1)">-</button>
-                <input type="text" id="fontSize" value="16" readonly>
-                <button onclick="changeFontSize(1)">+</button>
-            </div>
-            <div class="font-type-controls">
-                <button class="font-button-change" id="fontChangeButton">Font: Arial</button>
-                <div id="fontTypeSelectionContainer">
-                    <button class="fontButton" id="arialFontButton">Arial</button>
-                    <button class="fontButton" id="sansSerifFontButton">Sans Serif</button>
-                    <button class="fontButton" id="helveticaFontButton">Helvetica</button>
-                    <button class="fontButton" id="timesRomanFontButton">Times New Roman</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
-                    <button class="fontButton" id="">...</button>
+                
+                <div class="toolbar-group">
+                    <button class="bold" onclick="formatText('bold')">Bold</button>
+                    <button class="underline" onclick="formatText('underline')">Underline</button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <div class="highlight-dropdown">
+                        <button class="highlight" onclick="toggleHighlightDropdown()">Highlight</button>
+                        <div class="highlight-dropdown-content" id="highlightDropdown">
+                            <div class="color-box" id="yellow" style="background-color: yellow;" onclick="highlightText('yellow')" onmouseenter="setupTooltip('#yellow', 'Highlight: Yellow')">
+                                <span class="tooltip-text" style="display:none;">Yellow</span>
+                            </div>
+                            <div class="color-box" id="lightgreen" style="background-color: lightgreen;"
+                                onclick="highlightText('lightgreen')" onmouseenter="setupTooltip('#lightgreen', 'Highlight: Light-green')"></div>
+                            <div class="color-box" id="lightblue" style="background-color: lightblue;"
+                                onclick="highlightText('lightblue')" onmouseenter="setupTooltip('#lightblue', 'Highlight: Light-blue')"></div>
+                            <div class="color-box" id="bluepurple" style="background-color: rgb(34, 30, 255);"
+                                onclick="highlightText('rgb(34, 30, 255)')" onmouseenter="setupTooltip('#bluepurple', 'Highlight: Blue-purple')"></div>
+                            <div class="color-box" id="purple" style="background-color: rgb(126, 30, 255);"
+                                onclick="highlightText('rgb(126, 30, 255)')" onmouseenter="setupTooltip('#purple', 'Highlight: Purple')"></div>
+                            <div class="color-box" id="pink" style="background-color: rgb(248, 95, 248);"
+                                onclick="highlightText('rgb(248, 95, 248)')" onmouseenter="setupTooltip('#pink', 'Hightlight: Pink')"></div>
+                            <div class="color-box" id="orange" style="background-color: rgb(255, 153, 0);"
+                                onclick="highlightText('rgb(255, 153, 0)')" onmouseenter="setupTooltip('#orange', 'Hightlight: Orange')"></div>
+                            <div class="color-box" id="red" style="background-color: red;"
+                                onclick="highlightText('red')" onmouseenter="setupTooltip('#red', 'Highlight: Red')"></div>
+                        </div>
+                    </div>
+                    <button class="remove-highlight" onclick="removeHighlight()">Remove Highlight</button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <div class="font-size-controls">
+                        <button onclick="changeFontSize(-1)">-</button>
+                        <input type="text" id="fontSize" value="16" readonly>
+                        <button onclick="changeFontSize(1)">+</button>
+                    </div>
+                    
+                    <div class="font-type-controls">
+                        <button class="font-button-change" id="fontChangeButton">Font: Arial</button>
+                        <div id="fontTypeSelectionContainer">
+                            <button class="fontButton" id="arialFontButton">Arial</button>
+                            <button class="fontButton" id="sansSerifFontButton">Sans Serif</button>
+                            <button class="fontButton" id="helveticaFontButton">Helvetica</button>
+                            <button class="fontButton" id="timesRomanFontButton">Times New Roman</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                            <button class="fontButton" id="">...</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

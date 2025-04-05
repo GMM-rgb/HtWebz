@@ -1,8 +1,40 @@
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    align-items: center;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    border-right: 1px solid #ddd;
+}
+
+.toolbar-group:last-child {
+    border-right: none;
+}
+
+.toolbar button {
+    height: 32px;
+    padding: 0 12px;
+}
+
+.font-size-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+}
+
 .font-type-controls {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap-reverse;
-    flex: auto;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
 }
 
 #fontTypeSelectionContainer {
@@ -39,4 +71,21 @@
 
 .font-button-change:active {
     background: orangered;
+}
+
+@media (max-width: 768px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .toolbar-group {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding: 8px 0;
+    }
+    
+    .toolbar-group:last-child {
+        border-bottom: none;
+    }
 }
