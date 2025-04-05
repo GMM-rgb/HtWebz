@@ -12,7 +12,9 @@
             color: black;
             margin: 0;
             padding: 20px;
-            background-color: rgb(112, 255, 236);
+            background-color: rgb(204, 204, 204); /* Light background color for the body */
+            display: flex; /* Use flexbox to center the editor container */
+            overflow: auto;
         }
 
         .title {
@@ -26,13 +28,22 @@
         }
 
         .editor-container {
+            justify-self: center; /* Center the container horizontally */
+            flex: 1 1 auto; /* Allow the container to grow and shrink as needed */
             max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px; /* Rounded corners for the container */
+            top: 0 !important;
+            left: 165px !important; /* Ensure the container is centered in the viewport */
+            /* Ensures the container is centered in the viewport */
             background: whitesmoke;
-            border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.75); /* Subtle shadow for depth */
             color: black;
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: auto; /* Allow vertical scrolling if content overflows */
         }
 
         #titleContainer {
@@ -55,19 +66,28 @@
         .toolbar button {
             padding: 10px;
             margin-right: 5px;
-            border: none;
+            border: 2px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
+            color: white;
+            text-rendering: optimizeSpeed !important; /* Ensure text is rendered quickly */
         }
 
         .toolbar button.bold {
             background-color: #007bff;
-            color: white;
+            font-weight: bold;
+        }
+
+        .bold {
+            -webkit-color: white !important; /* Fallback for other browsers */
+            color: white !important; /* Ensure text is white for visibility */
         }
 
         .toolbar button.underline {
             background-color: #dc3545;
-            color: white;
+            -webkit-color: white !important; /* Fallback for other browsers */
+            color: white !important; /* Ensure text is white for visibility */
+            font-weight: bold;
         }
 
         .toolbar .highlight-dropdown {
@@ -77,11 +97,14 @@
 
         .toolbar .highlight-dropdown-content {
             display: none;
+            flex-direction: grid; /* Use grid layout for color boxes */
+            grid-template-columns: repeat(3, minmax(25px, 2fr)); /* Responsive grid for color boxes */
+            padding: 10px;
             position: absolute;
             background-color: #f9f9f9;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             z-index: 1;
+            gap: 4px;
         }
 
         .toolbar .highlight-dropdown-content .color-box {
@@ -92,6 +115,13 @@
             cursor: pointer;
             border: 1px solid #ddd;
             border-radius: 5px;
+            box-sizing: border-box !important;
+            transition: all 0.3s ease-out;
+        }
+
+        .color-box:hover {
+            box-shadow: inset 0px 8px 16px 0px rgba(0, 0, 0, 0.2), 0px 8px 16px 2px rgba(0, 0, 0, 0.25); /* Subtle inner shadow for depth */
+            transform: scale(1.275); /* Slightly increase size on hover for better visibility */
         }
 
         .toolbar .highlight-dropdown-content .color-box:hover {
@@ -109,7 +139,7 @@
             word-break: auto;
             word-spacing: auto;
             mask-composite: auto;
-            text-rendering: optimizeSpeed;
+            text-rendering: optimizeSpeed !important;
             text-anchor: middle;
             white-space: pre-wrap;
             /* For preserving whitespace in content */
@@ -132,12 +162,38 @@
         }
 
         #content::-webkit-scrollbar-thumb {
+            cursor: pointer; /* Makes the scrollbar thumb clickable */
             background: linear-gradient(lightgray, lightslategray lightgray);
             border: 2px solid #ccc;
             border-radius: 10px;
             outline: 1px solid #ccc;
             outline-offset: 1px;
         }
+
+        /* Image resizing styles */
+        #content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #content img.resize-active {
+            outline: 2px solid #007bff;
+        }
+
+        .resize-handle {
+            width: 8px;
+            height: 8px;
+            background-color: #007bff;
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: all;
+            cursor: pointer;
+        }
+
+        .resize-handle.nw { top: -4px; left: -4px; cursor: nw-resize; }
+        .resize-handle.ne { top: -4px; right: -4px; cursor: ne-resize; }
+        .resize-handle.sw { bottom: -4px; left: -4px; cursor: sw-resize; }
+        .resize-handle.se { bottom: -4px; right: -4px; cursor: se-resize; }
 
         .save-btn {
             background-color: #28a745;
@@ -187,17 +243,158 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        #filesStats {
+            border: 3px solid #a7a7a7;
+            border-radius: 15px;
+            padding: 10px 5px;
+            background: rgb(138, 138, 138);
+            color: honeydew;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Add styles for the progress indicator and toast notification */
+        #savingIndicator {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            min-width: 200px;
+            -webkit-user-select: none !important;
+            user-select: none;
+            -webkit-user-drag: none !important;
+        }
+
+        .save-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: white;
+            transition: width 0.3s ease-out, background 0.25s linear;
+        }
+
+        .progress-bar:hover {
+            background: lightgray;
+        }
+
+        #toastNotification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: fadeInOut 3s ease-in-out;
+            -webkit-user-select: none !important;
+            user-select: none;
+            -webkit-user-drag: none !important;
+        }
+
+        .image-border-menu {
+            position: absolute;
+            right: -180px;
+            top: 0;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 160px;
+            font-size: 12px;
+        }
+
+        .image-border-menu.active {
+            display: block !important;
+        }
+
+        .border-color-picker {
+            width: 100%;
+            height: 25px;
+            padding: 2px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin: 4px 0;
+        }
+
+        .border-width-control {
+            margin: 8px 0 4px 0;
+        }
+
+        .border-width-control input {
+            width: 50px;
+            padding: 2px 4px;
+            margin-left: 4px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            10%, 90% {
+                opacity: 1;
+                transform: scale(1);
+                right: 50px;
+            }
+            22.5%, 90% {
+                transform: scale(1.1);
+            }
+        }
     </style>
 
     <link rel="stylesheet" href="assets/stylesheets/toolbar_styles.css">
 </head>
 
 <body>
+    <!-- Add saving indicator and toast notification -->
+    <div id="savingIndicator">
+        Saving...
+        <div class="save-progress">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+    <div id="toastNotification"></div>
+
+
+    <link rel="stylesheet" href="assets/stylesheets/page_mapping_preview.css">
+    <div id="pageMappingPreview">
+        <div id="mapPreviewPage"></div>
+    </div>
+    <script src="assets/scripts/page_minimap_preview_system.js"></script>
+
+
     <div class="editor-container">
         <div>
-            <button class="save-btn" onclick="saveFile()">Save</button>
+            <button class="save-btn" onclick="debouncedSave()">Save</button>
             <button class="cancel-btn" onclick="cancel()">Return</button>
         </div>
+
+        <div id="fileStats">
+            <span id="fileStatsText"></span>
+        </div>
+
         <!--<h1 class="title">HtEditor - Text Editor</h1>-->
         <div id="titleContainer">
             <input type="text" id="fileName" placeholder="Enter file name" autocomplete="off">
@@ -207,18 +404,23 @@
                 <div class="highlight-dropdown">
                     <button class="highlight" onclick="toggleHighlightDropdown()">Highlight</button>
                     <div class="highlight-dropdown-content" id="highlightDropdown">
-                        <div class="color-box" style="background-color: yellow;" onclick="highlightText('yellow')">
+                        <div class="color-box" id="yellow" style="background-color: yellow;" onclick="highlightText('yellow')" onmouseenter="setupTooltip('#yellow', 'Highlight: Yellow')">
+                            <span class="tooltip-text" style="display:none;">Yellow</span>
                         </div>
-                        <div class="color-box" style="background-color: lightgreen;"
-                            onclick="highlightText('lightgreen')"></div>
-                        <div class="color-box" style="background-color: lightblue;"
-                            onclick="highlightText('lightblue')"></div>
-                        <div class="color-box" style="background-color: rgb(34, 30, 255);"
-                            onclick="highlightText('rgb(34, 30, 255)')"></div>
-                        <div class="color-box" style="background-color: rgb(126, 30, 255);"
-                            onclick="highlightText('rgb(126, 30, 255)')"></div>
-                        <div class="color-box" style="background-color: rgb(248, 95, 248);"
-                            onclick="highlightText('rgb(248, 95, 248)')"></div>
+                        <div class="color-box" id="lightgreen" style="background-color: lightgreen;"
+                            onclick="highlightText('lightgreen')" onmouseenter="setupTooltip('#lightgreen', 'Highlight: Light-green')"></div>
+                        <div class="color-box" id="lightblue" style="background-color: lightblue;"
+                            onclick="highlightText('lightblue')" onmouseenter="setupTooltip('#lightblue', 'Highlight: Light-blue')"></div>
+                        <div class="color-box" id="bluepurple" style="background-color: rgb(34, 30, 255);"
+                            onclick="highlightText('rgb(34, 30, 255)')" onmouseenter="setupTooltip('#bluepurple', 'Highlight: Blue-purple')"></div>
+                        <div class="color-box" id="purple" style="background-color: rgb(126, 30, 255);"
+                            onclick="highlightText('rgb(126, 30, 255)')" onmouseenter="setupTooltip('#purple', 'Highlight: Purple')"></div>
+                        <div class="color-box" id="pink" style="background-color: rgb(248, 95, 248);"
+                            onclick="highlightText('rgb(248, 95, 248)')" onmouseenter="setupTooltip('#pink', 'Hightlight: Pink')"></div>
+                        <div class="color-box" id="orange" style="background-color: rgb(255, 153, 0);"
+                            onclick="highlightText('rgb(255, 153, 0)')" onmouseenter="setupTooltip('#orange', 'Hightlight: Orange')"></div>
+                        <div class="color-box" id="red" style="background-color: red;"
+                            onclick="highlightText('red')" onmouseenter="setupTooltip('#red', 'Highlight: Red')"></div>
                     </div>
                 </div>
                 <button class="remove-highlight" onclick="removeHighlight()">Remove Highlight</button>
@@ -250,10 +452,25 @@
                 <script src="assets/scripts/font_script.js"></script>
             </div>
         </div>
-        <div id="content" contenteditable="true" placeholder="Start typing..." style="outline: none;"></div>
+        <div id="content" contenteditable="true" placeholder="Start typing..." style="outline: none;" onfocus=""></div>
     </div>
-    <!--(Java Script) Script for editor-->
+
+    <!-- Formating controls interface -->
+    <link rel="stylesheet" href="assets/stylesheets/format_controls.css">
+    <section id="formatingControls">
+        <div id="formattingControlsHeader" class="formatting-controls-header">
+            <button id="closeFormatingControls">X</button>
+            <div id="formatingTypes">
+                <button id="elementFormatControls" class="format-type-button">Position & Size</button>
+                <button id="miscellaneousFormatControls" class="format-type-button">Miscellaneous</button>
+            </div>    
+        </div>
+    </section>
+    <script src="assets/scripts/format_controls_system.js"></script>
+
+    <!-- Editor functionality -->
     <script>
+        let editor = document.getElementById('content');
         let savedSelection;
 
         function saveSelection() {
@@ -286,8 +503,8 @@
 
         function toggleHighlightDropdown() {
             const dropdown = document.getElementById('highlightDropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-            if (dropdown.style.display === 'block') {
+            dropdown.style.display = dropdown.style.display === 'grid' ? 'none' : 'grid';
+            if (dropdown.style.display === 'grid') {
                 saveSelection();
             }
         }
@@ -297,36 +514,88 @@
             document.execCommand(command, false, null);
         }
 
-        function saveFile() {
+        // Add debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Update save indicator functions
+        function showSavingProgress(progress) {
+            const indicator = document.getElementById('savingIndicator');
+            const progressBar = indicator.querySelector('.progress-bar');
+            indicator.style.display = 'block';
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Update save function with debouncing
+        const debouncedSave = debounce(async function() {
             const fileNameInput = document.getElementById('fileName').value;
+            // Save the content with formatting (HTML tags)
             const contentInput = document.getElementById('content').innerHTML;
             const fontSize = document.getElementById('fontSize').value;
+
             if (!fileNameInput || !contentInput) {
-                // Do nothing if input fields are empty
+                showToast('File name or content is empty!', false);
                 return;
             }
 
-            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-            const fileName = fileNameInput.replace(/\s+/g, '_') + '.html';
-            const fileData = {
-                name: fileNameInput,
-                content: contentInput,
-                fontSize: fontSize,
-                created: new Date().toISOString()
-            };
+            showSavingProgress(0);
+            await new Promise(r => setTimeout(r, 100));
+            showSavingProgress(30);
 
-            const existingFileIndex = files.findIndex(file => file.name === fileNameInput);
-            if (existingFileIndex !== -1) {
-                files[existingFileIndex] = fileData; // Update existing file
-            } else {
-                files.push(fileData); // Add new file
-                confirm(`Continue to create File, ${fileNameInput}?`);
-                if (confirm === 'cancel') {
-                    return
+            try {
+                const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                const fileData = {
+                    name: fileNameInput,
+                    content: contentInput,
+                    fontSize: fontSize,
+                    created: new Date().toISOString()
+                };
+
+                showSavingProgress(60);
+                await new Promise(r => setTimeout(r, 100));
+
+                const existingFileIndex = files.findIndex(file => file.name === fileNameInput);
+                if (existingFileIndex !== -1) {
+                    files[existingFileIndex] = fileData;
+                } else {
+                    files.push(fileData);
                 }
-            }
 
-            localStorage.setItem('odocsFiles', JSON.stringify(files));
+                localStorage.setItem('odocsFiles', JSON.stringify(files));
+                showSavingProgress(100);
+                
+                // Update the preview after saving
+                renderPreview();
+
+                setTimeout(() => {
+                    document.getElementById('savingIndicator').style.display = 'none';
+                    showToast('✅ File saved successfully!');
+                }, 500);
+            } catch (error) {
+                console.error('Error saving file:', error);
+                showToast('⚠ Failed to save file!', false);
+                document.getElementById('savingIndicator').style.display = 'none';
+            }
+        }, 500);
+
+        // Reconfigure event listeners to use debounced save
+        document.getElementById('content').addEventListener('input', debouncedSave);
+        document.getElementById('fileName').addEventListener('blur', debouncedSave);
+
+        // Show toast notification
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toastNotification');
+            toast.innerText = message;
+            toast.style.backgroundColor = isSuccess ? '#28a745' : '#dc3545';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
         }
 
         function cancel() {
@@ -347,7 +616,7 @@
                     fontElements[i].style.fontSize = fontSize + 'px';
                 }
             }
-            saveFile(); // Save the file after changing font size
+            debouncedSave(); // Save the file after changing font size
         }
 
         // Add keyboard shortcuts for font size changes
@@ -384,13 +653,12 @@
                     document.getElementById('content').innerHTML = file.content;
                     document.getElementById('fontSize').value = file.fontSize || 16;
                     document.getElementById('content').style.fontSize = (file.fontSize || 16) + 'px';
+                    
+                    // Update preview after loading content
+                    setTimeout(renderPreview, 100);
                 }
             }
         });
-
-        // Auto-save on input change, except when editing the title
-        document.getElementById('content').addEventListener('input', saveFile);
-        document.getElementById('fileName').addEventListener('blur', saveFile);
 
         // Update font size input when selecting text
         document.getElementById('content').addEventListener('mouseup', updateFontSizeInput);
@@ -414,7 +682,125 @@
                 restoreSelection(); // Restore the selection after performing the action
             });
         });
+
+        // Image resizing functionality
+        editor.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                const allImages = editor.getElementsByTagName('IMG');
+                Array.from(allImages).forEach(img => {
+                    img.classList.remove('resize-active');
+                    removeResizeHandles(img);
+                });
+
+                e.target.classList.add('resize-active');
+                addResizeHandles(e.target);
+            } else if (!e.target.classList.contains('resize-handle') && 
+                      !e.target.closest('.image-border-menu')) {
+                const allImages = editor.getElementsByTagName('IMG');
+                Array.from(allImages).forEach(img => {
+                    img.classList.remove('resize-active');
+                    removeResizeHandles(img);
+                });
+            }
+        });
+
+        function addResizeHandles(img) {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.display = 'inline-block';
+            img.parentNode.insertBefore(wrapper, img);
+            wrapper.appendChild(img);
+
+            // Add border control menu
+            const borderMenu = document.createElement('div');
+            borderMenu.className = 'image-border-menu';
+            borderMenu.style.display = 'block';  // Make sure menu is visible
+            borderMenu.innerHTML = `
+                <div style="margin-bottom: 6px;">
+                    <div style="margin-bottom: 4px;"><small>Border Color</small></div>
+                    <input type="color" class="border-color-picker" value="#000000">
+                </div>
+                <div class="border-width-control">
+                    <div style="margin-bottom: 4px;"><small>Width</small></div>
+                    <input type="number" min="0" max="20" value="1" style="width: 45px;"> px
+                </div>
+            `;
+            wrapper.appendChild(borderMenu);
+
+            // Initialize border if not already set
+            const colorPicker = borderMenu.querySelector('.border-color-picker');
+            const widthInput = borderMenu.querySelector('.border-width-control input');
+            if (!img.style.border) {
+                img.style.border = '1px solid #000000';
+            }
+
+            // Add border control event listeners
+            colorPicker.addEventListener('input', (e) => {
+                img.style.border = `${widthInput.value}px solid ${e.target.value}`;
+                debouncedSave();
+            });
+
+            widthInput.addEventListener('input', (e) => {
+                img.style.border = `${e.target.value}px solid ${colorPicker.value}`;
+                debouncedSave();
+            });
+
+            ['nw', 'ne', 'sw', 'se'].forEach(pos => {
+                const handle = document.createElement('div');
+                handle.className = `resize-handle ${pos}`;
+                wrapper.appendChild(handle);
+                handle.addEventListener('mousedown', initResize);
+            });
+        }
+
+        function removeResizeHandles(img) {
+            const wrapper = img.parentElement;
+            if (wrapper && wrapper.querySelector('.resize-handle')) {
+                const borderMenu = wrapper.querySelector('.image-border-menu');
+                if (borderMenu) borderMenu.remove();
+                const handles = wrapper.querySelectorAll('.resize-handle');
+                handles.forEach(handle => handle.remove());
+                if (wrapper.parentNode) {
+                    wrapper.parentNode.insertBefore(img, wrapper);
+                    wrapper.remove();
+                }
+            }
+        }
+
+        function initResize(e) {
+            e.stopPropagation();
+            const handle = e.target;
+            const wrapper = handle.parentNode;
+            const img = wrapper.querySelector('img');
+            const startX = e.clientX;
+            const startY = e.clientY;
+            const startWidth = img.offsetWidth;
+            const startHeight = img.offsetHeight;
+            const pos = handle.className.includes('e') ? 'e' : 'w';
+            const isTop = handle.className.includes('n');
+
+            function resize(e) {
+                const deltaX = (e.clientX - startX) * (pos === 'w' ? -1 : 1);
+                const deltaY = (e.clientY - startY) * (isTop ? -1 : 1);
+                const aspectRatio = startWidth / startHeight;
+                const newWidth = Math.max(50, startWidth + deltaX);
+                const newHeight = Math.max(50, newWidth / aspectRatio);
+
+                img.style.width = newWidth + 'px';
+                img.style.height = newHeight + 'px';
+                debouncedSave();
+            }
+
+            function stopResize() {
+                document.removeEventListener('mousemove', resize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+
+            document.addEventListener('mousemove', resize);
+            document.addEventListener('mouseup', stopResize);
+        }
     </script>
+    <script src="assets/scripts/tooltip_system.js"></script>
 </body>
 
 </html>

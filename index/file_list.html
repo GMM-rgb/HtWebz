@@ -74,7 +74,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 15px 20px;
+            margin-bottom: 8px;
             border-bottom: 5px solid #0091a1;
             border-radius: 10px;
             -webkit-touch-callout: none;
@@ -103,8 +104,8 @@
         .load-btn {
             background-color: #007bff;
             color: white;
-            -webkit-text-fill-color: blue;
-            -webkit-text-stroke: 0.5px skyblue;
+            -webkit-text-fill-color: white;
+            -webkit-text-stroke: 0.5px transparent;
         }
 
         .load-btn:hover {
@@ -114,8 +115,8 @@
         .rename-btn {
             background-color: #ffc107;
             color: white;
-            -webkit-text-fill-color: lightgray;
-            -webkit-text-stroke: 1px gray;
+            -webkit-text-fill-color: white;
+            -webkit-text-stroke: 0.5px transparent;
         }
 
         .rename-btn:hover {
@@ -125,8 +126,8 @@
         .delete-btn {
             background-color: #dc3545;
             color: white;
-            -webkit-text-fill-color: lightgray;
-            -webkit-text-stroke: 1px gray;
+            -webkit-text-fill-color: white;
+            -webkit-text-stroke: 0.5px transparent;
         }
 
         .delete-btn:hover {
@@ -163,13 +164,25 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            min-width: 100px;
+        }
+
+        .file-controls button {
+            width: 100%;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .file-info {
             cursor: default;
             position: relative;
             word-spacing: 4px;
+            line-height: 1.4;
         }
 
         #fileButton {
@@ -181,15 +194,13 @@
         }
 
         .apps-button {
-            position: absolute;
+            position: relative;
             border: 1px solid cyan;
             border-left-style: dashed;
             border-right-style: dashed;
             border-radius: 10px;
             padding: 1.5px;
             margin: -15px;
-            height: 5vh;
-            width: 5vh;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -365,6 +376,17 @@
             box-shadow: 0 2px 6.15px rgba(0, 0, 0, 0.625);
             transform: translateY(1px);
         }
+
+        #overlayMenus {
+            display: none; /* Hide by default */
+        }
+
+        .apps-button {
+            max-width: 50px !important;
+            max-height: 50px !important; /* Ensure the icon fits within the context menu */
+            box-sizing: border-box !important;
+
+        }
     </style>
 </head>
 
@@ -397,76 +419,48 @@
                 overlayMenuContainer.style.display = 'none';
             }
         });
-    </script>
-    <div class="file-list-container">
-        <img class="apps-button" id="apps-button" src="assets/images/app_button_icon.png"></img>
-        <label class="apps-button-label" id="apps-button-label">Hⓣ Apps</label>
-        <script>
-            document.getElementById('apps-button').addEventListener('mouseover', function () {
-                var buttonLabel = document.getElementById('apps-button-label');
-                buttonLabel.style.display = 'block';
-                buttonLabel.style.visibility = 'visible';
-            });
-            document.getElementById('apps-button').addEventListener('mouseout', function () {
-                var buttonLabel = document.getElementById('apps-button-label');
-                buttonLabel.style.display = 'none';
-                buttonLabel.style.visibility = 'hidden';
-            });
-        </script>
-        <div class="app-context-menu" id="app-context-menu">
-            <form action="file_list.html" method="get">
-                <button class="HtDocs-go-to-button" id="HtDocs-go-to-button">HⓣEditor</button>
-                <canvas class="filler-frame-1"></canvas>
-                <img class="HtDocs-app-icon" id="HtDocs-app-icon" src="assets/images/HtDocs_App_icon.png"></img>
-            </form>
-            <script>
-                // Function to display or hide app menu when click
-                document.getElementById('apps-button').addEventListener('click', function () {
-                    var contextMenu = document.getElementById('app-context-menu');
-                    if (contextMenu.style.display === 'none' || contextMenu.style.visibility === 'hidden' || contextMenu.style.display === '') {
-                        contextMenu.style.display = 'block';
-                        contextMenu.style.visibility = 'visible';
-                    } else {
-                        contextMenu.style.display = 'none'
-                        contextMenu.style.visibility = 'hidden'
-                    } if (condition) {
-                        contextMenu.style.display = 'null';
-                        contextMenu.style.visibility = 'null';
-                    } else {
-                        return
-                    }
-                    console.warn(`styles were not found`);
-                });
-            </script>
-        </div>
-        <h1 class="page-title">HⓣEditor - Text Editor</h1>
-        <div class="file-managment-toolbar" for="fileTabButton">
-            <button name="fileTabButton" class="create-btn" onclick="createNewFile()">Create New</button>
-            <button name="fileTabButton" class="storage-button" id="storageButton">Storage</button>
-            <button name="fileTabButton" class="settings-button" id="settingsButton">Settings</button>
-        </div>
-        <ul class="file-list" id="fileList"></ul>
-    </div>
 
-    <script>
+        // Function for size calculation
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
         document.addEventListener('DOMContentLoaded', loadFileList);
 
         function loadFileList() {
             const fileList = document.getElementById('fileList');
             const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
 
-            files.forEach(file => {
+            files.forEach((file, index) => {
+                const fileSize = new Blob([file.content]).size;
+                
                 const listItem = document.createElement('li');
                 listItem.className = 'file-item';
                 listItem.innerHTML = `
-                    <span class="file-info"><text style="font-weight: bold;">${file.name}</text> - Modified on: <p>${new Date(file.created).toLocaleString()}</p></span>
+                    <span class="file-info">
+                        <text style="font-weight: bold;">${file.name}</text>
+                        <br>Modified: <text style="color: #444;">${new Date(file.created).toLocaleString()}</text>
+                        <br>Size: <text style="color: #444;">${formatFileSize(fileSize)}</text>
+                    </span>
                     <div class="file-controls">
-                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')">Load</button>
-                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')">Rename</button>
-                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')">Delete</button>
+                        <button class="load-btn" data-tooltip="Load File" onclick="loadFile('${file.name}')">Load</button>
+                        <button class="rename-btn" data-tooltip="Rename File" onclick="renameFile('${file.name}')">Rename</button>
+                        <button class="delete-btn" data-tooltip="Delete File" onclick="deleteFile('${file.name}')">Delete</button>
                     </div>
                 `;
                 fileList.appendChild(listItem);
+
+                // Apply tooltips after the elements are added to DOM
+                const buttons = listItem.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.addEventListener('mouseenter', () => {
+                        setupTooltip(button, button.getAttribute('data-tooltip'));
+                    });
+                });
             });
         }
 
@@ -501,6 +495,44 @@
             }
         }
     </script>
+    <div class="file-list-container">
+        <img class="apps-button" id="apps-button" onmouseenter="setupTooltip('#apps-button', 'HⓣApps')" src="assets/images/app_button_icon.png"></img>
+        <div class="app-context-menu" id="app-context-menu">
+            <form action="file_list.html" method="get">
+                <button class="HtDocs-go-to-button" id="HtDocs-go-to-button">HⓣEditor</button>
+                <canvas class="filler-frame-1"></canvas>
+                <img class="HtDocs-app-icon" id="HtDocs-app-icon" src="assets/images/HtDocs_App_icon.png"/>
+            </form>
+            <script>
+                // Function to display or hide app menu when click
+                document.getElementById('apps-button').addEventListener('click', function () {
+                    var contextMenu = document.getElementById('app-context-menu');
+                    if (contextMenu.style.display === 'none' || contextMenu.style.visibility === 'hidden' || contextMenu.style.display === '') {
+                        contextMenu.style.display = 'block';
+                        contextMenu.style.visibility = 'visible';
+                    } else {
+                        contextMenu.style.display = 'none'
+                        contextMenu.style.visibility = 'hidden'
+                    } if (condition) {
+                        contextMenu.style.display = 'null';
+                        contextMenu.style.visibility = 'null';
+                    } else {
+                        return
+                    }
+                    console.warn(`styles were not found`);
+                });
+            </script>
+        </div>
+        <h1 class="page-title">HⓣEditor - Text Editor</h1>
+        <div class="file-managment-toolbar" for="fileTabButton">
+            <button name="fileTabButton" class="create-btn" onclick="createNewFile()">Create New</button>
+            <button name="fileTabButton" class="storage-button" id="storageButton">Storage</button>
+            <button name="fileTabButton" class="settings-button" id="settingsButton">Settings</button>
+        </div>
+        <ul class="file-list" id="fileList"></ul>
+    </div>
 </body>
+
+<script src="assets/scripts/tooltip_system.js"></script>
 
 </html>

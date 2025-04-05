@@ -1,218 +1,174 @@
-const notification = document.getElementById("notification");
-const quickSettings = document.getElementById("settingsQuick");
-const gameMenu = document.getElementById("gameMenu");
-const searchMenu = document.getElementById("searchMenu");
-const menuBlur = document.getElementById("menuBlur");
-const closeGameMenuButton = document.getElementById("closeGameMenuButton");
-const closeSearchMenuBtn = document.getElementById("closeSearchMenuBtn");
-const searchMenuOpen = document.getElementById("resourcesMenuOpen");
-const searchPageDisplay = document.getElementById("searchPageDisplay");
-const closeSettingsMenuBtn = document.getElementById("closeSettingsMenuBtn");
-const settingsMenu = document.getElementById("settingsMenu");
-const appMenuOpen = document.getElementById("appMenuOpen");
-const gamesMenuOpen = document.getElementById("gamesMenuOpen");
-const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all required elements
+    const elements = {
+        notification: document.getElementById("notification"),
+        quickSettings: document.getElementById("settingsQuick"),
+        gameMenu: document.getElementById("gameMenu"),
+        searchMenu: document.getElementById("searchMenu"),
+        menuBlur: document.getElementById("menuBlur"),
+        closeGameMenuButton: document.getElementById("closeGameMenuButton"),
+        closeSearchMenuBtn: document.getElementById("closeSearchMenuBtn"),
+        searchMenuOpen: document.getElementById("resourcesMenuOpen"),
+        searchPageDisplay: document.getElementById("searchPageDisplay"),
+        closeSettingsMenuBtn: document.getElementById("closeSettingsMenuBtn"),
+        settingsMenu: document.getElementById("settingsMenu"),
+        settingsQuick: document.getElementById("settingsQuick"),
+        appMenuOpen: document.getElementById("appMenuOpen"),
+        gamesMenuOpen: document.getElementById("gamesMenuOpen"),
+        expandMenuToolbar: document.getElementById("expandMenuToolbar")
+    };
 
-// Moved toolbar elements up so later code can use them:
-// const expandMenuToolbar = document.getElementById("expandMenuToolbar");
-// const toolbarExtension = document.getElementById("toolbarExtension");
+    var notifySound = document.getElementById("notifySound"); // Grab the notification sound element
 
-// Multifunction wait timer
-function wait(time) {
-  if (wait) {
-  }
-  try {
-    return new Promise((resolve) => setTimeout(resolve, time)); // Return the timer promise.
-  } catch (error) {
-    console.error("Timer promise was not successfully created!", error); // Added for debugging
-  } finally {
-    console.log("Timer promise successfully created!"); // Added for debugging
-  }
-}
-
-// Control to only allow one notification in a certain timeframe
-let notificationShowing = false;
-
-// Multiple use notification system
-async function notify(notificationText) {
-  if (notificationText && !notificationShowing) {
-    notificationShowing = true;
-    notification.innerText = notificationText;
-    notification.classList.add("showNotification");
-    notification.classList.add("animateNotification");
-    wait(450).then(() => {
-      notification.style.boxShadow =
-        "inset 0 0 13.5px rgba(0, 0, 0, 0.365), 0 2px 10px rgba(0, 0, 0, 0.325)";
+    // Validate all elements exist
+    Object.entries(elements).forEach(([name, element]) => {
+        if (!element) console.error(`Required element "${name}" is missing`);
     });
-    return wait(1850).then(() => {
-      notification.classList.add("hideNotification");
-      notification.style.boxShadow = "inset 0 0 13.5px rgba(0, 0, 0, 0.365)";
-      wait(450).then(() => {
-        notification.classList.remove("showNotification");
-        notification.classList.remove("animateNotification");
-        notification.classList.remove("hideNotification");
-        notification.innerText = "...";
-      });
-      return (notificationShowing = false);
-    }, notificationShowing);
-  }
-}
 
-appMenuOpen.onclick = () => {
-  if (
-    quickSettings.style.transform === "scale(1)" ||
-    quickSettings.style.transform === ""
-  ) {
-    quickSettings.style.transform = "scale(0.85)";
-  }
-};
+    // Notification system
+    let notificationShowing = false;
 
-// Opens the game menu when the game button is clicked
-gamesMenuOpen.onclick = () => {
-  if (gameMenu.style.display === "none" || gameMenu.style.display === "") {
-    notify("Game Menu Opened...");
-    menuBlur.style.opacity = "0";
-    menuBlur.style.display = "block";
-    gameMenu.style.display = "flex";
-    gameMenu.classList.add("dropDownGameMenu");
-    document.title = "Game Menu";
-    wait(650).then(() => {
-      gameMenu.classList.remove("dropDownGameMenu");
-      gameMenu.style.height = "fit-content";
-      gameMenu.style.flex = "1 1 auto";
-    });
-    wait(10).then(() => {
-      menuBlur.style.opacity = "0.5";
-    });
-  } else {
-    gameMenu.style.display = "none";
-    gameMenu.style.flex = "0";
-    menuBlur.style.edisplay = "none";
-  }
-};
+    // Make notify function global
+    window.notify = async function(text) {
+        if (!text || notificationShowing || !elements.notification) return;
 
-// Closes game menu when the close button is clicked
-closeGameMenuButton.onclick = () => {
-  if (gameMenu.style.display === "flex" || gameMenu.style.display === "") {
-    gameMenu.style.opacity = "0";
-    menuBlur.style.opacity = "0";
-    document.title = "HtWebz Homepage";
-    wait(650).then(() => {
-      gameMenu.style.display = "none";
-      gameMenu.style.opacity = "1";
-      menuBlur.style.display = "none";
-      gameMenu.style.flex = "0";
-    });
-    notify("Game Menu Closed...");
-  }
-};
+        // Play notification sound if available
+        if (notifySound) {
+            try {
+                if (notifySound.readyState >= 2) { // Check if audio is ready
+                    notifySound.currentTime = 0; // Reset the audio to start from the beginning
+                    await notifySound.play(); // Use await to handle promise rejection
+                } else {
+                    console.warn("Notification sound is not ready to play.");
+                }
+            } catch (e) {
+                console.error("Failed to play notification sound:", e);
+                console.warn("Ensure the action triggering 'notify' is user-initiated to comply with browser autoplay policies.");
+            }
+        }
 
-// Opens search menu when the search button is clicked
-searchMenuOpen.onclick = () => {
-  if (searchMenu.style.display === "none" || searchMenu.style.display === "") {
-    notify("Search Menu Opened...");
-    document.title = "Search Menu";
-    menuBlur.style.display = "block";
-    searchMenu.style.opacity = "1";
-    searchMenu.style.display = "flex";
-    searchMenu.classList.add("dropDownSearchMenu");
-    wait(650).then(() => {
-      searchPageDisplay.style.minHeight = "25%";
-      searchPageDisplay.style.maxHeight = "100%";
-      searchMenu.classList.remove("dropDownSearchMenu");
-      searchMenu.style.flex = "auto";
-      searchPageDisplay.style.flex = "auto";
-    });
-    wait(10).then(() => {
-      menuBlur.style.opacity = "0.5";
-    });
-  } else {
-    searchMenu.style.display = "none";
-    menuBlur.style.display = "none";
-  }
-};
+        if (typeof text !== 'string') {
+            console.error("Notification text must be a string");
+            return;
+        }
 
-// Closes search menu when the close button is clicked
-closeSearchMenuBtn.onclick = () => {
-  if (searchMenu.style.display === "flex" || searchMenu.style.displsy === "") {
-    document.title = "HtWebz Homepage";
-    menuBlur.style.opacity = "0";
-    searchMenu.style.opacity = "0";
-    wait(650).then(() => {
-      searchMenu.style.display = " none";
-      searchMenu.style.opacity = "1";
-      menuBlur.style.display = "none";
-      searchMenu.style.flex = "0";
-      searchMenu.style.height = "90%";
-    });
-    searchPageDisplay.style.minHeight = "none";
-    searchPageDisplay.style.maxHeight = "none";
-    notify("Search Menu Closed...");
-  }
-};
+        notificationShowing = true;
+        elements.notification.innerText = text;
+        elements.notification.classList.add("showNotification", "animateNotification");
+        
+        await wait(450);
+        elements.notification.style.boxShadow = 
+            "inset 0 0 13.5px rgba(0, 0, 0, 0.365), 0 2px 10px rgba(0, 0, 0, 0.325)";
+        
+        await wait(1850);
+        elements.notification.classList.add("hideNotification");
+        elements.notification.style.boxShadow = "inset 0 0 13.5px rgba(0, 0, 0, 0.365)";
+        
+        await wait(450);
+        elements.notification.classList.remove("showNotification", "animateNotification", "hideNotification");
+        elements.notification.innerText = "...";
+        notificationShowing = false;
+    };
 
-// Opens the settings menu when the settings button is clicked
-settingsQuick.onclick = () => {
-  if (
-    settingsMenu.style.display === "none" ||
-    settingsMenu.style.display === ""
-  ) {
-    document.title = "Settings Menu";
-    notify("Settings Menu Opened...");
-    menuBlur.style.display = "block";
-    settingsMenu.style.display = "flex";
-    settingsMenu.classList.add("dropDownSettingsMenu");
-    settingsMenu.style.flex = "1 1 auto";
-    settingsMenu.style.height = "100%";
-    wait(650).then(() => {
-      settingsMenu.classList.remove("dropDownSettingsMenu");
-      settingsMenu.style.height = "fit-content";
-    });
-    wait(10).then(() => {
-      menuBlur.style.opacity = "0.5";
-    });
-  } else {
-    settingsMenu.style.display = "none";
-    menuBlur.style.display = "none";
-  }
-};
+    // Menu handling
+    function openMenu(menu, menuClass, blur = true) {
+        if (!menu || menu.style.display === "flex") return;
+        
+        menu.style.display = "flex";
+        menu.style.opacity = "1";
+        menu.classList.add(menuClass); // Add animation class to menu
+        
+        if (blur && elements.menuBlur) {
+            elements.menuBlur.style.display = "block";
+            setTimeout(() => elements.menuBlur.style.opacity = "0.5", 10);
+        }
+        
+        // Remove animation class after animation completes on menu
+        setTimeout(() => {
+            menu.classList.remove(menuClass);
+        }, 650);
+    }
 
-// Closes the settings menu when the close button is clicked
-closeSettingsMenuBtn.onclick = () => {
-  if (
-    settingsMenu.style.display === "flex" ||
-    settingsMenu.style.display === ""
-  ) {
-    document.title = "HtWebz Homepage";
-    menuBlur.style.opacity = "0";
-    settingsMenu.style.opacity = "0";
-    wait(650).then(() => {
-      settingsMenu.style.display = "none";
-      settingsMenu.style.opacity = "1";
-      settingsMenu.style.flex = "0";
-      settingsMenu.style.height = "100%";
-      menuBlur.style.display = "none";
-    });
-    notify("Settings Menu Closed...");
-  }
-};
+    function closeMenu(menu, blur = true) {
+        if (!menu) return;
+        
+        menu.style.opacity = "0";
+        if (blur && elements.menuBlur) {
+            elements.menuBlur.style.opacity = "0";
+        }
+        
+        setTimeout(() => {
+            menu.style.display = "none";
+            menu.style.opacity = "1";
+            if (blur && elements.menuBlur) {
+                elements.menuBlur.style.display = "none";
+            }
+        }, 650);
+    }
 
-// Add cursor tracking for liquid effects
-function handleButtonInteraction(event, element) {
-  const rect = element.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-  
-  element.style.setProperty('--liquid-x', `${x}px`);
-  element.style.setProperty('--liquid-y', `${y}px`);
-}
+    // Attach event listeners
+    if (elements.gamesMenuOpen) {
+        elements.gamesMenuOpen.onclick = () => {
+            openMenu(elements.gameMenu, 'dropDownGameMenu');
+            notify("Game Menu Opened...");
+            document.title = "Game Menu";
+        };
+    }
 
-[appMenuOpen, settingsQuick].forEach(button => {
-  button.addEventListener('mousemove', handleButtonInteraction);
-  button.addEventListener('mouseenter', handleButtonInteraction);
-  button.addEventListener('click', () => {
-    handleButtonInteraction(event, button);
-    button.classList.add('clicked');
-    setTimeout(() => button.classList.remove('clicked'), 1000);
-  });
+    if (elements.closeGameMenuButton) {
+        elements.closeGameMenuButton.onclick = () => {
+            closeMenu(elements.gameMenu);
+            notify("Game Menu Closed...");
+            document.title = "HtWebz Homepage";
+        };
+    }
+
+    if (elements.searchMenuOpen) {
+        elements.searchMenuOpen.onclick = () => {
+            openMenu(elements.searchMenu, 'dropDownSearchMenu');
+            notify("Search Menu Opened...");
+            document.title = "Search Menu";
+        };
+    }
+
+    if (elements.closeSearchMenuBtn) {
+        elements.closeSearchMenuBtn.onclick = () => {
+            closeMenu(elements.searchMenu);
+            notify("Search Menu Closed...");
+            document.title = "HtWebz Homepage";
+        };
+    }
+
+    if (elements.settingsQuick) {
+        elements.settingsQuick.onclick = () => {
+            openMenu(elements.settingsMenu, 'dropDownSettingsMenu');
+            notify("Settings Menu Opened...");
+            document.title = "Settings Menu";
+        };
+    }
+
+    if (elements.closeSettingsMenuBtn) {
+        elements.closeSettingsMenuBtn.onclick = () => {
+            closeMenu(elements.settingsMenu);
+            notify("Settings Menu Closed...");
+            document.title = "HtWebz Homepage";
+        };
+    }
+
+    // Add sticky scroll detection
+    const pinnedTitle = document.querySelector('.pinned-content-title');
+    if (pinnedTitle) {
+        const observer = new IntersectionObserver(
+            ([e]) => {
+                pinnedTitle.classList.toggle('sticky-active', e.intersectionRatio < 1);
+            },
+            { threshold: [1], rootMargin: '-85px 0px 0px 0px' }
+        );
+        observer.observe(pinnedTitle);
+    }
+
+    // Helper function
+    function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 });

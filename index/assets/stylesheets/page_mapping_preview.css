@@ -1,0 +1,108 @@
+#pageMappingPreview {
+    display: block; /* Change from flex to block */
+    flex-direction: column;
+    justify-content: block-start;
+    align-content: center;
+    position: fixed; /* for proper positioning of child elements */
+    border: 3px solid #7c7c7c;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    height: 100%;
+    min-width: 175px;
+    max-width: 175px;
+    box-sizing: border-box !important;
+    padding-inline: 5px;
+    padding-block: 7.5px;
+    padding: 10px;
+    background: white;
+    top: 0 !important;
+    left: 0 !important;
+    gap: 0; /* Remove gap since we're using margins */
+    overflow: hidden; /* Adjusted overflow */
+    overflow-y: auto; /* Allow scrolling for multiple pages */
+    z-index: 1000;
+}
+
+#mapPreviewPage {
+    cursor: pointer !important;
+    border: 1px solid #ccc; /* Adjusted border */
+    border-radius: 5px;
+    background: #e8fdff;
+    width: 160px; /* Smaller base size for better scaling */
+    min-height: calc(50vh - 50px); /* Ensure minimum height */
+    height: calc(50vh - 50px);
+    padding: 5px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    overflow-x: hidden; /* hidden to prevent horizontal scrollbars */
+    overflow-y: auto; /* Allow vertical scrolling if content overflows */
+    transform: scale(1);
+    transform-origin: left center;
+    transform-style: preserve-3d; /* Ensure 3D transform is preserved for scaling */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Adjusted box-shadow */
+    flex-shrink: 0; /* Prevent shrinking */
+    position: relative;
+    margin-bottom: 15px;
+}
+
+#mapPreviewPage > * {
+    pointer-events: none;
+    font-size: 4px !important; /* Force small font size */
+}
+
+#mapPreviewPage:hover {
+    position: fixed;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Adjusted box-shadow */
+    transform: scale(1.1) translateX(8px) translateY(12px); /* Adjusted transform */
+}
+
+.mapPreviewPage {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #e8fdff;
+    width: 150px;
+    min-height: 225px; /* Ensure minimum height */
+    height: 225px;
+    margin: 0 auto 15px auto; /* Center pages and add bottom margin */
+    padding: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transform: scale(1);
+    transform-origin: top center;
+    position: relative; /* Ensure proper stacking */
+    display: block; /* Force block display */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 4px !important;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    white-space: pre-wrap;
+    user-select: none !important; /* Prevent text selection */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.mapPreviewPage:hover {
+    position: relative; /* Ensure it stays in the same position when hovering */
+    box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275); /* Enhanced shadow on hover */
+    transform: scale(1.1); /* Adjusted transform for hover effect */
+    margin-left: 3.5px;
+}
+
+.mapPreviewPage > * {
+    pointer-events: none;
+    font-size: 4px !important; /* Force small font size */
+}
+
+.mapPreviewPage span,
+.mapPreviewPage div,
+.mapPreviewPage p,
+.mapPreviewPage * {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    margin: 0;
+    padding: 0;
+}
+
+.mapPreviewPage [style*="background-color"] {
+    padding: 0 2px !important;
+    border-radius: 1px;
+}

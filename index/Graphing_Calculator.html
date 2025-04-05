@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphing Calculator</title>
+    <style>
+        body {
+          background-color: aquamarine;
+        }
+        #title {
+          /*margin-left: 40%;*/
+          margin-top: 50px;
+        }
+        /* Toolbar */
+        #toolbar-container {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 3px solid black;
+          border-bottom-left-radius: 0.25cm;
+          border-bottom-right-radius: 0.25cm;
+          background-color: #1b86f7;
+          padding: 11.85px;
+          width: 100% auto;
+          height: 25px;
+          margin-top: -8px;
+          -webkit-transition: all 0.25s ease-in-out;
+          transition: all 0.25s ease-in-out;
+          gap: 4px;
+        }
+        #minimize-button-container {
+          position: absolute;
+          margin-top: 7.25px;
+          padding: 4px;
+          width: 3.15% auto;
+          border-radius: 0.25cm;
+          -webkit-transition: border 0.25s ease-in, rotate 0.25s ease, margin-top 0.25s ease-out;
+          transition: border 0.25s ease-in, rotate 0..25s ease, margin-top 0.25s ease-out;
+        }
+        #minimize-toolbar-button {
+          cursor: pointer;
+          position: relative;
+          font-weight: bold;
+          font-size: 1.625em;
+          font-family: Sans-Serif;
+          border: 2px solid black;
+          border-radius: 0.25cm;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+        #calculator {
+          width: 400px;
+          margin: auto;
+          text-align: left;
+        }
+        input[type="text"], input[type="number"] {
+          width: 100%;
+          height: 30px;
+          margin-bottom: 10px;
+          border-radius: 15px;
+        }
+        canvas {
+          /*margin-left: 40%;*/
+          border: 1px solid black;
+          border-radius: 0.5cm;
+        }
+        .input {
+          padding-inline: 25px;
+          justify-self: center;
+          align-self: left;
+        }
+        #graph {
+          display: flex;
+          justify-self: center;
+          margin-top: 10px;
+        }
+        .axis-attributes {
+          font-family: Sans-Serif;
+          font-weight: bold;
+          font-size: 1.15em;
+        }
+        .input-container {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+        }
+        #Numbers-Basic-calculators-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          gap: 8px;
+          font-family: Sans-Serif;
+          font-weight: bold;
+          font-size: 1.25em;
+        }
+        .divider-line {
+          cursor: default;
+          font-weight: normal;
+          font-size: 1.85em;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+        #Graphing-calculators-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          gap: 8px;
+          font-family: Sans-Serif;
+          font-weight: bold;
+          font-size: 1.25em;
+        }
+        .toolbar-buttons {
+          position: relative;
+          border: 2px solid black;
+          border-radius: 0.25cm;
+          font-weight: bold;
+          box-shadow: 0 0 20px rgb(18, 208, 255);
+          -webkit-user-select: none;
+          user-select: none;
+          -webkit-transition: all 0.175s ease;
+          transition: all 0.175s ease;
+        }
+    </style>
+</head>
+<body>
+  <div id="toolbar-container">
+    <text class="divider-line">|</text>
+    <div id="Numbers-Basic-calculators-container">
+      <text style="user-select: none;">Basic Numbers</text>
+      <button class="toolbar-buttons" style="cursor: pointer;" onclick="goToBasicCalculator()" id="basic-calculator-button">Basic Calculator</button>
+      <button class="toolbar-buttons" style="cursor: pointer;" onclick="goToScientificCalculator()" id="scientific-calculator-button">Scientific Calculator (Coming Soon!)</button>
+    </div>
+    <text class="divider-line">|</text>
+    <div id="Graphing-calculators-container">
+      <text style="user-select: none;">Graphing</text>
+      <button class="toolbar-buttons" style="cursor: pointer;" onclick="goToGraphingCalculator()" id="graphing-calculator-button">Graphing Calculator</button>
+    </div>
+  </div>
+  <div id="minimize-button-container">
+    <button id="minimize-toolbar-button">^</button>
+  </div>
+  <h1 style="user-select: none; font-family: sans-serif; display: flex; justify-self: center;" id="title">Graphing Calculator</h1>
+    <div id="calculator">
+        <div class="input-container"><input class="input" type="text" id="equation" placeholder="Enter equation (e.g., y=x^2)" onsubmit="plotGraph()"></div>
+        <div class="input-container"><input class="input" type="number" id="xMin" placeholder="Min X value" value="-10" onsubmit="plotGraph()"></div>
+        <div class="input-container"><input class="input" type="number" id="xMax" placeholder="Max X value" value="10" onsubmit="plotGraph()"></div>
+        <div class="input-container"><text class="axis-attributes" style="color: red; user-select: none;">X1</text><input class="input" type="number" id="xMark1" placeholder="First X value" value="0"></div>
+        <div class="input-container"><text class="axis-attributes" style="color: red; user-select: none;">Y1</text><input class="input" type="number" id="yMark1" placeholder="First Y value" value="0"></div>
+        <div class="input-container"><text class="axis-attributes" style="color: blue; user-select: none;">X2</text><input class="input" type="number" id="xMark2" placeholder="Second X value" value="0"></div>
+        <div class="input-container"><text class="axis-attributes" style="color: blue; user-select: none;">Y2</text><input class="input" type="number" id="yMark2" placeholder="Second Y value" value="0"></div>
+        <button onclick="plotGraph()" style="border-radius: 15px; user-select: none; margin-left: 0px auto; cursor: pointer; padding: 3.5px; padding-inline: 8px;">Plot Graph</button>
+    </div>
+    <canvas id="graph" width="400" height="400" style="background-color: aqua;"></canvas>
+    <p id="rateOfChange" style="margin-left: 40%; font-size: 2em; font-family: sans-serif; font-weight: bold; display: flex; justify-self: center; user-select: visible;">Rate of Change: Unknown</p>
+    <script src="calculator.js"></script>
+    <script src="minimize_toolbar.js"></script>
+    <script>
+      const bcb = document.getElementById('basic-calculator-button');
+      const scb = document.getElementById('scientific-calculator-button');
+      const gcb = document.getElementById('graphing-calculator-button');
+      
+      // basic-calculator-button
+      bcb.addEventListener('mouseover', function() {
+        bcb.style.boxShadow = '0 0 10px rgb(0, 204, 255)';
+        return;
+      });
+      bcb.addEventListener('mouseout', function() {
+        bcb.style.boxShadow = '0 0 20px rgb(18, 208, 255)';
+        return;
+      });
+      // scientific-calculator-button
+      scb.addEventListener('mouseover', function() {
+        scb.style.boxShadow = '0 0 10px rgb(0, 204, 255)';
+        return;
+      });
+      scb.addEventListener('mouseout', function() {
+        scb.style.boxShadow = '0 0 20px rgb(18, 208, 255)';
+        return;
+      });
+      
+      gcb.addEventListener('mouseover', function() {
+        gcb.style.boxShadow = '0 0 10px rgb(0, 204, 255)';
+        return;
+      });
+      gcb.addEventListener('mouseout', function() {
+        gcb.style.boxShadow = '0 0 20px rgb(18, 208, 255)';
+        return;
+      });
+    </script>
+    <script>
+      function goToBasicCalculator() {
+        window.location.href = "Calculator_Page.html";
+      }
+      function goToScientificCalculator() {
+        window.location.href = "";
+      }
+      function goToGraphingCalculator() {
+        window.location.href = "Graphing_Calculator.html";
+      }
+    </script>
+</body>
+<style>
+  body {
+    background: aquamarine;
+  }
+  .context-menu {
+    display: none;
+    position: fixed;
+    background: radial-gradient(circle, #22c6e3, #077082);
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 1px 15px rgba(24, 188, 217, 0.95);
+    z-index: 1000;
+}
+
+.context-menu ul {
+    list-style: none;
+    font-family: Sans-Serif;
+    font-weight: bold;
+    -webkit-user-select: none;
+    user-select: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.context-menu li {
+    padding: 8px 12px;
+    border-radius: 0.25cm;
+    cursor: pointer;
+}
+
+.context-menu li:hover {
+    background-color: aqua;
+}
+.context-menu .disabled { color: #ccc; pointer-events: none; }
+.context-menu .link-option { display: none; }
+    </style>
+</head>
+<body>
+    <div id="myMenu" class="context-menu">
+        <ul>
+            <li id="copy">Copy</li>
+            <li id="paste">Paste</li>
+            <li id="reload">Reload</li>
+            <li id="openNewTab" class="link-option">Open Link in New Tab</li> 
+            <li id="openNewWindow" class="link-option">Open Link in New Window</li>        
+            <li id="inspect">Inspect</li>
+            <li id="viewSource">View Page Source</li>
+        </ul>
+    </div>        
+<script src="../JS_Scripts/context_menu.js"></script>
+</html>

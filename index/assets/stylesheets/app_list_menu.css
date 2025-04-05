@@ -277,7 +277,7 @@
   cursor: pointer;
   position: relative;
   border: 2px solid #ccc;
-  border-radius: var(--borderRadius);
+  border-radius: 50px; /* Make it a circle */
   background: var(--background);
   padding-inline: 3.5px;
   padding-block: 6.5px;
@@ -290,6 +290,15 @@
   background: var(--theme-buttonBackground);
   color: var(--theme-text);
   border-color: var(--theme-border);
+  transition: all 0.3s ease; /* Smooth transition for background and color */
+}
+
+.appButton:hover {
+  /* Change the background color on hover */
+  background: var(--theme-buttonBackgroundHover, #ccc); /* Fallback to #ccc if var is not set */
+  color: var(--theme-textHover, white); /* Fallback to white if var is not set */
+  box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
+  border-radius: var(--borderRadius);
 }
 
 #appListFooter {

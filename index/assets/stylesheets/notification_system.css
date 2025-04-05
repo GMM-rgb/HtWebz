@@ -2,50 +2,141 @@
     display: none !important;
     position: fixed !important;
     z-index: 15000 !important;
-    border: 2px solid rgb(100, 100, 100);
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.475);
-    padding: 5px;
+  
+    /* Create a transparent border to show the gradient border background */
+    border: 2px solid transparent;
+    border-radius: 15px;
+  
+    /* Set up dual backgrounds:
+       1. A light blue animated gradient for the main content.
+       2. A vibrant blue animated gradient for the border. */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image: 
+      linear-gradient(270deg, #e3f2fd, #bbdefb, #e3f2fd),
+      linear-gradient(270deg, #0072ff, #00c6ff, #0072ff, #00c6ff);
+    background-size: 
+      400% 400%, /* For the light blue inner background */
+      400% 400%; /* For the vibrant blue gradient border */
+    
+    padding: 8px 16px;
     font-weight: bold;
-    font-size: 1.75em;
-    margin: 10px;
-    left: 46% !important;
-    top: 10px !important;
+    font-size: 1.2em;
+    margin: 0;
+    left: 50% !important;
+    top: 20px !important;
+    transform: translateX(-50%) scale(1.5);
     pointer-events: none !important;
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-user-drag: none !important;
-    color: black;
-    transform-style: preserve-3d !important;
+    color: honeydew;
+    text-shadow: 0 0 6.5px rgba(0, 0, 0, 0.5);
+    font-family: 'Arial', sans-serif;
+    background: radial-gradient(270deg, #e3f2fd, #bbdefb, #e3f2fd), linear-gradient(270deg, #0072ff, #00c6ff, #0072ff, #00c6ff) !important;
     box-sizing: border-box !important;
-    box-shadow: inset 0 0 13.5px rgba(0, 0, 0, 0.365);
-}
-
-#notification.showNotification {
+    box-shadow: inset 0 0 13.5px rgba(0, 0, 0, 0.365), 0 0 10px rgba(0, 0, 0, 0.375);
+    min-width: 200px;
+    max-height: 40px;
+    text-align: center;
+  
+    /* Animate the gradient background */
+    animation: gradientAnimation 10s linear infinite, lightBackgroundAnimation 15s linear infinite;
+  }
+  
+  @keyframes gradientAnimation {
+    0% { 
+      background-position: 0% 50%; 
+    }
+    50% { 
+      background-position: 100% 50%; 
+    }
+    100% { 
+      background-position: 0% 50%; 
+    }
+  }
+  
+  @keyframes lightBackgroundAnimation {
+    0% { 
+      background-position: 0% 0%; 
+    }
+    50% { 
+      background-position: 100% 100%; 
+    }
+    100% { 
+      background-position: 0% 0%; 
+    }
+  }
+  
+  /* Existing notification display and animation rules */
+  #notification.showNotification {
     display: flex !important;
-}
-
-@keyframes notify {
-    0% { opacity: 0; transform: scale(0.5) translateY(-65px) rotateX(0deg);}
-    50% { opacity: 0.5; background: lightcyan; transform: scale(1) translateY(0) rotateX(180deg); }
-    75% { opacity: 0.35; background: cyan; transform: scale(0.85) translateY(-20px) rotateX(360deg); }
-    76% { opacity: 0.34; background: cyan; transform: scale(0.875) translateY(-16.5px) rotateX(180deg); }
-    100% { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); }
-}
-
-#notification.animateNotification {
+  }
+  
+  @keyframes notify {
+    0% { 
+      opacity: 0;
+      transform: translateX(-50%) translateY(-50px) scale(0.5) rotateX(0deg);
+    }
+    50%, 75% { 
+      opacity: 0.8;
+      transform: translateX(-50%) translateY(5px) scale(1.1) rotateX(360deg);
+    }
+    100% { 
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1.5) rotateX(0deg);
+    }
+  }
+  
+  #notification.animateNotification {
     animation: notify 0.45s linear !important;
-}
-
-@keyframes hideNotify {
-    0% { opacity: 1; transform: scale(1); }
-    25% { transform: scale(1.1); }
-    15% { transform: scale(1.15); }
-    50% { opacity: 0.5; transform: scale(0.85); rotate: 3.75deg; }
-    75% { transform: scale(0.425); rotate: 0deg; }
-    100% { opacity: 0; transform: scale(0.435); }
-}
-
-#notification.hideNotification {
+  }
+  
+  @keyframes hideNotify {
+    0% { 
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1.5) rotateX(0deg);
+    }
+    25%, 35% { 
+      opacity: 0.8;
+      transform: translateX(-50%) translateY(5px) scale(1.1) rotateX(360deg);
+    }
+    50% { 
+      opacity: 0.5;
+      transform: translateX(-50%) translateY(-10px) scale(0.95) rotateX(0deg);
+    }
+    100% { 
+      opacity: 0;
+      transform: translateX(-50%) translateY(-30px) scale(0.8);
+    }
+  }
+  
+  #notification.hideNotification {
     animation: hideNotify 0.45s linear !important;
-}
+  }
+  
+  /* Keeping the existing .notification styles unchanged */
+  .notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .notification.showNotification {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .notification.hideNotification {
+    opacity: 0;
+    visibility: hidden;
+  }

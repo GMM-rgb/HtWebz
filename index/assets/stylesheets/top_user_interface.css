@@ -27,6 +27,10 @@
 
 @media (max-width: 762px) {
     /* Interface button media sizing for device display */
+    #expandMenuToolbar {
+        transform: scale(0.825) !important;
+    }
+
     #topUserInterfaceBar {
         transform: scale(1) !important;
         width: 100% !important;
@@ -50,7 +54,7 @@
         width: 150px !important;
         padding: 2.5px !important;
         font-size: 0.7em !important;
-        display: flex !important;
+        display: none !important;
     }
 
     .appMenuOpenButtons {
