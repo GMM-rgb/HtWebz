@@ -12,7 +12,7 @@
     max-width: 175px;
     box-sizing: border-box !important;
     padding-inline: 5px;
-    padding-block: 2.5px;
+    padding-block: 7.5px;
     background: white;
     top: 0 !important;
     left: 0 !important;
@@ -62,12 +62,21 @@
     box-sizing: border-box;
     overflow: hidden;
     transform: scale(1);
-    transform-origin: top left;
+    transform-origin: center;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     font-size: 4px !important;
     line-height: 1.5;
     letter-spacing: 0.3px;
     white-space: pre-wrap;
+    user-select: none !important; /* Prevent text selection */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.mapPreviewPage:hover {
+    position: relative; /* Ensure it stays in the same position when hovering */
+    box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275); /* Enhanced shadow on hover */
+    transform: scale(1.1); /* Adjusted transform for hover effect */
+    margin-left: 3.5px;
 }
 
 .mapPreviewPage > * {
