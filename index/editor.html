@@ -15,6 +15,9 @@
             background-color: rgb(204, 204, 204); /* Light background color for the body */
             display: flex; /* Use flexbox to center the editor container */
             overflow: auto;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
         }
 
         .title {
@@ -44,6 +47,8 @@
             position: relative;
             overflow-x: hidden; /* Prevent horizontal scrolling */
             overflow-y: auto; /* Allow vertical scrolling if content overflows */
+            max-height: calc(100vh - 40px);
+            margin: 20px auto;
         }
 
         #titleContainer {
@@ -147,6 +152,8 @@
             /* Added overflow to allow scrolling */
             font-size: 16px;
             /* Default font size */
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
         }
 
         #content::-webkit-scrollbar {

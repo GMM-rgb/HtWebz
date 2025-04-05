@@ -27,22 +27,25 @@
 }
 
 #formatingControls {
-    display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: stretch; /* Make sure children take full width */
-    position: fixed !important;
-    flex: 1 1 auto !important;
-    right: 0 !important;
-    top: 0 !important;
-    height: 100%;
-    width: fit-content;
-    min-width: 325px !important;
-    max-width: 400px;
-    background: white;
-    border-left: 3px solid #7c7c7c;
-    border-radius: none;
-    box-sizing: border-box !important;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
     padding: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 250px;
+    z-index: 1000;
+}
+
+@media (max-height: 600px) {
+    #formatingControls {
+        max-height: 70vh;
+        width: 200px;
+    }
 }
 
 #formatingControls.fadeInAnimationFormater {

@@ -13,6 +13,7 @@
     max-width: 175px;
     box-sizing: border-box !important;
     padding-inline: 5px;
+    padding-inline-end: 20px;
     padding-block: 7.5px;
     padding: 10px;
     background: white;
@@ -22,6 +23,10 @@
     overflow: hidden; /* Adjusted overflow */
     overflow-y: auto; /* Allow scrolling for multiple pages */
     z-index: 1000;
+}
+
+#pageMappingPreview::-webkit-scrollbar{
+    display: none; /* Hide scrollbar for a cleaner look */
 }
 
 #mapPreviewPage {
