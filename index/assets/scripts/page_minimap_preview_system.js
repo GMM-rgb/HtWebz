@@ -39,16 +39,49 @@ function updatePreview() {
     let currentContent = '';
     Array.from(contentHolder.childNodes).forEach(node => {
         const nodeContent = node.outerHTML || node.textContent || '';
-        
-        // Test if adding this node would overflow
+
+        // Temporarily add the node to test if it fits
         currentPage.innerHTML = currentContent + nodeContent;
-        
+
         if (currentPage.scrollHeight > pageHeight && currentContent !== '') {
-            // Content overflows, create new page
-            currentPage = createPreviewElement();
-            pages.push(currentPage);
-            currentContent = nodeContent;
-            currentPage.innerHTML = currentContent;
+            // Check if the node is an image or block element
+            if (node.tagName === 'IMG' || window.getComputedStyle(node).display === 'block') {
+                // Move the entire node to the next page
+                currentPage.innerHTML = currentContent;
+                currentPage = createPreviewElement();
+                pages.push(currentPage);
+                currentContent = nodeContent;
+                currentPage.innerHTML = currentContent;
+            } else {
+                // Split text content at the best possible point
+                const words = nodeContent.split(' ');
+                let tempContent = currentContent;
+                let remainingContent = '';
+
+                for (let i = 0; i < words.length; i++) {
+                    tempContent += words[i] + ' ';
+                    currentPage.innerHTML = tempContent;
+
+                    if (currentPage.scrollHeight > pageHeight) {
+                        // Ensure at least one word remains on the current page
+                        if (i === 0) {
+                            tempContent = currentContent;
+                            remainingContent = nodeContent;
+                        } else {
+                            // Remove the last word and break
+                            tempContent = tempContent.trimEnd().slice(0, tempContent.lastIndexOf(' '));
+                            remainingContent = words.slice(i).join(' ');
+                        }
+                        break;
+                    }
+                }
+
+                currentPage.innerHTML = tempContent;
+                currentPage = createPreviewElement();
+                pages.push(currentPage);
+                currentContent = remainingContent;
+                currentPage.innerHTML = currentContent;
+            }
         } else {
             currentContent += nodeContent;
         }
