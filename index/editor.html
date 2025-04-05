@@ -480,6 +480,33 @@
         let editor = document.getElementById('content');
         let savedSelection;
 
+        const observer = new MutationObserver(() => {
+            if (!editor.innerHTML) {
+                document.execCommand('insertHTML', false, '<br>');
+            }
+        });
+
+        observer.observe(editor, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true
+        });
+
+        editor.addEventListener('input', function(e) {
+            // Ensure the input event creates an undo point
+            if (e.inputType && !e.isComposing) {
+                const selection = window.getSelection();
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+                const textNode = document.createTextNode(e.data || '');
+                range.insertNode(textNode);
+                range.setStartAfter(textNode);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        });
+
         function saveSelection() {
             if (window.getSelection) {
                 const sel = window.getSelection();
@@ -497,15 +524,21 @@
             }
         }
 
+        function applyFormatting(command, value = null) {
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand(command, false, value);
+            editor.focus();
+        }
+
         function highlightText(color) {
             restoreSelection();
-            document.execCommand('hiliteColor', false, color);
+            applyFormatting('hiliteColor', color);
             document.getElementById('highlightDropdown').style.display = 'none';
         }
 
         function removeHighlight() {
             restoreSelection();
-            document.execCommand('hiliteColor', false, 'transparent');
+            applyFormatting('hiliteColor', 'transparent');
         }
 
         function toggleHighlightDropdown() {
@@ -518,7 +551,9 @@
 
         function formatText(command) {
             restoreSelection();
-            document.execCommand(command, false, null);
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand(command, false);
+            editor.focus();
         }
 
         // Add debounce function
@@ -538,12 +573,10 @@
             progressBar.style.width = `${progress}%`;
         }
 
-        // Update save function with debouncing
+        // Update save function
         const debouncedSave = debounce(async function() {
             const fileNameInput = document.getElementById('fileName').value;
-            // Save the content with formatting (HTML tags)
             const contentInput = document.getElementById('content').innerHTML;
-            const fontSize = document.getElementById('fontSize').value;
 
             if (!fileNameInput || !contentInput) {
                 showToast('File name or content is empty!', false);
@@ -559,7 +592,6 @@
                 const fileData = {
                     name: fileNameInput,
                     content: contentInput,
-                    fontSize: fontSize,
                     created: new Date().toISOString()
                 };
 
@@ -576,9 +608,6 @@
                 localStorage.setItem('odocsFiles', JSON.stringify(files));
                 showSavingProgress(100);
                 
-                // Update the preview after saving
-                renderPreview();
-
                 setTimeout(() => {
                     document.getElementById('savingIndicator').style.display = 'none';
                     showToast('✅ File saved successfully!');
@@ -610,45 +639,80 @@
         }
 
         function changeFontSize(delta) {
-            restoreSelection();
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return;
+
             const fontSizeInput = document.getElementById('fontSize');
-            let fontSize = parseInt(fontSizeInput.value, 10) + delta;
-            if (fontSize < 8) fontSize = 8; // Minimum font size
-            fontSizeInput.value = fontSize;
-            document.execCommand('fontSize', false, 7); // Set font size to a large value to allow scaling
-            const fontElements = document.getElementsByTagName('font');
-            for (let i = 0; i < fontElements.length; i++) {
-                if (fontElements[i].size === '7') {
-                    fontElements[i].removeAttribute('size');
-                    fontElements[i].style.fontSize = fontSize + 'px';
-                }
+            let currentSize = parseInt(fontSizeInput.value) || 16;
+            let newSize = Math.max(8, Math.min(72, currentSize + delta));
+            fontSizeInput.value = newSize;
+
+            const range = sel.getRangeAt(0);
+            if (range.collapsed) {
+                const span = document.createElement('span');
+                span.style.fontSize = newSize + 'px';
+                span.textContent = '\u200B';
+                range.insertNode(span);
+                range.setStartAfter(span);
+                range.setEndAfter(span);
+            } else {
+                const span = document.createElement('span');
+                span.style.fontSize = newSize + 'px';
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                range.selectNodeContents(span);
             }
-            debouncedSave(); // Save the file after changing font size
+
+            sel.removeAllRanges();
+            sel.addRange(range);
+            debouncedSave();
         }
 
-        // Add keyboard shortcuts for font size changes
-        document.addEventListener('keydown', function (event) {
-            if (event.ctrlKey && event.shiftKey && event.key === '<') {
-                event.preventDefault();
-                changeFontSize(-1);
-            } else if (event.ctrlKey && event.shiftKey && event.key === '>') {
-                event.preventDefault();
-                changeFontSize(1);
-            }
-        });
-
-        // Function to update the font size input based on the selected text
+        // Update font size monitoring
         function updateFontSizeInput() {
             const sel = window.getSelection();
             if (sel.rangeCount > 0) {
-                const parentElement = sel.anchorNode.parentElement;
-                const computedStyle = window.getComputedStyle(parentElement);
-                const fontSize = parseInt(computedStyle.fontSize);
-                document.getElementById('fontSize').value = fontSize;
+                const node = sel.anchorNode;
+                if (node && node.parentElement) {
+                    let currentElement = node.parentElement;
+                    while (currentElement && currentElement !== editor) {
+                        if (currentElement.style.fontSize) {
+                            const size = parseInt(currentElement.style.fontSize);
+                            if (!isNaN(size)) {
+                                document.getElementById('fontSize').value = size;
+                                return;
+                            }
+                        }
+                        currentElement = currentElement.parentElement;
+                    }
+                }
             }
+            document.getElementById('fontSize').value = '16';
         }
 
-        // Initialize the editor with the file content if a file is being edited
+        // Add font size persistence between selections
+        let lastFontSize = 16;
+        editor.addEventListener('mouseup', function() {
+            setTimeout(() => {
+                const sel = window.getSelection();
+                if (sel.rangeCount > 0) {
+                    const node = sel.anchorNode;
+                    if (node && node.parentElement) {
+                        let currentElement = node.parentElement;
+                        while (currentElement && currentElement !== editor) {
+                            if (currentElement.style.fontSize) {
+                                lastFontSize = parseInt(currentElement.style.fontSize);
+                                document.getElementById('fontSize').value = lastFontSize;
+                                break;
+                            }
+                            currentElement = currentElement.parentElement;
+                        }
+                    }
+                }
+            }, 0);
+        });
+
+        // Update initialization code
         document.addEventListener('DOMContentLoaded', function () {
             const params = new URLSearchParams(window.location.search);
             const fileName = params.get('file');
@@ -657,15 +721,48 @@
                 const file = files.find(f => f.name === fileName);
                 if (file) {
                     document.getElementById('fileName').value = file.name;
-                    document.getElementById('content').innerHTML = file.content;
-                    document.getElementById('fontSize').value = file.fontSize || 16;
-                    document.getElementById('content').style.fontSize = (file.fontSize || 16) + 'px';
+                    const content = document.getElementById('content');
+                    content.innerHTML = file.content;
                     
-                    // Update preview after loading content
+                    // Reset default font size
+                    content.style.fontSize = '16px';
+                    
+                    // Restore individual text node font sizes
+                    const elements = content.getElementsByTagName('*');
+                    for (let el of elements) {
+                        if (el.style.fontSize) {
+                            const size = parseInt(el.style.fontSize);
+                            if (size > 0) {
+                                el.style.fontSize = size + 'px';
+                            }
+                        }
+                    }
+                    
+                    // Update font size input
+                    updateActiveFontSize();
+                    
                     setTimeout(renderPreview, 100);
                 }
             }
         });
+
+        function updateActiveFontSize() {
+            const sel = window.getSelection();
+            if (sel.rangeCount > 0) {
+                const node = sel.anchorNode;
+                if (node && node.parentElement) {
+                    let currentElement = node.parentElement;
+                    while (currentElement && currentElement !== editor) {
+                        if (currentElement.style.fontSize) {
+                            document.getElementById('fontSize').value = parseInt(currentElement.style.fontSize);
+                            return;
+                        }
+                        currentElement = currentElement.parentElement;
+                    }
+                }
+            }
+            document.getElementById('fontSize').value = '16';
+        }
 
         // Update font size input when selecting text
         document.getElementById('content').addEventListener('mouseup', updateFontSizeInput);
@@ -715,46 +812,66 @@
             const wrapper = document.createElement('div');
             wrapper.style.position = 'relative';
             wrapper.style.display = 'inline-block';
+            wrapper.style.userSelect = 'none';
+            wrapper.style.webkitUserSelect = 'none';
             img.parentNode.insertBefore(wrapper, img);
             wrapper.appendChild(img);
 
-            // Add border control menu
+            // Add border control menu with non-editable styles
             const borderMenu = document.createElement('div');
             borderMenu.className = 'image-border-menu';
-            borderMenu.style.display = 'block';  // Make sure menu is visible
+            borderMenu.style.display = 'block';
+            borderMenu.style.userSelect = 'none';
+            borderMenu.style.webkitUserSelect = 'none';
             borderMenu.innerHTML = `
-                <div style="margin-bottom: 6px;">
-                    <div style="margin-bottom: 4px;"><small>Border Color</small></div>
+                <div style="margin-bottom: 6px; pointer-events: auto;">
+                    <div style="margin-bottom: 4px; user-select: none;"><small>Border Color</small></div>
                     <input type="color" class="border-color-picker" value="#000000">
                 </div>
-                <div class="border-width-control">
-                    <div style="margin-bottom: 4px;"><small>Width</small></div>
+                <div class="border-width-control" style="pointer-events: auto;">
+                    <div style="margin-bottom: 4px; user-select: none;"><small>Width</small></div>
                     <input type="number" min="0" max="20" value="1" style="width: 45px;"> px
                 </div>
             `;
             wrapper.appendChild(borderMenu);
 
-            // Initialize border if not already set
+            // Initialize border controls
             const colorPicker = borderMenu.querySelector('.border-color-picker');
             const widthInput = borderMenu.querySelector('.border-width-control input');
-            if (!img.style.border) {
+            
+            // Get existing border values if they exist
+            if (img.style.border) {
+                const borderMatch = img.style.border.match(/(\d+)px\s+solid\s+(.*)/);
+                if (borderMatch) {
+                    widthInput.value = borderMatch[1];
+                    colorPicker.value = borderMatch[2];
+                }
+            } else {
                 img.style.border = '1px solid #000000';
             }
 
             // Add border control event listeners
             colorPicker.addEventListener('input', (e) => {
+                e.stopPropagation();
                 img.style.border = `${widthInput.value}px solid ${e.target.value}`;
                 debouncedSave();
             });
 
             widthInput.addEventListener('input', (e) => {
+                e.stopPropagation();
                 img.style.border = `${e.target.value}px solid ${colorPicker.value}`;
                 debouncedSave();
             });
 
+            // Prevent text selection during resize
+            img.style.userSelect = 'none';
+            img.style.webkitUserSelect = 'none';
+
             ['nw', 'ne', 'sw', 'se'].forEach(pos => {
                 const handle = document.createElement('div');
                 handle.className = `resize-handle ${pos}`;
+                handle.style.userSelect = 'none';
+                handle.style.webkitUserSelect = 'none';
                 wrapper.appendChild(handle);
                 handle.addEventListener('mousedown', initResize);
             });
@@ -806,6 +923,29 @@
             document.addEventListener('mousemove', resize);
             document.addEventListener('mouseup', stopResize);
         }
+
+        editor.addEventListener('keydown', function(e) {
+            // Add proper undo/redo handling
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    document.execCommand('redo');
+                } else {
+                    document.execCommand('undo');
+                }
+                return;
+            }
+        });
+
+        editor.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') {
+                e.preventDefault();
+                document.execCommand('undo', false, null);
+            } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'z') {
+                e.preventDefault();
+                document.execCommand('redo', false, null);
+            }
+        });
     </script>
     <script src="assets/scripts/tooltip_system.js"></script>
 </body>
