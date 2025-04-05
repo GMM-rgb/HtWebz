@@ -74,7 +74,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 15px 20px;
+            margin-bottom: 8px;
             border-bottom: 5px solid #0091a1;
             border-radius: 10px;
             -webkit-touch-callout: none;
@@ -103,8 +104,8 @@
         .load-btn {
             background-color: #007bff;
             color: white;
-            -webkit-text-fill-color: blue;
-            -webkit-text-stroke: 0.5px skyblue;
+            -webkit-text-fill-color: white;
+            -webkit-text-stroke: 0.5px transparent;
         }
 
         .load-btn:hover {
@@ -114,8 +115,8 @@
         .rename-btn {
             background-color: #ffc107;
             color: white;
-            -webkit-text-fill-color: lightgray;
-            -webkit-text-stroke: 1px gray;
+            -webkit-text-fill-color: white;
+            -webkit-text-stroke: 0.5px transparent;
         }
 
         .rename-btn:hover {
@@ -125,8 +126,8 @@
         .delete-btn {
             background-color: #dc3545;
             color: white;
-            -webkit-text-fill-color: lightgray;
-            -webkit-text-stroke: 1px gray;
+            -webkit-text-fill-color: white;
+            -webkit-text-stroke: 0.5px transparent;
         }
 
         .delete-btn:hover {
@@ -163,7 +164,18 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            min-width: 100px;
+        }
+
+        .file-controls button {
+            width: 100%;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .file-info {
@@ -423,8 +435,7 @@
             const fileList = document.getElementById('fileList');
             const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
 
-            files.forEach(file => {
-                // Calculate file size (content length in bytes)
+            files.forEach((file, index) => {
                 const fileSize = new Blob([file.content]).size;
                 
                 const listItem = document.createElement('li');
@@ -436,12 +447,20 @@
                         <br>Size: <text style="color: #444;">${formatFileSize(fileSize)}</text>
                     </span>
                     <div class="file-controls">
-                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')" onmouseenter="setupTooltip('.load-btn', 'Load File.')">Load</button>
-                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')" onmouseenter="setupTooltip('.rename-btn', 'Rename File.')">Rename</button>
-                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')" onmouseenter="setupTooltip('.delete-btn', 'Delete File.')">Delete</button>
+                        <button class="load-btn" data-tooltip="Load File" onclick="loadFile('${file.name}')">Load</button>
+                        <button class="rename-btn" data-tooltip="Rename File" onclick="renameFile('${file.name}')">Rename</button>
+                        <button class="delete-btn" data-tooltip="Delete File" onclick="deleteFile('${file.name}')">Delete</button>
                     </div>
                 `;
                 fileList.appendChild(listItem);
+
+                // Apply tooltips after the elements are added to DOM
+                const buttons = listItem.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.addEventListener('mouseenter', () => {
+                        setupTooltip(button, button.getAttribute('data-tooltip'));
+                    });
+                });
             });
         }
 
