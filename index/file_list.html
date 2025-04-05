@@ -170,6 +170,7 @@
             cursor: default;
             position: relative;
             word-spacing: 4px;
+            line-height: 1.4;
         }
 
         #fileButton {
@@ -397,6 +398,74 @@
                 overlayMenuContainer.style.display = 'none';
             }
         });
+
+        // Add this function for size calculation
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        document.addEventListener('DOMContentLoaded', loadFileList);
+
+        function loadFileList() {
+            const fileList = document.getElementById('fileList');
+            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+
+            files.forEach(file => {
+                // Calculate file size (content length in bytes)
+                const fileSize = new Blob([file.content]).size;
+                
+                const listItem = document.createElement('li');
+                listItem.className = 'file-item';
+                listItem.innerHTML = `
+                    <span class="file-info">
+                        <text style="font-weight: bold;">${file.name}</text>
+                        <br>Modified: <text style="color: #444;">${new Date(file.created).toLocaleString()}</text>
+                        <br>Size: <text style="color: #444;">${formatFileSize(fileSize)}</text>
+                    </span>
+                    <div class="file-controls">
+                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')">Load</button>
+                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')">Rename</button>
+                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')">Delete</button>
+                    </div>
+                `;
+                fileList.appendChild(listItem);
+            });
+        }
+
+        function createNewFile() {
+            window.location.href = 'editor.html';
+        }
+
+        function loadFile(name) {
+            // Redirect to the editor with the selected file's name as a query parameter
+            window.location.href = `editor.html?file=${encodeURIComponent(name)}`;
+        }
+
+        function renameFile(name) {
+            const newName = prompt('Enter new name for the file:', name);
+            if (newName) {
+                let files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                const fileIndex = files.findIndex(file => file.name === name);
+                if (fileIndex !== -1) {
+                    files[fileIndex].name = newName;
+                    localStorage.setItem('odocsFiles', JSON.stringify(files));
+                    location.reload();
+                }
+            }
+        }
+
+        function deleteFile(name) {
+            if (confirm('Are you sure you want to delete this file?')) {
+                let files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                files = files.filter(file => file.name !== name);
+                localStorage.setItem('odocsFiles', JSON.stringify(files));
+                location.reload();
+            }
+        }
     </script>
     <div class="file-list-container">
         <img class="apps-button" id="apps-button" src="assets/images/app_button_icon.png"></img>
@@ -447,60 +516,6 @@
         </div>
         <ul class="file-list" id="fileList"></ul>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', loadFileList);
-
-        function loadFileList() {
-            const fileList = document.getElementById('fileList');
-            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-
-            files.forEach(file => {
-                const listItem = document.createElement('li');
-                listItem.className = 'file-item';
-                listItem.innerHTML = `
-                    <span class="file-info"><text style="font-weight: bold;">${file.name}</text> - Modified on: <p>${new Date(file.created).toLocaleString()}</p></span>
-                    <div class="file-controls">
-                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')">Load</button>
-                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')">Rename</button>
-                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')">Delete</button>
-                    </div>
-                `;
-                fileList.appendChild(listItem);
-            });
-        }
-
-        function createNewFile() {
-            window.location.href = 'editor.html';
-        }
-
-        function loadFile(name) {
-            // Redirect to the editor with the selected file's name as a query parameter
-            window.location.href = `editor.html?file=${encodeURIComponent(name)}`;
-        }
-
-        function renameFile(name) {
-            const newName = prompt('Enter new name for the file:', name);
-            if (newName) {
-                let files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-                const fileIndex = files.findIndex(file => file.name === name);
-                if (fileIndex !== -1) {
-                    files[fileIndex].name = newName;
-                    localStorage.setItem('odocsFiles', JSON.stringify(files));
-                    location.reload();
-                }
-            }
-        }
-
-        function deleteFile(name) {
-            if (confirm('Are you sure you want to delete this file?')) {
-                let files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-                files = files.filter(file => file.name !== name);
-                localStorage.setItem('odocsFiles', JSON.stringify(files));
-                location.reload();
-            }
-        }
-    </script>
 </body>
 
 </html>
