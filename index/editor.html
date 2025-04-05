@@ -32,7 +32,7 @@
 
         .editor-container {
             justify-self: center; /* Center the container horizontally */
-            flex: 1 1 auto; /* Allow the container to grow and shrink as needed */
+            flex: auto; /* Allow the container to grow and shrink as needed */
             max-width: 800px;
             width: 100%;
             height: 100%;
@@ -48,7 +48,10 @@
             overflow-x: hidden; /* Prevent horizontal scrolling */
             overflow-y: auto; /* Allow vertical scrolling if content overflows */
             max-height: calc(100vh - 40px);
-            margin: 20px auto;
+        }
+
+        .editor-container::-webkit-scrollbar {
+            display: none; /* Hide the scrollbar for a cleaner look */
         }
 
         #titleContainer {
@@ -135,7 +138,7 @@
 
         #content {
             width: 97%;
-            height: 350px;
+            height: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
