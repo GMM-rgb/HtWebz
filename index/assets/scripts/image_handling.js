@@ -1,18 +1,18 @@
-// Image handling system
-function initializeImageHandling(editor) {
-    editor.addEventListener('click', handleImageClick);
+document.addEventListener('DOMContentLoaded', function() {
+    const editor = document.getElementById('content');
     
-    function handleImageClick(e) {
-        if (e.target.tagName === 'IMG') {
+    editor.addEventListener('click', function(e) {
+        const clickedImage = e.target.closest('img');
+        if (clickedImage) {
             e.preventDefault();
             e.stopPropagation();
-            setupImageControls(e.target);
+            handleImageClick(clickedImage);
         } else if (!e.target.closest('.img-wrapper')) {
             removeAllImageControls();
         }
-    }
+    });
 
-    function setupImageControls(img) {
+    function handleImageClick(img) {
         removeAllImageControls();
         
         const wrapper = document.createElement('div');
@@ -20,8 +20,51 @@ function initializeImageHandling(editor) {
         img.parentNode.insertBefore(wrapper, img);
         wrapper.appendChild(img);
 
+        addFormatMenu(wrapper, img);
         addResizeHandles(wrapper, img);
-        addBorderControls(wrapper, img);
+    }
+
+    function addFormatMenu(wrapper, img) {
+        const menu = document.createElement('div');
+        menu.className = 'image-format-menu';
+        menu.innerHTML = `
+            <div class="format-control">
+                <div class="format-section">
+                    <label>Border:</label>
+                    <input type="number" min="0" max="20" value="${img.style.borderWidth ? parseInt(img.style.borderWidth) : 0}" class="border-width"/>
+                    <input type="color" value="${img.style.borderColor || '#000000'}" class="border-color"/>
+                </div>
+                <div class="format-section">
+                    <label>Style:</label>
+                    <select class="border-style">
+                        <option value="solid">Solid</option>
+                        <option value="dashed">Dashed</option>
+                        <option value="dotted">Dotted</option>
+                    </select>
+                </div>
+                <div class="format-section">
+                    <label>Radius:</label>
+                    <input type="number" min="0" max="50" value="${img.style.borderRadius ? parseInt(img.style.borderRadius) : 0}" class="border-radius"/>
+                </div>
+            </div>
+        `;
+        wrapper.appendChild(menu);
+
+        const widthInput = menu.querySelector('.border-width');
+        const colorInput = menu.querySelector('.border-color');
+        const styleSelect = menu.querySelector('.border-style');
+        const radiusInput = menu.querySelector('.border-radius');
+
+        function updateStyle() {
+            img.style.border = `${widthInput.value}px ${styleSelect.value} ${colorInput.value}`;
+            img.style.borderRadius = `${radiusInput.value}px`;
+            if (window.debouncedSave) window.debouncedSave();
+        }
+
+        widthInput.addEventListener('input', updateStyle);
+        colorInput.addEventListener('input', updateStyle);
+        styleSelect.addEventListener('change', updateStyle);
+        radiusInput.addEventListener('input', updateStyle);
     }
 
     function addResizeHandles(wrapper, img) {
@@ -30,17 +73,18 @@ function initializeImageHandling(editor) {
             handle.className = `resize-handle ${pos}`;
             wrapper.appendChild(handle);
 
-            handle.onmousedown = function(e) {
+            handle.addEventListener('mousedown', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 
+                handle.classList.add('active');
                 const startX = e.clientX;
                 const startY = e.clientY;
                 const startWidth = img.offsetWidth;
                 const startHeight = img.offsetHeight;
                 const ratio = startWidth / startHeight;
-                
-                function onMouseMove(moveEvent) {
+
+                function handleResize(moveEvent) {
                     moveEvent.preventDefault();
                     const dx = moveEvent.clientX - startX;
                     const dy = moveEvent.clientY - startY;
@@ -63,46 +107,23 @@ function initializeImageHandling(editor) {
 
                     newWidth = Math.max(50, newWidth);
                     newHeight = Math.max(50, newHeight);
-                    
-                    img.style.width = newWidth + 'px';
-                    img.style.height = newHeight + 'px';
+
+                    requestAnimationFrame(() => {
+                        img.style.width = newWidth + 'px';
+                        img.style.height = newHeight + 'px';
+                    });
                 }
 
-                function onMouseUp() {
-                    document.removeEventListener('mousemove', onMouseMove);
-                    document.removeEventListener('mouseup', onMouseUp);
+                function stopResize() {
+                    handle.classList.remove('active');
+                    document.removeEventListener('mousemove', handleResize);
+                    document.removeEventListener('mouseup', stopResize);
                     if (window.debouncedSave) window.debouncedSave();
                 }
 
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
-            };
-        });
-    }
-
-    function addBorderControls(wrapper, img) {
-        const borderMenu = document.createElement('div');
-        borderMenu.className = 'image-border-menu';
-        borderMenu.innerHTML = `
-            <div class="border-control">
-                <label>Border:</label>
-                <input type="number" min="0" max="20" value="${img.style.borderWidth ? parseInt(img.style.borderWidth) : 0}" class="border-width"/>
-                <input type="color" value="#000000" class="border-color"/>
-            </div>
-        `;
-        wrapper.appendChild(borderMenu);
-
-        const widthInput = borderMenu.querySelector('.border-width');
-        const colorInput = borderMenu.querySelector('.border-color');
-        
-        widthInput.addEventListener('input', function() {
-            img.style.border = `${this.value}px solid ${colorInput.value}`;
-            if (window.debouncedSave) window.debouncedSave();
-        });
-        
-        colorInput.addEventListener('input', function() {
-            img.style.border = `${widthInput.value}px solid ${this.value}`;
-            if (window.debouncedSave) window.debouncedSave();
+                document.addEventListener('mousemove', handleResize);
+                document.addEventListener('mouseup', stopResize);
+            });
         });
     }
 
@@ -113,4 +134,11 @@ function initializeImageHandling(editor) {
             if (img) wrapper.replaceWith(img);
         });
     }
-}
+
+    // Handle clicks outside of images
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.img-wrapper') && !e.target.matches('img')) {
+            removeAllImageControls();
+        }
+    });
+});
