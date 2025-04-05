@@ -1,8 +1,9 @@
 #pageMappingPreview {
     display: block; /* Change from flex to block */
     flex-direction: column;
-    justify-content: block-start;
-    align-content: center;
+    justify-content: start; /* Change from center to start */
+    align-items: start; /* Change from center to start */
+    align-content: top;
     position: fixed; /* for proper positioning of child elements */
     border: 3px solid #7c7c7c;
     border-top-right-radius: 15px;
