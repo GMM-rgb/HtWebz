@@ -507,60 +507,64 @@
             editor.addEventListener('keydown', function(e) {
                 if (e.key === 'Tab') {
                     e.preventDefault();
-                    const sel = window.getSelection();
-                    if (!sel.rangeCount) return;
+                    
+                    requestAnimationFrame(() => {
+                        const sel = window.getSelection();
+                        if (!sel.rangeCount) return;
 
-                    const range = sel.getRangeAt(0);
-                    const lines = range.toString().split('\n');
+                        const range = sel.getRangeAt(0);
+                        const lines = range.toString().split('\n');
 
-                    if (lines.length > 1) {
-                        // Multiple lines selected
+                        // Store selection points
                         const startContainer = range.startContainer;
                         const startOffset = range.startOffset;
                         const endContainer = range.endContainer;
                         const endOffset = range.endOffset;
 
-                        // Process each line
-                        const processedLines = lines.map(line => {
-                            if (e.shiftKey) {
-                                // Remove indentation
-                                return line.replace(/^(\t|    )/, '');
-                            } else {
-                                // Add indentation
+                        if (lines.length > 1) {
+                            // Multiple lines selected
+                            const processedLines = lines.map(line => {
+                                if (e.shiftKey) {
+                                    return line.replace(/^(\t|    )/, '');
+                                }
                                 return '\t' + line;
-                            }
-                        });
+                            });
 
-                        const newContent = processedLines.join('\n');
-                        range.deleteContents();
-                        range.insertNode(document.createTextNode(newContent));
-
-                        // Restore selection
-                        const newRange = document.createRange();
-                        newRange.setStart(startContainer, startOffset);
-                        newRange.setEnd(endContainer, endOffset);
-                        sel.removeAllRanges();
-                        sel.addRange(newRange);
-                    } else {
-                        // Single line or cursor position
-                        if (e.shiftKey) {
-                            // Remove indentation
-                            const lineStart = range.startContainer.textContent.substring(0, range.startOffset);
-                            if (lineStart.match(/^(\t|    )/)) {
-                                const newText = range.startContainer.textContent.replace(/^(\t|    )/, '');
-                                range.startContainer.textContent = newText;
+                            const newContent = processedLines.join('\n');
+                            
+                            // Use document fragment for better performance
+                            const fragment = document.createDocumentFragment();
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = newContent;
+                            while (tempDiv.firstChild) {
+                                fragment.appendChild(tempDiv.firstChild);
                             }
-                        } else {
-                            // Insert tab at cursor position
-                            const tabNode = document.createTextNode('\t');
-                            range.insertNode(tabNode);
-                            range.setStartAfter(tabNode);
-                            range.setEndAfter(tabNode);
+
+                            range.deleteContents();
+                            range.insertNode(fragment);
+
+                            // Restore selection
+                            const newRange = document.createRange();
+                            newRange.setStart(startContainer, startOffset);
+                            newRange.setEnd(endContainer, endOffset);
                             sel.removeAllRanges();
-                            sel.addRange(range);
+                            sel.addRange(newRange);
+                        } else {
+                            // Single line handling
+                            if (e.shiftKey) {
+                                const lineText = range.startContainer.textContent;
+                                const indentMatch = /^(\t|    )/.exec(lineText);
+                                if (indentMatch) {
+                                    range.startContainer.textContent = lineText.substring(indentMatch[0].length);
+                                }
+                            } else {
+                                const tabNode = document.createTextNode('\t');
+                                range.insertNode(tabNode);
+                                range.setStartAfter(tabNode);
+                            }
                         }
-                    }
-                    debouncedSave();
+                        debouncedSave();
+                    });
                 }
             });
 
@@ -622,17 +626,46 @@
         }
 
         function removeHighlight() {
-            restoreSelection();
-            applyFormatting('hiliteColor', 'transparent');
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return;
+            
+            requestAnimationFrame(() => {
+                document.execCommand('styleWithCSS', false, true);
+                document.execCommand('hiliteColor', false, 'transparent');
+                editor.focus();
+                
+                // Cleanup empty spans
+                const emptySpans = editor.querySelectorAll('span:empty:not(:contains(\u200B))');
+                emptySpans.forEach(span => span.remove());
+                
+                debouncedSave();
+            });
         }
 
-        function toggleHighlightDropdown() {
+        // Update toggle function
+        function toggleHighlightDropdown(e) {
+            if (!e) e = window.event;
+            e.stopPropagation();
+            e.preventDefault();
             const dropdown = document.getElementById('highlightDropdown');
-            dropdown.style.display = dropdown.style.display === 'grid' ? 'none' : 'grid';
             if (dropdown.style.display === 'grid') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'grid';
                 saveSelection();
             }
         }
+
+        // Update document click handler
+        document.addEventListener('click', function(e) {
+            const highlightDropdown = document.getElementById('highlightDropdown');
+            const highlightButton = e.target.closest('.highlight');
+            const dropdownContent = e.target.closest('.highlight-dropdown-content');
+            
+            if (!highlightButton && !dropdownContent && highlightDropdown.style.display === 'grid') {
+                highlightDropdown.style.display = 'none';
+            }
+        }, false);
 
         function formatText(command) {
             restoreSelection();
@@ -726,31 +759,34 @@
         function changeFontSize(delta) {
             const sel = window.getSelection();
             if (!sel.rangeCount) return;
+            
+            requestAnimationFrame(() => {
+                const fontSizeInput = document.getElementById('fontSize');
+                let currentSize = parseInt(fontSizeInput.value) || 16;
+                let newSize = Math.max(8, Math.min(72, currentSize + delta));
+                fontSizeInput.value = newSize;
 
-            const fontSizeInput = document.getElementById('fontSize');
-            let currentSize = parseInt(fontSizeInput.value) || 16;
-            let newSize = Math.max(8, Math.min(72, currentSize + delta));
-            fontSizeInput.value = newSize;
-
-            const range = sel.getRangeAt(0);
-            if (range.collapsed) {
+                const range = sel.getRangeAt(0);
                 const span = document.createElement('span');
                 span.style.fontSize = newSize + 'px';
-                span.textContent = '\u200B';
-                range.insertNode(span);
-                range.setStartAfter(span);
-                range.setEndAfter(span);
-            } else {
-                const span = document.createElement('span');
-                span.style.fontSize = newSize + 'px';
-                span.appendChild(range.extractContents());
-                range.insertNode(span);
-                range.selectNodeContents(span);
-            }
 
-            sel.removeAllRanges();
-            sel.addRange(range);
-            debouncedSave();
+                // Batch DOM operations
+                if (range.collapsed) {
+                    span.textContent = '\u200B';
+                    range.insertNode(span);
+                    range.setStartAfter(span);
+                } else {
+                    const fragment = document.createDocumentFragment();
+                    fragment.appendChild(range.extractContents());
+                    span.appendChild(fragment);
+                    range.insertNode(span);
+                    range.selectNodeContents(span);
+                }
+
+                sel.removeAllRanges();
+                sel.addRange(range);
+                debouncedSave();
+            });
         }
 
         // Update font size monitoring
@@ -790,7 +826,6 @@
                                 document.getElementById('fontSize').value = lastFontSize;
                                 break;
                             }
-                            currentElement = currentElement.parentElement;
                         }
                     }
                 }
@@ -1066,3 +1101,4 @@
     </script>
 </body>
 </html>
+``` 
