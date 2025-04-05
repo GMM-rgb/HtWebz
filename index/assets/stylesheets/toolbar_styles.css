@@ -102,7 +102,13 @@
 
 .highlight:hover {
     background-color: #fad015; /* Darker shade on hover for better interaction */
-    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 1); /* Shadow for better visibility */
+}
+
+.highlight:active {
+    background-color: #fbc02d; /* Even darker shade on active for feedback */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5); /* Reduce shadow on active for depth */
+    transform: scale(0.95); /* Slightly scale down on active for feedback */
 }
 
 .remove-highlight {
@@ -112,9 +118,16 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .remove-highlight:hover {
     background-color: #e64a19; /* Darker shade on hover */
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 1); /* Shadow for better visibility */
+}
+
+.remove-highlight:active {
+    background-color: #d84315; /* Even darker shade on active for feedback */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5); /* Reduce shadow on active for depth */
+    transform: scale(0.95); /* Slightly scale down on active for feedback */
 }
