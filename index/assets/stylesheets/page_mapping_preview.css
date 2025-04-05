@@ -84,13 +84,14 @@
     white-space: pre-wrap;
     user-select: none !important; /* Prevent text selection */
     transition: all 0.3s ease; /* Smooth transition for hover effect */
+    transform-style: preserve-3d;
 }
 
 .mapPreviewPage:hover {
     position: relative; /* Ensure it stays in the same position when hovering */
     box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275); /* Enhanced shadow on hover */
-    transform: scale(1.1); /* Adjusted transform for hover effect */
-    margin-left: 3.5px;
+    transform: rotateY(11.5deg) rotateX(15deg); /* Adjusted transform for hover effect */
+    margin-left: -3.5px;
 }
 
 .mapPreviewPage > * {
