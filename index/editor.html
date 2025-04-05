@@ -310,36 +310,42 @@
         }
 
         .image-border-menu {
-            display: none;
             position: absolute;
-            right: -220px;
+            right: -180px;
             top: 0;
             background: white;
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 10px;
+            padding: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             z-index: 1000;
+            width: 160px;
+            font-size: 12px;
         }
 
         .image-border-menu.active {
-            display: block;
+            display: block !important;
         }
 
         .border-color-picker {
-            width: 200px;
-            padding: 5px;
-            border: none;
-            cursor: pointer;
+            width: 100%;
+            height: 25px;
+            padding: 2px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin: 4px 0;
         }
 
         .border-width-control {
-            width: 100%;
-            margin: 10px 0;
+            margin: 8px 0 4px 0;
         }
 
         .border-width-control input {
-            width: 60px;
+            width: 50px;
+            padding: 2px 4px;
+            margin-left: 4px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
         }
 
         @keyframes fadeInOut {
@@ -707,25 +713,27 @@
             // Add border control menu
             const borderMenu = document.createElement('div');
             borderMenu.className = 'image-border-menu';
+            borderMenu.style.display = 'block';  // Make sure menu is visible
             borderMenu.innerHTML = `
-                <div>
-                    <label>Border Color:</label>
-                    <input type="color" class="border-color-picker">
+                <div style="margin-bottom: 6px;">
+                    <div style="margin-bottom: 4px;"><small>Border Color</small></div>
+                    <input type="color" class="border-color-picker" value="#000000">
                 </div>
                 <div class="border-width-control">
-                    <label>Border Width:</label>
-                    <input type="number" min="0" max="20" value="1"> px
+                    <div style="margin-bottom: 4px;"><small>Width</small></div>
+                    <input type="number" min="0" max="20" value="1" style="width: 45px;"> px
                 </div>
             `;
             wrapper.appendChild(borderMenu);
 
-            // Show border menu when image is selected
-            borderMenu.classList.add('active');
-
-            // Add border control event listeners
+            // Initialize border if not already set
             const colorPicker = borderMenu.querySelector('.border-color-picker');
             const widthInput = borderMenu.querySelector('.border-width-control input');
+            if (!img.style.border) {
+                img.style.border = '1px solid #000000';
+            }
 
+            // Add border control event listeners
             colorPicker.addEventListener('input', (e) => {
                 img.style.border = `${widthInput.value}px solid ${e.target.value}`;
                 debouncedSave();
