@@ -389,7 +389,6 @@
     <div id="pageMappingPreview">
         <div id="mapPreviewPage"></div>
     </div>
-    <script src="assets/scripts/page_minimap_preview_system.js"></script>
 
 
     <div class="editor-container">
@@ -456,7 +455,6 @@
                     <button class="fontButton" id="">...</button>
                     <button class="fontButton" id="">...</button>
                 </div>
-                <script src="assets/scripts/font_script.js"></script>
             </div>
         </div>
         <div id="content" contenteditable="true" placeholder="Start typing..." style="outline: none;" onfocus=""></div>
@@ -473,39 +471,65 @@
             </div>    
         </div>
     </section>
-    <script src="assets/scripts/format_controls_system.js"></script>
 
     <!-- Editor functionality -->
     <script>
-        let editor = document.getElementById('content');
+        let editor;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            editor = document.getElementById('content');
+            
+            // Initialize editor content from localStorage
+            const params = new URLSearchParams(window.location.search);
+            const fileName = params.get('file');
+            if (fileName) {
+                const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+                const file = files.find(f => f.name === fileName);
+                if (file) {
+                    editor.innerHTML = file.content || '';
+                    document.getElementById('fileName').value = file.name;
+                }
+            }
+
+            // Initialize key event handlers
+            editor.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+                    e.preventDefault();
+                    if (e.shiftKey) {
+                        document.execCommand('redo');
+                    } else {
+                        document.execCommand('undo');
+                    }
+                }
+            });
+
+            // Initialize content change handlers
+            editor.addEventListener('input', () => {
+                if (window.renderPreview) {
+                    window.renderPreview();
+                }
+                debouncedSave();
+            });
+
+            // Initialize content observers
+            const observer = new MutationObserver(() => {
+                if (!editor.innerHTML) {
+                    document.execCommand('insertHTML', false, '<br>');
+                }
+                if (window.renderPreview) {
+                    window.renderPreview();
+                }
+            });
+
+            observer.observe(editor, {
+                childList: true,
+                subtree: true,
+                characterData: true,
+                attributes: true
+            });
+        });
+
         let savedSelection;
-
-        const observer = new MutationObserver(() => {
-            if (!editor.innerHTML) {
-                document.execCommand('insertHTML', false, '<br>');
-            }
-        });
-
-        observer.observe(editor, {
-            childList: true,
-            subtree: true,
-            characterData: true,
-            attributes: true
-        });
-
-        editor.addEventListener('input', function(e) {
-            // Ensure the input event creates an undo point
-            if (e.inputType && !e.isComposing) {
-                const selection = window.getSelection();
-                const range = selection.getRangeAt(0);
-                range.deleteContents();
-                const textNode = document.createTextNode(e.data || '');
-                range.insertNode(textNode);
-                range.setStartAfter(textNode);
-                selection.removeAllRanges();
-                selection.addRange(range);
-            }
-        });
 
         function saveSelection() {
             if (window.getSelection) {
@@ -948,6 +972,36 @@
         });
     </script>
     <script src="assets/scripts/tooltip_system.js"></script>
+    <script src="assets/scripts/font_script.js"></script>
+    <script src="assets/scripts/format_controls_system.js"></script>
+    <script src="assets/scripts/page_minimap_preview_system.js"></script>
+    <script>
+    // Initialize after all scripts are loaded
+    window.addEventListener('load', function() {
+        if (window.renderPreview) {
+            window.renderPreview();
+        }
+        
+        // Initialize content and editor
+        const params = new URLSearchParams(window.location.search);
+        const fileName = params.get('file');
+        if (fileName) {
+            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+            const file = files.find(f => f.name === fileName);
+            if (file) {
+                editor.innerHTML = file.content;
+                document.getElementById('fileName').value = file.name;
+                if (window.renderPreview) {
+                    window.renderPreview();
+                }
+            }
+        }
+        
+        // Initialize editor events
+        editor.addEventListener('input', debouncedSave);
+        editor.addEventListener('mouseup', updateFontSizeInput);
+        editor.addEventListener('keyup', updateFontSizeInput);
+    });
+    </script>
 </body>
-
 </html>
