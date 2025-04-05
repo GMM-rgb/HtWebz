@@ -1,22 +1,23 @@
 #pageMappingPreview {
-    display: flex;
+    display: block; /* Change from flex to block */
     flex-direction: column;
     justify-content: block-start;
     align-content: center;
     position: fixed; /* for proper positioning of child elements */
     border: 3px solid #7c7c7c;
     border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;;
+    border-bottom-right-radius: 15px;
     height: 100%;
     min-width: 175px;
     max-width: 175px;
     box-sizing: border-box !important;
     padding-inline: 5px;
     padding-block: 7.5px;
+    padding: 10px;
     background: white;
     top: 0 !important;
     left: 0 !important;
-    gap: 8px;
+    gap: 0; /* Remove gap since we're using margins */
     overflow: hidden; /* Adjusted overflow */
     overflow-y: auto; /* Allow scrolling for multiple pages */
     z-index: 1000;
@@ -28,6 +29,7 @@
     border-radius: 5px;
     background: #e8fdff;
     width: 160px; /* Smaller base size for better scaling */
+    min-height: calc(50vh - 50px); /* Ensure minimum height */
     height: calc(50vh - 50px);
     padding: 5px;
     transition: all 0.3s ease;
@@ -38,6 +40,9 @@
     transform-origin: left center;
     transform-style: preserve-3d; /* Ensure 3D transform is preserved for scaling */
     box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Adjusted box-shadow */
+    flex-shrink: 0; /* Prevent shrinking */
+    position: relative;
+    margin-bottom: 15px;
 }
 
 #mapPreviewPage > * {
@@ -56,13 +61,16 @@
     border-radius: 5px;
     background: #e8fdff;
     width: 150px;
-    height: 225px; /* Fixed height for each preview page */
-    margin-bottom: 10px;
+    min-height: 225px; /* Ensure minimum height */
+    height: 225px;
+    margin: 0 auto 15px auto; /* Center pages and add bottom margin */
     padding: 5px;
     box-sizing: border-box;
     overflow: hidden;
     transform: scale(1);
-    transform-origin: center;
+    transform-origin: top center;
+    position: relative; /* Ensure proper stacking */
+    display: block; /* Force block display */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     font-size: 4px !important;
     line-height: 1.5;
