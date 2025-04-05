@@ -182,15 +182,13 @@
         }
 
         .apps-button {
-            position: absolute;
+            position: relative;
             border: 1px solid cyan;
             border-left-style: dashed;
             border-right-style: dashed;
             border-radius: 10px;
             padding: 1.5px;
             margin: -15px;
-            height: 5vh;
-            width: 5vh;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -370,6 +368,13 @@
         #overlayMenus {
             display: none; /* Hide by default */
         }
+
+        .apps-button {
+            max-width: 50px !important;
+            max-height: 50px !important; /* Ensure the icon fits within the context menu */
+            box-sizing: border-box !important;
+
+        }
     </style>
 </head>
 
@@ -431,9 +436,9 @@
                         <br>Size: <text style="color: #444;">${formatFileSize(fileSize)}</text>
                     </span>
                     <div class="file-controls">
-                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')">Load</button>
-                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')">Rename</button>
-                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')">Delete</button>
+                        <button class="load-btn" id="fileButton" onclick="loadFile('${file.name}')" onmouseenter="setupTooltip('.load-btn', 'Load File.')">Load</button>
+                        <button class="rename-btn" id="fileButton" onclick="renameFile('${file.name}')" onmouseenter="setupTooltip('.rename-btn', 'Rename File.')">Rename</button>
+                        <button class="delete-btn" id="fileButton" onclick="deleteFile('${file.name}')" onmouseenter="setupTooltip('.delete-btn', 'Delete File.')">Delete</button>
                     </div>
                 `;
                 fileList.appendChild(listItem);
@@ -472,25 +477,12 @@
         }
     </script>
     <div class="file-list-container">
-        <img class="apps-button" id="apps-button" src="assets/images/app_button_icon.png"></img>
-        <label class="apps-button-label" id="apps-button-label">Hⓣ Apps</label>
-        <script>
-            document.getElementById('apps-button').addEventListener('mouseover', function () {
-                var buttonLabel = document.getElementById('apps-button-label');
-                buttonLabel.style.display = 'block';
-                buttonLabel.style.visibility = 'visible';
-            });
-            document.getElementById('apps-button').addEventListener('mouseout', function () {
-                var buttonLabel = document.getElementById('apps-button-label');
-                buttonLabel.style.display = 'none';
-                buttonLabel.style.visibility = 'hidden';
-            });
-        </script>
+        <img class="apps-button" id="apps-button" onmouseenter="setupTooltip('#apps-button', 'HⓣApps')" src="assets/images/app_button_icon.png"></img>
         <div class="app-context-menu" id="app-context-menu">
             <form action="file_list.html" method="get">
                 <button class="HtDocs-go-to-button" id="HtDocs-go-to-button">HⓣEditor</button>
                 <canvas class="filler-frame-1"></canvas>
-                <img class="HtDocs-app-icon" id="HtDocs-app-icon" src="assets/images/HtDocs_App_icon.png"></img>
+                <img class="HtDocs-app-icon" id="HtDocs-app-icon" src="assets/images/HtDocs_App_icon.png"/>
             </form>
             <script>
                 // Function to display or hide app menu when click
@@ -521,5 +513,7 @@
         <ul class="file-list" id="fileList"></ul>
     </div>
 </body>
+
+<script src="assets/scripts/tooltip_system.js"></script>
 
 </html>
