@@ -309,6 +309,39 @@
             -webkit-user-drag: none !important;
         }
 
+        .image-border-menu {
+            display: none;
+            position: absolute;
+            right: -220px;
+            top: 0;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .image-border-menu.active {
+            display: block;
+        }
+
+        .border-color-picker {
+            width: 200px;
+            padding: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .border-width-control {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .border-width-control input {
+            width: 60px;
+        }
+
         @keyframes fadeInOut {
             0%, 100% {
                 opacity: 0;
@@ -671,11 +704,42 @@
             img.parentNode.insertBefore(wrapper, img);
             wrapper.appendChild(img);
 
+            // Add border control menu
+            const borderMenu = document.createElement('div');
+            borderMenu.className = 'image-border-menu';
+            borderMenu.innerHTML = `
+                <div>
+                    <label>Border Color:</label>
+                    <input type="color" class="border-color-picker">
+                </div>
+                <div class="border-width-control">
+                    <label>Border Width:</label>
+                    <input type="number" min="0" max="20" value="1"> px
+                </div>
+            `;
+            wrapper.appendChild(borderMenu);
+
+            // Show border menu when image is selected
+            borderMenu.classList.add('active');
+
+            // Add border control event listeners
+            const colorPicker = borderMenu.querySelector('.border-color-picker');
+            const widthInput = borderMenu.querySelector('.border-width-control input');
+
+            colorPicker.addEventListener('input', (e) => {
+                img.style.border = `${widthInput.value}px solid ${e.target.value}`;
+                debouncedSave();
+            });
+
+            widthInput.addEventListener('input', (e) => {
+                img.style.border = `${e.target.value}px solid ${colorPicker.value}`;
+                debouncedSave();
+            });
+
             ['nw', 'ne', 'sw', 'se'].forEach(pos => {
                 const handle = document.createElement('div');
                 handle.className = `resize-handle ${pos}`;
                 wrapper.appendChild(handle);
-
                 handle.addEventListener('mousedown', initResize);
             });
         }
@@ -683,9 +747,14 @@
         function removeResizeHandles(img) {
             const wrapper = img.parentElement;
             if (wrapper && wrapper.querySelector('.resize-handle')) {
+                const borderMenu = wrapper.querySelector('.image-border-menu');
+                if (borderMenu) borderMenu.remove();
                 const handles = wrapper.querySelectorAll('.resize-handle');
                 handles.forEach(handle => handle.remove());
-                wrapper.replaceWith(img);
+                if (wrapper.parentNode) {
+                    wrapper.parentNode.insertBefore(img, wrapper);
+                    wrapper.remove();
+                }
             }
         }
 
