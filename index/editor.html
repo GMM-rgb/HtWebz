@@ -694,7 +694,8 @@
 
                 e.target.classList.add('resize-active');
                 addResizeHandles(e.target);
-            } else if (!e.target.classList.contains('resize-handle')) {
+            } else if (!e.target.classList.contains('resize-handle') && 
+                      !e.target.closest('.image-border-menu')) {
                 const allImages = editor.getElementsByTagName('IMG');
                 Array.from(allImages).forEach(img => {
                     img.classList.remove('resize-active');
