@@ -1,0 +1,50 @@
+.img-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.img-wrapper img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border: 2px solid white;
+    border-radius: 50%;
+    z-index: 1000;
+}
+
+.resize-handle.nw { top: -5px; left: -5px; cursor: nw-resize; }
+.resize-handle.ne { top: -5px; right: -5px; cursor: ne-resize; }
+.resize-handle.sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+.resize-handle.se { bottom: -5px; right: -5px; cursor: se-resize; }
+
+.image-border-menu {
+    position: absolute;
+    right: -180px;
+    top: 0;
+    background: white;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1001;
+}
+
+.border-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.border-width {
+    width: 50px;
+    padding: 2px 4px;
+}
