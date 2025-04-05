@@ -89,3 +89,32 @@
         border-bottom: none;
     }
 }
+
+.highlight {
+    background-color: #ffeb3b;
+    color: black; /* Contrast text color for readability */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.highlight:hover {
+    background-color: #fad015; /* Darker shade on hover for better interaction */
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
+}
+
+.remove-highlight {
+    background-color: #ff5722; /* Example color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-highlight:hover {
+    background-color: #e64a19; /* Darker shade on hover */
+}
