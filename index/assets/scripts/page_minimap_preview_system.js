@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function createPreviewElement() {
       const preview = document.createElement("div");
       preview.className = "mapPreviewPage";
-      // Rely on your stylesheet for fonts and other styles;
+      // Rely on stylesheet for fonts and other styles;
       // Only enforce pre-wrapping so that newline characters are rendered.
       preview.style.whiteSpace = 'pre-wrap';
       previewContainer.appendChild(preview);
@@ -183,4 +183,3 @@ document.addEventListener('DOMContentLoaded', () => {
     window.renderPreview = updatePreview;
     updatePreview();
   });
-  
