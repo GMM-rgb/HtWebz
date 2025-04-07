@@ -1,6 +1,5 @@
 <!DOCTYPE xml>
-<xml version="1.0" encoding="UTF-8"?>
-<services>
+<xml version="1.0" encoding="UTF-8">
     <service>
         <name>AssetItems</name>
         <description></description>
@@ -9,7 +8,7 @@
     <service>
         <name>AccountAPI</name>
         <description></description>
-        <url>https://HtWebz/Scripts/API/account_manager.jar</url>
+        <url>https://HtWebz/Scripts/API/account_manager.py</url>
     </service>
     <service>
         <name>StorageAPI</name>
