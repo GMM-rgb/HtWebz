@@ -85,6 +85,8 @@
     user-select: none !important; /* Prevent text selection */
     transition: all 0.3s ease; /* Smooth transition for hover effect */
     transform-style: preserve-3d;
+    flex-shrink: 0; /* Prevent shrinking */
+    text-rendering: optimizeSpeed !important;
 }
 
 .mapPreviewPage:hover {
