@@ -1,0 +1,19 @@
+<!DOCTYPE xml>
+<xml version="1.0" encoding="UTF-8"?>
+<services>
+    <service>
+        <name>AssetItems</name>
+        <description></description>
+        <url>https://HtWebz/_external_/</url>
+    </service>
+    <service>
+        <name>AccountAPI</name>
+        <description></description>
+        <url>https://HtWebz/Scripts/API/account_manager.jar</url>
+    </service>
+    <service>
+        <name>StorageAPI</name>
+        <description></description>
+        <url>https://HtWebz/Scripts/API/file_storage.sql</url>
+    </service>
+</xml>
