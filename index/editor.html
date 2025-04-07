@@ -827,17 +827,17 @@
                 }
             });
 
-            // Initialize editor content from localStorage
-            const params = new URLSearchParams(window.location.search);
-            const fileName = params.get('file');
-            if (fileName) {
-                const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-                const file = files.find(f => f.name === fileName);
-                if (file) {
-                    editor.innerHTML = file.content || '';
-                    document.getElementById('fileName').value = file.name;
-                }
-            }
+            // // Initialize editor content from localStorage
+            // const params = new URLSearchParams(window.location.search);
+            // const fileName = params.get('file');
+            // if (fileName) {
+            //     const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+            //     const file = files.find(f => f.name === fileName);
+            //     if (file) {
+            //         editor.innerHTML = file.content || '';
+            //         document.getElementById('fileName').value = file.name;
+            //     }
+            // }
 
             // Initialize key event handlers
             editor.addEventListener('keydown', function(e) {
