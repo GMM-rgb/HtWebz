@@ -14,5 +14,7 @@ app.post('/api', function (req, res) {
   req.body = req.body || {};
 });
 
-console.log('Service path:', servicePath);
+console.log('Service path:', servicePath); // Log the service path
+console.log('Service resolved path:', path.resolve(servicePath)); // Log the resolved service path
+console.log('Service joined path:', path.join(__dirname, servicePath)); // Log the joined service path
 console.log('Current directory:', __dirname); // Log the current working directory
