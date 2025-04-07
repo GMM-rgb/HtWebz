@@ -43,7 +43,7 @@ const PORT = 8004; // Define the port to listen on
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\nServices are running globally at http://${localIp}:${PORT}`);
   console.log(`Access it locally at http://localhost:${PORT}`);
+  console.log('You can access the service at: http://localhost:8004/api\n');
+  console.log('To stop the service, press Ctrl + C.\n');
+  console.log('Service distribution completed.\n');
 });
-console.log('You can access the service at: http://localhost:8004/api\n');
-console.log('To stop the service, press Ctrl + C.\n');
-console.log('Service distribution completed.\n');
