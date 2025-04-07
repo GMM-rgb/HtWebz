@@ -1274,19 +1274,19 @@
         }
         
         // Initialize content and editor
-        const params = new URLSearchParams(window.location.search);
-        const fileName = params.get('file');
-        if (fileName) {
-            const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
-            const file = files.find(f => f.name === fileName);
-            if (file) {
-                editor.innerHTML = file.content;
-                document.getElementById('fileName').value = file.name;
-                if (window.renderPreview) {
-                    window.renderPreview();
-                }
-            }
-        }
+        // const params = new URLSearchParams(window.location.search);
+        // const fileName = params.get('file');
+        // if (fileName) {
+        //     const files = JSON.parse(localStorage.getItem('odocsFiles')) || [];
+        //     const file = files.find(f => f.name === fileName);
+        //     if (file) {
+        //         editor.innerHTML = file.content;
+        //         document.getElementById('fileName').value = file.name;
+        //         if (window.renderPreview) {
+        //             window.renderPreview();
+        //         }
+        //     }
+        // }
         
         // Initialize editor events
         editor.addEventListener('input', debouncedSave);
