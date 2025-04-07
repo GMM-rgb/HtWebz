@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "^4.21.2",
     "express-app": "file:",
+    "fs": "^0.0.1-security",
     "path": "^0.12.7"
   }
 }
