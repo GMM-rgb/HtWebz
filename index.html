@@ -387,13 +387,27 @@
                         <button onclick="notify('Redirecting...')"
                             id="tryButtonGame">Play</button>
                         <script>
-                            var tryGame = document.getElementById('tryButtonGame');
+                            let tryGame = document.getElementById('tryButtonGame');
 
                             tryGame.addEventListener('click', () => {
                                 window.location.href = 'gameDisplayChromeClicker.html';
                             });
                         </script>
                     </div>
+                    <div id="dinoJumpingGame">
+                        <h3 class="game-title">Dino Jumping Game</h3>
+                        <p class="game-description">
+                            
+                        </p>
+                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton">Play</button>
+                        <script>
+                            let tryDinoGame = document.getElementById('tryDinoGameButton');
+
+                            tryDinoGame.addEventListener('click', () => {
+                                window.location.href = '';
+                            });
+                        </script>
+                    </diV>
                 </div>
                 <hr class="bottom-game-divider" style="width: 100%;">
             </div>
@@ -775,3 +789,4 @@
         <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
 
     </html>
+
