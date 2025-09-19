@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Click outside closes
     document.addEventListener("click", (e) => {
+        e.stopPropagation();
         if (!SearchButton.contains(e.target)) {
             toggleSearchView(false);
         }
@@ -98,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
+        e.stopImmediatePropagation();
         if (SearchBarInput.value.length > 0) {
             if (e.key === "Enter") {
                 console.log("Submitted Search Request");
