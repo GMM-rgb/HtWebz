@@ -1,42 +1,30 @@
-const WindowResizeDebug = true;
-let WindowWidth = null;
-
 document.addEventListener("DOMContentLoaded", () => {
-    const title = document.querySelector("#pageTitle");
+    const title   = document.getElementById("pageTitle");
+    const buttons = document.getElementById("moreFromHtWebzContainer");
+    const padding = 10; // gap between title and buttons
+    const debug   = true;
 
-    setTimeout(() => {
-        const retryAttemptInital = 3;
-        let retrys = 0;
-        while (retrys <= retryAttemptInital) {
-            retrys += 1;
-            WindowWidth = window.innerWidth || 0;
-        }
-        if (WindowWidth) {
-            window.addEventListener("resize", (e) => {
-                try {
-                    e.stopImmediatePropagation();
-                    if (window.innerWidth !== null) {
-                        WindowWidth = window.innerWidth;
-                        if (WindowResizeDebug) {
-                            console.log(`${Math.floor(WindowWidth)}`);
-                        }
-                    }
-                } catch (error) {
-                    console.error(`${error}`);
-                }
-            });
-        }
-    }, 0);
+    function updateTitleWidth() {
+        if (!title || !buttons) return;
 
-    function updateTitleElement() {
-        if (title) {
-            
-        } else {
-            console.warn("Could not find PageTitle Element.");
+        const btnRect = buttons.getBoundingClientRect();
+        const containerRect = title.parentElement.getBoundingClientRect();
+        
+        const maxWidth = btnRect.left - containerRect.left - padding;
+        
+        // Don't set it if it's too small
+        if (maxWidth > 100) { // Only set if reasonable size
+            title.style.maxWidth = `${maxWidth}px`;
         }
-
-        requestAnimationFrame(updateTitleElement);
+        
+        console.log(`maxWidth: ${maxWidth}px (buttons at ${btnRect.left}px)`);
     }
 
-    updateTitleElement();
+    // Update on resize, scroll, and any layout shift
+    window.addEventListener("resize", updateTitleWidth);
+    window.addEventListener("scroll", updateTitleWidth);
+    new ResizeObserver(updateTitleWidth).observe(buttons);
+    new ResizeObserver(updateTitleWidth).observe(title.parentElement);
+
+    updateTitleWidth();
 });
