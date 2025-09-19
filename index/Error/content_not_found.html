@@ -16,18 +16,19 @@
       justify-content: center;
       align-items: top;
       box-sizing: border-box;
-      margin-top: 50%;
       position: relative !important;
-      border: 2px solid #444;
+      /* border: 2px solid #444; */
       border-radius: 0.45cm;
       background: lightgray;
       padding-inline: 20px;
       padding-block: 12.5px;
+      flex: 0 1 auto;
+      will-change: scroll-position;
     }
 
     .error-title {
       position: relative;
-      border: 2px solid #333;
+      /* border: 2px solid #333; */
       border-radius: 1cm;
       user-select: none;
       box-sizing: border-box;
@@ -37,11 +38,13 @@
 
     .title {
       position: relative;
-      border-radius: 1cm;
+      border-radius: 1cm 0 0 1cm;
       padding: 5px 10px;
       font-size: 2.45em;
       box-sizing: border-box;
       padding: 5px;
+      text-align: center !important;
+      border-bottom: 2px solid red;
     }
 
     .error-description {
@@ -58,7 +61,7 @@
     #error {
       cursor: pointer;
       position: relative;
-      border: 2px solid #333;
+      /* border: 2px solid #333; */
       border-radius: 1cm;
       padding: 10px;
       background: white;
@@ -75,7 +78,7 @@
     }
 
     .help-info {
-      border: 2px solid #333;
+      /* border: 2px solid #333; */
       border-radius: 1cm;
       padding: 10px;
       background: white;
@@ -88,7 +91,7 @@
         <h1 class="title">Content Not Found!</h1>
       </div>
       <div class="error-description">
-        <p id="error">Error 404: Your search was not found.</p>
+        <p id="error">Error 404: Your reqeusted URL was not found.</p>
         <span class="text-info"
           >Try checking your search to make sure you spelled it right. Or
           confirm the content exists.</span

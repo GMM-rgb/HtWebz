@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all required elements
+    // Get all required elements from html doc
     const elements = {
         notification: document.getElementById("notification"),
         quickSettings: document.getElementById("settingsQuick"),
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Validate all elements exist
     Object.entries(elements).forEach(([name, element]) => {
-        if (!element) console.error(`Required element "${name}" is missing`);
+        if (!element) console.warn(`Required element "${name}" is missing`);
     });
 
     // Notification system

@@ -19,8 +19,9 @@
 
 /* When active/open */
 .search-bar-input.open {
-    width: calc(175px - 15px); /* or whatever fits layout */
+    width: calc(175px - 15px);
     opacity: 1;
     pointer-events: auto;
     will-change: contents;
+    box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
 }

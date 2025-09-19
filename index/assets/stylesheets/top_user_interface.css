@@ -446,15 +446,15 @@
 } */
 
 #pageTitle {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
   max-width: calc(100% - 10px);
   margin-left: 10px;
-  margin-right: 355px;
+  margin-right: calc(355px - 2.5px);
   line-height: 1;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden !important;
   text-overflow: none;
   white-space: nowrap;
 
@@ -466,7 +466,7 @@
   user-select: none !important;
   -webkit-text-stroke: 0.025em darkcyan;
   -webkit-text-fill-color: cyan;
-  text-rendering: optimizeSpeed;
+  text-rendering: optimizeSpeed !important;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.375);
   box-sizing: border-box;
   box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.325),
@@ -475,7 +475,7 @@
   border: 1.5px solid #ccc;
   border-radius: 1cm;
   padding: 5px 15px;
-  transition: all 0.3s;
+  transition: all 0.3s !important;
 }
 
 /* Fade cover animation */
