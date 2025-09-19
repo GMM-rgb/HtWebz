@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "onmouseenter",
                 `setupTooltip('#resourcesMenuOpen', '${prompt}')`
             );
+            SearchButton.style.paddingLeft = "10px";
             SearchBarInput.setAttribute("placeholder", prompt);
 
             SearchLabelText.style.display = "none";
@@ -59,9 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 "setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')"
             );
             SearchBarInput.setAttribute("placeholder", "");
+
             SearchLabelText.style.display = "block";
             SearchBarInput.classList.remove("open");
             SearchBarInput.blur();
+
+            setTimeout(() => {
+                if (!open) {
+                    SearchButton.style.paddingLeft = "0";
+                }
+            }, 0);
         }
     }
 

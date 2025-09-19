@@ -294,10 +294,12 @@
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
+    padding-left: 0;
     gap: 9.5px;
     transform: scale(1);
     transform-origin: right;
     transition: all 0.3s !important;
+    width: fit-content;
 }
 
 #resourcesMenuOpen.hoveringResourcesDefault {
