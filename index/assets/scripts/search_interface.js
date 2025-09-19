@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchPrompts = [
         "Search for something...",
         "What’s on your mind?",
-        "Summon the results.",
-        "Looking for something?"
+        "Looking for something?",
+        "What's on todays agenda..."
     ];
 
     let promptQueue = [];
