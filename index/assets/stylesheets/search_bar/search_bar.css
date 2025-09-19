@@ -1,0 +1,26 @@
+.search-bar-input {
+    position: sticky;
+    outline: none;
+    border-radius: 15px;
+    padding-block: 7.5px;
+    padding-inline: 2.5px;
+    border: 2px solid #8b8b8b;
+    background: rgb(235, 235, 235);
+    text-indent: 8.5px;
+    height: 100%;
+    opacity: 0;
+    width: 0;
+    pointer-events: none;
+    transition:
+        width 0.65s ease,
+        opacity 0.4s ease,
+        border-radius 0.65s ease;
+}
+
+/* When active/open */
+.search-bar-input.open {
+    width: calc(175px - 15px); /* or whatever fits layout */
+    opacity: 1;
+    pointer-events: auto;
+    will-change: contents;
+}

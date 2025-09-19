@@ -5,6 +5,8 @@
     align-items: center;
     position: fixed !important;
     border: 2px solid #8b8b8b;
+    border-left-color: rgba(139, 139, 139, 0.675) !important;
+    border-right-color: rgba(139, 139, 139, 0.675) !important;
     border-radius: 0 0 10px 10px;
     padding: 9.5px;
     background: #0586e3;
@@ -179,6 +181,7 @@
     box-sizing: border-box;
     transition: all 0.3s;
     transform: scale(1);
+    width: fit-content;
 }
 
 #settingsIcon {
@@ -214,14 +217,16 @@
     padding-inline: 5px;
     padding-block: 2.5px;
     height: fit-content;
-    width: fit-content auto !important;
-    will-change: contents;
+    width: fit-content; /* remove the 'auto' */
+    max-width: 100%; /* prevent overflow off-screen */
+    will-change: contents !important;
     gap: 9.5px;
     right: 10px;
     box-sizing: border-box !important;
-    transition: all 0.1s linear;
+    transition: all 0.3s ease; /* smoother than 0.1s */
     box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
-    flex: 0 0 auto;
+    flex: 1 1 auto;
+    /* overflow: hidden; /* hides any accidental overflow */
 }
 
 #gamesMenuOpen {
@@ -291,12 +296,12 @@
     padding: 10px;
     gap: 9.5px;
     transform: scale(1);
-    transform-origin: center;
+    transform-origin: right;
     transition: all 0.3s !important;
 }
 
 #resourcesMenuOpen.hoveringResourcesDefault {
-    transform: scale(1.1);
+    transform: scale(1.025);
     background: rgb(215, 215, 215);
     border: 3px solid #8d8d8d;
     box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);

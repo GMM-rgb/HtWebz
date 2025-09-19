@@ -3,29 +3,62 @@
     display: none;
     flex-direction: column;
     justify-content: flex-start;
+
+    /* Fixed positioning under header */
     position: fixed !important;
+    top: 95px; /* height of your header/nav */
+    left: 0;
+    right: 0;
+
+    /* Spacing */
+    margin: 20px;
+    margin-top: 0; /* avoid double offset with top */
+    padding: 10px;
+    gap: 8px;
+
+    /* Size & responsiveness */
+    height: calc(100vh - 95px - 40px); /* viewport minus header + vertical margins */
+    max-height: calc(100vh - 95px - 40px);
+    overflow-y: auto; /* scroll if content is taller than available space */
+    box-sizing: border-box;
+
+    /* Visuals */
     border: 3px solid #ccc;
     border-radius: 0.25cm;
-    z-index: 10001 !important;
-    top: 0;
-    left: 0;
-    margin: 20px;
-    margin-top: 95px;
-    padding: 10px;
     background: whitesmoke;
-    width: 96.5%;
-    box-sizing: border-box;
     box-shadow: inset 0 0 14.5px rgba(0, 0, 0, 0.45);
-    transition: all 0.65s;
-    gap: 8px;
-}
+    clip-path: stroke-box;
 
+    /* Animation */
+    transition: all ease-in 0.65s;
+
+    /* Layering */
+    z-index: 10001 !important;
+}
 @keyframes dropGameMenu {
-    0% { transform: translateY(-500px) scale(0.5); }
-    25% { transform: translateY(50px) scale(0.45); height: 100px; }
-    50% { transform: translateY(25px) scale(0.6); height: 60px; }
-    75% { transform: translateY(-50px) scale(0.785); height: 200px; }
-    100% { transform: translateY(0) scale(1); height: 400px; }
+    0% {
+        transform: translateY(-500px) scale(0.5);
+    }
+
+    25% {
+        transform: translateY(50px) scale(0.45);
+        height: 100px;
+    }
+
+    50% {
+        transform: translateY(25px) scale(0.6);
+        height: 60px;
+    }
+
+    75% {
+        transform: translateY(-50px) scale(0.785);
+        height: 200px;
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        height: 400px;
+    }
 }
 
 #gameMenu.dropDownGameMenu {
@@ -66,9 +99,27 @@
     padding: 10px !important;
     box-sizing: border-box !important;
     box-shadow: inset 0 0 14.5px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.275);
+    gap: 8px;
 }
 
-#chromeClickerGame {
+#displayG {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, max-content));
+    /* 250px min so they never get too small
+       max-content so they only grow to fit their content, not stretch huge */
+
+    gap: 1rem;
+    justify-content: start; /* keeps items left-aligned on every row */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+#displayG > * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.game {
     display: flex;
     flex-direction: column;
     justify-self: start;
@@ -82,6 +133,9 @@
     background: #56a9e4;
     opacity: 0.85;
     box-shadow: inset 0 0 14.5px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.275);
+    width: calc(500px - 50px);
+    max-width: cacl(500px - 50px);
+    backdrop-filter: blur(50px);
 }
 
 .game-title {
@@ -96,7 +150,7 @@
     color: #000;
 }
 
-#tryButtonGame {
+.tryButtonGameStyle {
     cursor: pointer !important;
     position: relative;
     border: 3px solid #ccc;
@@ -108,6 +162,6 @@
     transition: all 0.35s ease;
 }
 
-#tryButtonGame:hover {
+.tryButtonGameStyle:hover {
     background: #0586e3;
 }

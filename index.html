@@ -2,6 +2,7 @@
 <html lang="en">
 
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <head>
@@ -17,13 +18,13 @@
             href="index/assets/stylesheets/notification_system.css">
         <link rel="stylesheet"
             href="index/assets/stylesheets/content_arrangment.css">
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
             href="index/assets/stylesheets/content_pin.css">
         <link rel="stylesheet"
             href="index/assets/stylesheets/about_content.css">
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
             href="index/assets/stylesheets/games_menu.css">
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
             href="index/assets/stylesheets/search_menu.css">
         <link rel="stylesheet"
             href="index/assets/stylesheets/settings_menu.css" />
@@ -33,6 +34,8 @@
             href="index/assets/stylesheets/top_apps_arrangment.css" />
         <link rel="stylesheet"
             href="index/assets/stylesheets/toolbar_extension.css" />
+        <link rel="stylesheet"
+            href="index/assets/stylesheets/search_bar/search_bar.css" />
         <style>
             :root {
                 --theme-background: aquamarine;
@@ -63,12 +66,10 @@
                 --theme-showcaseBackground: #479dda;
                 --theme-appCardBackground: #80b5db;
                 
-                /* Add transition properties */
                 --theme-transition-time: 300ms;
                 --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
             }
 
-            /* Add universal transition for theme changes */
             * {
                 color: var(--theme-text);
                 border-color: var(--theme-border);
@@ -239,45 +240,50 @@
 
     <section id="topUserInterfaceBar">
         <div class="appMenuOpenButtons">
-            
-            <div id="expandMenuToolbar" onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
-                <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25" preload="auto" />
+
+            <div id="expandMenuToolbar"
+                onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
+                <img id="expandToolbarIcon"
+                    src="index/assets/images/Hamburger_icon.png" height="25"
+                    width="25" preload="auto" />
             </div>
-            
-            <div id="appMenuOpen"
+
+            <button id="appMenuOpen"
                 onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
                     id="appMenuIcon"
                     src="index/assets/images/app_button_icon.png"
                     preload="auto"
                     aria-busy="false" height="25" width="25" /><span
-                    class="apps-menu-text">App Menu</span></div>
-            <div id="settingsQuick"
+                    class="apps-menu-text">App Menu</span></button>
+            <button id="settingsQuick"
                 onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img
                     id="settingsIcon"
                     src="index/assets/images/Settings_icon.png"
                     preload="auto"
                     aria-busy="false" height="25" width="25" /><span
-                    class="settings-quick-text">Settings</span></div>
+                    class="settings-quick-text">Settings</span></button>
         </div>
 
-        <h1 id="pageTitle">HtWebz Homepage - V2</h1>
+        <h1 id="pageTitle">HtWebz Homepage</h1>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-            <div id="gamesMenuOpen"
+            <button id="gamesMenuOpen"
                 onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')"><img
                     id="gamesMenuIcon"
                     src="index/assets/images/console_remote_controller.png"
-                    alt="Games Icon" preload="auto" height="27.5" width="27.5" />
-                <span class="games-menu-text">Games</span>
-            </div>
-            <div id="resourcesMenuOpen"
-                onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')"><img
+                    alt="Games Icon" preload="auto" height="27.5"
+                    width="27.5" />
+                <span class="games-menu-text">Games</span></button>
+            <button id="resourcesMenuOpen"
+                onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')">
+                <input autocomplete="off" class="search-bar-input" type="text"
+                    placeholder="Type here to search..." />
+                <img
                     id="resourcesMenuIcon"
                     src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
                     alt="Resources Icon" preload="auto" height="27.5"
                     width="27.5" />
-                <span class="resources-menu-text">Search</span>
-            </div>
+                <span class="resources-menu-text">Search</span></button>
         </div>
     </section>
 
@@ -306,7 +312,7 @@
                 <!---->
                 <div class="about-page-container">
                     <!---->
-                    <h4 id="aboutTag">About</h4>
+                    <h4 id="aboutTag" style="visibility:hidden;">About</h4>
                     <div id="aboutPageContentText">
                         <span class="questionOneText">Why was this page
                             made?</span>
@@ -374,7 +380,21 @@
             <div id="gameContainerDisplay">
                 <hr class="top-game-divider" style="width: 100%;">
                 <div id="displayG">
-                    <div id="chromeClickerGame">
+                    <script>
+                        function goToGame(gameLocation, gameFile) {
+                            if (gameLocation && gameFile) {
+                                setTimeout(() => {
+                                    window.location.href = `${gameLocation}${gameFile}`;
+                                }, 1000);
+                            } else if (!gameFile && gameLocation) {
+                                setTimeout(() => {
+                                    window.location.href = `${gameLocation}`;
+                                }, 1000);
+                            }
+                        }
+                    </script>
+                    <div id="chromeClickerGame" class="game"
+                        onclick="notify('Redirecting...')">
                         <h3 class="game-title
                         ">Chrome Clicker</h3>
                         <p class="game-description">A simple clicker game
@@ -385,29 +405,54 @@
                                 progress.</text>
                         </p>
                         <button onclick="notify('Redirecting...')"
-                            id="tryButtonGame">Play</button>
+                            id="tryButtonGame"
+                            class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryGame = document.getElementById('tryButtonGame');
+                            let chromeClickerGameFrame = document.getElementById("chromeClickerGame");
 
-                            tryGame.addEventListener('click', () => {
-                                window.location.href = 'gameDisplayChromeClicker.html';
+                            tryGame.addEventListener("click", () => {
+                                goToGame("./gameDisplayChromeClicker.html");
+                            });
+
+                            chromeClickerGameFrame.addEventListener("click", () => {
+                                goToGame("./gameDisplayChromeClicker.html");
                             });
                         </script>
                     </div>
-                    <div id="dinoJumpingGame">
+                    <div id="dinoJumpingGame" class="game"
+                        onclick="notify('Redirecting...')">
                         <h3 class="game-title">Dino Jumping Game</h3>
                         <p class="game-description">
-                            
+                            A Recreation of the Dino Game from Chrome,
+                            but a better appealing version!
+                            <hr class="dividerGame"><br><text
+                                class="furthermoreDescription">
+                                Version 1.0.0
+                            </text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton">Play</button>
+                        <button onclick="notify('Redirecting...')"
+                            id="tryDinoGameButton"
+                            class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryDinoGame = document.getElementById('tryDinoGameButton');
+                            var dinoGameFrame = document.getElementById("dinoJumpingGame");
 
-                            tryDinoGame.addEventListener('click', () => {
-                                window.location.href = './DinoGame/DinoGame.html';
+                            function GoToDinoGame() {
+                                setTimeout(() => {
+                                    window.location.href = './DinoGame/DinoGame.html';
+                                });
+                            }
+
+                            tryDinoGame.addEventListener("click", () => {
+                                goToGame("./Games/", "DinoGame.html");
+                            });
+
+                            dinoGameFrame.addEventListener("click", () => {
+                                goToGame("./Games/", "DinoGame.html");
                             });
                         </script>
-                    </diV>
+                    </div>
                 </div>
                 <hr class="bottom-game-divider" style="width: 100%;">
             </div>
@@ -415,7 +460,7 @@
 
         <!-- Search Menu -->
         <section id="searchMenu">
-            <div class="search-menu-hotbar">
+            <!-- <div class="search-menu-hotbar">
                 <button id="closeSearchMenuBtn">X</button>
                 <button></button>
             </div>
@@ -430,7 +475,7 @@
                 </div>
                 <iframe id="searchPageDisplay"
                     src="index/search_index_menu_version.html"></iframe>
-            </div>
+            </div> -->
         </section>
 
         <!---->
@@ -653,42 +698,76 @@
             });
 
             // 
+            //gamesMenuOpen.addEventListener("mouseover", () => {
+            //    if (gamesMenuOpen.style.transform === "scale(1)" || gamesMenuOpen.style.transform === '') {
+            //        gamesMenuOpen.classList.add("hoveringGamesMenuDefault");
+            //        moreFromHtWebzContainer.style.paddingInlineStart = "10px";
+            //        moreFromHtWebzContainer.style.paddingBlock = "5px";
+            //    } else if (gamesMenuOpen.style.transform === "scale(0.825)" || gamesMenuOpen.style.transform === '') {
+            //        gamesMenuOpen.classList.add("hoveringGamesMenuSmall");
+            //    }
+            //});
+            //gamesMenuOpen.addEventListener("mouseout", () => {
+            //    if (gamesMenuOpen.style.transform === "scale(1.1)" || gamesMenuOpen.style.transform === '') {
+            //        gamesMenuOpen.classList.remove("hoveringGamesMenuDefault");
+            //        moreFromHtWebzContainer.style.paddingInlineStart = "5px";
+            //        moreFromHtWebzContainer.style.paddingBlock = "2.5px";
+            //   } else if (gamesMenuOpen.style.transform === "scale(0.925)" || gamesMenuOpen.style.transform === '') {
+            //        gamesMenuOpen.classList.remove("hoveringGamesMenuSmall");
+            //    }
+            //});
+
+            // Resources open button effect managment
+            //resourcesMenuOpen.addEventListener("mouseover", () => {
+            //    if (resourcesMenuOpen.style.transform === "scale(1)" || resourcesMenuOpen.style.transform === '') {
+            //        resourcesMenuOpen.classList.add("hoveringResourcesDefault");
+            //        moreFromHtWebzContainer.style.paddingInlineEnd = "10px";
+            //        moreFromHtWebzContainer.style.paddingBlock = "5px";
+            //       moreFromHtWebzContainer.style.right = "15px";
+            //    } else if (resourcesMenuOpen.style.transform === "scale(0.825)" || resourcesMenuOpen.style.transform === '') {
+            //        resourcesMenuOpen.classList.add("hoveringResourcesSmall");
+            //    }
+            //});
+            //resourcesMenuOpen.addEventListener("mouseout", () => {
+            //    if (resourcesMenuOpen.style.transform === "scale(1.1)" || resourcesMenuOpen.style.transform === '') {
+            //        resourcesMenuOpen.classList.remove("hoveringResourcesDefault");
+            //        moreFromHtWebzContainer.style.paddingInlineEnd = "5px";
+            //        moreFromHtWebzContainer.style.paddingBlock = "2.5px";
+            //        moreFromHtWebzContainer.style.right = "10px";
+            //    } else if (resourcesMenuOpen.style.transform === "scale(0.925)" || resourcesMenuOpen.style.transform === '') {
+            //        resourcesMenuOpen.classList.remove("hoveringResourcesSmall");
+            //    }
+            //});
+
+            // Games menu hover
             gamesMenuOpen.addEventListener("mouseover", () => {
                 if (gamesMenuOpen.style.transform === "scale(1)" || gamesMenuOpen.style.transform === '') {
                     gamesMenuOpen.classList.add("hoveringGamesMenuDefault");
-                    moreFromHtWebzContainer.style.paddingInlineStart = "10px";
-                    moreFromHtWebzContainer.style.paddingBlock = "5px";
                 } else if (gamesMenuOpen.style.transform === "scale(0.825)" || gamesMenuOpen.style.transform === '') {
                     gamesMenuOpen.classList.add("hoveringGamesMenuSmall");
                 }
             });
+
             gamesMenuOpen.addEventListener("mouseout", () => {
                 if (gamesMenuOpen.style.transform === "scale(1.1)" || gamesMenuOpen.style.transform === '') {
                     gamesMenuOpen.classList.remove("hoveringGamesMenuDefault");
-                    moreFromHtWebzContainer.style.paddingInlineStart = "5px";
-                    moreFromHtWebzContainer.style.paddingBlock = "2.5px";
                 } else if (gamesMenuOpen.style.transform === "scale(0.925)" || gamesMenuOpen.style.transform === '') {
                     gamesMenuOpen.classList.remove("hoveringGamesMenuSmall");
                 }
             });
 
-            // Resources open button effect managment
+            // Resources menu hover
             resourcesMenuOpen.addEventListener("mouseover", () => {
                 if (resourcesMenuOpen.style.transform === "scale(1)" || resourcesMenuOpen.style.transform === '') {
                     resourcesMenuOpen.classList.add("hoveringResourcesDefault");
-                    moreFromHtWebzContainer.style.paddingInlineEnd = "10px";
-                    moreFromHtWebzContainer.style.paddingBlock = "5px";
-                    moreFromHtWebzContainer.style.right = "15px";
                 } else if (resourcesMenuOpen.style.transform === "scale(0.825)" || resourcesMenuOpen.style.transform === '') {
                     resourcesMenuOpen.classList.add("hoveringResourcesSmall");
                 }
             });
+
             resourcesMenuOpen.addEventListener("mouseout", () => {
                 if (resourcesMenuOpen.style.transform === "scale(1.1)" || resourcesMenuOpen.style.transform === '') {
                     resourcesMenuOpen.classList.remove("hoveringResourcesDefault");
-                    moreFromHtWebzContainer.style.paddingInlineEnd = "5px";
-                    moreFromHtWebzContainer.style.paddingBlock = "2.5px";
-                    moreFromHtWebzContainer.style.right = "10px";
                 } else if (resourcesMenuOpen.style.transform === "scale(0.925)" || resourcesMenuOpen.style.transform === '') {
                     resourcesMenuOpen.classList.remove("hoveringResourcesSmall");
                 }
@@ -766,13 +845,17 @@
         <!-- Add before other scripts -->
         <script src="index/assets/scripts/tooltip_system.js" defer></script>
         <script src="index/assets/scripts/letter_effects.js" defer></script>
-        <script src="index/assets/scripts/main_user_interface.js" defer></script>
+        <script src="index/assets/scripts/main_user_interface.js"
+            defer></script>
         <script src="index/assets/scripts/app_menu_script.js" defer></script>
         <script src="index/assets/scripts/search_process.js" defer></script>
         <script src="index/assets/scripts/info_managment.js" defer></script>
-        <script src="index/assets/scripts/navigation_managment.js" defer></script>
-        <script src="index/assets/scripts/button_splash_effect.js" defer></script>
-        
+        <script src="index/assets/scripts/navigation_managment.js"
+            defer></script>
+        <script src="index/assets/scripts/button_splash_effect.js"
+            defer></script>
+        <script src="index/assets/scripts/search_interface.js" defer></script>
+
         <script>
             /*
                 Reminder on pre-functions:
@@ -783,11 +866,12 @@
             */
         </script>
 
-        <script src="index/assets/scripts/toolbar_extension_manager.js" defer></script>
-        <script src="index/assets/scripts/project_file_validation.js" defer preload="auto"></script>
+        <script src="index/assets/scripts/toolbar_extension_manager.js"
+            defer></script>
+        <script src="index/assets/scripts/project_file_validation.js" defer
+            preload="auto"></script>
 
         <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
 
     </html>
-
-
+    <!---->

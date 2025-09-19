@@ -14,7 +14,7 @@
 
 #InfoTheDay {
     flex: auto;
-    display: flex !important;
+    display: none !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;

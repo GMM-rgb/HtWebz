@@ -381,26 +381,239 @@ function spawnObstacle(x) {
     }
 }
 
+// Clean pixel art drawing functions (NO GLOW EFFECTS!)
+function drawPixelCactus(obstacle) {
+    const x = obstacle.x;
+    const y = obstacle.y;
+    const w = obstacle.width;
+    const h = obstacle.height;
+
+    // Main cactus body - blocky/pixelated
+    ctx.fillStyle = "#228B22";
+    ctx.fillRect(x, y, w, h);
+
+    // Simple highlight/shadow blocks
+    ctx.fillStyle = "#32CD32";
+    ctx.fillRect(x + 1, y + 1, 3, h - 2); // Left highlight
+
+    ctx.fillStyle = "#006400";
+    ctx.fillRect(x + w - 3, y + 1, 2, h - 2); // Right shadow
+
+    // Pixel-style spikes (geometric)
+    ctx.fillStyle = "#006400";
+    ctx.fillRect(x - 2, y + 8, 4, 2);
+    ctx.fillRect(x + w - 2, y + 8, 4, 2);
+    ctx.fillRect(x - 2, y + 20, 4, 2);
+    ctx.fillRect(x + w - 2, y + 20, 4, 2);
+    ctx.fillRect(x - 2, y + 32, 4, 2);
+    ctx.fillRect(x + w - 2, y + 32, 4, 2);
+}
+
+function drawPixelRock(obstacle) {
+    const x = obstacle.x;
+    const y = obstacle.y;
+    const w = obstacle.width;
+    const h = obstacle.height;
+
+    // Main rock body
+    ctx.fillStyle = "#696969";
+    ctx.fillRect(x, y, w, h);
+
+    ctx.fillStyle = "#A9A9A9";
+    ctx.fillRect(x + 1, y + 1, w - 2, h - 2);
+
+    // Pixel-style highlights and shadows
+    ctx.fillStyle = "#DCDCDC";
+    ctx.fillRect(x + 2, y + 2, 4, 4); // Top-left highlight
+    ctx.fillRect(x + 1, y + 1, 2, 2); // Corner highlight
+
+    ctx.fillStyle = "#2F2F2F";
+    ctx.fillRect(x + w - 4, y + h - 4, 3, 3); // Bottom-right shadow
+    ctx.fillRect(x + w - 2, y + 2, 1, h - 4); // Right edge shadow
+
+    // Simple geometric points (pixelated)
+    ctx.fillStyle = "#2F2F2F";
+    ctx.fillRect(x + w / 2 - 1, y - 1, 2, 2); // Top point
+    ctx.fillRect(x + w, y + h / 2 - 1, 1, 2); // Right point
+    ctx.fillRect(x + 3, y + 3, 2, 2); // Small bump
+    ctx.fillRect(x + w - 6, y + h - 6, 3, 3); // Bottom bump
+}
+
+function drawPixelCoin(obstacle) {
+    const centerX = obstacle.x + obstacle.width / 2;
+    const centerY = obstacle.y + obstacle.height / 2;
+    const radius = obstacle.width / 2;
+    const time = performance.now() * 0.005;
+
+    // Outer ring (darker gold)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius + 1, 0, Math.PI * 2);
+    ctx.fillStyle = "#DAA520";
+    ctx.fill();
+
+    // Main coin body (bright gold)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.fillStyle = "#FFD700";
+    ctx.fill();
+
+    // Simple highlight
+    ctx.beginPath();
+    ctx.arc(centerX - 1, centerY - 1, radius * 0.6, 0, Math.PI * 2);
+    ctx.fillStyle = "#FFFF99";
+    ctx.fill();
+
+    // Single subtle rotating sparkle
+    const sparkleAngle = time * 2;
+    const sparkleX = centerX + Math.cos(sparkleAngle) * (radius * 0.5);
+    const sparkleY = centerY + Math.sin(sparkleAngle) * (radius * 0.5);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+    ctx.fillRect(sparkleX - 1, sparkleY, 2, 1); // Horizontal line
+    ctx.fillRect(sparkleX, sparkleY - 1, 1, 2); // Vertical line
+}
+
+function drawPixelPowerup(obstacle) {
+    const x = obstacle.x;
+    const y = obstacle.y;
+    const w = obstacle.width;
+    const h = obstacle.height;
+    const centerX = x + w / 2;
+    const centerY = y + h / 2;
+    const time = performance.now() * 0.004;
+
+    // Subtle energy field (no external glow)
+    ctx.fillStyle = `rgba(255, 105, 180, ${0.2 + Math.sin(time * 3) * 0.1})`;
+    ctx.fillRect(x - 2, y - 2, w + 4, h + 4);
+
+    // Main powerup body with color shift
+    const colorShift = Math.sin(time * 2) * 20;
+    ctx.fillStyle = `hsl(${320 + colorShift}, 80%, 60%)`;
+    ctx.fillRect(x, y, w, h);
+
+    // Simple pixel highlight
+    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+    ctx.fillRect(x + 2, y + 2, w - 4, 3);
+
+    // Pulsing center core
+    const coreSize = 6 + Math.sin(time * 6) * 2;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.fillRect(centerX - coreSize / 2, centerY - coreSize / 2, coreSize, coreSize);
+
+    // Orbiting particles (the cool part!)
+    for (let i = 0; i < 4; i++) {
+        const angle = time * 2 + (i * Math.PI / 2);
+        const particleX = centerX + Math.cos(angle) * (w / 2 + 6);
+        const particleY = centerY + Math.sin(angle) * (h / 2 + 6);
+
+        ctx.fillStyle = `rgba(255, 105, 180, ${0.7 + Math.sin(time * 5 + i) * 0.3})`;
+        ctx.fillRect(particleX - 1, particleY - 1, 2, 2);
+    }
+}
+
+function drawPixelBird(obstacle) {
+    const x = obstacle.x;
+    const y = obstacle.y;
+    const w = obstacle.width;
+    const h = obstacle.height;
+    const time = performance.now() * 0.008;
+
+    // Wing flap animation
+    const wingFlap = Math.sin(time * 12) > 0 ? 1 : 0;
+
+    // Bird body (pixel style rectangles)
+    ctx.fillStyle = "#4169E1";
+    ctx.fillRect(x + 8, y + 6, 12, 6); // Main body
+    ctx.fillRect(x + 6, y + 7, 2, 4);  // Body extension left
+    ctx.fillRect(x + 20, y + 7, 2, 4); // Body extension right
+
+    // Bird head (separate from body)
+    ctx.fillStyle = "#4169E1";
+    ctx.fillRect(x + 20, y + 4, 6, 6); // Head square
+    ctx.fillRect(x + 19, y + 5, 2, 4); // Head connector
+    ctx.fillRect(x + 26, y + 5, 2, 4); // Head extension
+
+    // Head shading/highlight
+    ctx.fillStyle = "#6495ED";
+    ctx.fillRect(x + 21, y + 5, 4, 2); // Head highlight
+
+    // Body shading/highlight  
+    ctx.fillStyle = "#6495ED";
+    ctx.fillRect(x + 9, y + 7, 8, 2); // Body highlight
+
+    // Animated wing
+    ctx.fillStyle = "#1E90FF";
+    if (wingFlap) {
+        // Wing up position
+        ctx.fillRect(x + 10, y + 2, 8, 3);
+        ctx.fillRect(x + 8, y + 3, 4, 2);
+    } else {
+        // Wing down position  
+        ctx.fillRect(x + 10, y + 8, 8, 3);
+        ctx.fillRect(x + 8, y + 9, 4, 2);
+    }
+
+    // Wing details
+    ctx.fillStyle = "#0000CD";
+    if (wingFlap) {
+        ctx.fillRect(x + 11, y + 3, 2, 1);
+        ctx.fillRect(x + 15, y + 3, 2, 1);
+    } else {
+        ctx.fillRect(x + 11, y + 9, 2, 1);
+        ctx.fillRect(x + 15, y + 9, 2, 1);
+    }
+
+    // Beak
+    ctx.fillStyle = "#FF8C00";
+    ctx.fillRect(x + 28, y + 6, 3, 2);
+    ctx.fillRect(x + 30, y + 7, 1, 1); // Beak tip
+
+    // Eye
+    ctx.fillStyle = "#000";
+    ctx.fillRect(x + 23, y + 6, 2, 2);
+
+    // Eye highlight
+    ctx.fillStyle = "#FFF";
+    ctx.fillRect(x + 23, y + 6, 1, 1);
+
+    // Small tail
+    ctx.fillStyle = "#1E90FF";
+    ctx.fillRect(x + 4, y + 8, 4, 2);
+    ctx.fillRect(x + 2, y + 9, 2, 1);
+}
+
+let DisplayNameLabel = false;
+
 function drawObstacle(obstacle) {
-    ctx.fillStyle = obstacle.color;
-    switch (obstacle.shape) {
-        case "rectangle":
+    switch (obstacle.name) {
+        case "cactus":
+            drawPixelCactus(obstacle);
+            break;
+        case "rock":
+            drawPixelRock(obstacle);
+            break;
+        case "coin":
+            drawPixelCoin(obstacle);
+            break;
+        case "powerup":
+            drawPixelPowerup(obstacle);
+            break;
+        case "bird":
+            drawPixelBird(obstacle);
+            break;
+        default:
+            // Fallback to original drawing
+            ctx.fillStyle = obstacle.color;
             ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             break;
-        case "circle":
-            ctx.beginPath();
-            ctx.arc(obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2, obstacle.width / 2, 0, Math.PI * 2);
-            ctx.fill();
-            break;
-        case "ellipse":
-            ctx.beginPath();
-            ctx.ellipse(obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2, obstacle.width / 2, obstacle.height / 2, 0, 0, Math.PI * 2);
-            ctx.fill();
-            break;
     }
-    ctx.fillStyle = "#000";
-    ctx.font = "10px Arial";
-    ctx.fillText(obstacle.name, obstacle.x, obstacle.y - 5);
+
+    // Name label
+    if (DisplayNameLabel !== false) {
+        ctx.fillStyle = "#000";
+        ctx.font = "10px Arial";
+        ctx.fillText(obstacle.name, obstacle.x, obstacle.y - 5);
+    }
 }
 
 function drawAnimatedDino(x, y, width, height) {
@@ -432,7 +645,7 @@ function start() {
     const dino = new Image();
     dino.src = "dino.png";
     const background = new Image();
-    background.src = "clouds.jpg";
+    background.src = "https://uploads.onecompiler.io/43cdr6pfk/43x5e89m9/clouds.png";
     let lastTime = performance.now();
 
     function update(currentTime) {
@@ -649,14 +862,12 @@ function start() {
 
                 ctx.fillStyle = "#FF1493";
                 ctx.font = "bold 11px Arial";
-                ctx.fillText(`🚀 ${scoreMultiplier}x BOOST - ${timeLeft.toFixed(1)}s`, 10, canvas.height - 10);
+                ctx.fillText(`🚀 ${scoreMultiplier}x SCORE BOOST - ${timeLeft.toFixed(1)}s`, 10, canvas.height - 10);
             }
         }
-
         requestAnimationFrame(update);
     }
-
     requestAnimationFrame(update);
 }
 
-start();
+requestAnimationFrame(start);

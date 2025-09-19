@@ -123,21 +123,21 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    if (elements.searchMenuOpen) {
-        elements.searchMenuOpen.onclick = () => {
-            openMenu(elements.searchMenu, 'dropDownSearchMenu');
-            notify("Search Menu Opened...");
-            document.title = "Search Menu";
-        };
-    }
+    // if (elements.searchMenuOpen) {
+    //     elements.searchMenuOpen.onclick = () => {
+    //         openMenu(elements.searchMenu, 'dropDownSearchMenu');
+    //         notify("Search Menu Opened...");
+    //         document.title = "Search Menu";
+    //     };
+    // }
 
-    if (elements.closeSearchMenuBtn) {
-        elements.closeSearchMenuBtn.onclick = () => {
-            closeMenu(elements.searchMenu);
-            notify("Search Menu Closed...");
-            document.title = "HtWebz Homepage";
-        };
-    }
+    // if (elements.closeSearchMenuBtn) {
+    //     elements.closeSearchMenuBtn.onclick = () => {
+    //         closeMenu(elements.searchMenu);
+    //         notify("Search Menu Closed...");
+    //         document.title = "HtWebz Homepage";
+    //     };
+    // }
 
     if (elements.settingsQuick) {
         elements.settingsQuick.onclick = () => {
