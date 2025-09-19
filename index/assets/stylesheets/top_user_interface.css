@@ -326,6 +326,7 @@
     border-radius: 1cm;
     padding: 2.5px;
     image-rendering: optimizeSpeed !important;
+    will-change: scroll-position !important;
 }
 
 .resources-menu-text {

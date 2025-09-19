@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "Search for something...",
         "What’s on your mind?",
         "Summon the results.",
-        "Unleash the query.",
         "Looking for something?"
     ];
 
