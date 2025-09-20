@@ -218,6 +218,7 @@
     border: 3px solid #ccc;
     border-radius: 1cm;
     padding-inline: 5px;
+    padding-right: 5px;
     padding-block: 2.5px;
     height: fit-content;
     width: fit-content;
@@ -290,6 +291,7 @@
 
 #resourcesMenuOpen {
     display: flex !important;
+    width: fit-content;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -304,23 +306,13 @@
     padding-left: 0;
     transform: scale(1);
     transform-origin: right;
-    gap: 9.5px;
     transition: all 0.3s, padding-left 0.65s ease !important;
-    width: fit-content;
+    clip-path: stroke-box;
+    gap: 9.5px;
 }
 
 #resourcesMenuOpen input {
     margin-left: -9.5px; /* Removes the gap before this input */
-}
-
-#resourcesMenuOpen div {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 0;
-    gap: 9.5px;
-    width: auto;
-    height: auto;
 }
 
 #resourcesMenuOpen.hoveringResourcesDefault {

@@ -6,22 +6,27 @@
     padding-inline: 2.5px;
     border: 2px solid #8b8b8b;
     background: rgb(235, 235, 235);
+    text-align: justify;
+    text-overflow: ellipsis;
     text-indent: 8.5px;
     height: 100%;
     opacity: 0;
     width: 0;
+    will-change: contents;
     pointer-events: none;
     transition:
+        all 0.3s ease,
         width 0.65s ease,
         opacity 0.4s ease,
         border-radius 0.65s ease;
+    box-sizing: border-box;
 }
 
 /* When active/open */
 .search-bar-input.open {
     width: calc(175px - 15px);
     opacity: 1;
-    pointer-events: auto;
-    will-change: contents;
+    pointer-events: auto !important;
+    will-change: scroll-position;
     box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
 }

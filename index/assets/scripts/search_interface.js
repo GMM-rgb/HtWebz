@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchBarInput = SearchButton.querySelector(".search-bar-input");
 
-    let windowWidth = window.innerWidth || 0;
-
     // Prompt list
     const searchPrompts = [
         "Search for something...",
@@ -39,13 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return prompt;
     }
 
-    window.addEventListener("resize", (e) => {
-        e.stopImmediatePropagation();
-        if (window.innerWidth) {
-            windowWidth = window.innerWidth;
-        }
-    });
-
     function toggleSearchView(open) {
         isSearching = open;
 
@@ -56,8 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 "onmouseenter",
                 `setupTooltip('#resourcesMenuOpen', '${prompt}')`
             );
-            SearchButton.style.paddingLeft = "10px";
+            SearchButton.style.paddingLeft = "20px";
             SearchBarInput.setAttribute("placeholder", prompt);
+
+            if (prompt.length > 10) {
+                SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5}px - 15px)`;
+            } else {
+                SearchBarInput.style.width = "calc(175px - 15px)";
+            }
 
             SearchLabelText.style.display = "none";
             SearchBarInput.classList.add("open");
@@ -69,15 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             SearchBarInput.setAttribute("placeholder", "");
 
+            setTimeout(() => {
+                SearchButton.style.paddingLeft = "0";
+            }, 0);
+
+            SearchBarInput.style.width = "0px";
+
             SearchLabelText.style.display = "block";
             SearchBarInput.classList.remove("open");
             SearchBarInput.blur();
-
-            setTimeout(() => {
-                if (!open) {
-                    SearchButton.style.paddingLeft = "0";
-                }
-            }, 0);
         }
     }
 
