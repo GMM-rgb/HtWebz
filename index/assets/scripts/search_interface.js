@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             SearchBarInput.blur();
         }
         window.addEventListener("resize", () => {
+            let prompt = getNextPrompt();
             if (WindowWidth && WindowWidth <= 762) {
                 SearchBarInput.setAttribute("placeholder", "Search...");
                 SearchBarInput.style.textIndent = "5px";
