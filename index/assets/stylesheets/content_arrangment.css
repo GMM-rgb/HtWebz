@@ -182,12 +182,21 @@
     box-sizing: border-box;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 10px rgba(0, 0, 0, 0.45);
     cursor: pointer;
+    text-align: center;
     transition: all 0.3s;
+    flex: 0 1 auto;
 }
 
 .featuredTag:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.375), inset 0 0 15px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.45);
     background: rgb(0, 210, 210);
+}
+
+.final-text {
+    
+    margin-top: 6.5px !important;
+    color: rgb(246, 246, 246);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #featuredContentSection {

@@ -1,4 +1,4 @@
-/* Top UI bar that holds left stuff, title, and right stuff */
+/* Top UI bar that holds main user navigation */
 #topUserInterfaceBar {
     display: flex;
     flex-direction: row;
@@ -25,9 +25,8 @@
     will-change: transform, opacity;
 }
 
+/* Interface button media sizing for device display */
 @media (max-width: 762px) {
-
-    /* Interface button media sizing for device display */
     #expandMenuToolbar {
         transform: scale(0.825) !important;
     }
@@ -40,12 +39,11 @@
 
     #appMenuOpen {
         transform: scale(0.825) !important;
-        left: -10px !important;
     }
 
     #settingsQuick {
         transform: scale(0.825) !important;
-        left: -20px !important;
+        left: -15px !important;
     }
 
     .games-menu-text,
@@ -54,12 +52,13 @@
     }
 
     #pageTitle {
-        transform: scale(0.5) scaleX(0.5) !important;
-        margin: 0 -55px;
-        max-width: calc(10% - 400px);
+        transform: scale(0.75) !important;
+        font-size: 0.7em !important;
+        will-change: contents !important;
+        /* max-width: calc(10% - 400px);
         width: 150px !important;
         padding: 2.5px !important;
-        font-size: 0.7em !important;
+        display: none !important; */
         display: none !important;
     }
 
@@ -68,9 +67,10 @@
     }
 
     .moreFromHtWebzContainer {
-        transform: scale(0.825) !important;
-        right: 0 !important;
+        transform: scale(0.7) !important;
         background: rgba(210, 210, 210, 0.875) !important;
+        gap: 4px !important;
+        right: 10px !important;
     }
 }
 
@@ -82,7 +82,7 @@
     align-content: first baseline;
     user-select: none !important;
     gap: 12px;
-    flex: 0 0 auto;
+    flex: 0 1 content;
 }
 
 #expandMenuToolbar {
@@ -104,6 +104,7 @@
     box-sizing: border-box;
     transition: all 0.3s;
     transform: scale(1);
+    flex: none !important;
 }
 
 #expandMenuToolbar:hover {
@@ -122,6 +123,10 @@
     border-radius: 1cm;
     transform: scale(1.25) !important;
     padding: 2px;
+}
+
+#appMenuOpen::before {
+    width: initial;
 }
 
 #appMenuOpen {
@@ -143,6 +148,7 @@
     box-sizing: border-box;
     transition: all 0.3s;
     transform: scale(1);
+    width: inherit;
 }
 
 #appMenuIcon {
@@ -166,21 +172,21 @@
 }
 
 #settingsQuick {
-    pointer-events: all !important;
-    cursor: pointer;
+    cursor: pointer !important;
     display: flex !important;
-    flex-direction: row !important;
+    flex: none !important;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    cursor: pointer !important;
-    position: relative !important;
+    position: relative;
+    pointer-events: all !important;
     border: 3px solid #ccc;
     border-radius: 1cm;
     background: white;
     user-select: none;
     font-weight: bold;
     padding: 10px;
-    gap: 9.5px !important;
+    gap: 9.5px;
     box-sizing: border-box;
     transition: all 0.3s;
     transform: scale(1);
@@ -312,7 +318,8 @@
 }
 
 #resourcesMenuOpen input {
-    margin-left: -9.5px; /* Removes the gap before this input */
+    margin-left: -9.5px;
+    /* Removes the gap before this input */
 }
 
 #resourcesMenuOpen.hoveringResourcesDefault {
@@ -393,11 +400,11 @@
 }
 
 @keyframes fadeOutCover {
-    0% {
+    0%, 65% {
         opacity: 1;
     }
 
-    80% {
+    80%, 65%, 100% {
         opacity: 0.5;
     }
 
@@ -438,7 +445,13 @@
     border-radius: 1cm;
     padding: 8px 15px;
     padding-inline: 10px;
+    max-height: 55px;
     transition: all 0.3s, margin-right 0.1s ease !important;
+}
+
+#pageTitle::after {
+    flex: unset;
+    animation: expandWidth 1.2s ease-out !important;
 }
 
 /* Fade cover animation */
@@ -450,8 +463,8 @@
     border-radius: 0 0 5px 5px;
     z-index: 999;
     box-sizing: border-box;
-    will-change: contents;
-    pointer-events: none;
+    will-change: auto;
+    pointer-events: none !important;
     animation: fadeOutCover 1.2s ease-in-out forwards;
 }
 
@@ -564,7 +577,7 @@
 }
 
 #toolbarExtension {
-    display: none;
     /* Initially hidden */
+    display: none;
     flex-direction: column;
 }

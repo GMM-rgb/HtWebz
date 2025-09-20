@@ -1,32 +1,47 @@
 .search-bar-input {
-    position: sticky;
-    outline: none;
-    border-radius: 15px;
+    position: fixed;
+    top: 0;                
+    right: 0;              /* lock right edge */
+    left: auto !important; /* make sure left is never used */
+    margin: 0 !important;  /* kill any auto margins */
+    
+    width: 0;              /* collapsed */
+    height: 32px;
     padding-block: 7.5px;
     padding-inline: 2.5px;
     border: 2px solid #8b8b8b;
+    border-radius: 15px;
     background: rgb(235, 235, 235);
-    text-align: justify;
-    text-overflow: ellipsis;
     text-indent: 8.5px;
-    height: 100%;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
     opacity: 0;
-    width: 0;
-    will-change: contents;
     pointer-events: none;
+    outline: none;
+    outline-offset: -2px;
+    box-shadow: none;
+    will-change: width, opacity, border-radius;
     transition:
-        all 0.3s ease,
         width 0.65s ease,
         opacity 0.4s ease,
-        border-radius 0.65s ease;
-    box-sizing: border-box;
+        border-radius 0.65s ease,
+        box-shadow 0.3s ease;
 }
 
-/* When active/open */
+.search-bar-input:focus {
+    outline: 1px solid rgba(0, 195, 255, 0.5);
+    outline-offset: 1.5px !important;
+}
+
+@media (max-width: 762px) {
+    .search-bar-input.open {
+        width: 80px !important; /* final width */
+    }
+}
+
 .search-bar-input.open {
-    width: calc(175px - 15px);
+    width: 160px; /* final width */
     opacity: 1;
-    pointer-events: auto !important;
-    will-change: scroll-position;
+    pointer-events: auto;
     box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
 }

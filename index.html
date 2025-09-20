@@ -8,8 +8,7 @@
     <head>
         <link rel="icon"
             href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
-        <title itemid="pageDocumentTitle" name="DocumentTitle">HtWebz
-            Homepage</title>
+        <title name="DocumentTitle">HtWebz Homepage</title>
         <link rel="stylesheet"
             href="index/assets/stylesheets/app_list_menu.css">
         <link rel="stylesheet"
@@ -180,8 +179,12 @@
         top: 0;
         left: 0;
         transition: all 0.3s ease !important;
-        pointer-events: visible !important;
+        pointer-events: all !important;
         user-select: none !important;
+    }
+
+    #menuBlur > * {
+        overflow: hidden;
     }
 </style>
 
@@ -579,7 +582,7 @@
 
         <style>
             #footerContainer {
-                display: flex;
+                display: flex !important;
                 flex-direction: row !important;
                 justify-content: start !important;
                 align-items: center;
@@ -597,6 +600,7 @@
                 transition: all 0.3s ease;
                 gap: 8px;
                 z-index: 14000 !important;
+                flex: 825 auto;
             }
 
             #developer {

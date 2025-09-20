@@ -1,12 +1,13 @@
 #gameMenu {
     flex: 1 1 auto !important;
+    will-change: auto;
     display: none;
     flex-direction: column;
     justify-content: flex-start;
 
     /* Fixed positioning under header */
     position: fixed !important;
-    top: 95px; /* height of your header/nav */
+    top: 100px; /* height of the header/nav */
     left: 0;
     right: 0;
 
@@ -26,6 +27,7 @@
     border: 3px solid #ccc;
     border-radius: 0.25cm;
     background: whitesmoke;
+    background-size: cover;
     box-shadow: inset 0 0 14.5px rgba(0, 0, 0, 0.45);
     clip-path: stroke-box;
 
@@ -35,6 +37,7 @@
     /* Layering */
     z-index: 10001 !important;
 }
+
 @keyframes dropGameMenu {
     0% {
         transform: translateY(-500px) scale(0.5);
@@ -67,16 +70,21 @@
 
 .game-menu-hotbar {
     display: flex;
+    flex: 0 1 auto !important;
     flex-direction: row;
-    position: relative !important;
+    position: sticky !important;
     padding: 3.5px;
     padding-inline: 6.5px;
     border: 2px solid #ccc;
     border-radius: 15px;
     max-height: 43.75px;
     width: 50%;
-    background: #0586e3;
+    background: rgb(5, 134, 227, 0.5);
     gap: 8px;
+    top: 0;
+    z-index: 1002 !important;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 #closeGameMenuButton {
@@ -116,7 +124,7 @@
 
 #displayG > * {
     max-width: 100%;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 .game {

@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchBarInput = SearchButton.querySelector(".search-bar-input");
 
+    let WindowWidth = window.innerWidth || 0;
+
+    window.addEventListener("resize", (e) => {
+        e.stopImmediatePropagation();
+        WindowWidth = window.innerWidth;
+    });
+
     // Prompt list
     const searchPrompts = [
         "Search for something...",
@@ -48,9 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 `setupTooltip('#resourcesMenuOpen', '${prompt}')`
             );
             SearchButton.style.paddingLeft = "20px";
-            SearchBarInput.setAttribute("placeholder", prompt);
 
-            if (prompt.length > 10) {
+            if (prompt && prompt.length > 10) {
                 SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5}px - 15px)`;
             } else {
                 SearchBarInput.style.width = "calc(175px - 15px)";
@@ -59,6 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
             SearchLabelText.style.display = "none";
             SearchBarInput.classList.add("open");
             SearchBarInput.focus();
+
+            if (WindowWidth && WindowWidth <= 762) {
+                SearchBarInput.setAttribute("placeholder", "Search...");
+            } else {
+                SearchBarInput.setAttribute("placeholder", prompt);
+            }
         } else {
             SearchButton.setAttribute(
                 "onmouseenter",
