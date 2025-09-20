@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (WindowWidth && WindowWidth <= 762) {
                 SearchBarInput.setAttribute("placeholder", "Search...");
+                SearchBarInput.style.textIndent = "5px";
             } else {
                 SearchBarInput.setAttribute("placeholder", prompt);
             }
@@ -83,11 +84,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 0);
 
             SearchBarInput.style.width = "0px";
+            SearchBarInput.style.textIndent = "8.5px";
 
             SearchLabelText.style.display = "block";
             SearchBarInput.classList.remove("open");
             SearchBarInput.blur();
         }
+        document.addEventListener("resize", () => {
+            if (WindowWidth && WindowWidth <= 762) {
+                SearchBarInput.setAttribute("placeholder", "Search...");
+                SearchBarInput.style.textIndent = "5px";
+            } else {
+                SearchBarInput.setAttribute("placeholder", prompt);
+            }
+        });
     }
 
     // Button click opens
