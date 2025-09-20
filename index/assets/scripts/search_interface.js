@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchBarInput = SearchButton.querySelector(".search-bar-input");
 
+    let windowWidth = window.innerWidth || 0;
+
     // Prompt list
     const searchPrompts = [
         "Search for something...",
@@ -36,6 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
         lastPrompt = prompt;
         return prompt;
     }
+
+    window.addEventListener("resize", (e) => {
+        e.stopImmediatePropagation();
+        if (window.innerWidth) {
+            windowWidth = window.innerWidth;
+        }
+    });
 
     function toggleSearchView(open) {
         isSearching = open;

@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: center !important;
     position: fixed !important;
     border: 2px solid #8b8b8b;
     border-left-color: rgba(139, 139, 139, 0.675) !important;
@@ -48,6 +48,11 @@
         left: -20px !important;
     }
 
+    .games-menu-text,
+    .resources-menu-text {
+        display: none !important;
+    }
+
     #pageTitle {
         transform: scale(0.5) scaleX(0.5) !important;
         margin: 0 -55px;
@@ -64,9 +69,8 @@
 
     .moreFromHtWebzContainer {
         transform: scale(0.825) !important;
-        right: -25px !important;
-        background: rgba(210, 210, 210, 0.5) !important;
-        opacity: 0.75 !important;
+        right: 0 !important;
+        background: rgba(210, 210, 210, 0.875) !important;
     }
 }
 
@@ -287,8 +291,8 @@
 #resourcesMenuOpen {
     display: flex !important;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: center;
     cursor: pointer !important;
     position: relative;
     border: 3px solid #ccc;
@@ -298,11 +302,25 @@
     font-weight: bold;
     padding: 10px;
     padding-left: 0;
-    gap: 9.5px;
     transform: scale(1);
     transform-origin: right;
+    gap: 9.5px;
     transition: all 0.3s, padding-left 0.65s ease !important;
     width: fit-content;
+}
+
+#resourcesMenuOpen input {
+    margin-left: -9.5px; /* Removes the gap before this input */
+}
+
+#resourcesMenuOpen div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0;
+    gap: 9.5px;
+    width: auto;
+    height: auto;
 }
 
 #resourcesMenuOpen.hoveringResourcesDefault {
@@ -412,13 +430,13 @@
     white-space: nowrap;
 
     letter-spacing: 1.5px;
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 1.85em;
+    font-family: sans-serif !important;
+    font-weight: bolder !important;
+    font-size: 1.85em !important;
     color: black;
     user-select: none !important;
     -webkit-text-stroke: 0.025em darkcyan;
-    -webkit-text-fill-color: cyan;
+    -webkit-text-fill-color: rgb(109, 255, 255);
     text-rendering: optimizeSpeed !important;
     box-sizing: border-box;
     box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.325),

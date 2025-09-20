@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const title   = document.getElementById("pageTitle");
     const buttons = document.getElementById("moreFromHtWebzContainer");
     const padding = 10; // gap between title and buttons
-    const debug   = true;
+    const debug   = false;
 
     function updateTitleWidth() {
         if (!title || !buttons) return;
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title.style.maxWidth = `${maxWidth}px`;
         }
         
-        console.log(`maxWidth: ${maxWidth}px (buttons at ${btnRect.left}px)`);
+        if (debug) console.log(`maxWidth: ${maxWidth}px (buttons at ${btnRect.left}px)`);
     }
 
     // Update on resize, scroll, and any layout shift
