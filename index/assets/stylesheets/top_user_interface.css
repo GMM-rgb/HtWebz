@@ -46,6 +46,8 @@
         left: -15px !important;
     }
 
+    .settings-quick-text,
+    .apps-menu-text,
     .games-menu-text,
     .resources-menu-text {
         display: none !important;
