@@ -3,7 +3,8 @@
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <head>
         <link rel="icon"
@@ -145,25 +146,31 @@
         scroll-snap-type: proximity;
     }
 
+    :root {
+        --scrollbar-width: 8px; /* default width */
+    }
+
     body::-webkit-scrollbar {
-        width: 8px;
+        width: var(--scrollbar-width);
+        -webkit-transition: width 0.2s ease;
+        transition: width 0.2s ease;
     }
 
     body::-webkit-scrollbar-track {
         background: lightseagreen;
-        border-radius: 15px;
     }
 
     body::-webkit-scrollbar-thumb {
         background: darkcyan;
-        border-radius: 15px;
+        border-radius: 2px;
         cursor: pointer;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
     }
 
-    body::-webkit-scrollbar-thumb:hover+body::-webkit-scrollbar {
-        width: 12px;
-    }
+    /* Removed - it doesn't work */
+    /* body::-webkit-scrollbar-thumb:hover body::-webkit-scrollbar {
+        width: 8px !important;
+    } */
 
     #menuBlur {
         display: none;
@@ -187,21 +194,59 @@
         overflow: hidden;
     }
 </style>
+    <i>
+        <script>
+            function isMobile() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
 
-    <script>
-    const pageTitle = document.getElementById("pageTitle");
+            if (isMobile()) {
+                console.log("Mobile device");
+            } else {
+                console.log("Desktop device");
+            }
+        </script>
 
-    function waitLoads(timeMS) {
-        return new Promise(resolve => setTimeout(resolve, timeMS));
-    }
+        <script>
+            let isWide = false;
 
-    pageTitle.onclick = () => {
-        pageTitle.classList.add("JumpTitle");
-        waitLoads(timeMS).then(() => {
-            pageTitle.classList.remove("JumpTitle");
-        });
-    }
-</script>
+            if (!isMobile()) {
+                document.addEventListener('mousemove', (e) => {
+                    const distanceFromRight = window.innerWidth - e.clientX;
+                    
+                    /**
+                    * @param {number} width - The number in pixels
+                    */
+                    function setScrollbarWidth(width) {
+                        document.documentElement.style.setProperty('--scrollbar-width', `${width}px`);
+                    }
+                    
+                    if (distanceFromRight <= 20 && !isWide) {
+                        isWide = true;
+                        setScrollbarWidth(12); // 12px
+                    } else if (distanceFromRight > 30 && isWide) {
+                        isWide = false;
+                        setScrollbarWidth(8); // 8px
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            const pageTitle = document.getElementById("pageTitle");
+
+            function waitLoads(timeMS) {
+                return new Promise(resolve => setTimeout(resolve, timeMS));
+            }
+
+            pageTitle.onclick = () => {
+                pageTitle.classList.add("JumpTitle");
+                waitLoads(timeMS).then(() => {
+                    pageTitle.classList.remove("JumpTitle");
+                });
+            }
+        </script>
+    </i>
 
     <body>
         <div id="appMenu">

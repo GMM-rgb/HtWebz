@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
         WindowWidth = window.innerWidth;
     });
 
+    let SearchQueryKeywords = {
+
+    };
+
     // Prompt list
     const searchPrompts = [
         "Search for something...",
@@ -87,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    //
     // window.addEventListener("resize", (e) => {
     //     let prompt = getNextPrompt();
     //     e.stopImmediatePropagation();
@@ -99,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //         SearchBarInput.style.textIndent = "8.5px";
     //     }
     // });
-
 
     // Button click opens
     SearchButton.addEventListener("click", (e) => {

@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;                
     right: 0;              /* lock right edge */
-    left: auto !important; /* make sure left is never used */
+    left: auto !important; /* makes sure left is never used */
     margin: 0 !important;  /* kill any auto margins */
     
     width: 0;              /* collapsed */
