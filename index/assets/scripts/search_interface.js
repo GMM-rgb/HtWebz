@@ -90,16 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
             SearchBarInput.classList.remove("open");
             SearchBarInput.blur();
         }
-        window.addEventListener("resize", () => {
-            let prompt = getNextPrompt();
-            if (WindowWidth && WindowWidth <= 762) {
-                SearchBarInput.setAttribute("placeholder", "Search...");
-                SearchBarInput.style.textIndent = "5px";
-            } else {
-                SearchBarInput.setAttribute("placeholder", prompt);
-            }
-        });
     }
+
+    window.addEventListener("resize", (e) => {
+        let prompt = getNextPrompt();
+        e.stopImmediatePropagation();
+
+        if (WindowWidth <= 762) {
+            SearchBarInput.setAttribute("placeholder", "Search...");
+            SearchBarInput.style.textIndent = "5px";
+        } else {
+            SearchBarInput.setAttribute("placeholder", prompt);
+            SearchBarInput.style.textIndent = "8.5px";
+        }
+    });
+
 
     // Button click opens
     SearchButton.addEventListener("click", (e) => {
