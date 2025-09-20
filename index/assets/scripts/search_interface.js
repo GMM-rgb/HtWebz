@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             SearchBarInput.classList.remove("open");
             SearchBarInput.blur();
         }
-        document.addEventListener("resize", () => {
+        window.addEventListener("resize", () => {
             if (WindowWidth && WindowWidth <= 762) {
                 SearchBarInput.setAttribute("placeholder", "Search...");
                 SearchBarInput.style.textIndent = "5px";
