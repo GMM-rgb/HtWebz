@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "onmouseenter",
                 `setupTooltip('#resourcesMenuOpen', '${prompt}')`
             );
-            SearchButton.style.paddingLeft = "20px";
 
             if (prompt && prompt.length > 10) {
                 SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5}px - 15px)`;
@@ -78,10 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')"
             );
             SearchBarInput.setAttribute("placeholder", "");
-
-            setTimeout(() => {
-                SearchButton.style.paddingLeft = "0";
-            }, 0);
 
             SearchBarInput.style.width = "0px";
             SearchBarInput.style.textIndent = "8.5px";

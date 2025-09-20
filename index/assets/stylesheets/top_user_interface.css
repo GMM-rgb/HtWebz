@@ -310,7 +310,6 @@
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
-    padding-left: 0;
     transform: scale(1);
     transform-origin: right;
     transition: all 0.3s, padding-left 0.65s ease !important;

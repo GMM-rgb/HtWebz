@@ -27,6 +27,7 @@
         border-radius 0.65s ease,
         box-shadow 0.3s ease;
     font-size: 16.15px;
+    flex-wrap: nowrap;
 }
 
 .search-bar-input:focus {
@@ -41,6 +42,7 @@
 }
 
 .search-bar-input.open {
+    display: inline-flex;
     width: 160px; /* final width */
     opacity: 1;
     pointer-events: auto;
