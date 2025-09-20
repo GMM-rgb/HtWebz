@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
-        e.stopImmediatePropagation();
+        e.stopPropagation();
         if (SearchBarInput.value.length > 0) {
             if (e.key === "Enter") {
                 console.log("Submitted Search Request");
@@ -142,6 +142,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     toggleSearchView(false);
                 }, 0);
             }
+        }
+    });
+
+    SearchBarInput.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Escape" && isSearching) {
+            e.preventDefault();
+            SearchBarInput.blur();
+            toggleSearchView(false);
         }
     });
 });
