@@ -43,7 +43,6 @@
 
     #settingsQuick {
         transform: scale(0.825) !important;
-        left: -15px !important;
     }
 
     .settings-quick-text,
