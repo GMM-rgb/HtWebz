@@ -87,18 +87,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    window.addEventListener("resize", (e) => {
-        let prompt = getNextPrompt();
-        e.stopImmediatePropagation();
+    // window.addEventListener("resize", (e) => {
+    //     let prompt = getNextPrompt();
+    //     e.stopImmediatePropagation();
 
-        if (WindowWidth <= 762) {
-            SearchBarInput.setAttribute("placeholder", "Search...");
-            SearchBarInput.style.textIndent = "5px";
-        } else {
-            SearchBarInput.setAttribute("placeholder", prompt);
-            SearchBarInput.style.textIndent = "8.5px";
-        }
-    });
+    //     if (WindowWidth <= 762) {
+    //         SearchBarInput.setAttribute("placeholder", "Search...");
+    //         SearchBarInput.style.textIndent = "5px";
+    //     } else {
+    //         SearchBarInput.setAttribute("placeholder", prompt);
+    //         SearchBarInput.style.textIndent = "8.5px";
+    //     }
+    // });
 
 
     // Button click opens
