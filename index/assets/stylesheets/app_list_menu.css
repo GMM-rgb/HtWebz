@@ -5,7 +5,7 @@
   border: 3px solid #ccc;
   border-radius: 10px;
   padding: 10px;
-  padding-block-end: 50px;
+  padding-block-end: calc(50px + 20px);
   background: linear-gradient(rgba(5, 134, 227, 0.75),
       rgba(46, 168, 255, 0.65),
       rgba(245, 245, 245, 0.5),
@@ -24,6 +24,22 @@
   background: var(--theme-menuBackground);
   color: var(--theme-text);
   border-color: var(--theme-border);
+}
+
+#appMenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+#appMenu::-webkit-scrollbar-track {
+  background: lightseagreen;
+  border-radius: 7px;
+}
+
+#appMenu::-webkit-scrollbar-thumb {
+  background: darkcyan;
+  border-radius: 7px;
+  cursor: pointer !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
 }
 
 @keyframes dragIn {
@@ -83,33 +99,35 @@
 
 .top-app-menu-section {
   position: sticky;
-  top: 0;
+  top: 0 !important;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  background: inherit;
+  align-items: flex-start;
+  background: rgba(46, 168, 255, 0.65);
   padding: 10px;
   margin: -10px;
-  margin-bottom: 0;
   z-index: 10;
   height: 125px;
   box-sizing: border-box;
   border-bottom: 2px solid #ccc;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
 #appMenuTitle {
+  top: 27.5px;
+  left: 0;
   color: black;
   position: relative;
   -webkit-text-stroke: 1px darkcyan !important;
   -webkit-text-fill-color: cyan !important;
   -webkit-user-select: none !important;
-  user-select: none;
+  user-select: none !important;
   font-size: 3em;
-  top: -10px;
   transition: all 0.5s ease-in-out;
-  text-align: center;
+  align-self: last baseline;
+  flex: 0 1 auto;
 }
 
 #closeAppMenu {
@@ -149,10 +167,6 @@
     padding-block: 5px !important;
     height: fit-content;
     max-height: 50%;
-  }
-
-  #appMenuTitle {
-    font-size: 2em !important;
   }
 }
 
@@ -215,6 +229,7 @@
   box-sizing: border-box;
   transition: all 0.65s ease;
   background: var(--theme-cardBackground);
+  top: calc(10px + 10px);
 }
 
 #appsTextTag {
@@ -277,7 +292,8 @@
   cursor: pointer;
   position: relative;
   border: 2px solid #ccc;
-  border-radius: 50px; /* Make it a circle */
+  border-radius: 50px;
+  /* Make it a circle */
   background: var(--background);
   padding-inline: 3.5px;
   padding-block: 6.5px;
@@ -290,13 +306,16 @@
   background: var(--theme-buttonBackground);
   color: var(--theme-text);
   border-color: var(--theme-border);
-  transition: all 0.3s ease; /* Smooth transition for background and color */
+  transition: all 0.3s ease;
+  /* Smooth transition for background and color */
 }
 
 .appButton:hover {
   /* Change the background color on hover */
-  background: var(--theme-buttonBackgroundHover, #ccc); /* Fallback to #ccc if var is not set */
-  color: var(--theme-textHover, white); /* Fallback to white if var is not set */
+  background: var(--theme-buttonBackgroundHover, #ccc);
+  /* Fallback to #ccc if var is not set */
+  color: var(--theme-textHover, white);
+  /* Fallback to white if var is not set */
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
   border-radius: var(--borderRadius);
 }

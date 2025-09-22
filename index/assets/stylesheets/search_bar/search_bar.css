@@ -1,7 +1,7 @@
 .search-bar-input {
     position: fixed;
     top: 0;                
-    right: 0;              /* lock right edge */
+    right: 0 !important;              /* lock right edge */
     left: auto !important; /* makes sure left is never used */
     margin: 0 !important;  /* kill any auto margins */
     
@@ -47,4 +47,7 @@
     opacity: 1;
     pointer-events: auto;
     box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
+    background: rgba(235, 235, 235, 0.65);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
 }

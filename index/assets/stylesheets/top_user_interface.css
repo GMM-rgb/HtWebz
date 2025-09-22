@@ -1,28 +1,38 @@
 /* Top UI bar that holds main user navigation */
 #topUserInterfaceBar {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     justify-content: space-between;
     align-items: center !important;
     position: sticky !important;
     border: 2px solid #8b8b8b;
+    border-left-width: 3px !important;
+    border-right-width: 3px !important;
     border-left-color: rgba(139, 139, 139, 0.675) !important;
     border-right-color: rgba(139, 139, 139, 0.675) !important;
     border-radius: 0 0 10px 10px;
-    padding: 9.5px;
-    background: #0586e3;
+    background: rgba(5, 134, 227, 0.65) !important;
     box-sizing: border-box !important;
     box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375), inset 0 1px 19.85px rgba(0, 0, 0, 0.45);
-    z-index: 9998;
+    will-change: transform, opacity, background;
+    max-height: calc(100px - 5px);
+    width: 100%;
     padding: 9.5px;
     top: 0 !important;
     left: 0 !important;
-    max-height: calc(100px - 5px);
-    width: 100% !important;
-    margin: 0 !important;
+    right: 0 !important;
+    margin: auto !important;
     z-index: 9998 !important;
     transform-origin: top center;
-    will-change: transform, opacity;
+    -webkit-background-composite: padding;
+    -webkit-backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: saturate(4px);
+    backdrop-filter: blur(2px);
+    backdrop-filter: saturate(4px);
+    text-wrap-mode: wrap;
+    text-wrap-style: pretty;
+    flex-flow: nowrap !important;
+    flex-shrink: initial;
 }
 
 /* Interface button media sizing for device display */
@@ -56,10 +66,6 @@
         transform: scale(0.75) !important;
         font-size: 0.7em !important;
         will-change: contents !important;
-        /* max-width: calc(10% - 400px);
-        width: 150px !important;
-        padding: 2.5px !important;
-        display: none !important; */
         display: none !important;
     }
 
@@ -97,7 +103,7 @@
     position: relative !important;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: white;
+    background: rgba(255, 255, 255, 0.785) !important;
     user-select: none;
     font-weight: bold;
     padding: 10px;
@@ -106,6 +112,8 @@
     transition: all 0.3s;
     transform: scale(1);
     flex: none !important;
+    -webkit-backdrop-filter: blur(1.1px);
+    backdrop-filter: blur(0.1px);
 }
 
 #expandMenuToolbar:hover {
@@ -141,7 +149,7 @@
     position: relative !important;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: white;
+    background: rgba(255, 255, 255, 0.85) !important;
     user-select: none;
     font-weight: bold;
     padding: 10px;
@@ -150,6 +158,8 @@
     transition: all 0.3s;
     transform: scale(1);
     width: inherit;
+    -webkit-backdrop-filter: blur(1.1px);
+    backdrop-filter: blur(0.1px);
 }
 
 #appMenuIcon {
@@ -183,7 +193,7 @@
     pointer-events: all !important;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: white;
+    background: rgba(255, 255, 255, 0.85) !important;
     user-select: none;
     font-weight: bold;
     padding: 10px;
@@ -192,6 +202,8 @@
     transition: all 0.3s;
     transform: scale(1);
     width: fit-content;
+    -webkit-backdrop-filter: blur(1.1px);
+    backdrop-filter: blur(0.1px);
 }
 
 #settingsIcon {
@@ -221,7 +233,7 @@
     justify-content: flex-start !important;
     align-items: center;
     position: relative;
-    background: rgb(210, 210, 210);
+    background: rgba(210, 210, 210, 0.65);
     border: 3px solid #ccc;
     border-radius: 1cm;
     padding-inline: 5px;
@@ -240,7 +252,9 @@
     box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
     flex: 0 0 auto;
     gap: 9.5px;
-    /* overflow: hidden; /* hides any accidental overflow */
+    overflow: hidden; /* hides any accidental overflow */
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
 }
 
 #gamesMenuOpen {
@@ -252,12 +266,14 @@
     position: relative;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: White;
+    background: rgba(255, 255, 255, 0.85) !important;
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
     gap: 9.5px;
     transition: all 0.3s !important;
+    -webkit-backdrop-filter: blur(1.1px);
+    backdrop-filter: blur(0.1px);
 }
 
 #gamesMenuOpen.hoveringGamesMenuDefault {
@@ -306,7 +322,7 @@
     position: relative;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: White;
+    background: rgba(255, 255, 255, 0.85) !important;
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
@@ -315,6 +331,8 @@
     transition: all 0.3s, padding-left 0.65s ease !important;
     clip-path: stroke-box;
     gap: 9.5px;
+    -webkit-backdrop-filter: blur(1.1px);
+    backdrop-filter: blur(0.1px);
 }
 
 #resourcesMenuOpen input {
@@ -400,11 +418,14 @@
 }
 
 @keyframes fadeOutCover {
-    0%, 65% {
+    0%,
+    65% {
         opacity: 1;
     }
 
-    80%, 65%, 100% {
+    80%,
+    65%,
+    100% {
         opacity: 0.5;
     }
 
@@ -450,27 +471,27 @@
 }
 
 #pageTitle::after {
-    flex: unset;
+    flex: auto;
     animation: expandWidth 1.2s ease-out !important;
 }
 
 /* Fade cover animation */
 #pageTitle::before {
-    content: '';
+    content: '' !important;
     inset: 0;
     position: absolute;
     background: rgb(0, 215, 215);
     border-radius: 0 0 5px 5px;
     z-index: 999;
     box-sizing: border-box;
-    will-change: auto;
+    will-change: auto !important;
     pointer-events: none !important;
-    animation: fadeOutCover 1.2s ease-in-out forwards;
+    animation: fadeOutCover 1.05s ease-in-out forwards !important;
 }
 
 #pageTitle span {
     position: relative;
-    z-index: 0;
+    z-index: 0 !important;
 }
 
 #pageTitle:hover {

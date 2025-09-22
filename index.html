@@ -1,153 +1,139 @@
 <!DOCTYPE HTML>
 <html lang="en">
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <head>
-        <link rel="icon"
-            href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
-        <title name="DocumentTitle">HtWebz Homepage</title>
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/app_list_menu.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/top_user_interface.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/notification_system.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/content_arrangment.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/content_pin.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/about_content.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/games_menu.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/search_menu.css">
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/settings_menu.css" />
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/info_of_the_day.css" />
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/top_apps_arrangment.css" />
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/toolbar_extension.css" />
-        <link rel="stylesheet"
-            href="index/assets/stylesheets/search_bar/search_bar.css" />
-        <style>
-            :root {
-                --theme-background: aquamarine;
-                --theme-primary: #479dda;
-                --theme-secondary: #80b5db;
-                --theme-text: black;
-                --theme-border: #ccc;
-                --theme-menuBackground: rgba(5, 134, 227, 0.75);
-                --theme-cardBackground: white;
-                --theme-headerBackground: #479dda;
-                --theme-buttonBackground: #afdeff;
-                --theme-inputBackground: white;
-                --theme-topBar: #0586e3;
-                --theme-sideMenu: rgba(5, 134, 227, 0.75);
-                --theme-modalBackground: white;
-                --theme-gradient1: linear-gradient(#479dda, #80b5db);
-                --theme-gradient2: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8));
-                --theme-shadowColor: rgba(0, 0, 0, 0.3);
-                --theme-glowColor: rgba(0, 238, 255, 0.4);
-                --theme-overlayBackground: rgba(255, 255, 255, 0.8);
-                --theme-hoverBackground: #5aa5e0;
-                --theme-activeBackground: #6ab5f0;
-                --theme-scrollbarTrack: lightseagreen;
-                --theme-scrollbarThumb: darkcyan;
-                --theme-footerBackground: rgba(0, 120, 139, 0.5);
-                --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
-                --theme-motivationBackground: #80b5db;
-                --theme-showcaseBackground: #479dda;
-                --theme-appCardBackground: #80b5db;
-                
-                --theme-transition-time: 300ms;
-                --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            * {
-                color: var(--theme-text);
-                border-color: var(--theme-border);
-                transition: background-color var(--theme-transition-time) var(--theme-transition-curve),
-                          color var(--theme-transition-time) var(--theme-transition-curve),
-                          border-color var(--theme-transition-time) var(--theme-transition-curve),
-                          box-shadow var(--theme-transition-time) var(--theme-transition-curve);
-            }
-
-            /* Theme transition class */
-            .theme-transitioning * {
-                transition: background-color var(--theme-transition-time) var(--theme-transition-curve),
-                          color var(--theme-transition-time) var(--theme-transition-curve),
-                          border-color var(--theme-transition-time) var(--theme-transition-curve),
-                          box-shadow var(--theme-transition-time) var(--theme-transition-curve) !important;
-            }
-
-            /* Exclude certain properties from transition */
-            .no-theme-transition {
-                transition: none !important;
-            }
-
-            body {
-                background: var(--theme-background);
-                color: var(--theme-text);
-            }
-
-            #topUserInterfaceBar {
-                background: var(--theme-topBar);
-            }
-
-            .main-content-section,
-            #appMenu,
-            #settingsMenu,
-            #gameMenu,
-            #searchMenu {
-                background: var(--theme-gradient1);
-            }
-
-            .appButton,
-            .SettingsListButton,
-            #closeAppMenu,
-            #closeSettingsMenuBtn,
-            #closeGameMenuButton,
-            #closeSearchMenuBtn {
-                background: var(--theme-buttonBackground);
-                color: var(--theme-text);
-            }
-
-            #motivationMessageContainer {
-                background: var(--theme-motivationBackground);
-            }
-
-            #verticalShowcase {
-                background: var(--theme-showcaseBackground);
-            }
-
-            .appTrayPreviewImage,
-            #searcherApp,
-            #gamesApp,
-            #resourcesApp {
-                background: var(--theme-appCardBackground);
-            }   
-        </style>
-        <script src="index/assets/scripts/theme_managment.js"></script>
-    </head>
+<head>
+    <link rel="icon" href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
+    <title name="DocumentTitle">HtWebz Homepage</title>
+    <link rel="stylesheet" href="index/assets/stylesheets/app_list_menu.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/top_user_interface.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/notification_system.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/content_arrangment.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/content_pin.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/about_content.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/games_menu.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/search_menu.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/settings_menu.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/info_of_the_day.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/top_apps_arrangment.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/toolbar_extension.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/search_bar/search_bar.css" />
     <style>
+        :root {
+            --theme-background: aquamarine;
+            --theme-primary: #479dda;
+            --theme-secondary: #80b5db;
+            --theme-text: black;
+            --theme-border: #ccc;
+            --theme-menuBackground: rgba(5, 134, 227, 0.75);
+            --theme-cardBackground: white;
+            --theme-headerBackground: #479dda;
+            --theme-buttonBackground: #afdeff;
+            --theme-inputBackground: white;
+            --theme-topBar: #0586e3;
+            --theme-sideMenu: rgba(5, 134, 227, 0.75);
+            --theme-modalBackground: white;
+            --theme-gradient1: linear-gradient(#479dda, #80b5db);
+            --theme-gradient2: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8));
+            --theme-shadowColor: rgba(0, 0, 0, 0.3);
+            --theme-glowColor: rgba(0, 238, 255, 0.4);
+            --theme-overlayBackground: rgba(255, 255, 255, 0.8);
+            --theme-hoverBackground: #5aa5e0;
+            --theme-activeBackground: #6ab5f0;
+            --theme-scrollbarTrack: lightseagreen;
+            --theme-scrollbarThumb: darkcyan;
+            --theme-footerBackground: rgba(0, 120, 139, 0.5);
+            --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
+            --theme-motivationBackground: #80b5db;
+            --theme-showcaseBackground: #479dda;
+            --theme-appCardBackground: #80b5db;
+
+            --theme-transition-time: 300ms;
+            --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            color: var(--theme-text);
+            border-color: var(--theme-border);
+            transition: background-color var(--theme-transition-time) var(--theme-transition-curve),
+                color var(--theme-transition-time) var(--theme-transition-curve),
+                border-color var(--theme-transition-time) var(--theme-transition-curve),
+                box-shadow var(--theme-transition-time) var(--theme-transition-curve);
+        }
+
+        /* Theme transition class */
+        .theme-transitioning * {
+            transition: background-color var(--theme-transition-time) var(--theme-transition-curve),
+                color var(--theme-transition-time) var(--theme-transition-curve),
+                border-color var(--theme-transition-time) var(--theme-transition-curve),
+                box-shadow var(--theme-transition-time) var(--theme-transition-curve) !important;
+        }
+
+        /* Exclude certain properties from transition */
+        .no-theme-transition {
+            transition: none !important;
+        }
+
+        body {
+            background: var(--theme-background);
+            color: var(--theme-text);
+        }
+
+        #topUserInterfaceBar {
+            background: var(--theme-topBar);
+        }
+
+        .main-content-section,
+        #appMenu,
+        #settingsMenu,
+        #gameMenu,
+        #searchMenu {
+            background: var(--theme-gradient1);
+        }
+
+        .appButton,
+        .SettingsListButton,
+        #closeAppMenu,
+        #closeSettingsMenuBtn,
+        #closeGameMenuButton,
+        #closeSearchMenuBtn {
+            background: var(--theme-buttonBackground);
+            color: var(--theme-text);
+        }
+
+        #motivationMessageContainer {
+            background: var(--theme-motivationBackground);
+        }
+
+        #verticalShowcase {
+            background: var(--theme-showcaseBackground);
+        }
+
+        .appTrayPreviewImage,
+        #searcherApp,
+        #gamesApp,
+        #resourcesApp {
+            background: var(--theme-appCardBackground);
+        }
+    </style>
+    <script src="index/assets/scripts/theme_managment.js"></script>
+</head>
+<style>
     body {
         margin: 0;
-        font-family: Arial;
+        font-family: Arial, Helvetica, sans-serif;
         background: aquamarine;
         overflow-y: auto;
-        overflow-x: hidden;
-        scroll-snap-type: proximity;
+        overflow-x: hidden !important;
+        scroll-snap-type: mandatory;
     }
 
     :root {
-        --scrollbar-width: 8px; /* default width */
+        --scrollbar-width: 8px;
+        /* default width */
     }
 
     body::-webkit-scrollbar {
@@ -190,91 +176,91 @@
         user-select: none !important;
     }
 
-    #menuBlur > * {
+    #menuBlur>* {
         overflow: hidden;
     }
 </style>
-    <i>
-        <script>
-            function isMobile() {
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            }
 
-            if (isMobile()) {
-                console.log("Mobile device");
-            } else {
-                console.log("Desktop device");
-            }
-        </script>
+<i>
+    <script>
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
 
-        <script>
-            let isWide = false;
+        if (isMobile()) {
+            console.log("Mobile device");
+        } else {
+            console.log("Desktop device");
+        }
+    </script>
+    <!---->
+    <script>
+        let isWide = false;
 
-            if (!isMobile()) {
-                document.addEventListener('mousemove', (e) => {
-                    const distanceFromRight = window.innerWidth - e.clientX;
-                    
-                    /**
-                    * @param {number} width - The number in pixels
-                    */
-                    function setScrollbarWidth(width) {
-                        document.documentElement.style.setProperty('--scrollbar-width', `${width}px`);
-                    }
-                    
-                    if (distanceFromRight <= 20 && !isWide) {
-                        isWide = true;
-                        setScrollbarWidth(12); // 12px
-                    } else if (distanceFromRight > 30 && isWide) {
-                        isWide = false;
-                        setScrollbarWidth(8); // 8px
-                    }
-                });
-            }
-        </script>
+        if (!isMobile()) {
+            document.addEventListener('mousemove', (e) => {
+                const distanceFromRight = window.innerWidth - e.clientX;
 
-        <script>
-            const pageTitle = document.getElementById("pageTitle");
+                /**
+                * @param {number} width - The number in pixels
+                */
+                function setScrollbarWidth(width) {
+                    document.documentElement.style.setProperty('--scrollbar-width', `${width}px`);
+                }
 
-            function waitLoads(timeMS) {
-                return new Promise(resolve => setTimeout(resolve, timeMS));
-            }
+                if (distanceFromRight <= 20 && !isWide) {
+                    isWide = true;
+                    setScrollbarWidth(12); // 12px
+                } else if (distanceFromRight > 30 && isWide) {
+                    isWide = false;
+                    setScrollbarWidth(8); // 8px
+                }
+            });
+        }
+    </script>
+    <!---->
+    <script>
+        const pageTitle = document.getElementById("pageTitle");
 
-            pageTitle.onclick = () => {
-                pageTitle.classList.add("JumpTitle");
-                waitLoads(timeMS).then(() => {
-                    pageTitle.classList.remove("JumpTitle");
-                });
-            }
-        </script>
-    </i>
+        function waitLoads(timeMS) {
+            return new Promise(resolve => setTimeout(resolve, timeMS));
+        }
 
-    <body>
-        <div id="appMenu">
-            <div class="top-app-menu-section">
-                <h2 id="appMenuTitle">Apps & Settings</h2>
-                <button id="closeAppMenu">X</button>
-            </div>
-            <div class="settings-container" id="settingsContainer">
-                <text class>This is the settings section here you will find user
-                    costumization. Such as text size, color
-                    theme, and much more!</text>
-            </div>
-            <div class="appsContainer">
-                <p id="appsTextTag">Apps</p>
-                <div id="appList">
-                    <div id="appListContainer">
-                        <button class="appButton" id="searcherAppButton"
-                            onclick="notify('Currently Unavailable...')">Searcher</button>
-                        <button class="appButton"
-                            id="textEditorAppButton">HtWebz Text Editor</button>
-                        <button class="appButton" id="gamesAppButton"
-                            onclick="notify('Currently Unavailable...')">Games</button>
-                        <button class="appButton" id="resourcesAppButton"
-                            onclick="notify('Currently Unavailable...')">Resources</button>
-                        <button class="appButton" id="settingsAppButton"
-                            onclick="notify('Currently Unavailable...')">Settings</button>
-                        <button class="appButton" id="aboutAppButton"
-                            onclick="notify('Currently Unavailable...')">About</button>
+        pageTitle.onclick = () => {
+            pageTitle.classList.add("JumpTitle");
+            waitLoads(timeMS).then(() => {
+                pageTitle.classList.remove("JumpTitle");
+            });
+        }
+    </script>
+</i>
+
+<body>
+    <div id="appMenu">
+        <div class="top-app-menu-section">
+            <h2 id="appMenuTitle">Apps</h2>
+            <button title="Close" id="closeAppMenu">X</button>
+        </div>
+        <!-- <div class="settings-container" id="settingsContainer">
+            <text class>This is the settings section here you will find user
+                costumization. Such as text size, color
+                theme, and much more!</text>
+        </div> -->
+        <div class="appsContainer">
+            <p id="appsTextTag">Apps</p>
+            <div id="appList">
+                <div id="appListContainer">
+                    <button class="appButton" id="searcherAppButton"
+                        onclick="notify('Currently Unavailable...')">Searcher</button>
+                    <button class="appButton" id="textEditorAppButton">HtWebz Text Editor</button>
+                    <button class="appButton" id="gamesAppButton"
+                        onclick="notify('Currently Unavailable...')">Games</button>
+                    <button class="appButton" id="resourcesAppButton"
+                        onclick="notify('Currently Unavailable...')">Resources</button>
+                    <button class="appButton" id="settingsAppButton"
+                        onclick="notify('Currently Unavailable...')">Settings</button>
+                    <button class="appButton" id="aboutAppButton"
+                        onclick="notify('Currently Unavailable...')">About</button>
                     </button>
                 </div>
                 <div id="appListFooter">
@@ -289,48 +275,32 @@
     <section id="topUserInterfaceBar">
         <div class="appMenuOpenButtons">
 
-            <div id="expandMenuToolbar"
-                onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
-                <img id="expandToolbarIcon"
-                    src="index/assets/images/Hamburger_icon.png" height="25"
-                    width="25" preload="auto" />
+            <div id="expandMenuToolbar" onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
+                <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25"
+                    preload="auto" />
             </div>
 
-            <button id="appMenuOpen"
-                onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
-                    id="appMenuIcon"
-                    src="index/assets/images/app_button_icon.png"
-                    preload="auto"
-                    aria-busy="false" height="25" width="25" /><span
-                    class="apps-menu-text">App Menu</span></button>
+            <button id="appMenuOpen" onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
+                    id="appMenuIcon" src="index/assets/images/app_button_icon.png" preload="auto" aria-busy="false"
+                    height="25" width="25" /><span class="apps-menu-text">App Menu</span></button>
             <button id="settingsQuick"
-                onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img
-                    id="settingsIcon"
-                    src="index/assets/images/Settings_icon.png"
-                    preload="auto"
-                    aria-busy="false" height="25" width="25" /><span
-                    class="settings-quick-text">Settings</span></button>
+                onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img id="settingsIcon"
+                    src="index/assets/images/Settings_icon.png" preload="auto" aria-busy="false" height="25"
+                    width="25" /><span class="settings-quick-text">Settings</span></button>
         </div>
 
         <h1 id="pageTitle">HtWebz Homepage</h1>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-            <button id="gamesMenuOpen"
-                onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')"><img
-                    id="gamesMenuIcon"
-                    src="index/assets/images/console_remote_controller.png"
-                    alt="Games Icon" preload="auto" height="27.5"
-                    width="27.5" />
+            <button id="gamesMenuOpen" onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')"><img
+                    id="gamesMenuIcon" src="index/assets/images/console_remote_controller.png" alt="Games Icon"
+                    preload="auto" height="27.5" width="27.5" />
                 <span class="games-menu-text">Games</span></button>
             <button id="resourcesMenuOpen"
                 onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')">
-                <input autocomplete="off" class="search-bar-input" type="text"
-                    placeholder="Type here to search..." />
-                <img
-                    id="resourcesMenuIcon"
-                    src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
-                    alt="Resources Icon" preload="auto" height="27.5"
-                    width="27.5" />
+                <input autocomplete="off" class="search-bar-input" type="text" placeholder="Type here to search..." />
+                <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                    alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
                 <span class="resources-menu-text">Search</span>
             </button>
         </div>
@@ -406,14 +376,12 @@
         <section id="settingsMenu">
             <div class="settings-menu-hotbar">
                 <button id="closeSettingsMenuBtn">X</button>
-                <button id="themeSettingsMenuBtn"
-                    onclick="notify('Currently Unavailable...')">Theme</button>
+                <button id="themeSettingsMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
             </div>
             <div id="settingsContainerDisplay">
                 <hr class="top-settings-divider" style="width: 100%;">
                 <div id="displayS">
-                    <iframe src="settings_menu.html"
-                        id="settingsMenuPageLinkage"></iframe>
+                    <iframe src="settings_menu.html" id="settingsMenuPageLinkage"></iframe>
                 </div>
                 <hr class="bottom-settings-divider" style="width: 100%;">
             </div>
@@ -423,8 +391,7 @@
         <section id="gameMenu">
             <div class="game-menu-hotbar">
                 <button id="closeGameMenuButton">X</button>
-                <button id="themeGameMenuBtn"
-                    onclick="notify('Currently Unavailable...')">Theme</button>
+                <button id="themeGameMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
             </div>
             <div id="gameContainerDisplay">
                 <hr class="top-game-divider" style="width: 100%;">
@@ -442,19 +409,16 @@
                             }
                         }
                     </script>
-                    <div id="chromeClickerGame" class="game"
-                        onclick="notify('Redirecting...')">
+                    <div id="chromeClickerGame" class="game" onclick="notify('Redirecting...')">
                         <h3 class="game-title
                         ">Chrome Clicker</h3>
                         <p class="game-description">A simple clicker game
                             that is based on the browser Google Chrome.
-                            <hr class="dividerGame"><br><text
-                                class="furthermoreDescription">This is
+                            <hr class="dividerGame"><br><text class="furthermoreDescription">This is
                                 currently a work in
                                 progress.</text>
                         </p>
-                        <button onclick="notify('Redirecting...')"
-                            id="tryButtonGame"
+                        <button onclick="notify('Redirecting...')" id="tryButtonGame"
                             class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryGame = document.getElementById('tryButtonGame');
@@ -469,19 +433,16 @@
                             });
                         </script>
                     </div>
-                    <div id="dinoJumpingGame" class="game"
-                        onclick="notify('Redirecting...')">
+                    <div id="dinoJumpingGame" class="game" onclick="notify('Redirecting...')">
                         <h3 class="game-title">Dino Jumping Game</h3>
                         <p class="game-description">
                             A Recreation of the Dino Game from Chrome,
                             but a better appealing version!
-                            <hr class="dividerGame"><br><text
-                                class="furthermoreDescription">
+                            <hr class="dividerGame"><br><text class="furthermoreDescription">
                                 Version 1.0.0
                             </text>
                         </p>
-                        <button onclick="notify('Redirecting...')"
-                            id="tryDinoGameButton"
+                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton"
                             class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryDinoGame = document.getElementById('tryDinoGameButton');
@@ -538,88 +499,72 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img
-                        src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
+                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
                         style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        aria-describedby="featured" height="auto"
-                        width="auto" class="showcasePreviewImage" />
+                        aria-describedby="featured" height="auto" width="auto" class="showcasePreviewImage" />
                     <p class="featured-description">
                         Say Hello to your new friend, HTAssistant!
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
+                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
                             a work in
                             progress.</text>
                     </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
+                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
                 </div>
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/"
-                        aria-describedby="featured" class="showcasePreviewImage"
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
                         style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
                         width="auto" height="auto" />
                     <p class="featured-description">
                         ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
+                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
                             a work in
                             progress.</text>
                     </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
+                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
                 </div>
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/"
-                        aria-describedby="featured" class="showcasePreviewImage"
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
                         style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
                         width="auto" height="auto" />
                     <p class="featured-description">
                         ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
+                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
                             a work in
                             progress.</text>
                     </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
+                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
                 </div>
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/"
-                        aria-describedby="featured" class="showcasePreviewImage"
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
                         style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
                         width="auto" height="auto" />
                     <p class="featured-description">
                         ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
+                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
                             a work in
                             progress.</text>
                     </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
+                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
                 </div>
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/"
-                        aria-describedby="featured" class="showcasePreviewImage"
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
                         style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
                         width="auto" height="auto" />
                     <p class="featured-description">
                         ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
+                        <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
                             a work in
                             progress.</text>
                     </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
+                    <button onclick="notify('Currently Unavailable...')" id="tryButtonShowcase">Coming Soon...</button>
                 </div>
 
             </div>
@@ -633,7 +578,8 @@
                 align-items: center;
                 position: fixed !important;
                 bottom: 0 !important;
-                left: 0 !important;
+                margin-left: 7.5px !important;
+                margin-right: 7.5px;
                 padding-inline-start: 15px;
                 padding-inline-end: 10px;
                 padding-block: 4.5px;
@@ -645,7 +591,9 @@
                 transition: all 0.3s ease;
                 gap: 8px;
                 z-index: 14000 !important;
-                flex: 825 auto;
+                flex: 0 1 auto;
+                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(4px);
             }
 
             #developer {
@@ -664,10 +612,17 @@
                 border: 2px solid cyan;
             }
 
+            #developer:hover > .developerText {
+                color: rgb(120, 120, 120);
+            }
+
             .developerText {
-                color: black;
+                color: rgb(243, 243, 243);
                 font-size: 1.4em;
                 font-weight: bold;
+                text-overflow: ellipsis;
+                padding-inline: 5px;
+                transition: all 0.3s ease-in-out;
             }
         </style>
 
@@ -799,95 +754,73 @@
                     <div id="appTray">
                         <!-- Searcher App -->
                         <div id="searcherApp">
-                            <img
-                                src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
-                                aria-describedby="featured"
-                                height="auto" width="auto"
-                                class="appTrayPreviewImage hoverable"
-                                id="searcherAppImageButton"
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                                aria-describedby="featured" height="auto" width="auto"
+                                class="appTrayPreviewImage hoverable" id="searcherAppImageButton"
                                 onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')" />
                             <p class="app-description">
                                 Search the web with the HtWebz Searcher.
-                                <hr class="dividerAppTray"><br><text
-                                    class="furthermoreDescription">This is
+                                <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
                                     currently a work in
-                                    progress.</text> </p>
+                                    progress.</text>
+                            </p>
                         </div>
                         <!-- Games App -->
                         <div id="gamesApp">
-                            <img
-                                src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png"
-                                aria-describedby="featured"
-                                height="auto" width="auto"
-                                class="appTrayPreviewImage hoverable"
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png" aria-describedby="featured"
+                                height="auto" width="auto" class="appTrayPreviewImage hoverable"
                                 id="gamesAppImageButton"
                                 onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')" />
                             <p class="app-description">
                                 Play games with the HtWebz Games App.
-                                <hr class="dividerAppTray"><br><text
-                                    class="furthermoreDescription">This is
+                                <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
                                     currently a work in
-                                    progress.</text> </p>
+                                    progress.</text>
+                            </p>
                         </div>
                         <!-- Resources App -->
                         <div id="resourcesApp">
-                            <img
-                                src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png"
-                                aria-describedby="featured"
-                                height="auto" width="auto"
-                                class="appTrayPreviewImage hoverable"
-                                id="resourcesAppImageButton"
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png"
+                                aria-describedby="featured" height="auto" width="auto"
+                                class="appTrayPreviewImage hoverable" id="resourcesAppImageButton"
                                 onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')" />
                             <p class="app-description">
                                 Find resources with the HtWebz Resources App.
-                                <hr class="dividerAppTray"><br><text
-                                    class="furthermoreDescription">This is
+                                <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
                                     currently a work in
-                                    progress.</text> </p>
+                                    progress.</text>
+                            </p>
                         </div>
                     </div>
-                </section>
-            </section>
-        </body>
+        </section>
+    </section>
+</body>
 
-        <!-- End External Scripts ./index/assets/scripts/* -->
-        <script src="index/assets/scripts/tooltip_system.js"
-            defer></script>
-        <script src="index/assets/scripts/letter_effects.js"
-            defer></script>
-        <script src="index/assets/scripts/main_user_interface.js"
-            defer></script>
-        <script src="index/assets/scripts/app_menu_script.js"
-            defer></script>
-        <script src="index/assets/scripts/search_process.js"
-            defer></script>
-        <script src="index/assets/scripts/info_managment.js"
-            defer></script>
-        <script src="index/assets/scripts/navigation_managment.js"
-            defer></script>
-        <script src="index/assets/scripts/button_splash_effect.js"
-            defer></script>
-        <script src="index/assets/scripts/search_interface.js"
-            defer></script>
-        <script src="index/assets/scripts/window_resize_manager.js"
-            defer></script>
+<!-- End External Scripts ./index/assets/scripts/* -->
+<script src="index/assets/scripts/tooltip_system.js" defer></script>
+<script src="index/assets/scripts/letter_effects.js" defer></script>
+<script src="index/assets/scripts/main_user_interface.js" defer></script>
+<script src="index/assets/scripts/app_menu_script.js" defer></script>
+<script src="index/assets/scripts/search_process.js" defer></script>
+<script src="index/assets/scripts/info_managment.js" defer></script>
+<script src="index/assets/scripts/navigation_managment.js" defer></script>
+<script src="index/assets/scripts/button_splash_effect.js" defer></script>
+<script src="index/assets/scripts/search_interface.js" defer></script>
+<script src="index/assets/scripts/window_resize_manager.js" defer></script>
 
-        <script>
-            /*
-                Reminder on pre-functions:
+<script>
+    /*
+        Reminder on pre-functions:
 
-                setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
-                For multiple elements with same message
-                setupTooltips('.hoverable', 'This element has a tooltip');
-            */
-        </script>
+        setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
+        For multiple elements with same message
+        setupTooltips('.hoverable', 'This element has a tooltip');
+    */
+</script>
 
-        <script src="index/assets/scripts/toolbar_extension_manager.js"
-            defer></script>
-        <script src="index/assets/scripts/project_file_validation.js" defer
-            preload="auto"></script>
+<script src="index/assets/scripts/toolbar_extension_manager.js" defer></script>
+<script src="index/assets/scripts/project_file_validation.js" defer preload="auto"></script>
 
-        <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
+<audio src="notification.mp3" preload="auto" id="notifySound"></audio>
 
-    </html>
-    <!---->
+</html>
