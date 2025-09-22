@@ -35,6 +35,29 @@
     flex-shrink: initial;
 }
 
+/* @keyframes prev {
+    0% {
+        transform: rotateY(180deg);
+    }
+    50%, 45% {
+        transform: rotateY(-180deg);
+    }
+    100% {
+        
+    }
+}
+
+#topUserInterfaceBar::after {
+    content: '';
+    inset: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+    pointer-events: none !important;
+    transform-style: preserve-3d !important;
+    animation: prev 1s forwards ease-out;
+} */
+
 /* Interface button media sizing for device display */
 @media (max-width: 762px) {
     #expandMenuToolbar {
@@ -130,8 +153,14 @@
     background: rgb(236, 235, 235);
     border: 2px solid #ccc;
     border-radius: 1cm;
-    transform: scale(1.25) !important;
+    transform-origin: center center;
+    transform: scale(1.25);
     padding: 2px;
+    transition: all 0.3s ease-out !important;
+}
+
+#expandMenuToolbar:hover > #expandToolbarIcon {
+    transform: scale(1.325);
 }
 
 #appMenuOpen::before {
@@ -253,8 +282,6 @@
     flex: 0 0 auto;
     gap: 9.5px;
     overflow: hidden; /* hides any accidental overflow */
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
 }
 
 #gamesMenuOpen {
@@ -270,6 +297,7 @@
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
+    padding-inline-start: calc(10px + 15px);
     gap: 9.5px;
     transition: all 0.3s !important;
     -webkit-backdrop-filter: blur(1.1px);
@@ -478,15 +506,17 @@
 /* Fade cover animation */
 #pageTitle::before {
     content: '' !important;
-    inset: 0;
+    inset: 0 !important;
     position: absolute;
     background: rgb(0, 215, 215);
     border-radius: 0 0 5px 5px;
     z-index: 999;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
     will-change: auto !important;
     pointer-events: none !important;
-    animation: fadeOutCover 1.05s ease-in-out forwards !important;
+    animation: fadeOutCover 1.5s ease-in-out forwards !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: blur(20px) !important;
 }
 
 #pageTitle span {

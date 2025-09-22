@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             SearchButton.setAttribute(
                 "onmouseenter",
-                "setupTooltip('#resourcesMenuOpen', 'Click to open Search Menu.')"
+                "setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')"
             );
             SearchBarInput.setAttribute("placeholder", "");
 
