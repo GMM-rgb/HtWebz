@@ -1,11 +1,15 @@
 .search-bar-input {
     position: fixed;
-    top: 0;                
-    right: 0 !important;   /* lock right edge */
-    left: auto !important; /* makes sure left is never used */
-    margin: 0 !important;  /* kill any auto margins */
-    
-    width: 0;              /* collapsed */
+    top: 0;
+    right: 0 !important;
+    /* lock right edge */
+    left: auto !important;
+    /* makes sure left is never used */
+    margin: 0 !important;
+    /* kill any auto margins */
+
+    width: 0;
+    /* collapsed */
     height: 32px;
     padding-block: 7.5px;
     padding-inline: 2.5px;
@@ -37,13 +41,15 @@
 
 @media (max-width: 762px) {
     .search-bar-input.open {
-        width: 80px !important; /* final width */
+        width: 80px !important;
+        /* final width */
     }
 }
 
 .search-bar-input.open {
     display: inline-flex;
-    width: 160px; /* final width */
+    width: 160px;
+    /* final width */
     opacity: 1;
     pointer-events: auto;
     box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
@@ -56,19 +62,36 @@
     display: none;
     flex-direction: column;
     position: absolute;
-    inset: 0;
-    
-    top: 0; /* This positions it right below the container */
-    left: 0;
-    width: 100%; /* Match the width of the search input */
-    z-index: 9999;
+    top: 85.5px;
+    /* sits below the input */
+    right: 25px;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
     background: rgba(255, 255, 255, 0.65);
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     max-height: 300px;
-    overflow-x: hidden;
     overflow-y: auto;
-    max-height: calc(85.5px / 0.7) !important;
+    /* scrolls internally */
     gap: 4.5px;
+    max-width: 300px;
+    padding: 5px;
+    text-align: center !important;
+}
+
+#search-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+#search-results::-webkit-scrollbar-track {
+    background: gray;
+    border-radius: 4px;
+}
+
+#search-results::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 4px;
+    cursor: pointer !important;
 }
