@@ -3,6 +3,11 @@ let RetryAttempts = 0;
 
 const SearchQueryKeywords_ThisWebsite = {
     "Homepage": "./index.html",
+    "About": "./about.html",
+    "Contact": "./contact.html",
+    "Services": "./services.html",
+    "Portfolio": "./portfolio.html",
+    "Blog": "./blog.html"
 };
 
 window.addEventListener("DOMContentLoaded", (e) => {
@@ -21,7 +26,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
 /**
  * @param {string} v 
  * @returns {true|false}
- * 
  */
 function MultiWordIncludes(v) {
     if (v) {
@@ -32,40 +36,169 @@ function MultiWordIncludes(v) {
     }
 }
 
+// Find partial matches for a search term
+/**
+ * @param {string} searchTerm 
+ * @returns {Array} Array of matched results with scores
+ */
+function FindPartialMatches(searchTerm) {
+    const results = [];
+    const lowerSearchTerm = searchTerm.toLowerCase();
+
+    for (const [key, url] of Object.entries(SearchQueryKeywords_ThisWebsite)) {
+        const lowerKey = key.toLowerCase();
+        let score = 0;
+
+        // Exact match gets highest score
+        if (lowerKey === lowerSearchTerm) {
+            score = 100;
+        }
+        // Starts with search term gets high score
+        else if (lowerKey.startsWith(lowerSearchTerm)) {
+            score = 90;
+        }
+        // Contains search term gets medium score
+        else if (lowerKey.includes(lowerSearchTerm)) {
+            score = 70;
+        }
+        // Partial character matching for typos/incomplete words
+        else {
+            // Calculate similarity based on character overlap
+            let matchCount = 0;
+            for (let i = 0; i < Math.min(lowerSearchTerm.length, lowerKey.length); i++) {
+                if (lowerSearchTerm[i] === lowerKey[i]) {
+                    matchCount++;
+                } else {
+                    break; // Stop at first mismatch for prefix matching
+                }
+            }
+
+            if (matchCount > 0) {
+                score = Math.floor((matchCount / lowerSearchTerm.length) * 50);
+            }
+        }
+
+        if (score > 0) {
+            results.push({
+                key: key,
+                url: url,
+                score: score,
+                matchType: score === 100 ? 'exact' :
+                    score === 90 ? 'startsWith' :
+                        score === 70 ? 'contains' : 'partial'
+            });
+        }
+    }
+
+    // Sort by score (highest first)
+    return results.sort((a, b) => b.score - a.score);
+}
+
+// Process multi-word search queries
+/**
+ * @param {Array} words 
+ * @returns {Array} Combined results from all words
+ */
+function ProcessMultiWordSearch(words) {
+    const allResults = [];
+
+    for (const word of words) {
+        const wordResults = FindPartialMatches(word);
+        allResults.push(...wordResults);
+    }
+
+    // Remove duplicates and combine scores
+    const combinedResults = {};
+    for (const result of allResults) {
+        if (combinedResults[result.key]) {
+            combinedResults[result.key].score += result.score;
+        } else {
+            combinedResults[result.key] = { ...result };
+        }
+    }
+
+    return Object.values(combinedResults).sort((a, b) => b.score - a.score);
+}
+
 // Process the users search request when provided.
 // If the search input is not a string then return nothing (null).
 // If the search is valid and there is a match then it will return JSON data for the user.
 /**
  * @param {string} SearchQueryInput 
- * @returns {JSON?}
- * 
+ * @returns {Object|null} Search results object
  */
 function ProcessSearchRequest(SearchQueryInput) {
-    let Results = {};
+    let Results = {
+        query: SearchQueryInput,
+        matches: [],
+        bestMatch: null,
+        hasResults: false
+    };
+
     try {
         if (SearchQueryInput && typeof SearchQueryInput === "string") {
-            console.log(`${SearchQueryInput}`);
+            console.log(`Processing search for: ${SearchQueryInput}`);
+
+            const trimmedInput = SearchQueryInput.trim();
+            if (!trimmedInput) return Results;
+
+            let matches = [];
+
+            if (MultiWordIncludes(trimmedInput)) {
+                const WordSplit = trimmedInput.split(" ").filter(word => word !== "");
+                console.log("Multi-word search:", WordSplit);
+                matches = ProcessMultiWordSearch(WordSplit);
+            } else {
+                console.log("Single-word search:", trimmedInput);
+                matches = FindPartialMatches(trimmedInput);
+            }
+
+            Results.matches = matches;
+            Results.bestMatch = matches.length > 0 ? matches[0] : null;
+            Results.hasResults = matches.length > 0;
+
+            console.log("Search results:", Results);
+
         } else {
             console.warn("Search Input for Query was not a valid format.");
             return null;
         }
 
-        function process() {
-            if (MultiWordIncludes(SearchQueryInput)) {
-                let WordSplit = SearchQueryInput.split(" ");
-                let SplittedRaw = WordSplit.split("");
-                if (WordSplit && SplittedRaw)
-                for (let searchSegmentAnalyze = 0; searchSegmentAnalyze < SearchQueryInput.length; searchSegmentAnalyze++) {
-
-                }
-            } else {
-                let SplittedRaw = SearchQueryInput.split("");
-                console.log(SplittedRaw);
-            }
-        }
-        process();
     } catch (error) {
-        console.error(error);
+        console.error("Error processing search request:", error);
+        Results.error = error.message;
     }
+
     return Results;
+}
+
+// Function to display search results in HTML
+/**
+ * @param {Object} searchResults - Results from ProcessSearchRequest
+ * @param {string} containerId - ID of HTML container to display results
+ */
+function DisplaySearchResults(searchResults, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    if (!searchResults.hasResults) {
+        container.innerHTML = '<p>No results found</p>';
+        return;
+    }
+    
+    let html = '<ul class="search-results">';
+    searchResults.matches.forEach((result, index) => {
+        html += `
+            <li class="search-result-item" data-index="${index}">
+                <strong>${result.key}</strong> 
+                <span class="score">(Score: ${result.score})</span>
+                <span class="match-type">[${result.matchType}]</span>
+                <a href="${result.url}">Go to page</a>
+            </li>
+        `;
+    });
+    html += '</ul>';
+    
+    container.innerHTML = html;
+    return container;
 }
