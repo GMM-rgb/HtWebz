@@ -53,8 +53,8 @@
 }
 
 #search-results {
-    position: absolute;
-    top: 100%; /* This positions it right below the container */
+    position: fixed;
+    top: 0; /* This positions it right below the container */
     left: 0;
     width: 100%; /* Match the width of the search input */
     z-index: 9999;
