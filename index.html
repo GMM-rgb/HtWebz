@@ -213,10 +213,6 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        function testFunction() {
-
-        }
-
         if (isMobile()) {
             console.log("Mobile device");
         } else {
@@ -330,8 +326,6 @@
                 <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
                     placeholder="Type here to search..." />
 
-                <div id="search-results" aria-label="Search Results List"><!-- Search Results Elements --></div>
-
                 <div id="resourcesIconWrapper" aria-sort="other">
                     <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
                         alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
@@ -339,6 +333,8 @@
 
                 <span class="resources-menu-text">Search</span>
             </button>
+            
+            <div id="search-results" aria-label="Search Results List"><!-- Search Results Elements --></div>
         </div>
     </section>
 

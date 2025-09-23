@@ -46,6 +46,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return prompt;
     }
 
+    function clearResultsContainer() {
+        if (ResultsDisplay !== null) {
+            ResultsDisplay.innerHTML = "";
+        } else {
+            return;
+        }
+    }
+
+    function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    if (isMobile()) {
+        ResultsDisplay.remove();
+        ResultsDisplay = null;
+    }
+
     function toggleSearchView(open) {
         isSearching = open;
 
@@ -56,6 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 "onmouseenter",
                 `setupTooltip('#resourcesMenuOpen', '${prompt}')`
             );
+
+            ResultsDisplay.style.display = "flex";
 
             if (prompt && prompt.length > 10) {
                 SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5}px - 15px)`;
@@ -109,7 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     SearchBarInput.addEventListener("blur", () => {
         setTimeout(() => {
             if (!SearchButton.contains(document.activeElement)) {
+                clearResultsContainer();
                 toggleSearchView(false);
+                ResultsDisplay.style.display = "none";
             }
         }, 0);
     });
@@ -118,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     SearchBarInput.addEventListener("keypress", (e) => {
         e.stopPropagation();
         let inputValue = SearchBarInput.value;
-    
+        
         if (inputValue) {
             let output = ProcessSearchRequest(inputValue);
             DisplaySearchResults(output, "search-results");
@@ -128,6 +149,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
         e.stopPropagation();
+
+        if (SearchBarInput.value.length <= 0) {
+            clearResultsContainer();
+        }
+
         if (SearchBarInput.value.length > 0) {
             if (e.key === "Enter") {
                 console.log("Submitted Search Request: " + `${SearchBarInput.value}`);

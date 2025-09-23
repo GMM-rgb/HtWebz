@@ -101,6 +101,7 @@
         background: rgba(210, 210, 210, 0.875) !important;
         gap: 4px !important;
         right: 10px !important;
+        max-height: calc(85.5px / 0.7) !important;
     }
 }
 
@@ -282,6 +283,7 @@
     flex: 0 0 auto;
     gap: 9.5px;
     overflow: hidden; /* hides any accidental overflow */
+    max-height: 85.5px;
 }
 
 #gamesMenuOpen {
