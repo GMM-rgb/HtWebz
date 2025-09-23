@@ -121,10 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
                 SubmittedSearchQuery = SearchBarInput.value;
                 setTimeout(() => {
+                    if (SubmittedSearchQuery) { ProcessSearchRequest(SubmittedSearchQuery); }
                     SearchBarInput.blur();
                     toggleSearchView(false);
                 }, 0);
-                ProcessSearchRequest;
             }
         }
     });
