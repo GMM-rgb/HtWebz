@@ -1,4 +1,4 @@
-export let SubmittedSearchQuery = null;
+let SubmittedSearchQuery = null;
 let isSearching = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -88,20 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    //
-    // window.addEventListener("resize", (e) => {
-    //     let prompt = getNextPrompt();
-    //     e.stopImmediatePropagation();
-
-    //     if (WindowWidth <= 762) {
-    //         SearchBarInput.setAttribute("placeholder", "Search...");
-    //         SearchBarInput.style.textIndent = "5px";
-    //     } else {
-    //         SearchBarInput.setAttribute("placeholder", prompt);
-    //         SearchBarInput.style.textIndent = "8.5px";
-    //     }
-    // });
-
     // Button click opens
     SearchButton.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -138,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     SearchBarInput.blur();
                     toggleSearchView(false);
                 }, 0);
+                ProcessSearchRequest;
             }
         }
     });

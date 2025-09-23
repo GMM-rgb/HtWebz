@@ -38,6 +38,10 @@
   /* If we need to center it based on design */
   width: calc(100%);
   text-align: center;
+
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
 }
 
 .pinned-content-title.sticky-active {
@@ -72,7 +76,7 @@
   }
 
   /* Adjust content if needed. Use sparingly,
-       only if extra space below the pinned header is causing layout issues. */
+      only if extra space below the pinned header is causing layout issues. */
   .content-one {
     top: -20px;
   }
