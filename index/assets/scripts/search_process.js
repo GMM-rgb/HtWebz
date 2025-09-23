@@ -25,7 +25,11 @@ window.addEventListener("DOMContentLoaded", (e) => {
  */
 function ProcessSearchRequest(SearchQueryInput) {
     let Results = {};
-    if (SearchQueryInput && typeof SearchQueryInput === "string") console.log(SearchQueryInput);
+    if (SearchQueryInput && typeof SearchQueryInput === "string") {
+        console.log(SearchQueryInput);
+    } else {
+        console.warn("Search Input for Query was not a valid format.");
+    }
 
     return Results;
 }
