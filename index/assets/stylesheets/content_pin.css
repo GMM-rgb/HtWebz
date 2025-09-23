@@ -8,8 +8,8 @@
   z-index: 1000;
 
   /* Remove any default margins that might push it down */
-  margin: 0 auto;
-  padding: 12.5px 15px;
+  margin: 0 auto !important;
+  padding: 12.5px 1px;
 
   /* Appearance */
   background: white;
@@ -21,17 +21,23 @@
 
   /* Text Styles */
   font-weight: bold;
-  font-size: 2.9em;
+  font-family: monospace;
+  font-size: 3em;
   color: black;
   -webkit-text-stroke: 1px darkslategray;
-  -webkit-text-fill-color: lightslategray;
+  -webkit-text-fill-color: rgb(94, 143, 192);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.375);
+  text-overflow: ellipsis !important;
+
+  word-spacing: default;
+  letter-spacing: 6.5px;
 
   /* Transition for hover and sticky-active states */
   transition: all 0.3s ease;
 
-  /* If you need to center it based on your design */
+  /* If we need to center it based on design */
   width: calc(100%);
+  text-align: center;
 }
 
 .pinned-content-title.sticky-active {

@@ -1,7 +1,7 @@
 .search-bar-input {
     position: fixed;
     top: 0;                
-    right: 0 !important;              /* lock right edge */
+    right: 0 !important;   /* lock right edge */
     left: auto !important; /* makes sure left is never used */
     margin: 0 !important;  /* kill any auto margins */
     
