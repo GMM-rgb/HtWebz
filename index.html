@@ -1,21 +1,21 @@
 <!DOCTYPE HTML>
 <html lang="en">
 
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 <head>
-    <link rel="icon" href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png">
+    <link rel="icon" href="index/assets/images/Tab_Icons/HtWebz_MainPage_Icon.png" />
     <title name="DocumentTitle">HtWebz &ndash; Homepage</title>
-    <link rel="stylesheet" href="index/assets/stylesheets/app_list_menu.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/top_user_interface.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/notification_system.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/content_arrangment.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/content_pin.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/about_content.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/games_menu.css">
-    <link rel="stylesheet" href="index/assets/stylesheets/search_menu.css">
+    <link rel="stylesheet" href="index/assets/stylesheets/app_list_menu.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/top_user_interface.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/notification_system.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/content_arrangment.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/content_pin.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/about_content.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/games_menu.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/search_menu.css" />
     <link rel="stylesheet" href="index/assets/stylesheets/settings_menu.css" />
     <link rel="stylesheet" href="index/assets/stylesheets/info_of_the_day.css" />
     <link rel="stylesheet" href="index/assets/stylesheets/top_apps_arrangment.css" />
@@ -171,8 +171,6 @@
 
     #menuBlur {
         display: none;
-        /*filter: blur(300px) !important;
-        backdrop-filter: grayscale(0.5) opacity(0.4);*/
         background: white;
         opacity: 0.5;
         flex: 1 1 auto !important;
@@ -182,13 +180,26 @@
         z-index: 10000 !important;
         top: 0;
         left: 0;
-        transition: all 0.3s ease !important;
+        /* Disables interaction */
         pointer-events: all !important;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
         user-select: none !important;
+        /* Blur Filter for background */
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+
+        transition: all 0.3s ease !important;
     }
 
-    #menuBlur>* {
-        overflow: hidden;
+    #menuBlur > * {
+        pointer-events: none !important;
+        overflow-wrap: normal;
+        flex-basis: auto;
+    }
+
+    * ~ #menuBlur:has(view) {
+        overflow: hidden !important;
     }
 </style>
 
@@ -197,6 +208,7 @@
         /**
          * @return {boolean}
         */
+        // Returns true if the device is in the acceptable category
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
@@ -315,7 +327,7 @@
                     preload="auto" height="27.5" width="27.5" />
                 <span class="games-menu-text">Games</span></button>
             <button id="resourcesMenuOpen" onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
-                <input autocomplete="off" class="search-bar-input" type="text" placeholder="Type here to search..." />
+                <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text" placeholder="Type here to search..." />
                 <div id="resourcesIconWrapper" aria-sort="other">
                     <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
                         alt="Resources Icon" preload="auto" height="27.5" width="27.5" />

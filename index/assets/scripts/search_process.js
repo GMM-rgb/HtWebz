@@ -1,19 +1,21 @@
-﻿function searchFiles() {
-    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const files = [
-        { name: "../index.html", displayName: "homepage" },
-        { name: "search_index.html", displayName: "search" }
-        // We can add other files as the site gets bigger
-    ];
+﻿let MaxRetryAttempts = 3;
+let RetryAttempts = 0;
 
-    const result = files.filter(file => file.displayName.toLowerCase() === searchTerm);
-    
-    const iframe = document.getElementById("resultFrame");
-    
-    // Check if the result array is empty
-    if (result.length === 0) {
-        iframe.src = "Error/content_not_found.html"; // Redirect to content_not_found.html
-    } else {
-        iframe.src = result[0].name; // Display the found file to the user
+window.addEventListener("DOMContentLoaded", (e) => {
+    const SearchInput = document.getElementById("SearchBarInput");
+    while (!SearchInput) {
+        if (RetryAttempts >= MaxRetryAttempts) break;
+        SearchInput = document.getElementById("SearchBarInput");
+        RetryAttempts += 1;
     }
-}
+    let SearchValueText = SearchInput.value || null;
+
+    SearchInput.addEventListener("keydown", (e) => {
+        if (SearchInput.textContent && SearchInput.value) {
+            SearchValueText = SearchInput.value;
+        }
+        e.stopPropagation();
+    });
+
+    e.stopPropagation();
+});
