@@ -3,11 +3,7 @@ let RetryAttempts = 0;
 
 const SearchQueryKeywords_ThisWebsite = {
     "Homepage": "./index.html",
-    "About": "./about.html",
-    "Contact": "./contact.html",
-    "Services": "./services.html",
-    "Portfolio": "./portfolio.html",
-    "Blog": "./blog.html"
+    "Game Library": "./Games/library.html",
 };
 
 window.addEventListener("DOMContentLoaded", (e) => {

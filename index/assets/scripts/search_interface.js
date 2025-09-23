@@ -4,7 +4,8 @@ let isSearching = false;
 document.addEventListener("DOMContentLoaded", () => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
-    const SearchBarInput = SearchButton.querySelector(".search-bar-input");
+    const SearchBarInput = document.getElementById("SearchBarInput");
+    const ResultsDisplay = document.getElementById("search-results");
 
     let WindowWidth = window.innerWidth || 0;
 
@@ -113,6 +114,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     });
 
+    // Listen for keyboard input
+    SearchBarInput.addEventListener("keypress", (e) => {
+        e.stopPropagation();
+        let inputValue = SearchBarInput.value;
+    
+        if (inputValue) {
+            let output = ProcessSearchRequest(inputValue);
+            DisplaySearchResults(output, "search-results");
+        }
+    });
+
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
         e.stopPropagation();
@@ -121,7 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
                 SubmittedSearchQuery = SearchBarInput.value;
                 setTimeout(() => {
-                    if (SubmittedSearchQuery) { ProcessSearchRequest(SubmittedSearchQuery); }
+                    if (SubmittedSearchQuery) {
+                        let results = ProcessSearchRequest(SubmittedSearchQuery);
+                    }
                     SearchBarInput.blur();
                     toggleSearchView(false);
                 }, 0);

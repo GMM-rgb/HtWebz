@@ -297,7 +297,7 @@
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
-    padding-inline-start: calc(10px + 15px);
+    padding-inline-start: calc(10px + 20px);
     gap: 9.5px;
     transition: all 0.3s !important;
     -webkit-backdrop-filter: blur(1.1px);
