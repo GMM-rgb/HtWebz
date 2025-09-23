@@ -1,3 +1,4 @@
+export let SubmittedSearchQuery = null;
 let isSearching = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,10 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopImmediatePropagation();
         WindowWidth = window.innerWidth;
     });
-
-    let SearchQueryKeywords = {
-
-    };
 
     // Prompt list
     const searchPrompts = [
@@ -135,7 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
         if (SearchBarInput.value.length > 0) {
             if (e.key === "Enter") {
-                console.log("Submitted Search Request");
+                console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
+                SubmittedSearchQuery = SearchBarInput.value;
                 setTimeout(() => {
                     SearchBarInput.blur();
                     toggleSearchView(false);
