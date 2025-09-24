@@ -79,12 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
         `setupTooltip('#resourcesMenuOpen', '${prompt}')`
       );
 
-      ResultsDisplay.style.display = "flex";
+      // ResultsDisplay.style.display = "flex";
 
       if (prompt && prompt.length > 10) {
-        SearchBarInput.style.width = `calc(175px + ${
-          prompt.length * 1.5
-        }px - 15px)`;
+        SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5
+          }px - 15px)`;
       } else {
         SearchBarInput.style.width = "calc(175px - 15px)";
       }
@@ -167,8 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
   SearchBarInput.addEventListener("keydown", (e) => {
     e.stopPropagation();
 
-    if (SearchBarInput.value.length <= 0) {
+    if (SearchBarInput.value.length < 1) {
       clearResultsContainer();
+    }
+
+    if (SearchBarInput.value && SearchBarInput.value.length > 0) {
+      ResultsDisplay.style.display = "flex";
+    } else {
+      ResultsDisplay.style.display = "none";
     }
 
     if (SearchBarInput.value.length > 0) {
@@ -203,6 +208,17 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       SearchBarInput.blur();
       toggleSearchView(false);
+    }
+  });
+
+  SearchBarInput.addEventListener("focus", (e) => {
+    e.stopPropagation();
+    if (SearchBarInput.value) {
+      let output = ProcessSearchRequest(SearchBarInput.value);
+      DisplaySearchResults(output, "search-results");
+      if (ResultsDisplay.style.display === "none" && SearchBarInput.value.length > 0) {
+        ResultsDisplay.style.display = "flex";
+      }
     }
   });
 });

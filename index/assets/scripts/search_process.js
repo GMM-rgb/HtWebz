@@ -4,6 +4,7 @@ let RetryAttempts = 0;
 const SearchQueryKeywords_ThisWebsite = {
     "Homepage": "./index.html",
     "Game Library": "./Games/library.html",
+    "Dino Game": "./Games/DinoGame.html",
 };
 
 window.addEventListener("DOMContentLoaded", (e) => {
@@ -175,25 +176,25 @@ function ProcessSearchRequest(SearchQueryInput) {
 function DisplaySearchResults(searchResults, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
+
     if (!searchResults.hasResults) {
-        container.innerHTML = '<p>No results found</p>';
+        container.innerHTML = '<span class="search-result-item no-results"><strong>No results found</strong></span>';
         return;
     }
-    
-    let html = '<ul class="search-results">';
+
+    let html = '<div class="search-results">';
     searchResults.matches.forEach((result, index) => {
         html += `
-            <li class="search-result-item" data-index="${index}">
+            <li style="list-style-type:none;" class="search-result-item" data-index="${index}">
                 <strong>${result.key}</strong> 
                 <span class="score">(Score: ${result.score})</span>
                 <span class="match-type">[${result.matchType}]</span>
-                <a href="${result.url}">Go to page</a>
+                <!--<a href="${result.url}">Go to page</a>-->
             </li>
         `;
     });
-    html += '</ul>';
-    
+    html += '</div>';
+
     container.innerHTML = html;
     return container;
 }
