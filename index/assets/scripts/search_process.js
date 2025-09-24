@@ -154,7 +154,6 @@ function ProcessSearchRequest(SearchQueryInput) {
             Results.hasResults = matches.length > 0;
 
             console.log("Search results:", Results);
-
         } else {
             console.warn("Search Input for Query was not a valid format.");
             return null;

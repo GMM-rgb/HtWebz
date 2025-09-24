@@ -1,3 +1,5 @@
+let NotificationShow;
+
 document.addEventListener('DOMContentLoaded', () => {
     // Get all required elements from html doc
     const elements = {
