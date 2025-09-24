@@ -172,24 +172,42 @@ function ProcessSearchRequest(SearchQueryInput) {
 /**
  * @param {Object} searchResults - Results from ProcessSearchRequest
  * @param {string} containerId - ID of HTML container to display results
+ * @param {string} CurrentInputData - The Real Time status of the search input
  */
-function DisplaySearchResults(searchResults, containerId) {
+function DisplaySearchResults(searchResults, containerId, CurrentInputData) {
     const container = document.getElementById(containerId);
     if (!container) return;
+    if (!containerId) return;
 
     if (!searchResults.hasResults) {
         container.innerHTML = '<span class="search-result-item no-results"><strong>No results found</strong></span>';
         return;
     }
 
+    // Split input into array of characters
+    const inputChars = CurrentInputData.split("");
+
+    // Helper: highlight matching characters in the same position
+    function highlightMatch(text, inputChars) {
+        let highlighted = "";
+        for (let i = 0; i < text.length; i++) {
+            if (inputChars[i] && text[i].toLowerCase() === inputChars[i].toLowerCase()) {
+                highlighted += `<strong>${text[i]}</strong>`;
+            } else {
+                highlighted += text[i];
+            }
+        }
+        return highlighted;
+    }
+
     let html = '<div class="search-results">';
     searchResults.matches.forEach((result, index) => {
+        const highlightedKey = highlightMatch(result.key, inputChars);
         html += `
             <li style="list-style-type:none;" class="search-result-item" data-index="${index}">
-                <strong>${result.key}</strong> 
-                <span class="score">(Score: ${result.score})</span>
+                <p>${highlightedKey}</p> 
+                <!--<span class="score">(Score: ${result.score})</span>-->
                 <span class="match-type">[${result.matchType}]</span>
-                <!--<a href="${result.url}">Go to page</a>-->
             </li>
         `;
     });

@@ -107,7 +107,9 @@
     text-overflow: ellipsis;
     text-rendering: optimizeSpeed !important;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding: calc(4.5px + 0.25px);
+    padding-inline: calc(4.5px + 0.25px);
+    padding-block-start: 5px;
+    padding-block-end: 7.5px;
     min-height: calc(50px + 7.5px);
     width: 100%;
     margin-bottom: 4.5px;

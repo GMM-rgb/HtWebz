@@ -154,17 +154,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // Listen for keyboard input
   SearchBarInput.addEventListener("keypress", (e) => {
     e.stopPropagation();
-    let inputValue = SearchBarInput.value;
-
-    if (inputValue) {
+    const inputValue = SearchBarInput.value;
+    if (inputValue && inputValue.length > 0) {
       let output = ProcessSearchRequest(inputValue);
-      DisplaySearchResults(output, "search-results");
+      DisplaySearchResults(output, "search-results", inputValue);
     }
   });
 
   // Listen for search action keybind
   SearchBarInput.addEventListener("keydown", (e) => {
     e.stopPropagation();
+
+    if (SearchBarInput.value) {
+      let results = ProcessSearchRequest(SearchBarInput.value);
+      DisplaySearchResults(results, "search-results", SearchBarInput.value);
+    }
 
     if (SearchBarInput.value.length < 1) {
       clearResultsContainer();
@@ -180,9 +184,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "Enter") {
         console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
         SubmittedSearchQuery = SearchBarInput.value;
+
         setTimeout(() => {
           if (SubmittedSearchQuery) {
             let results = ProcessSearchRequest(SubmittedSearchQuery);
+
             if (results.hasResults && results.matches && results.bestMatch) {
               let BestMatchURL = results.bestMatch.url;
               window.notify("Redirecting...");
@@ -195,6 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
               );
             }
           }
+
           SearchBarInput.blur();
           toggleSearchView(false);
         }, 0);
@@ -215,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     if (SearchBarInput.value) {
       let output = ProcessSearchRequest(SearchBarInput.value);
-      DisplaySearchResults(output, "search-results");
+      DisplaySearchResults(output, "search-results", SearchBarInput.value);
       if (ResultsDisplay.style.display === "none" && SearchBarInput.value.length > 0) {
         ResultsDisplay.style.display = "flex";
       }
