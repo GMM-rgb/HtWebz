@@ -253,14 +253,14 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
     });
 
-    async function ensureOutputUpdate() {
+    function ensureOutputUpdate() {
         let SearchIV = SearchBarInput.value;
 
         let Results = ProcessSearchRequest(SearchIV);
         DisplaySearchResults(Results, "search-results", SearchIV);
 
         if (isSearching) {
-            setTimeout(ensureOutputUpdate, 1000);
+            requestAnimationFrame(ensureOutputUpdate);
         } else {
             return false;
         }
