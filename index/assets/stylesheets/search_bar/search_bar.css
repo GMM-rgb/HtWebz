@@ -97,8 +97,21 @@
 }
 
 @keyframes flipInwardResult {
-    0% {}
-    100% {}
+    0% {
+        opacity: 0;
+        transform: rotateX(-135deg) scaleX(1);
+    }
+    35% {
+        transform: scaleX(1.05);
+    }
+    50%, 75% {
+        opacity: 0.85;
+        transform: scaleX(1);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
 }
 
 .search-result-item {
@@ -108,6 +121,7 @@
     background: rgba(235, 235, 235, 0.65);
     text-overflow: ellipsis;
     text-rendering: optimizeSpeed !important;
+    transform-style: preserve-3d;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding-inline: calc(4.5px + 0.25px);
     padding-block-start: 5px;
@@ -115,4 +129,6 @@
     min-height: calc(50px + 7.5px);
     margin-bottom: 4.5px;
     flex: 0 1 auto;
+    /* Element Creation Entrance Appearence */
+    animation: flipInwardResult 0.15s ease-in-out forwards !important;
 }
