@@ -249,6 +249,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         }
+        ensureOutputUpdate();
         e.stopPropagation();
     });
+
+    function ensureOutputUpdate() {
+        let SearchIV = SearchBarInput.value;
+
+        let Results = ProcessSearchRequest(SearchIV);
+        DisplaySearchResults(Results, "search-results", SearchIV);
+
+        if (isSearching) {
+            setInterval(ensureOutputUpdate, 1000);
+        } else {
+            return false;
+        }
+    }
 });
