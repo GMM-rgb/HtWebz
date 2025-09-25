@@ -1,14 +1,30 @@
 ﻿let MaxRetryAttempts = 3;
 let RetryAttempts = 0;
 
-const SearchQueryKeywords_ThisWebsite = {
+// const SearchQueryKeywords_ThisWebsite = {
+//     "Homepage": "./index.html",
+//     "Game Library": "./Games/library.html",
+//     "Dino Game": "./Games/DinoGame.html",
+//     "Basics - Wiki": `./Wiki/HtWiki.html?${new URLSearchParams("topic=htwebz-basics")}`,
+//     "About - Wiki": `/Wiki/HtWiki.html?${new URLSearchParams("topic=about-htwebz")}`,
+// };
+
+const defaultsearch = {
     "Homepage": "./index.html",
     "Game Library": "./Games/library.html",
     "Dino Game": "./Games/DinoGame.html",
-    "Basics": `./Wiki/HtWiki.html?${new URLSearchParams("topic=basics")}`,
 };
 
-const SearchQueryKeywords_Command = {};
+const wikisearch = {
+    "Basics - Wiki": `./Wiki/HtWiki.html?${new URLSearchParams("topic=htwebz-basics")}`,
+    "About - Wiki": `/Wiki/HtWiki.html?${new URLSearchParams("topic=about-htwebz")}`,
+};
+
+const SearchQueryKeywords_Command = {
+    "wiki": "/wiki".toLowerCase(),
+};
+
+let SearchQueryKeywords_ThisWebsite = defaultsearch;
 
 window.addEventListener("DOMContentLoaded", (e) => {
     const SearchInput = document.getElementById("SearchBarInput");
@@ -111,7 +127,7 @@ function ProcessMultiWordSearch(words) {
         if (combinedResults[result.key]) {
             combinedResults[result.key].score += result.score;
         } else {
-            combinedResults[result.key] = {...result };
+            combinedResults[result.key] = { ...result };
         }
     }
 
@@ -136,6 +152,27 @@ function ProcessSearchRequest(SearchQueryInput) {
     try {
         if (SearchQueryInput && typeof SearchQueryInput === "string") {
             console.log(`Processing search for: ${SearchQueryInput}`);
+
+            function removeCommandSplice(InputValue) {
+                if (!InputValue) return;
+                let Filtered;
+
+                try {
+                    const raw = InputValue || null;
+                    let newValue = raw.replace(SearchQueryKeywords_Command.wiki, "");
+                    Filtered = newValue;
+                } catch (error) {
+                    console.log("Error in removing command segment: ", error);
+                }
+                return Filtered;
+            }
+
+            if (SearchQueryInput.includes(SearchQueryKeywords_Command.wiki)) {
+                SearchQueryKeywords_ThisWebsite = wikisearch;
+                SearchQueryInput = removeCommandSplice(SearchQueryInput);
+            } else {
+                SearchQueryKeywords_ThisWebsite = defaultsearch;
+            }
 
             const trimmedInput = SearchQueryInput.trim();
             if (!trimmedInput) return Results;
