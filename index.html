@@ -33,7 +33,7 @@
             href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
     </i>
     <style>
-         :root {
+        :root {
             --theme-background: aquamarine;
             --theme-primary: #479dda;
             --theme-secondary: #80b5db;
@@ -64,32 +64,34 @@
             --theme-transition-time: 300ms;
             --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         * {
             color: var(--theme-text);
             border-color: var(--theme-border);
             transition: background-color var(--theme-transition-time) var(--theme-transition-curve), color var(--theme-transition-time) var(--theme-transition-curve), border-color var(--theme-transition-time) var(--theme-transition-curve), box-shadow var(--theme-transition-time) var(--theme-transition-curve);
         }
+
         /* Theme transition class */
-        
+
         .theme-transitioning * {
             transition: background-color var(--theme-transition-time) var(--theme-transition-curve), color var(--theme-transition-time) var(--theme-transition-curve), border-color var(--theme-transition-time) var(--theme-transition-curve), box-shadow var(--theme-transition-time) var(--theme-transition-curve) !important;
         }
+
         /* Exclude certain properties from transition */
-        
+
         .no-theme-transition {
             transition: none !important;
         }
-        
+
         body {
             background: var(--theme-background);
             color: var(--theme-text);
         }
-        
+
         #topUserInterfaceBar {
             background: var(--theme-topBar);
         }
-        
+
         .main-content-section,
         #appMenu,
         #settingsMenu,
@@ -97,7 +99,7 @@
         #searchMenu {
             background: var(--theme-gradient1);
         }
-        
+
         .appButton,
         .SettingsListButton,
         #closeAppMenu,
@@ -107,15 +109,15 @@
             background: var(--theme-buttonBackground);
             color: var(--theme-text);
         }
-        
+
         #motivationMessageContainer {
             background: var(--theme-motivationBackground);
         }
-        
+
         #verticalShowcase {
             background: var(--theme-showcaseBackground);
         }
-        
+
         .appTrayPreviewImage,
         #searcherApp,
         #gamesApp,
@@ -134,22 +136,22 @@
         overflow-x: hidden !important;
         scroll-snap-type: mandatory;
     }
-    
+
     :root {
         --scrollbar-width: 8px;
         /* default width */
     }
-    
+
     body::-webkit-scrollbar {
         width: var(--scrollbar-width);
         -webkit-transition: width 0.2s ease;
         transition: width 0.2s ease;
     }
-    
+
     body::-webkit-scrollbar-track {
         background: lightseagreen;
     }
-    
+
     body::-webkit-scrollbar-thumb {
         background: darkcyan;
         border-radius: 2px;
@@ -161,7 +163,7 @@
     /* body::-webkit-scrollbar-thumb:hover body::-webkit-scrollbar {
         width: 8px !important;
     } */
-    
+
     #menuBlur {
         display: none;
         background: white;
@@ -183,13 +185,13 @@
         backdrop-filter: blur(4px);
         transition: all 0.3s ease !important;
     }
-    
+
     #menuBlur>* {
         pointer-events: none !important;
         overflow-wrap: normal;
         flex-basis: auto;
     }
-    
+
     *~#menuBlur:has(view) {
         overflow: hidden !important;
     }
@@ -268,12 +270,17 @@
             <p id="appsTextTag">Apps</p>
             <div id="appList">
                 <div id="appListContainer">
-                    <button class="appButton" id="searcherAppButton" onclick="notify('Currently Unavailable...')">Searcher</button>
+                    <button class="appButton" id="searcherAppButton"
+                        onclick="notify('Currently Unavailable...')">Searcher</button>
                     <button class="appButton" id="textEditorAppButton">HtWebz Text Editor</button>
-                    <button class="appButton" id="gamesAppButton" onclick="notify('Currently Unavailable...')">Games</button>
-                    <button class="appButton" id="resourcesAppButton" onclick="notify('Currently Unavailable...')">Resources</button>
-                    <button class="appButton" id="settingsAppButton" onclick="notify('Currently Unavailable...')">Settings</button>
-                    <button class="appButton" id="aboutAppButton" onclick="notify('Currently Unavailable...')">About</button>
+                    <button class="appButton" id="gamesAppButton"
+                        onclick="notify('Currently Unavailable...')">Games</button>
+                    <button class="appButton" id="resourcesAppButton"
+                        onclick="notify('Currently Unavailable...')">Resources</button>
+                    <button class="appButton" id="settingsAppButton"
+                        onclick="notify('Currently Unavailable...')">Settings</button>
+                    <button class="appButton" id="aboutAppButton"
+                        onclick="notify('Currently Unavailable...')">About</button>
                     </button>
                 </div>
                 <div id="appListFooter">
@@ -289,13 +296,15 @@
         <div class="appMenuOpenButtons">
 
             <div id="expandMenuToolbar" onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
-                <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25" preload="auto" />
+                <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25"
+                    preload="auto" />
             </div>
 
             <button id="appMenuOpen" onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
                     id="appMenuIcon" src="index/assets/images/app_button_icon.png" preload="auto" aria-busy="false"
                     height="25" width="25" /><span class="apps-menu-text">App Menu</span></button>
-            <button id="settingsQuick" onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img id="settingsIcon"
+            <button id="settingsQuick"
+                onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img id="settingsIcon"
                     src="index/assets/images/Settings_icon.png" preload="auto" aria-busy="false" height="25"
                     width="25" /><span class="settings-quick-text">Settings</span></button>
         </div>
@@ -354,7 +363,8 @@
                         <span class="questionOneText">Why was this page
                             made?</span>
                         <p class="aboutText">
-                            This page called HtWebz was mainly made for fun. Furthermore, the page was fabricated for the making of games, and entertainment and resources for education.
+                            This page called HtWebz was mainly made for fun. Furthermore, the page was fabricated for
+                            the making of games, and entertainment and resources for education.
                         </p>
                     </div>
                     <!---->
@@ -432,7 +442,8 @@
                                 currently a work in
                                 progress.</text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryButtonGame" class="tryButtonGameStyle">Play</button>
+                        <button onclick="notify('Redirecting...')" id="tryButtonGame"
+                            class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryGame = document.getElementById('tryButtonGame');
                             let chromeClickerGameFrame = document.getElementById("chromeClickerGame");
@@ -454,7 +465,8 @@
                                 Version 1.0.0
                             </text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton" class="tryButtonGameStyle">Play</button>
+                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton"
+                            class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryDinoGame = document.getElementById('tryDinoGameButton');
                             var dinoGameFrame = document.getElementById("dinoJumpingGame");
@@ -510,8 +522,9 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" aria-describedby="featured" height="auto" width="auto" class="showcasePreviewImage"
-                    />
+                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
+                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                        aria-describedby="featured" height="auto" width="auto" class="showcasePreviewImage" />
                     <p class="featured-description">
                         Say Hello to your new friend, HTAssistant!
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -523,7 +536,9 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
+                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                        width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -535,7 +550,9 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
+                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                        width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -547,7 +564,9 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
+                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                        width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -559,7 +578,9 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
+                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
+                        width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -573,6 +594,13 @@
         </section>
 
         <style>
+            @media (max-width: 762px) {
+                .developer.license,
+                .developer.updated {
+                    display: none !important;
+                }
+            }
+
             #footerContainer {
                 display: flex !important;
                 flex-direction: row !important;
@@ -590,16 +618,20 @@
                 border-bottom: none;
                 border-top-left-radius: 15px;
                 border-top-right-radius: 15px;
-                transition: all 0.3s ease;
+                transition: all 0.25s steps(120) !important;
                 left: 0;
                 right: 0;
                 gap: 8px;
                 z-index: 14000 !important;
-                flex: 1 1 auto;
+                flex: 0 1 auto;
                 -webkit-backdrop-filter: blur(4px);
                 backdrop-filter: blur(4px);
+                width: auto;
+                max-height: 50px;
+                overflow-y: hidden;
+                overflow-x: auto;
             }
-            
+
             #developer {
                 cursor: pointer !important;
                 position: relative !important;
@@ -609,33 +641,58 @@
                 background: rgba(245, 245, 245, 0.5);
                 transition: all 0.3s ease;
                 padding: 3.75px;
+                min-width: fit-content;
+                flex: 1 1 auto;
+                text-align: center !important;
             }
-            
+
             #developer:hover {
-                transform: scale(1.05);
+                transform: scale(1.025);
                 border: 2px solid cyan;
             }
-            
+
             #developer:hover>.developerText {
                 color: rgb(120, 120, 120);
+                -webkit-text-stroke: 0.5px #5aa5e0;
             }
-            
+
             .developerText {
                 color: rgb(243, 243, 243);
                 font-size: 1.4em;
                 font-weight: bold;
                 text-overflow: ellipsis;
+                text-wrap-mode: nowrap;
                 padding-inline: 5px;
                 transition: all 0.3s ease-in-out;
+                max-height: min-content !important;
+            }
+
+            .middle-footer-column {
+                position: relative;
+                display: flex;
+                flex: 0 1 auto;
+                flex-flow: nowrap !important;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
             }
         </style>
 
         <div id="footerContainer">
-            <div id="developer">
-                <span class="developerText">Maximus F.</span>
+            <div id="developer" class="developer updated">
+                <span class="developerText" aria-label="Last Updated Year">&copy; 2025</span>
             </div>
-            <div id="developer">
-                <span class="developerText">The HtWebz Project</span>
+            <div class="middle-footer-column">
+                <div id="developer">
+                    <span class="developerText">Maximus F.</span>
+                </div>
+                <div id="developer">
+                    <span class="developerText">The HtWebz Project</span>
+                </div>
+            </div>
+            <div id="developer" class="developer license">
+                <span class="developerText" aria-label="License Display">M.I.T. License</span>
             </div>
         </div>
 
@@ -758,8 +815,10 @@
                     <div id="appTray">
                         <!-- Searcher App -->
                         <div id="searcherApp">
-                            <img src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png" aria-describedby="featured" height="auto" width="auto" class="appTrayPreviewImage hoverable" id="searcherAppImageButton" onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')"
-                            />
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                                aria-describedby="featured" height="auto" width="auto"
+                                class="appTrayPreviewImage hoverable" id="searcherAppImageButton"
+                                onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')" />
                             <p class="app-description">
                                 Search the web with the HtWebz Searcher.
                                 <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
@@ -769,8 +828,10 @@
                         </div>
                         <!-- Games App -->
                         <div id="gamesApp">
-                            <img src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png" aria-describedby="featured" height="auto" width="auto" class="appTrayPreviewImage hoverable" id="gamesAppImageButton" onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')"
-                            />
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png" aria-describedby="featured"
+                                height="auto" width="auto" class="appTrayPreviewImage hoverable"
+                                id="gamesAppImageButton"
+                                onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')" />
                             <p class="app-description">
                                 Play games with the HtWebz Games App.
                                 <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
@@ -780,8 +841,10 @@
                         </div>
                         <!-- Resources App -->
                         <div id="resourcesApp">
-                            <img src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png" aria-describedby="featured" height="auto" width="auto" class="appTrayPreviewImage hoverable" id="resourcesAppImageButton" onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')"
-                            />
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png"
+                                aria-describedby="featured" height="auto" width="auto"
+                                class="appTrayPreviewImage hoverable" id="resourcesAppImageButton"
+                                onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')" />
                             <p class="app-description">
                                 Find resources with the HtWebz Resources App.
                                 <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is

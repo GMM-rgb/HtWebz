@@ -253,13 +253,30 @@ function DisplaySearchResults(searchResults, containerId, CurrentInputData) {
     let html = '<div class="search-results">';
     searchResults.matches.forEach((result, index) => {
         const highlightedKey = highlightMatch(result.key, inputChars);
-        html += `
-            <li style="list-style-type:none;" class="search-result-item" data-index="${index}">
-                <p>${highlightedKey}</p> 
-                <!--<span class="score">(Score: ${result.score})</span>-->
-                <span class="match-type">[${result.matchType}]</span>
-            </li>
-        `;
+        if (index < 1) {
+            html += `
+                <li style="list-style-type:none;" class="search-result-item best-match" data-index="${index}">
+                    <p>${highlightedKey}</p> 
+                    <!--<span class="score">(Score: ${result.score})</span>-->
+                    <span class="match-type">[${result.matchType}]</span>
+                </li>
+            `;
+            // let bestResultItem = container.querySelector(".search-result-item best");
+        } else if (index >= 1) {
+            html += `
+                <li style="list-style-type:none;" class="search-result-item" data-index="${index}">
+                    <p>${highlightedKey}</p> 
+                    <!--<span class="score">(Score: ${result.score})</span>-->
+                    <span class="match-type">[${result.matchType}]</span>
+                </li>
+            `;
+        } else {
+            html += `
+                <li style="list-style-type:none;" class="search-result-item error" data-index="${index}">
+                    <strong>[Error]</strong>
+                </li>
+            `;
+        }
     });
     html += '</div>';
 

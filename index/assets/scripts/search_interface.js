@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 window.notify("Redirecting...");
                                 setTimeout(() => {
                                     loadSearchPage(BestMatchURL);
-                                }, Math.floor(Math.random(750, 1000)));
+                                }, Math.random(750, 1000));
                             } else {
                                 console.warn(
                                     "Could not find a page to load, nothing matched the input."
