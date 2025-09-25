@@ -154,7 +154,7 @@ function ProcessSearchRequest(SearchQueryInput) {
             console.log(`Processing search for: ${SearchQueryInput}`);
 
             /**
-             * Removes command keyword(s) from input and cleans up whitespace.
+             * Removes all command keywords from input and cleans up whitespace.
              * @param {string} InputValue
              * @returns {{ Filtered: string, success: boolean }}
              */
@@ -162,14 +162,30 @@ function ProcessSearchRequest(SearchQueryInput) {
                 if (!InputValue) return { Filtered: "", success: false };
 
                 try {
-                    // Always normalize to a string
+                    // Normalize input to a string
                     let newValue = (InputValue ?? "").toString();
 
-                    // Remove the specific command keyword (example: wiki)
-                    if (SearchQueryKeywords_Command?.wiki) {
-                        const cmd = String(SearchQueryKeywords_Command.wiki)
-                            .replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // escape regex chars
-                        const regex = new RegExp(cmd, "g");
+                    // Normalize commands into an array of strings
+                    let commands = [];
+                    if (Array.isArray(SearchQueryKeywords_Command)) {
+                        commands = SearchQueryKeywords_Command.map(String);
+                    } else if (
+                        SearchQueryKeywords_Command &&
+                        typeof SearchQueryKeywords_Command === "object"
+                    ) {
+                        // If it's an object (JSON table), grab all values
+                        commands = Object.values(SearchQueryKeywords_Command).map(String);
+                    } else if (typeof SearchQueryKeywords_Command === "string") {
+                        commands = SearchQueryKeywords_Command.split(",")
+                            .map(s => s.trim())
+                            .filter(Boolean);
+                    }
+
+                    // Remove all occurrences of each command
+                    for (const comm of commands) {
+                        if (!comm) continue;
+                        const escaped = comm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // escape regex chars
+                        const regex = new RegExp(escaped, "g");
                         newValue = newValue.replace(regex, "");
                     }
 
