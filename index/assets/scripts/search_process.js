@@ -154,44 +154,38 @@ function ProcessSearchRequest(SearchQueryInput) {
             console.log(`Processing search for: ${SearchQueryInput}`);
 
             /**
-             * Removes command keywords from input and cleans up spacing.
-             * @param {string} input
-             * @returns {{ filtered: string, success: boolean }}
+             * Removes command for cleanup on logical process.
+             * @param {string} InputValue
+             * @returns {{Filtered:string?}}
              */
-            function removeCommandSplice(input) {
-                if (!input) return { filtered: "", success: false };
+            function removeCommandSplice(InputValue) {
+                if (!InputValue) return false;
+
+                let Filtered = null;
 
                 try {
-                    let newValue = input;
-                    SearchQueryKeywords_Command.forEach((comm) => {
-                        if (newValue.includes(String(comm))) {
-                            newValue = newValue.replace(comm, "");
-                        }
-                    });
-
-                    // Normalize whitespace and trim
-                    newValue = newValue.replace(/\s+/g, " ").trim();
-
-                    return { filtered: newValue, success: !!newValue };
+                    const raw = InputValue || null;
+                    let newValue = raw.replace(SearchQueryKeywords_Command.wiki, "");
+                    Filtered = newValue;
                 } catch (error) {
-                    console.error("Error in removing command segment:", error);
-                    return { filtered: "", success: false };
+                    console.log("Error in removing command segment: ", error);
+                    return " ";
                 }
+                if (!Filtered) return false;
+                return Filtered;
             }
 
             function detectCommandInput() {
                 if (typeof SearchQueryInput === "string" && SearchQueryInput !== null) {
                     if (SearchQueryInput.includes(SearchQueryKeywords_Command.wiki)) {
                         SearchQueryKeywords_ThisWebsite = wikisearch;
+                        SearchQueryInput = removeCommandSplice(SearchQueryInput);
                     } else {
                         SearchQueryKeywords_ThisWebsite = defaultsearch;
                     }
                 }
-                SearchQueryInput = removeCommandSplice(SearchQueryInput);
-                return true;
             }
-            let ok = detectCommandInput();
-            if (!ok) return;
+            requestAnimationFrame(detectCommandInput);
 
             const trimmedInput = SearchQueryInput.trim();
             if (!trimmedInput) return Results;
