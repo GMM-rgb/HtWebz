@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (prompt && prompt.length > 10) {
                 SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5
-          }px - 15px)`;
+                    }px - 15px)`;
             } else {
                 SearchBarInput.style.width = "calc(175px - 15px)";
             }
