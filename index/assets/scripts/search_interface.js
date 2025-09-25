@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
     });
 
-    function ensureOutputUpdate() {
+    async function ensureOutputUpdate() {
         let SearchIV = SearchBarInput.value;
 
         let Results = ProcessSearchRequest(SearchIV);
