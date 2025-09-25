@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../index/assets/images/Tab_Icons/HtWebz_More_Info_Icon_Dark_Mode.png" />
+    <link rel="stylesheet" href="../index/assets/stylesheets/top_user_interface.css" />
+    <link rel="stylesheet" href="../index/assets/stylesheets/search_bar/search_bar.css" />
+    <link rel="stylesheet" href="" />
+    <title>HtWiki</title>
+    <style>
+        :root {
+            --scrollbar-width: 8px;
+            /* default width */
+        }
+
+        body {
+            margin: 0;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body::-webkit-scrollbar {
+            width: var(--scrollbar-width);
+            -webkit-transition: width 0.2s ease;
+            transition: width 0.2s ease;
+        }
+        
+        body::-webkit-scrollbar-track {
+            background: lightseagreen;
+        }
+        
+        body::-webkit-scrollbar-thumb {
+            background: darkcyan;
+            border-radius: 2px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
+        }
+    </style>
+  </head>
+
+  <body>
+        <section id="topUserInterfaceBar">
+        <div class="appMenuOpenButtons">
+
+        <div id="expandMenuToolbar" onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
+            <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25" preload="auto" />
+        </div>
+
+        <h1 id="pageTitle">Placeholder</h1>
+
+        <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
+            <button id="resourcesMenuOpen" onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
+                <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
+                    placeholder="Type here to search..." />
+
+                <div id="resourcesIconWrapper" aria-sort="other">
+                    <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                        alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
+                </div>
+
+                <span class="resources-menu-text">Search</span>
+            </button>
+        </div>
+        <div id="search-results" aria-label="Search Results List">
+            <!-- Search Results Elements -->
+        </div>
+    </section>
+  </body>
+
+  <script type="text/javascript">
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get("topic");
+
+    let detectedTopic = null;
+
+    if (topic) {
+        // Use topic to load content, highlight section, or redirect
+        console.log("Requested topic:", topic);
+        if (detectedTopic === null) {
+            detectedTopic = topic;
+        }
+    }
+  </script>
+
+  <script type="text/javascript" src="../index/assets/scripts/search_interface.js" defer></script>
+  <script type="text/javascript" src="../index/assets/scripts/search_process.js" defer></script>
+</html>

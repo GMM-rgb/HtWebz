@@ -7,7 +7,6 @@
     /* makes sure left is never used */
     margin: 0 !important;
     /* kill any auto margins */
-
     width: 0;
     /* collapsed */
     height: 32px;
@@ -25,11 +24,7 @@
     outline-offset: -2px;
     box-shadow: none;
     will-change: width, opacity, border-radius;
-    transition:
-        width 0.65s ease,
-        opacity 0.4s ease,
-        border-radius 0.65s ease,
-        box-shadow 0.3s ease;
+    transition: width 0.65s ease, opacity 0.4s ease, border-radius 0.65s ease, box-shadow 0.3s ease;
     font-size: 16.15px;
     flex-wrap: nowrap;
 }
@@ -44,7 +39,6 @@
         width: 80px !important;
         /* final width */
     }
-
     #search-results {
         right: 12.5px !important;
     }
@@ -66,7 +60,8 @@
     display: none;
     flex-direction: column;
     position: absolute;
-    top: calc(85.5px + 3.5px);    /* sits below the input */
+    top: calc(85.5px + 3.5px);
+    /* sits below the input */
     right: 25px;
     width: 100%;
     max-width: 400px;
@@ -75,10 +70,12 @@
     text-align: center !important;
     background: rgba(255, 255, 255, 0.65);
     border: 2px solid #ddd;
-    border-radius: calc(15px / 2); /* Divide the border radius integer 15px by 2 */
+    border-radius: calc(15px / 2);
+    /* Divide the border radius integer 15px by 2 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     max-height: 300px;
-    overflow-y: auto;    /* scrolls internally */
+    overflow-y: auto;
+    /* scrolls internally */
     overflow-x: hidden !important;
     gap: 4.5px !important;
     padding: 5px;
@@ -99,6 +96,11 @@
     cursor: pointer !important;
 }
 
+@keyframes flipInwardResult {
+    0% {}
+    100% {}
+}
+
 .search-result-item {
     position: relative;
     border: 1px solid #ccc;
@@ -111,6 +113,6 @@
     padding-block-start: 5px;
     padding-block-end: 7.5px;
     min-height: calc(50px + 7.5px);
-    width: 100%;
     margin-bottom: 4.5px;
+    flex: 0 1 auto;
 }

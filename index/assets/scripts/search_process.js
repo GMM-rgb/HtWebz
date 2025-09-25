@@ -5,7 +5,10 @@ const SearchQueryKeywords_ThisWebsite = {
     "Homepage": "./index.html",
     "Game Library": "./Games/library.html",
     "Dino Game": "./Games/DinoGame.html",
+    "Basics": `./Wiki/HtWiki.html?${new URLSearchParams("topic=basics")}`,
 };
+
+const SearchQueryKeywords_Command = {};
 
 window.addEventListener("DOMContentLoaded", (e) => {
     const SearchInput = document.getElementById("SearchBarInput");
@@ -80,9 +83,7 @@ function FindPartialMatches(searchTerm) {
                 key: key,
                 url: url,
                 score: score,
-                matchType: score === 100 ? 'exact' :
-                    score === 90 ? 'startsWith' :
-                        score === 70 ? 'contains' : 'partial'
+                matchType: score === 100 ? 'exact' : score === 90 ? 'startsWith' : score === 70 ? 'contains' : 'partial'
             });
         }
     }
@@ -110,7 +111,7 @@ function ProcessMultiWordSearch(words) {
         if (combinedResults[result.key]) {
             combinedResults[result.key].score += result.score;
         } else {
-            combinedResults[result.key] = { ...result };
+            combinedResults[result.key] = {...result };
         }
     }
 
