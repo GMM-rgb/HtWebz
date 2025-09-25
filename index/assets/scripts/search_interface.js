@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         DisplaySearchResults(Results, "search-results", SearchIV);
 
         if (isSearching) {
-            setInterval(ensureOutputUpdate, 1000);
+            setTimeout(ensureOutputUpdate, 1000);
         } else {
             return false;
         }
