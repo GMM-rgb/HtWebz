@@ -38,6 +38,44 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
         }
     </style>
+    <script>
+        let isWide = false;
+
+        /**
+         * @return {boolean}
+        */
+        // Returns true if the device is in the acceptable category
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        if (isMobile()) {
+            console.log("Mobile device");
+        } else {
+            console.log("Desktop device");
+        }
+
+        if (!isMobile()) {
+            document.addEventListener('mousemove', (e) => {
+                const distanceFromRight = window.innerWidth - e.clientX;
+
+                /**
+                * @param {number} width - The number in pixels
+                */
+                function setScrollbarWidth(width) {
+                    document.documentElement.style.setProperty('--scrollbar-width', `${width}px`);
+                }
+
+                if (distanceFromRight <= 20 && !isWide) {
+                    isWide = true;
+                    setScrollbarWidth(12); // 12px
+                } else if (distanceFromRight > 30 && isWide) {
+                    isWide = false;
+                    setScrollbarWidth(8); // 8px
+                }
+            });
+        }
+    </script>
   </head>
 
   <body>
