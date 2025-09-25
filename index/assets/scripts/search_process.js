@@ -154,25 +154,33 @@ function ProcessSearchRequest(SearchQueryInput) {
             console.log(`Processing search for: ${SearchQueryInput}`);
 
             /**
-             * Removes command for cleanup on logical process.
+             * Removes command keyword(s) from input and cleans up whitespace.
              * @param {string} InputValue
-             * @returns {{Filtered:string?}}
+             * @returns {{ Filtered: string, success: boolean }}
              */
             function removeCommandSplice(InputValue) {
-                if (!InputValue) return false;
-
-                let Filtered = null;
+                if (!InputValue) return { Filtered: "", success: false };
 
                 try {
-                    const raw = InputValue || null;
-                    let newValue = raw.replace(SearchQueryKeywords_Command.wiki, "");
-                    Filtered = newValue;
+                    // Always normalize to a string
+                    let newValue = (InputValue ?? "").toString();
+
+                    // Remove the specific command keyword (example: wiki)
+                    if (SearchQueryKeywords_Command?.wiki) {
+                        const cmd = String(SearchQueryKeywords_Command.wiki)
+                            .replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // escape regex chars
+                        const regex = new RegExp(cmd, "g");
+                        newValue = newValue.replace(regex, "");
+                    }
+
+                    // Collapse multiple spaces and trim edges
+                    newValue = newValue.replace(/\s+/g, " ").trim();
+
+                    return { Filtered: newValue, success: newValue.length > 0 };
                 } catch (error) {
-                    console.log("Error in removing command segment: ", error);
-                    return " ";
+                    console.error("Error in removing command segment:", error);
+                    return { Filtered: "", success: false };
                 }
-                if (!Filtered) return false;
-                return Filtered;
             }
 
             function detectCommandInput() {
