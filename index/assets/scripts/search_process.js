@@ -153,8 +153,13 @@ function ProcessSearchRequest(SearchQueryInput) {
         if (SearchQueryInput && typeof SearchQueryInput === "string") {
             console.log(`Processing search for: ${SearchQueryInput}`);
 
+            /**
+             * Removes command for cleanup on logical process.
+             * @param {string} InputValue
+             * @returns {{Filtered:string?}}
+             */
             function removeCommandSplice(InputValue) {
-                if (!InputValue) return;
+                if (!InputValue) return null;
                 let Filtered;
 
                 try {
@@ -163,16 +168,23 @@ function ProcessSearchRequest(SearchQueryInput) {
                     Filtered = newValue;
                 } catch (error) {
                     console.log("Error in removing command segment: ", error);
+                    return " ";
                 }
                 return Filtered;
             }
 
-            if (SearchQueryInput.includes(SearchQueryKeywords_Command.wiki)) {
-                SearchQueryKeywords_ThisWebsite = wikisearch;
-                SearchQueryInput = removeCommandSplice(SearchQueryInput);
-            } else {
-                SearchQueryKeywords_ThisWebsite = defaultsearch;
+            function detectCommandInput() {
+                if (typeof SearchQueryInput === "string" && SearchQueryInput !== null) {
+                    if (SearchQueryInput.includes(SearchQueryKeywords_Command.wiki)) {
+                        SearchQueryKeywords_ThisWebsite = wikisearch;
+                        SearchQueryInput = removeCommandSplice(SearchQueryInput);
+                    } else {
+                        SearchQueryKeywords_ThisWebsite = defaultsearch;
+                    }
+                }
             }
+
+            requestAnimationFrame(detectCommandInput);
 
             const trimmedInput = SearchQueryInput.trim();
             if (!trimmedInput) return Results;
