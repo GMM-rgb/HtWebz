@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="index/assets/stylesheets/top_apps_arrangment.css" />
     <link rel="stylesheet" href="index/assets/stylesheets/toolbar_extension.css" />
     <link rel="stylesheet" href="index/assets/stylesheets/search_bar/search_bar.css" />
+    <link rel="stylesheet" href="index/assets/stylesheets/decoration_svg/background_decor.css" />
     <i>
         <link rel="apple-touch-icon" href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
         <link rel="apple-touch-icon" sizes="76x76"
@@ -34,7 +35,7 @@
     </i>
     <style>
         :root {
-            --theme-background: aquamarine;
+            --theme-background: skyblue;
             --theme-primary: #479dda;
             --theme-secondary: #80b5db;
             --theme-text: black;
@@ -349,6 +350,157 @@
         </div>
     </section>
 
+    <!-- <script>
+        let PreviousWaveOneSize = 0, PreviousWaveTwoSize = 0;
+
+        document.addEventListener("DOMContentLoaded", (e) => {
+            e.stopPropagation();
+
+            let WindowWidth = window.innerWidth;
+
+            const waveOne = document.getElementById("wave-one");
+            const waveTwo = document.getElementById("wave-two");
+
+            window.addEventListener("resize", (e) => {
+                e.stopPropagation();
+                try {
+                    const WaveOneCordinateValue = toString(waveOne.querySelector("animate").getAttribute("value"));
+                    const WaveTwoCordinateValue = toString(waveTwo.querySelector("animate").getAttribute("value"));
+
+                    if (WindowWidth > PreviousWaveOneSize || WindowWidth > PreviousWaveTwoSize) {
+                        PreviousWaveOneSize = Width;
+                        PreviousWaveTwoSize = Width;
+                    } else if (WindowWidth < PreviousWaveOneSize || WindowWidth < PreviousWaveTwoSize) {
+                        PreviousWaveOneSize = Width;
+                        PreviousWaveTwoSize = Width;
+                    }
+
+                    if (!WaveOneCordinateValue || !WaveTwoCordinateValue) return;
+                    if (!PreviousWaveOneSize && !PreviousWaveTwoSize) return;
+
+                    async function GenerateNewCordinateValue(Type) {
+                        WindowWidth = WindowWidth * 2;
+                        if (Type === "One" && WindowWidth) {
+                            return `
+                            M -1 65 Q 100 16.5, 185 50 T ${WindowWith} 32.5 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 60 Q 120 25, 175 38.5 T ${WindowWidth} 40 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 85 Q -145 26, 87.5 45.6 T ${WindowWidth} 47.5 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 45 Q -132.5 9.8, 145 51.3 T ${WindowWidth} 57.5 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 54.5 Q -95 17.5, 163.5 41 T ${WindowWidth} 47.5 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 65 Q 100 16.5, 185 50 T ${WindowWidth} 32.5 L ${WindowWidth} 100 L -1 100 Z
+                            `;
+                        } else if (Type === "Two" && WindowWidth) {
+                            return `
+                            M -1 65 Q -100 18.75, 16.5 50 T ${WindowWidth} 50 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 70 Q -120 33.5, 84.5 65 T ${WindowWidth} 45 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 85 Q -90 22.5, 105, 57.5 T ${WindowWidth} 47.5 L ${WindowWidth} 100 L -1 100 Z;
+                            M -1 65 Q -100 18.75, 16.5 50 T ${WindowWidth} 50 L ${WindowWidth} 100 L -1 100 Z
+                            `;
+                        }
+                    }
+                    const NewWaveOneCordinateValue = toString(GenerateNewCordinateValue(WindowWidth, "One"));
+                    const NewWaveTwoCordinateValue = toString(GenerateNewCordinateValue(WindowWidth, "Two"));
+
+                    if (NewWaveOneCordinateValue && NewWaveTwoCordinateValue) {
+                        waveOne.querySelector("animate").setAttribute("value", NewWaveOneCordinateValue);
+                        waveTwo.querySelector("animate").setAttribute("value", NewWaveTwoCordinateValue);
+                    }
+                } catch (error) {
+                    return console.error("There was an error trying to resize the Background Decoration Wave (Animation Value) SVG: ", error);
+                } finally {
+                    try {
+                        const WaveOneInitalCordinate = toString(waveOne.getAttribute("d"));
+                        const WaveTwoInitalCordinate = toString(waveTwo.getAttribute("d"));
+                        if (!WaveOneInitalCordinate && !WaveTwoInitalCordinate) return;
+
+
+                    } catch (error) {
+                        return console.error("There was an error trying to resize the Background Decoration Wave (Inital Value) SVG:", error);
+                    } finally {
+                        WindowWidth = window.innerWidth ? window.innerWidth : 500;
+                    }
+                }
+            });
+        });
+    </script> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const waveOneAnim = document.querySelector("#wave-one animate");
+            const waveTwoAnim = document.querySelector("#wave-two animate");
+
+            function updateWaveValues() {
+                const w = window.innerWidth;
+
+                // Define the six keyframes for wave-one
+                const oneValues = [
+                    `M -1 65 Q 100 ${w / 16.5 / 2}, 185 50 T ${w} 32.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 60 Q 120 ${w / 25 / 2}, 175 38.5 T ${w} 40 L ${w} 100 L -1 100 Z`,
+                    `M -1 85 Q -145 ${w / 26 / 2}, 87.5 45.6 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 45 Q -132.5 ${w / 9.8 / 2}, 145 51.3 T ${w} 57.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 54.5 Q -95 ${w / 17.5 / 2}, 163.5 41 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 65 Q 100 ${w / 16.5 / 2}, 185 50 T ${w} 32.5 L ${w} 100 L -1 100 Z`
+                ].join(";");
+
+                // Define the four keyframes for wave-two
+                const twoValues = [
+                    `M -1 65 Q -100 ${w / 18.75 / 2}, 16.5 50 T ${w} 50 L ${w} 100 L -1 100 Z`,
+                    `M -1 70 Q -120 ${w / 33.5 / 2}, 84.5 65 T ${w} 45 L ${w} 100 L -1 100 Z`,
+                    `M -1 85 Q -90 ${w / 22.5 / 2}, 105 57.5 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 65 Q -100 ${w / 18.75 / 2}, 16.5 50 T ${w} 50 L ${w} 100 L -1 100 Z`
+                ].join(";");
+
+                waveOneAnim.setAttribute("values", oneValues);
+                waveTwoAnim.setAttribute("values", twoValues);
+            }
+
+            window.addEventListener("resize", updateWaveValues);
+            updateWaveValues();
+        });
+    </script>
+
+    <div id="bottom-background-decoration">
+        <svg width=1000 height="125" xmlns="http://www.w3.org/2000/svg" class="wave-background-decoration-SVG">
+            <defs>
+                <!-- Gradient for fills -->
+                <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="skyblue" />
+                    <stop offset="100%" stop-color="lightblue" />
+                </linearGradient>
+
+                <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="aquamarine" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="deepskyblue" stop-opacity="0.6" />
+                </linearGradient>
+            </defs>
+
+            <!-- Liquid Wave Object | Background -->
+            <g>
+                <!-- First wave: morphing -->
+                <path id="wave-one" d="M -1 65 Q 100 16.5, 185 50 T 400 32.5 L 400 100 L -1 100 Z"
+                    fill="url(#waveGradient1)" stroke="url(#waveGradient2)" stroke-width="2" stroke-linejoin="round">
+                    <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
+                 M -1 65 Q 100 16.5, 185 50 T 400 32.5 L 400 100 L -1 100 Z;
+                 M -1 60 Q 120 25, 175 38.5 T 400 40 L 400 100 L -1 100 Z;
+                 M -1 85 Q -145 26, 87.5 45.6 T 400 47.5 L 400 100 L -1 100 Z;
+                 M -1 45 Q -132.5 9.8, 145 51.3 T 400 57.5 L 400 100 L -1 100 Z;
+                 M -1 54.5 Q -95 17.5, 163.5 41 T 400 47.5 L 400 100 L -1 100 Z;
+                 M -1 65 Q 100 16.5, 185 50 T 400 32.5 L 400 100 L -1 100 Z" />
+                </path>
+
+                <!-- Second wave: morphing differently from first -->
+                <path id="wave-two" d="M -1 65 Q -100 18.75, 16.5 50 T 400 50 L 400 100 L -1 100 Z"
+                    fill="url(#waveGradient2)" stroke="url(#waveGradient1)" stroke-width="2" stroke-linejoin="round">
+                    <animate attributeName="d" dur="6.25s" repeatCount="indefinite" values="
+                 M -1 65 Q -100 18.75, 16.5 50 T 400 50 L 400 100 L -1 100 Z;
+                 M -1 70 Q -120 33.5, 84.5 65 T 400 45 L 400 100 L -1 100 Z;
+                 M -1 85 Q -90 22.5, 105, 57.5 T 400 47.5 L 400 100 L -1 100 Z;
+                 M -1 65 Q -100 18.75, 16.5 50 T 400 50 L 400 100 L -1 100 Z" />
+                </path>
+            </g>
+        </svg>
+    </div>
+
     <!-- Root Page Interface -->
     <section id="rootPageSection">
 
@@ -594,6 +746,7 @@
 
         <style>
             @media (max-width: 762px) {
+
                 .developer.license,
                 .developer.updated {
                     display: none !important;

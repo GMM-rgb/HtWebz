@@ -1,0 +1,20 @@
+#bottom-background-decoration {
+    position: fixed !important;
+    pointer-events: none !important;
+    background: transparent;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    z-index: 9999 !important;
+    opacity: 0.85 !important;
+    flex: 0 1 auto !important;
+    transition: all 0.3s ease;
+    transform: scaleY(2) !important;
+    width: 100%;
+}
+
+.wave-background-decoration-SVG {
+    -webkit-user-select: none;
+    user-select: none;
+    width: 100%;
+}
