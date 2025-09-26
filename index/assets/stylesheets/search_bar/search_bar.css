@@ -142,6 +142,8 @@
 
 .search-result-item {
     position: relative;
+    border-left-width: 2px !important;
+    border-top-width: 2px !important;
     border: 1px solid #ccc;
     border-radius: 4px;
     background: rgba(235, 235, 235, 0.65);
@@ -156,7 +158,9 @@
     margin-bottom: 4.5px;
     flex: 0 1 auto;
     /* Element Creation Entrance Appearence */
-    animation: flipInwardResult 0.15s ease-in-out forwards !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    animation: flipInwardResult 0.65s ease-in-out forwards !important;
 }
 
 .search-result-item.error {
