@@ -1,3 +1,9 @@
+@media (max-width: 762px) {
+    #bottom-background-decoration {
+        transform: scaleY(0.875) !important;
+    }
+}
+
 #bottom-background-decoration {
     position: fixed !important;
     pointer-events: none !important;
@@ -8,13 +14,13 @@
     z-index: 9999 !important;
     opacity: 0.85 !important;
     flex: 0 1 auto !important;
-    transition: all 0.3s ease;
-    transform: scaleY(2) !important;
-    width: 100%;
+    transition: transform 0.3s ease-in-out !important;
+    transform: scaleY(1.05);
+    width: 100% !important;
 }
 
 .wave-background-decoration-SVG {
     -webkit-user-select: none;
     user-select: none;
-    width: 100%;
+    width: 100% !important;
 }
