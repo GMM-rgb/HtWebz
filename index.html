@@ -34,7 +34,7 @@
             href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
     </i>
     <style>
-        :root {
+         :root {
             --theme-background: skyblue;
             --theme-primary: #479dda;
             --theme-secondary: #80b5db;
@@ -65,34 +65,32 @@
             --theme-transition-time: 300ms;
             --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+        
         * {
             color: var(--theme-text);
             border-color: var(--theme-border);
             transition: background-color var(--theme-transition-time) var(--theme-transition-curve), color var(--theme-transition-time) var(--theme-transition-curve), border-color var(--theme-transition-time) var(--theme-transition-curve), box-shadow var(--theme-transition-time) var(--theme-transition-curve);
         }
-
         /* Theme transition class */
-
+        
         .theme-transitioning * {
             transition: background-color var(--theme-transition-time) var(--theme-transition-curve), color var(--theme-transition-time) var(--theme-transition-curve), border-color var(--theme-transition-time) var(--theme-transition-curve), box-shadow var(--theme-transition-time) var(--theme-transition-curve) !important;
         }
-
         /* Exclude certain properties from transition */
-
+        
         .no-theme-transition {
             transition: none !important;
         }
-
+        
         body {
             background: var(--theme-background);
             color: var(--theme-text);
         }
-
+        
         #topUserInterfaceBar {
             background: var(--theme-topBar);
         }
-
+        
         .main-content-section,
         #appMenu,
         #settingsMenu,
@@ -100,7 +98,7 @@
         #searchMenu {
             background: var(--theme-gradient1);
         }
-
+        
         .appButton,
         .SettingsListButton,
         #closeAppMenu,
@@ -110,15 +108,15 @@
             background: var(--theme-buttonBackground);
             color: var(--theme-text);
         }
-
+        
         #motivationMessageContainer {
             background: var(--theme-motivationBackground);
         }
-
+        
         #verticalShowcase {
             background: var(--theme-showcaseBackground);
         }
-
+        
         .appTrayPreviewImage,
         #searcherApp,
         #gamesApp,
@@ -137,34 +135,33 @@
         overflow-x: hidden !important;
         scroll-snap-type: mandatory;
     }
-
-    :root {
+    
+     :root {
         --scrollbar-width: 8px;
         /* default width */
     }
-
+    
     body::-webkit-scrollbar {
         width: var(--scrollbar-width);
         -webkit-transition: width 0.2s ease;
         transition: width 0.2s ease;
     }
-
+    
     body::-webkit-scrollbar-track {
         background: lightseagreen;
     }
-
+    
     body::-webkit-scrollbar-thumb {
         background: darkcyan;
         border-radius: 2px;
         cursor: pointer;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
     }
-
     /* Removed - it doesn't work */
     /* body::-webkit-scrollbar-thumb:hover body::-webkit-scrollbar {
         width: 8px !important;
     } */
-
+    
     #menuBlur {
         display: none;
         background: white;
@@ -186,13 +183,13 @@
         backdrop-filter: blur(4px);
         transition: all 0.3s ease !important;
     }
-
+    
     #menuBlur>* {
         pointer-events: none !important;
         overflow-wrap: normal;
         flex-basis: auto;
     }
-
+    
     *~#menuBlur:has(view) {
         overflow: hidden !important;
     }
@@ -271,17 +268,12 @@
             <p id="appsTextTag">Apps</p>
             <div id="appList">
                 <div id="appListContainer">
-                    <button class="appButton" id="searcherAppButton"
-                        onclick="notify('Currently Unavailable...')">Searcher</button>
+                    <button class="appButton" id="searcherAppButton" onclick="notify('Currently Unavailable...')">Searcher</button>
                     <button class="appButton" id="textEditorAppButton">HtWebz Text Editor</button>
-                    <button class="appButton" id="gamesAppButton"
-                        onclick="notify('Currently Unavailable...')">Games</button>
-                    <button class="appButton" id="resourcesAppButton"
-                        onclick="notify('Currently Unavailable...')">Resources</button>
-                    <button class="appButton" id="settingsAppButton"
-                        onclick="notify('Currently Unavailable...')">Settings</button>
-                    <button class="appButton" id="aboutAppButton"
-                        onclick="notify('Currently Unavailable...')">About</button>
+                    <button class="appButton" id="gamesAppButton" onclick="notify('Currently Unavailable...')">Games</button>
+                    <button class="appButton" id="resourcesAppButton" onclick="notify('Currently Unavailable...')">Resources</button>
+                    <button class="appButton" id="settingsAppButton" onclick="notify('Currently Unavailable...')">Settings</button>
+                    <button class="appButton" id="aboutAppButton" onclick="notify('Currently Unavailable...')">About</button>
                     </button>
                 </div>
                 <div id="appListFooter">
@@ -297,15 +289,13 @@
         <div class="appMenuOpenButtons">
 
             <div id="expandMenuToolbar" onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
-                <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25"
-                    preload="auto" />
+                <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25" preload="auto" />
             </div>
 
             <button id="appMenuOpen" onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
                     id="appMenuIcon" src="index/assets/images/app_button_icon.png" preload="auto" aria-busy="false"
                     height="25" width="25" /><span class="apps-menu-text">App Menu</span></button>
-            <button id="settingsQuick"
-                onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img id="settingsIcon"
+            <button id="settingsQuick" onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img id="settingsIcon"
                     src="index/assets/images/Settings_icon.png" preload="auto" aria-busy="false" height="25"
                     width="25" /><span class="settings-quick-text">Settings</span></button>
         </div>
@@ -430,32 +420,31 @@
             const waveTwoAnim = document.querySelector("#wave-two animate");
 
             function updateWaveValues() {
-                const w = window.innerWidth;
+                const w = window.innerWidth || 0 || null;
 
                 // Define the six keyframes for wave-one
                 const oneValues = [
-                    `M -1 65 Q 100 ${w / 16.5 / 2}, 185 50 T ${w} 32.5 L ${w} 100 L -1 100 Z`,
-                    `M -1 60 Q 120 ${w / 25 / 2}, 175 38.5 T ${w} 40 L ${w} 100 L -1 100 Z`,
-                    `M -1 85 Q -145 ${w / 26 / 2}, 87.5 45.6 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
-                    `M -1 45 Q -132.5 ${w / 9.8 / 2}, 145 51.3 T ${w} 57.5 L ${w} 100 L -1 100 Z`,
-                    `M -1 54.5 Q -95 ${w / 17.5 / 2}, 163.5 41 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
-                    `M -1 65 Q 100 ${w / 16.5 / 2}, 185 50 T ${w} 32.5 L ${w} 100 L -1 100 Z`
+                    `M -1 ${w / 65} Q ${100 / w} ${w / 16.5 / 3}, 185 50 T ${w} 32.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${w / 60} Q ${120 / w} ${w / 25 / 3}, 175 38.5 T ${w} 40 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${w / 85} Q ${-145 / w} ${w / 26 / 3}, 87.5 45.6 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${w / 45} Q ${-132.5 / w} ${w / 9.8 / 3}, 145 51.3 T ${w} 57.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${w / 54.5 } Q ${-95 / w} ${w / 17.5 / 3}, 163.5 41 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${w / 65} Q ${100 / w} ${w / 16.5 / 3}, 185 50 T ${w} 32.5 L ${w} 100 L -1 100 Z`
                 ].join(";");
 
                 // Define the four keyframes for wave-two
                 const twoValues = [
-                    `M -1 65 Q -100 ${w / 18.75 / 2}, 16.5 50 T ${w} 50 L ${w} 100 L -1 100 Z`,
-                    `M -1 70 Q -120 ${w / 33.5 / 2}, 84.5 65 T ${w} 45 L ${w} 100 L -1 100 Z`,
-                    `M -1 85 Q -90 ${w / 22.5 / 2}, 105 57.5 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
-                    `M -1 65 Q -100 ${w / 18.75 / 2}, 16.5 50 T ${w} 50 L ${w} 100 L -1 100 Z`
+                    `M -1 ${65 / w} Q -100 ${w / 18.75 / 3}, 16.5 50 T ${w} 50 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${70 / w} Q -120 ${w / 33.5 / 3}, 84.5 65 T ${w} 45 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${85 / w} Q -90 ${w / 22.5 / 3}, 105 57.5 T ${w} 47.5 L ${w} 100 L -1 100 Z`,
+                    `M -1 ${65 / w} Q -100 ${w / 18.75 / 3}, 16.5 50 T ${w} 50 L ${w} 100 L -1 100 Z`
                 ].join(";");
 
                 waveOneAnim.setAttribute("values", oneValues);
                 waveTwoAnim.setAttribute("values", twoValues);
             }
-
-            window.addEventListener("resize", updateWaveValues);
             updateWaveValues();
+            window.addEventListener("resize", updateWaveValues);
         });
     </script>
 
@@ -474,7 +463,7 @@
                 </linearGradient>
             </defs>
 
-            <!-- Liquid Wave Object | Background -->
+            <!-- Transparent Wave Object | Background -->
             <g>
                 <!-- First wave: morphing -->
                 <path id="wave-one" d="M -1 65 Q 100 16.5, 185 50 T 400 32.5 L 400 100 L -1 100 Z"
@@ -514,8 +503,7 @@
                     <div id="aboutPageContentText">
                         <span class="questionOneText">Hello There</span>
                         <p class="aboutText">
-                            This page called HtWebz was mainly made for fun. Furthermore, the page was fabricated for
-                            the making of games, and entertainment and resources for education.
+                            This page called HtWebz was mainly made for fun. Furthermore, the page was fabricated for the making of games, and entertainment and resources for education.
                         </p>
                     </div>
                     <!---->
@@ -593,8 +581,7 @@
                                 currently a work in
                                 progress.</text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryButtonGame"
-                            class="tryButtonGameStyle">Play</button>
+                        <button onclick="notify('Redirecting...')" id="tryButtonGame" class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryGame = document.getElementById('tryButtonGame');
                             let chromeClickerGameFrame = document.getElementById("chromeClickerGame");
@@ -616,8 +603,7 @@
                                 Version 1.0.0
                             </text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton"
-                            class="tryButtonGameStyle">Play</button>
+                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton" class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryDinoGame = document.getElementById('tryDinoGameButton');
                             var dinoGameFrame = document.getElementById("dinoJumpingGame");
@@ -673,9 +659,8 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        aria-describedby="featured" height="auto" width="auto" class="showcasePreviewImage" />
+                    <img src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" aria-describedby="featured" height="auto" width="auto" class="showcasePreviewImage"
+                    />
                     <p class="featured-description">
                         Say Hello to your new friend, HTAssistant!
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -687,9 +672,7 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -701,9 +684,7 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -715,9 +696,7 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -729,9 +708,7 @@
 
                 <div id="v-showcase">
                     <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
+                    <img src="index/assets/images/" aria-describedby="featured" class="showcasePreviewImage" style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;" width="auto" height="auto" />
                     <p class="featured-description">
                         ...
                         <hr class="dividerShowcase"><br><text class="furthermoreDescription">This is currently
@@ -746,13 +723,12 @@
 
         <style>
             @media (max-width: 762px) {
-
                 .developer.license,
                 .developer.updated {
                     display: none !important;
                 }
             }
-
+            
             #footerContainer {
                 display: flex !important;
                 flex-direction: row !important;
@@ -783,7 +759,7 @@
                 overflow-y: hidden;
                 overflow-x: auto;
             }
-
+            
             #developer {
                 cursor: pointer !important;
                 position: relative !important;
@@ -797,17 +773,17 @@
                 flex: 1 1 auto;
                 text-align: center !important;
             }
-
+            
             #developer:hover {
                 transform: scale(1.025);
                 border: 2px solid cyan;
             }
-
+            
             #developer:hover>.developerText {
                 color: rgb(120, 120, 120);
                 -webkit-text-stroke: 0.5px #5aa5e0;
             }
-
+            
             .developerText {
                 color: rgb(243, 243, 243);
                 font-size: 1.4em;
@@ -818,7 +794,7 @@
                 transition: all 0.3s ease-in-out;
                 max-height: min-content !important;
             }
-
+            
             .middle-footer-column {
                 position: relative;
                 display: flex;
@@ -967,10 +943,8 @@
                     <div id="appTray">
                         <!-- Searcher App -->
                         <div id="searcherApp">
-                            <img src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
-                                aria-describedby="featured" height="auto" width="auto"
-                                class="appTrayPreviewImage hoverable" id="searcherAppImageButton"
-                                onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')" />
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png" aria-describedby="featured" height="auto" width="auto" class="appTrayPreviewImage hoverable" id="searcherAppImageButton" onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')"
+                            />
                             <p class="app-description">
                                 Search the web with the HtWebz Searcher.
                                 <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
@@ -980,10 +954,8 @@
                         </div>
                         <!-- Games App -->
                         <div id="gamesApp">
-                            <img src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png" aria-describedby="featured"
-                                height="auto" width="auto" class="appTrayPreviewImage hoverable"
-                                id="gamesAppImageButton"
-                                onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')" />
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png" aria-describedby="featured" height="auto" width="auto" class="appTrayPreviewImage hoverable" id="gamesAppImageButton" onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')"
+                            />
                             <p class="app-description">
                                 Play games with the HtWebz Games App.
                                 <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
@@ -993,10 +965,8 @@
                         </div>
                         <!-- Resources App -->
                         <div id="resourcesApp">
-                            <img src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png"
-                                aria-describedby="featured" height="auto" width="auto"
-                                class="appTrayPreviewImage hoverable" id="resourcesAppImageButton"
-                                onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')" />
+                            <img src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png" aria-describedby="featured" height="auto" width="auto" class="appTrayPreviewImage hoverable" id="resourcesAppImageButton" onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')"
+                            />
                             <p class="app-description">
                                 Find resources with the HtWebz Resources App.
                                 <hr class="dividerAppTray"><br><text class="furthermoreDescription">This is
@@ -1024,12 +994,12 @@
 
 <script>
     /*
-        Reminder on pre-functions:
+                                                                                                                                                                                                                                                                                                                                                                                Reminder on pre-functions:
 
-        setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
-        For multiple elements with same message
-        setupTooltips('.hoverable', 'This element has a tooltip');
-    */
+                                                                                                                                                                                                                                                                                                                                                                                setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
+                                                                                                                                                                                                                                                                                                                                                                                For multiple elements with same message
+                                                                                                                                                                                                                                                                                                                                                                                setupTooltips('.hoverable', 'This element has a tooltip');
+                                                                                                                                                                                                                                                                                                                                                                            */
 </script>
 
 <script src="index/assets/scripts/toolbar_extension_manager.js" defer></script>
