@@ -15,16 +15,16 @@
   background: white;
   backdrop-filter: blur(8px);
   border: 2px solid #ccc;
-  border-radius: 15px;
+  border-radius: 14px 18px / 14px 18px; /* gentle ellipse */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
 
   /* Text Styles */
-  font-weight: bold;
-  font-family: monospace;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 3em;
   color: black;
-  -webkit-text-stroke: 1px darkslategray;
+  -webkit-text-stroke: 0.5px darkslategray;
   -webkit-text-fill-color: rgb(94, 143, 192);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.375);
   text-overflow: ellipsis !important;
@@ -53,7 +53,7 @@
 /* Hover effects */
 .pinned-content-title:hover {
   background: #73ffff;
-  transform: scale(1.025);
+  transform: scale(1.005) translateY(-1px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25),
     inset 0 0 20px rgba(0, 99, 87, 0.65);
 }

@@ -462,7 +462,7 @@
 
         function updateWaveValues() {
             const w = window.innerWidth;
-            // Fixed the coordinate system - Note: smaller Y = higher up!
+            // Fixed the coordinate system - Note: smaller Y = higher up
             const minHeight = -10; // Closer to top of SVG
             const maxHeight = window.innerWidth < 480 ? 50 : window.innerWidth < 768 ? 60 : Math.min(80, window.innerWidth * 0.05); // Further from top
             
@@ -514,7 +514,7 @@
         
         updateWaveValues();
         
-        // Debounced resize handler to prevent seizure mode
+        // Debounced resize handler to prevent it going seizure mode
         window.addEventListener("resize", () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(updateWaveValues, 250);
