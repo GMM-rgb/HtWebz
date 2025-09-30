@@ -66,21 +66,24 @@
     margin-top: 10px;
     padding: 10px;
     border: 2px solid #ccc;
-    border-radius: 15px;
+    border-radius: var(--radius-liquid);
     background: whitesmoke;
     box-sizing: border-box;
     font-size: 2.45em;
     font-weight: bold;
     text-align: center;
+    text-emphasis-color: #3f3f3f;
+    color: #3f3f3f !important;
     -webkit-user-select: none !important;
     user-select: none;
-    -webkit-usser-drag: none !important;
+    -webkit-user-drag: none !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 42.5px rgba(0, 238, 255, 0.45);
     transition: all 0.3s;
 }
 
 #topAppsTitle:hover {
     transform: scale(1.015);
+    border-radius: var(--radius-medium);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.375), inset 0 0 60px rgba(0, 238, 255, 0.45);
 }
 

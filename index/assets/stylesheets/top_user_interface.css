@@ -164,6 +164,15 @@
     transform: scale(1.325);
 }
 
+#expandMenuToolbar:active>#expandToolbarIcon {
+    transform: scale(1.15) !important;
+}
+
+#expandMenuToolbar:active {
+    transform: scale(0.95) !important;
+    transition: all 0.15s ease-out !important;
+}
+
 #appMenuOpen::before {
     width: initial;
 }
