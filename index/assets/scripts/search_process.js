@@ -283,7 +283,7 @@ function DisplaySearchResults(searchResults, containerId, CurrentInputData) {
                 <li style="list-style-type:none;" class="search-result-item best-match" data-index="${index}">
                     <p>${highlightedKey}</p> 
                     <!--<span class="score">(Score: ${result.score})</span>-->
-                    <span class="match-type">[${result.matchType}]</span>
+                    <!--<span class="match-type">[${result.matchType}]</span>-->
                 </li>
             `;
             // let bestResultItem = container.querySelector(".search-result-item best");
@@ -292,7 +292,7 @@ function DisplaySearchResults(searchResults, containerId, CurrentInputData) {
                 <li style="list-style-type:none;" class="search-result-item" data-index="${index}">
                     <p>${highlightedKey}</p> 
                     <!--<span class="score">(Score: ${result.score})</span>-->
-                    <span class="match-type">[${result.matchType}]</span>
+                    <!--<span class="match-type">[${result.matchType}]</span>-->
                 </li>
             `;
         } else {
