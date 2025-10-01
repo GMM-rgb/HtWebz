@@ -80,6 +80,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.375), inset 0 0 42.5px rgba(0, 238, 255, 0.45);
     transition: all 0.3s;
     -webkit-text-stroke: 0.5px darkslategray;
+    -webkit-text-fill-color: rgb(94, 143, 192);
 }
 
 #topAppsTitle:hover {

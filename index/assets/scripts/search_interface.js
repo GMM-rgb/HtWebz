@@ -1,7 +1,8 @@
 /**
- * @type {string}
+ * @type {string} SubmittedSearchQuery - Stores the last submitted search query.
  */
 let SubmittedSearchQuery = null;
+let KeyClickDebounce = null;
 let isSearching = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchBarInput = document.getElementById("SearchBarInput");
     const ResultsDisplay = document.getElementById("search-results");
+    const ClickSound = document.getElementById("GlobalClick");
 
     let WindowWidth = window.innerWidth || 0;
 
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Search for something...",
         "What’s on your mind?",
         "Looking for something?",
-        "What's on todays agenda...",
+        "What's on todays agenda..."
     ];
 
     let promptQueue = [];
@@ -142,13 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Blur closes if focus leaves
     SearchBarInput.addEventListener("blur", () => {
-        setTimeout(() => {
-            if (!SearchButton.contains(document.activeElement)) {
-                clearResultsContainer();
-                toggleSearchView(false);
-                ResultsDisplay.style.display = "none";
-            }
-        }, 0);
+        if (!SearchButton.contains(document.activeElement)) {
+            clearResultsContainer();
+            toggleSearchView(false);
+            ResultsDisplay.style.display = "none";
+        }
     });
 
     // Listen for keyboard input
@@ -166,12 +166,37 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isSearching) {
             e.stopPropagation();
 
+            async function ResetClickSound() {
+                ClickSound.currentTime = 0;
+                return true;
+            }
+
+            /**
+             * @since 1.4.0
+             * Plays a click sound when typing in the search bar, except for Control and Alt keys.
+             * This enhances user feedback while typing.
+             */
+            if (!KeyClickDebounce && SearchBarInput.value.length > 0 && e.key !== "Control" && e.key !== "Alt") {
+                let ok = ResetClickSound();
+                if (ok) {
+                    console.log("Playing Click Sound for Keypress...");
+                    ClickSound.play().catch((error) => {
+                        ClickSound.play().catch(() => { /* Ignored */ });
+                        console.warn("Click sound play was prevented:", error);
+                    });
+                    KeyClickDebounce = setTimeout(() => {
+                        clearTimeout(KeyClickDebounce);
+                        KeyClickDebounce = null;
+                    }, 50);
+                }
+            }
+
             if (SearchBarInput.value) {
                 let results = ProcessSearchRequest(SearchBarInput.value);
                 DisplaySearchResults(results, "search-results", SearchBarInput.value);
             }
 
-            if (SearchBarInput.value.length < 1) {
+            if (SearchBarInput.value.length === 0) {
                 clearResultsContainer();
             }
 
@@ -186,26 +211,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
                     SubmittedSearchQuery = SearchBarInput.value;
 
-                    setTimeout(() => {
-                        if (SubmittedSearchQuery) {
-                            let results = ProcessSearchRequest(SubmittedSearchQuery);
+                    if (SubmittedSearchQuery) {
+                        let results = ProcessSearchRequest(SubmittedSearchQuery);
 
-                            if (results.hasResults && results.matches && results.bestMatch) {
-                                let BestMatchURL = results.bestMatch.url;
-                                window.notify("Redirecting...");
-                                setTimeout(() => {
-                                    loadSearchPage(BestMatchURL);
-                                }, Math.random(750, 1000));
-                            } else {
-                                console.warn(
-                                    "Could not find a page to load, nothing matched the input."
-                                );
-                            }
+                        if (results.hasResults && results.matches && results.bestMatch) {
+                            let BestMatchURL = results.bestMatch.url;
+                            window.notify("Redirecting...");
+                            setTimeout(() => {
+                                loadSearchPage(BestMatchURL);
+                            }, Math.random(750, 1000));
+                        } else {
+                            console.warn(
+                                "Could not find a page to load, nothing matched the input."
+                            );
                         }
+                    }
 
-                        SearchBarInput.blur();
-                        toggleSearchView(false);
-                    }, 0);
+                    SearchBarInput.blur();
+                    toggleSearchView(false);
                 }
             }
         }
@@ -230,11 +253,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (SearchBarInput.value) {
                 SearchBarInput.value = " ";
-                setTimeout(() => {
-                    let results = ProcessSearchRequest(SearchBarInput.value);
-                    DisplaySearchResults(results, "search-results", SearchBarInput.value);
-                    SearchBarInput.value = "";
-                }, 0);
+                let results = ProcessSearchRequest(SearchBarInput.value);
+                DisplaySearchResults(results, "search-results", SearchBarInput.value);
+                SearchBarInput.value = "";
             }
         }
     });
@@ -253,14 +274,21 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
     });
 
+    let EnsureUpdateTimeout = null;
     function ensureOutputUpdate() {
+        if (EnsureUpdateTimeout) return;
+        if (!isSearching) return;
         let SearchIV = SearchBarInput.value;
 
         let Results = ProcessSearchRequest(SearchIV);
         DisplaySearchResults(Results, "search-results", SearchIV);
 
         if (isSearching) {
-            requestAnimationFrame(ensureOutputUpdate);
+            EnsureUpdateTimeout = setInterval(() => {
+                ensureOutputUpdate();
+                clearTimeout(EnsureUpdateTimeout);
+                EnsureUpdateTimeout = null;
+            }, 100);
         } else {
             return false;
         }

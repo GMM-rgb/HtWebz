@@ -46,7 +46,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
 function MultiWordIncludes(v) {
     if (v) {
         const words = v.split(" ").filter(word => word !== "");
-        return words.length > 1;
+        return words.length > 0;
     } else {
         return false;
     }

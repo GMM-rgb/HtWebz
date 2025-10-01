@@ -380,80 +380,6 @@
         </div>
     </section>
 
-    <!-- <script>
-        let PreviousWaveOneSize = 0, PreviousWaveTwoSize = 0;
-
-        document.addEventListener("DOMContentLoaded", (e) => {
-            e.stopPropagation();
-
-            let WindowWidth = window.innerWidth;
-
-            const waveOne = document.getElementById("wave-one");
-            const waveTwo = document.getElementById("wave-two");
-
-            window.addEventListener("resize", (e) => {
-                e.stopPropagation();
-                try {
-                    const WaveOneCordinateValue = toString(waveOne.querySelector("animate").getAttribute("value"));
-                    const WaveTwoCordinateValue = toString(waveTwo.querySelector("animate").getAttribute("value"));
-
-                    if (WindowWidth > PreviousWaveOneSize || WindowWidth > PreviousWaveTwoSize) {
-                        PreviousWaveOneSize = Width;
-                        PreviousWaveTwoSize = Width;
-                    } else if (WindowWidth < PreviousWaveOneSize || WindowWidth < PreviousWaveTwoSize) {
-                        PreviousWaveOneSize = Width;
-                        PreviousWaveTwoSize = Width;
-                    }
-
-                    if (!WaveOneCordinateValue || !WaveTwoCordinateValue) return;
-                    if (!PreviousWaveOneSize && !PreviousWaveTwoSize) return;
-
-                    async function GenerateNewCordinateValue(Type) {
-                        WindowWidth = WindowWidth * 2;
-                        if (Type === "One" && WindowWidth) {
-                            return `
-                            M -1 65 Q 100 16.5, 185 50 T ${WindowWith} 32.5 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 60 Q 120 25, 175 38.5 T ${WindowWidth} 40 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 85 Q -145 26, 87.5 45.6 T ${WindowWidth} 47.5 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 45 Q -132.5 9.8, 145 51.3 T ${WindowWidth} 57.5 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 54.5 Q -95 17.5, 163.5 41 T ${WindowWidth} 47.5 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 65 Q 100 16.5, 185 50 T ${WindowWidth} 32.5 L ${WindowWidth} 100 L -1 100 Z
-                            `;
-                        } else if (Type === "Two" && WindowWidth) {
-                            return `
-                            M -1 65 Q -100 18.75, 16.5 50 T ${WindowWidth} 50 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 70 Q -120 33.5, 84.5 65 T ${WindowWidth} 45 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 85 Q -90 22.5, 105, 57.5 T ${WindowWidth} 47.5 L ${WindowWidth} 100 L -1 100 Z;
-                            M -1 65 Q -100 18.75, 16.5 50 T ${WindowWidth} 50 L ${WindowWidth} 100 L -1 100 Z
-                            `;
-                        }
-                    }
-                    const NewWaveOneCordinateValue = toString(GenerateNewCordinateValue(WindowWidth, "One"));
-                    const NewWaveTwoCordinateValue = toString(GenerateNewCordinateValue(WindowWidth, "Two"));
-
-                    if (NewWaveOneCordinateValue && NewWaveTwoCordinateValue) {
-                        waveOne.querySelector("animate").setAttribute("value", NewWaveOneCordinateValue);
-                        waveTwo.querySelector("animate").setAttribute("value", NewWaveTwoCordinateValue);
-                    }
-                } catch (error) {
-                    return console.error("There was an error trying to resize the Background Decoration Wave (Animation Value) SVG: ", error);
-                } finally {
-                    try {
-                        const WaveOneInitalCordinate = toString(waveOne.getAttribute("d"));
-                        const WaveTwoInitalCordinate = toString(waveTwo.getAttribute("d"));
-                        if (!WaveOneInitalCordinate && !WaveTwoInitalCordinate) return;
-
-
-                    } catch (error) {
-                        return console.error("There was an error trying to resize the Background Decoration Wave (Inital Value) SVG:", error);
-                    } finally {
-                        WindowWidth = window.innerWidth ? window.innerWidth : 500;
-                    }
-                }
-            });
-        });
-    </script> -->
-
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         const waveOneAnim = document.querySelector("#wave-one animate");
@@ -470,7 +396,7 @@
             function createWavePath() {
                 const numPoints = 6;
                 const baselineY = minHeight + (maxHeight - minHeight) * 0.4; // Baseline between min and max
-                let path = `M -10 ${baselineY}`; // Start further left
+                let path = `M -10 ${baselineY}`; // Start further left to prevent gaps
                 
                 // Create gentle wave variations around the baseline
                 for (let i = 1; i <= numPoints; i++) {
@@ -508,8 +434,8 @@
             document.querySelector("#wave-two").setAttribute("d", firstWavePath2);
             
             // Gentle, relaxing animations
-            waveOneAnim.setAttribute("dur", `${6 + Math.random() * 3}s`);
-            waveTwoAnim.setAttribute("dur", `${8 + Math.random() * 2}s`);
+            waveOneAnim.setAttribute("dur", `${6 + Math.floor(Math.random()) * 3}s`);
+            waveTwoAnim.setAttribute("dur", `${8 + Math.floor(Math.random()) * 2}s`);
         }
         
         updateWaveValues();
@@ -1122,38 +1048,42 @@
             </section>
         </body>
 
-        <!-- End External Scripts ./index/assets/scripts/* -->
-        <script type="text/javascript"
-            src="index/assets/scripts/tooltip_system.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/letter_effects.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/main_user_interface.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/app_menu_script.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/info_managment.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/navigation_managment.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/button_splash_effect.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/search_interface.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/search_process.js" defer></script>
-        <script type="text/javascript"
-            src="index/assets/scripts/window_resize_manager.js" defer>
-</script>
+        <i><!-- End External Scripts ./index/assets/scripts/* -->
+            <script type="text/javascript"
+                src="index/assets/scripts/tooltip_system.js" defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/letter_effects.js" defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/main_user_interface.js"
+                defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/app_menu_script.js" defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/info_managment.js" defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/navigation_managment.js"
+                defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/button_splash_effect.js"
+                defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/search_interface.js" defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/search_process.js" defer></script>
+            <script type="text/javascript"
+                src="index/assets/scripts/window_resize_manager.js" defer>
+            </script>
+        </i>
 
         <script>
-    /*
-                                                                                                                                                                                                                                                                                                                                                                                Reminder on pre-functions:
+            /*
+                Reminder on pre-functions:
 
-                                                                                                                                                                                                                                                                                                                                                                                setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
-                                                                                                                                                                                                                                                                                                                                                                                For multiple elements with same message
-                                                                                                                                                                                                                                                                                                                                                                                setupTooltips('.hoverable', 'This element has a tooltip');
-                                                                                                                                                                                                                                                                                                                                                                            */
-</script>
+                setupTooltip('#searcherAppImageButton', 'Click to go to searcher');
+                For multiple elements with same message
+                setupTooltips('.hoverable', 'This element has a tooltip');
+            */
+        </script>
 
         <script src="index/assets/scripts/toolbar_extension_manager.js"
             defer></script>
@@ -1161,5 +1091,6 @@
             preload="auto"></script>
 
         <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
-
+        <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
     </html>
+<!-- End Document -->
