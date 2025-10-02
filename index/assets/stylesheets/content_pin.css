@@ -9,7 +9,7 @@
 
 /* Sticky Header */
 .pinned-content-title {
-  cursor: pointer;
+  cursor: default;
   position: sticky;
   top: 0;
   /* Sticks right at the top */

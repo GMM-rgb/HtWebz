@@ -105,6 +105,16 @@
     }
 }
 
+#expandMenuToolbar, #appMenuOpen, #settingsQuick, #gamesMenuOpen, #resourcesMenuOpen {
+    outline: rgba(5, 134, 227, 0.65) 4px transparent !important;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
+}
+
+#expandMenuToolbar:focus-within, #appMenuOpen:focus-within, #settingsQuick:focus-within, #gamesMenuOpen:focus-within, #resourcesMenuOpen:focus-within {
+    outline: rgba(5, 134, 227, 0.65) 4px double !important;
+    outline-offset: 1px !important;
+}
+
 .appMenuOpenButtons {
     display: flex !important;
     flex-direction: row !important;
@@ -373,16 +383,17 @@
     border: 3px solid #ccc;
     border-radius: 1cm;
     background: rgba(255, 255, 255, 0.85) !important;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
     transform: scale(1);
-    transform-origin: right;
+    transform-origin: center right;
     transition: all 0.3s, padding-left 0.65s ease !important;
-    clip-path: stroke-box;
     gap: 9.5px;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
+    clip-path: stroke-box;
     object-fit: contain;
 }
 
