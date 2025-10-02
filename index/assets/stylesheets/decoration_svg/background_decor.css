@@ -4,6 +4,18 @@
     }
 }
 
+@keyframes shrinkAndGrow {
+    0% {
+        transform: scaleY(1.05);
+    }
+    50% {
+        transform: scaleY(0.95);
+    }
+    100% {
+        transform: scaleY(1.05);
+    }
+}
+
 #bottom-background-decoration {
     position: fixed !important;
     pointer-events: none !important;
@@ -17,6 +29,7 @@
     transition: transform 0.3s ease-in-out !important;
     transform: scaleY(1.05);
     width: 100% !important;
+    animation: shrinkAndGrow 20s ease-in-out infinite !important;
 }
 
 .wave-background-decoration-SVG {
