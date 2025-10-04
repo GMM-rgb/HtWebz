@@ -105,12 +105,21 @@
     }
 }
 
-#expandMenuToolbar, #appMenuOpen, #settingsQuick, #gamesMenuOpen, #resourcesMenuOpen {
+#expandMenuToolbar,
+#appMenuOpen,
+#settingsQuick,
+#gamesMenuOpen,
+#resourcesMenuOpen {
     outline: rgba(5, 134, 227, 0.65) 4px transparent !important;
     box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
+    transition: outline 0.3s ease, box-shadow 0.3s ease;
 }
 
-#expandMenuToolbar:focus-within, #appMenuOpen:focus-within, #settingsQuick:focus-within, #gamesMenuOpen:focus-within, #resourcesMenuOpen:focus-within {
+#expandMenuToolbar:focus,
+#appMenuOpen:focus-within,
+#settingsQuick:focus-within,
+#gamesMenuOpen:focus-within,
+#resourcesMenuOpen:focus-within {
     outline: rgba(5, 134, 227, 0.65) 4px double !important;
     outline-offset: 1px !important;
 }

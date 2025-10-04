@@ -653,6 +653,10 @@ function start() {
         lastTime = currentTime; // Always update lastTime to prevent fast-forward on resume
 
         if (isPaused && !gameOver) {
+            document.title = "Dino Game - Paused";
+        }
+
+        if (isPaused && !gameOver) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save();
             const shake = Math.sin(currentTime * 0.01) * 2;
@@ -870,4 +874,19 @@ function start() {
     requestAnimationFrame(update);
 }
 
+function checkGameOver() {
+    try {
+        if (gameOver) {
+            document.title = `Dino Game - Game Over`;
+        } else if (!gameOver && !isPaused) {
+            document.title = `Dino Game`;
+        } else {
+            document.title = `Dino Game - Loading...`;
+        }
+    } catch (error) {
+        console.error("Error in Changing Title: ", error);
+    }
+    setTimeout(checkGameOver, 1000);
+}
+requestAnimationFrame(checkGameOver);
 requestAnimationFrame(start);
