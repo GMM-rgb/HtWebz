@@ -66,13 +66,19 @@
         padding: 10px;
         border-radius: 0.5cm;
         border: none;
-        font-weight: bold;
         background: rgba(255, 249, 230, 0.6);
         border: 2px solid var(--theme-border);
         top: 12.5px;
         color: #555;
         -webkit-backdrop-filter: blur(4px);
         backdrop-filter: blur(4px);
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .error-section a button:hover {
+        text-decoration: underline;
     }
 
     .error-section {
@@ -219,10 +225,33 @@
       font-style: italic;
       color: #555;
     }
+
+    .spinner {
+        position: absolute;
+        padding: 17.5px;
+        border-radius: 1cm;
+        border: 4px solid #ccc;
+        background: transparent;
+        box-sizing: border-box;
+        animation: spin 2s ease infinite;
+        outline: 2px dashed #a8a8a8;
+        outline-offset: -3px;
+        top: 14.5px;
+    }
+
+    @keyframes spin {
+        0% {
+            rotate: 0deg;
+        }
+        100% {
+            rotate: -360deg;
+        }
+    }
   </style>
     </head>
     <body>
         <section class="error-section">
+            <div class="spinner"></div>
             <div class="error-title">
                 <h1 class="title">⚠️ Server Error!</h1>
             </div>
