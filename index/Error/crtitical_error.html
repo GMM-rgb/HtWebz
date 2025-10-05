@@ -55,6 +55,24 @@
       align-items: center;
       min-height: 100vh;
       color: var(--theme-text);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .return-to-homepage-btn {
+        transform-origin: center;
+        cursor: pointer !important;
+        position: relative;
+        padding: 10px;
+        border-radius: 0.5cm;
+        border: none;
+        font-weight: bold;
+        background: rgba(255, 249, 230, 0.6);
+        border: 2px solid var(--theme-border);
+        top: 12.5px;
+        color: #555;
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
     }
 
     .error-section {
@@ -66,26 +84,42 @@
       position: relative !important;
       border: 3px solid var(--error-critical);
       border-radius: 0.45cm;
-      background-image: url('../assets/images/Tab_Icons/content_error.svg');
+      background-image: url('../assets/images/Tab_Icons/content_error_animated.svg');
       background-repeat: no-repeat;
       background-position: center;
+      background-clip: border-box;
       background-size: 60%;
       padding-inline: 20px;
       padding-block: 12.5px;
       flex: 0 1 auto;
+      min-height: 600px;
       max-width: 600px;
       width: 100%;
       box-shadow: 0 4px 12px var(--theme-shadowColor), 0 0 20px rgba(220, 53, 69, 0.3);
       transition: transform var(--theme-transition-time) var(--theme-transition-curve);
-      animation: pulse 2s ease-in-out infinite;
+      animation: zoomIn 1.75s ease-in-out forwards, pulse 1.5s ease-in-out 2s infinite !important;
+    }
+
+    @keyframes zoomIn {
+        0% {
+            background-size: 20%;
+        }
+        50%, 45% {
+            background-size: 70%;
+        }
+        100%, 75% {
+            background-size: 60%;
+        }
     }
 
     @keyframes pulse {
       0%, 100% {
         box-shadow: 0 4px 12px var(--theme-shadowColor), 0 0 20px rgba(220, 53, 69, 0.3);
+        background-size: 60%;
       }
       50% {
         box-shadow: 0 4px 16px var(--theme-shadowColor), 0 0 30px rgba(220, 53, 69, 0.5);
+        background-size: 63.5%;
       }
     }
 
@@ -102,14 +136,14 @@
       padding: 10px;
       margin-inline: 12.5px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.45);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
 
     .title {
       position: relative;
-      border-radius: 0.85cm;
+      border-radius: 0.85cm / 1cm;
       padding: 15px 20px;
       font-size: 2.45em;
       box-sizing: border-box;
@@ -140,13 +174,14 @@
       border: 2px solid var(--error-critical);
       border-radius: 1cm;
       padding: 15px 20px;
-      background: rgba(255, 245, 245, 0.8);
+      background: rgba(255, 245, 245, 0.6);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-sizing: border-box;
       font-size: 1.1em;
       font-weight: bold;
       color: var(--error-critical-dark);
+      transform-origin: top center;
       transition: all var(--theme-transition-time) var(--theme-transition-curve);
       text-align: center;
     }
@@ -163,7 +198,7 @@
       border: 2px solid var(--error-warning);
       border-radius: 1cm;
       padding: 15px;
-      background: rgba(255, 249, 230, 0.8);
+      background: rgba(255, 249, 230, 0.6);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-sizing: border-box;
@@ -175,6 +210,9 @@
       border: 2px solid var(--theme-border);
       border-radius: 1cm;
       padding: 15px;
+      transform-origin: center center;
+      -webkit-backdrop-filter: blur(calc(10px / 8));
+      backdrop-filter: blur(calc(10px / 8));
       background: var(--theme-gradient2);
       box-sizing: border-box;
       text-align: center;
@@ -199,6 +237,7 @@
                     If the problem persists please contact the developer of this
                     page.
                 </span>
+                <a href="../../index.html"><button class="return-to-homepage-btn">Return to Homepage</button></a>
             </div>
         </section>
     </body>
