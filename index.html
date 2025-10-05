@@ -322,8 +322,7 @@
                     id="appMenuIcon"
                     src="index/assets/images/app_button_icon.png" preload="auto"
                     aria-busy="false"
-                    height="25" width="25" /><span class="apps-menu-text">App
-                    Menu</span></button>
+                    height="25" width="25" /><span class="apps-menu-text">Apps</span></button>
             <button id="settingsQuick"
                 onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')"><img
                     id="settingsIcon"
@@ -931,65 +930,17 @@
             const gamesMenuOpen = document.getElementById("gamesMenuOpen");
             const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
             const moreFromHtWebzContainer = document.getElementById("moreFromHtWebzContainer");
+            const settingsOpen = document.getElementById("settingsQuick");
+            const appButton = document.getElementById("appMenuOpen");
 
-            // Element function effect for the resize of the media
-            appMenuOpen.addEventListener("mouseover", () => {
-                if (appMenuOpen.style.transform === "scale(0.825)") {
-                    appMenuOpen.style.transform = 'scale(0.925)';
-                    appMenuOpen.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
-                    appMenuOpen.style.border = '3px solid #8d8d8d';
-                    appMenuOpen.style.background = 'rgb(215, 215, 215)';
-                }
-                if (appMenuOpen.style.transform === "scale(1)" || appMenuOpen.style.transform === '') {
-                    appMenuOpen.style.transform = 'scale(1.1)';
-                    appMenuOpen.style.background = 'rgb(215, 215, 215)';
-                    appMenuOpen.style.border = '3px solid #8d8d8d';
-                    appMenuOpen.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
-                }
-            });
-            appMenuOpen.addEventListener("mouseout", () => {
-                if (appMenuOpen.style.transform === "scale(0.925)") {
-                    appMenuOpen.style.transform = 'scale(0.825)';
-                    appMenuOpen.style.background = 'white';
-                    appMenuOpen.style.border = '3px solid #ccc';
-                    appMenuOpen.style.boxShadow = 'none';
-                }
-                if (appMenuOpen.style.transform === "scale(1.1)") {
-                    appMenuOpen.style.transform = 'scale(1)';
-                    appMenuOpen.style.background = 'white';
-                    appMenuOpen.style.border = '3px solid #ccc';
-                    appMenuOpen.style.boxShadow = 'none';
-                }
-            });
-
-            // Element function effect for the resize of the media
-            settingsQuick.addEventListener("mouseover", () => {
-                if (settingsQuick.style.transform === "scale(0.825)") {
-                    settingsQuick.style.transform = 'scale(0.925)';
-                    settingsQuick.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
-                    settingsQuick.style.border = '3px solid #8d8d8d';
-                    settingsQuick.style.background = 'rgb(215, 215, 215)';
-                }
-                if (settingsQuick.style.transform === "scale(1)" || appMenuOpen.style.transform === '') {
-                    settingsQuick.style.transform = 'scale(1.1)';
-                    settingsQuick.style.background = 'rgb(215, 215, 215)';
-                    settingsQuick.style.border = '3px solid #8d8d8d';
-                    settingsQuick.style.boxShadow = '0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45)';
-                }
-            });
-            settingsQuick.addEventListener("mouseout", () => {
-                if (settingsQuick.style.transform === "scale(0.925)") {
-                    settingsQuick.style.transform = 'scale(0.825)';
-                    settingsQuick.style.background = 'white';
-                    settingsQuick.style.border = '3px solid #ccc';
-                    settingsQuick.style.boxShadow = 'none';
-                }
-                if (settingsQuick.style.transform === "scale(1.1)") {
-                    settingsQuick.style.transform = 'scale(1)';
-                    settingsQuick.style.background = 'white';
-                    settingsQuick.style.border = '3px solid #ccc';
-                    settingsQuick.style.boxShadow = 'none';
-                }
+            [appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
+                button.addEventListener("click", () => {
+                    let ClickPrimary = document.getElementById("GlobalClick");
+                    ClickPrimary.volume = 0.5;
+                    ClickPrimary.play().catch((error) => {
+                        console.warn(error);
+                    });
+                });
             });
 
             // Games menu hover
@@ -1140,7 +1091,8 @@
         <script src="index/assets/scripts/project_file_validation.js" defer
             preload="auto"></script>
 
-        <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
-        <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
+        <audio src="notification.mp3" aria-atomic="false" preload="auto" id="notifySound"></audio>
+        <audio src="button_click.mp3" aria-atomic="false" preload="auto" id="GlobalClick"></audio>
+        <audio src="index/assets/audio/menu-command.mp3" aria-atomic="false" preload="auto" id="PrimaryClick"></audio>
     </html>
     <!-- End Document -->

@@ -13,6 +13,7 @@ const defaultsearch = {
     "Homepage": "./index.html",
     "Game Library": "./Games/library.html",
     "Dino Game": "./Games/DinoGame.html",
+    "Chrome Clicker": "./gameDisplayChromeClicker.html",
 };
 
 const wikisearch = {

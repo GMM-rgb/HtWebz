@@ -207,7 +207,7 @@
     position: relative !important;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: rgba(255, 255, 255, 0.85) !important;
+    background: rgba(255, 255, 255, 0.85);
     user-select: none;
     font-weight: bold;
     padding: 10px;
@@ -218,6 +218,13 @@
     width: inherit;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+}
+
+#appMenuOpen:hover {
+    transform: scale(1.1);
+    background: rgba(235, 235, 235, 0.85) !important;
+    border: 3px solid #8d8d8d;
 }
 
 #appMenuIcon {
@@ -245,6 +252,16 @@
     transform: scale(1.325) !important;
 }
 
+#appMenuOpen:active>#appMenuIcon {
+    transform: scale(1.15) !important;
+}
+
+
+#appMenuOpen:active {
+    transform: scale(0.95) !important;
+    transition: all 0.15s ease-out !important;
+}
+
 #settingsQuick {
     cursor: pointer !important;
     display: flex !important;
@@ -267,6 +284,13 @@
     width: fit-content;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+}
+
+#settingsQuick:hover {
+    transform: scale(1.1);
+    background: rgba(235, 235, 235, 0.85) !important;
+    border: 3px solid #8d8d8d;
 }
 
 #settingsIcon {
@@ -292,6 +316,15 @@
 
 #settingsQuick:hover>#settingsIcon {
     transform: scale(1.325) !important;
+}
+
+#settingsQuick:active>#settingsIcon {
+    transform: scale(1.15) !important;
+}
+
+#settingsQuick:active {
+    transform: scale(0.95) !important;
+    transition: all 0.15s ease-out !important;
 }
 
 /* Right side interface menu buttons (More from HtWebz) */
@@ -418,6 +451,7 @@
     border: 2px solid #ccc;
     border-radius: 1cm;
     padding: 2.5px 5px;
+    max-width: fit-content, min-content;
 }
 
 #resourcesMenuOpen input {

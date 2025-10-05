@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // ResultsDisplay.style.display = "flex";
 
             if (prompt && prompt.length > 10) {
-                SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.5
+                SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.75
                     }px - 15px)`;
             } else {
                 SearchBarInput.style.width = "calc(175px - 15px)";
