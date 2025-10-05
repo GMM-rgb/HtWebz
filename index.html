@@ -625,13 +625,18 @@
                 <div id="displayG">
                     <script>
                         function goToGame(gameLocation, gameFile) {
+                            let RedirectTimeout = null;
                             if (gameLocation && gameFile) {
-                                setTimeout(() => {
-                                    window.location.href = `${gameLocation}${gameFile}`;
+                                RedirectTimeout = setTimeout(() => {
+                                    let newGameWindow = window.open(`${gameLocation}${gameFile}`, "_blank", 'location=no,toolbar=no,menubar=no,status=no,width=1024,height=768');
+                                    newGameWindow.focus();
+                                    if (RedirectTimeout) clearTimeout(RedirectTimeout);
                                 }, 1000);
                             } else if (!gameFile && gameLocation) {
-                                setTimeout(() => {
-                                    window.location.href = `${gameLocation}`;
+                                RedirectTimeout = setTimeout(() => {
+                                    let newGameWindow = window.open(`${gameLocation}`, "_blank", 'location=no,toolbar=no,menubar=no,status=no,width=1024,height=768');
+                                    newGameWindow.focus();
+                                    if (RedirectTimeout) clearTimeout(RedirectTimeout);
                                 }, 1000);
                             }
                         }
@@ -927,16 +932,18 @@
         <!-- Child script for quick access user interface functions -->
         <script>
             // Document elements variables
-            const gamesMenuOpen = document.getElementById("gamesMenuOpen");
-            const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
-            const moreFromHtWebzContainer = document.getElementById("moreFromHtWebzContainer");
+            const expandToolbarButton = document.getElementById("expandMenuToolbar");
             const settingsOpen = document.getElementById("settingsQuick");
             const appButton = document.getElementById("appMenuOpen");
+            const moreFromHtWebzContainer = document.getElementById("moreFromHtWebzContainer");
+            const gamesMenuOpen = document.getElementById("gamesMenuOpen");
+            const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
 
-            [appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
+            [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
                 button.addEventListener("click", () => {
                     let ClickPrimary = document.getElementById("GlobalClick");
                     ClickPrimary.volume = 0.5;
+                    ClickPrimary.currentTime = 0;
                     ClickPrimary.play().catch((error) => {
                         console.warn(error);
                     });

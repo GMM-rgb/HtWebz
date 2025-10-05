@@ -15,9 +15,145 @@
                 justify-content: center; /* Center horizontally */
                 align-items: center; /* Center vertically */
             }
+
+            body:fullscreen>.fullscreen-button-container {
+                display: none !important;
+            }
+            
+            .fullscreen-button-container {
+                display: block;
+                position: fixed;
+                bottom: 7.5px;
+                left: 7.5px;
+                transition: all 0.45s ease;
+            }
+
+            .fullscreen-button-container button {
+                cursor: pointer;
+                background-color: rgba(255, 244, 206, 0.95);
+                -webkit-backdrop-filter: blur(2px);
+                backdrop-filter: blur(2px);
+                border-radius: 3px;
+                border: none;
+            }
+
+            .fullscreen-button-container button svg {
+                pointer-events: none !important;
+            }
+
+            .fullscreen-button-container button g {
+                transition: all 0.3s cubic-bezier(0.215, 0.610, 0.355, 1);
+                transform-style: flat !important;
+                transform-origin: center;
+                transform-box: fill-box;
+            }
+
+            /* Hover */
+            .fullscreen-button-container button:hover .fullscreen-top-left-corner {
+                transform: translate(15px, 15px) rotate(-180deg);
+            }
+
+            .fullscreen-button-container button:hover .fullscreen-top-right-corner {
+                transform: translate(-15px, 15px) rotate(180deg);
+            }
+
+            .fullscreen-button-container button:hover .fullscreen-bottom-left-corner {
+                transform: translate(15px, -15px) rotate(180deg);
+            }
+
+            .fullscreen-button-container button:hover .fullscreen-bottom-right-corner {
+                transform: translate(-15px, -15px) rotate(-180deg);
+            }
+
+            /* Active */
+            .fullscreen-button-container button:active .fullscreen-top-left-corner {
+                transform: translate(22.5px, 22.5px) rotate(-180deg);
+            }
+
+            .fullscreen-button-container button:active .fullscreen-top-right-corner {
+                transform: translate(-22.5px, 22.5px) rotate(180deg);
+            }
+
+            .fullscreen-button-container button:active .fullscreen-bottom-left-corner {
+                transform: translate(22.5px, -22.5px) rotate(180deg);
+            }
+
+            .fullscreen-button-container button:active .fullscreen-bottom-right-corner {
+                transform: translate(-22.5px, -22.5px) rotate(-180deg);
+            }
         </style>
     </head>
     <body>
         <script src="./scripts/DinoGameScript.js"></script>
+
+        <div class="fullscreen-button-container">
+            <button id="fullscreenGame" title="Enter Fullscreen">
+                <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 200 200">
+                    <g class="fullscreen-icon">
+                        <!-- Top Left Corner -->
+                        <g class="fullscreen-top-left-corner">
+                            <rect x="25" y="25" height="50" width="15"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                            <rect x="25" y="25" height="15" width="50"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                        </g>
+
+                        <!-- Top Right Corner -->
+                        <g class="fullscreen-top-right-corner">
+                            <rect x="160" y="25" height="50" width="15"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                            <rect x="125" y="25" height="15" width="50"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                        </g>
+
+                        <!-- Bottom Left Corner -->
+                        <g class="fullscreen-bottom-left-corner">
+                            <rect x="25" y="125" height="50" width="15"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                            <rect x="25" y="160" height="15" width="50"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                        </g>
+
+                        <!-- Bottom Right Corner -->
+                        <g class="fullscreen-bottom-right-corner">
+                            <rect x="160" y="125" height="50" width="15"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                            <rect x="125" y="160" height="15" width="50"
+                                fill="white" stroke="darkgray" stroke-width="3"
+                                stroke-linejoin="round" />
+                        </g>
+                    </g>
+                </svg>
+            </button>
+        </div>
+
+        <script>
+            let fullscreenBtn = document.getElementById("fullscreenGame");
+
+            async function enterFullscreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            }
+
+            fullscreenBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                enterFullscreen(document.body);
+            });
+        </script>
     </body>
 </html>
