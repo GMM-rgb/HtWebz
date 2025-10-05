@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Outer gear teeth -->
+  <path d="M 100 5 L 115 20 L 115 35 L 130 35 L 145 20 L 160 35 L 160 50 L 175 65 L 190 65 L 195 75 L 195 90 L 195 110 L 195 125 L 190 135 L 175 135 L 160 150 L 160 165 L 145 180 L 130 165 L 115 165 L 115 180 L 100 195 L 85 180 L 85 165 L 70 165 L 55 180 L 40 165 L 40 150 L 25 135 L 10 135 L 5 125 L 5 110 L 5 90 L 5 75 L 10 65 L 25 65 L 40 50 L 40 35 L 55 20 L 70 35 L 85 35 L 85 20 Z" 
+        fill="#479dda" 
+        stroke="#0586e3" 
+        stroke-width="4"/>
+  
+  <!-- Inner gear circle -->
+  <circle cx="100" cy="100" r="50" fill="#80b5db" stroke="#0586e3" stroke-width="4"/>
+  
+  <!-- Center hole -->
+  <circle cx="100" cy="100" r="25" fill="white" stroke="#0586e3" stroke-width="3"/>
+  
+  <!-- Crack in gear (zigzag line) -->
+  <path d="M 90 20 L 85 45 L 80 40 L 75 65 L 70 60 L 65 85 L 60 80 L 55 105" 
+        stroke="#dc3545" 
+        stroke-width="5" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Second crack -->
+  <path d="M 110 180 L 115 155 L 120 160 L 125 135 L 130 140 L 135 115 L 140 120 L 145 95" 
+        stroke="#dc3545" 
+        stroke-width="5" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Tilted exclamation mark -->
+  <g transform="rotate(-15 100 100)">
+    <!-- Exclamation mark body with curve -->
+    <path d="M 108 55 Q 111 70, 110 85 L 107 120 Q 106 127, 100 127 Q 94 127, 93 120 L 90 85 Q 89 70, 92 55 Z" 
+          fill="#dc3545" 
+          stroke="#c82333" 
+          stroke-width="2"/>
+    
+    <!-- Exclamation mark dot -->
+    <circle cx="100" cy="140" r="7" fill="#dc3545" stroke="#c82333" stroke-width="2"/>
+  </g>
+</svg>

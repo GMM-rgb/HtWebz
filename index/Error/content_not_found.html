@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 Not Found</title>
-  <style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml"
+      href="../assets/images/Tab_Icons/content_error.svg">
+    <title>404 Not Found</title>
+    <style>
     :root {
       --theme-background: skyblue;
       --theme-primary: #479dda;
@@ -58,7 +60,10 @@
       position: relative !important;
       border: 2px solid var(--theme-border);
       border-radius: 0.45cm;
-      background: var(--theme-cardBackground);
+      background-image: url('../assets/images/Tab_Icons/content_error.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 60%;
       padding-inline: 20px;
       padding-block: 12.5px;
       flex: 0 1 auto;
@@ -81,11 +86,14 @@
       padding: 10px;
       margin-inline: 12.5px;
       width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .title {
       position: relative;
-      border-radius: 0.5cm;
+      border-radius: 0.85cm;
       padding: 15px 20px;
       font-size: 2.45em;
       box-sizing: border-box;
@@ -116,7 +124,9 @@
       border: 2px solid var(--theme-primary);
       border-radius: 1cm;
       padding: 15px 20px;
-      background: var(--theme-buttonBackground);
+      background: rgba(175, 222, 255, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-sizing: border-box;
       font-size: 1.1em;
       font-weight: bold;
@@ -154,22 +164,22 @@
       color: #555;
     }
   </style>
-</head>
-<body>
-  <section class="error-section">
-    <div class="error-title">
-      <h1 class="title">Content Not Found!</h1>
-    </div>
-    <div class="error-description">
-      <p id="error">Error 404: Your requested URL was not found.</p>
-      <span class="text-info">
-        Try checking your search to make sure you spelled it right. Or
-        confirm the content exists.
-      </span>
-      <span class="help-info">
-        If the problem persists please contact the developer of this page.
-      </span>
-    </div>
-  </section>
-</body>
+  </head>
+  <body>
+    <section class="error-section">
+      <div class="error-title">
+        <h1 class="title">Content Not Found!</h1>
+      </div>
+      <div class="error-description">
+        <p id="error">Error 404: Your requested URL was not found.</p>
+        <span class="text-info">
+          Try checking your search to make sure you spelled it right. Or
+          confirm the content exists.
+        </span>
+        <span class="help-info">
+          If the problem persists please contact the developer of this page.
+        </span>
+      </div>
+    </section>
+  </body>
 </html>
