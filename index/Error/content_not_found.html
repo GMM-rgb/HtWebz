@@ -1,50 +1,100 @@
 <!DOCTYPE html>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>404 Not Found</title>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 Not Found</title>
   <style>
+    :root {
+      --theme-background: skyblue;
+      --theme-primary: #479dda;
+      --theme-secondary: #80b5db;
+      --theme-text: black;
+      --theme-border: #ccc;
+      --theme-menuBackground: rgba(5, 134, 227, 0.75);
+      --theme-cardBackground: white;
+      --theme-headerBackground: #479dda;
+      --theme-buttonBackground: #afdeff;
+      --theme-inputBackground: white;
+      --theme-topBar: #0586e3;
+      --theme-sideMenu: rgba(5, 134, 227, 0.75);
+      --theme-modalBackground: white;
+      --theme-gradient1: linear-gradient(#479dda, #80b5db);
+      --theme-gradient2: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8));
+      --theme-shadowColor: rgba(0, 0, 0, 0.3);
+      --theme-glowColor: rgba(0, 238, 255, 0.4);
+      --theme-overlayBackground: rgba(255, 255, 255, 0.8);
+      --theme-hoverBackground: #5aa5e0;
+      --theme-activeBackground: #6ab5f0;
+      --theme-scrollbarTrack: lightseagreen;
+      --theme-scrollbarThumb: darkcyan;
+      --theme-footerBackground: rgba(0, 120, 139, 0.5);
+      --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
+      --theme-motivationBackground: #80b5db;
+      --theme-showcaseBackground: #479dda;
+      --theme-appCardBackground: #80b5db;
+      --theme-transition-time: 300ms;
+      --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     body {
-      background: gray;
+      background: var(--theme-background);
       font-family: Arial, Helvetica, sans-serif !important;
       margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--theme-text);
     }
 
     .error-section {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: top;
+      align-items: center;
       box-sizing: border-box;
       position: relative !important;
-      /* border: 2px solid #444; */
+      border: 2px solid var(--theme-border);
       border-radius: 0.45cm;
-      background: lightgray;
+      background: var(--theme-cardBackground);
       padding-inline: 20px;
       padding-block: 12.5px;
       flex: 0 1 auto;
-      will-change: scroll-position;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 12px var(--theme-shadowColor);
+      transition: transform var(--theme-transition-time) var(--theme-transition-curve);
+    }
+
+    .error-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--theme-shadowColor);
     }
 
     .error-title {
       position: relative;
-      /* border: 2px solid #333; */
       border-radius: 1cm;
       user-select: none;
       box-sizing: border-box;
       padding: 10px;
       margin-inline: 12.5px;
+      width: 100%;
     }
 
     .title {
       position: relative;
-      border-radius: 1cm 0 0 1cm;
-      padding: 5px 10px;
+      border-radius: 0.5cm;
+      padding: 15px 20px;
       font-size: 2.45em;
       box-sizing: border-box;
-      padding: 5px;
       text-align: center !important;
-      border-bottom: 2px solid red;
+      border-bottom: 3px solid var(--theme-primary);
+      background: var(--theme-gradient1);
+      color: white;
+      margin: 0;
+      text-shadow: 1px 1px 2px var(--theme-shadowColor);
     }
 
     .error-description {
@@ -56,50 +106,70 @@
       margin-inline: 12.5px;
       padding: 12.5px;
       box-sizing: border-box;
+      gap: 15px;
+      width: 100%;
     }
 
     #error {
       cursor: pointer;
       position: relative;
-      /* border: 2px solid #333; */
+      border: 2px solid var(--theme-primary);
       border-radius: 1cm;
-      padding: 10px;
-      background: white;
+      padding: 15px 20px;
+      background: var(--theme-buttonBackground);
       box-sizing: border-box;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: var(--theme-text);
+      transition: all var(--theme-transition-time) var(--theme-transition-curve);
+      text-align: center;
+    }
+
+    #error:hover {
+      background: var(--theme-hoverBackground);
+      color: white;
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px var(--theme-shadowColor);
     }
 
     .text-info {
       position: relative;
-      border: 2px solid #333;
+      border: 2px solid var(--theme-secondary);
       border-radius: 1cm;
-      padding: 10px;
-      background: white;
+      padding: 15px;
+      background: var(--theme-overlayBackground);
       box-sizing: border-box;
+      text-align: center;
+      line-height: 1.6;
     }
 
     .help-info {
-      /* border: 2px solid #333; */
+      border: 2px solid var(--theme-border);
       border-radius: 1cm;
-      padding: 10px;
-      background: white;
+      padding: 15px;
+      background: var(--theme-gradient2);
       box-sizing: border-box;
+      text-align: center;
+      font-style: italic;
+      color: #555;
     }
   </style>
-  <body>
-    <section class="error-section">
-      <div class="error-title">
-        <h1 class="title">Content Not Found!</h1>
-      </div>
-      <div class="error-description">
-        <p id="error">Error 404: Your reqeusted URL was not found.</p>
-        <span class="text-info"
-          >Try checking your search to make sure you spelled it right. Or
-          confirm the content exists.</span
-        >
-        <span class="help-info"
-          >If the problem persits please contact the devloper this page.</span
-        >
-      </div>
-    </section>
-  </body>
+</head>
+<body>
+  <section class="error-section">
+    <div class="error-title">
+      <h1 class="title">Content Not Found!</h1>
+    </div>
+    <div class="error-description">
+      <p id="error">Error 404: Your requested URL was not found.</p>
+      <span class="text-info">
+        Try checking your search to make sure you spelled it right. Or
+        confirm the content exists.
+      </span>
+      <span class="help-info">
+        If the problem persists please contact the developer of this page.
+      </span>
+    </div>
+  </section>
+</body>
 </html>

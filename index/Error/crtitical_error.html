@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>500 Internal Server Error</title>
+  <style>
+    :root {
+      --theme-background: skyblue;
+      --theme-primary: #479dda;
+      --theme-secondary: #80b5db;
+      --theme-text: black;
+      --theme-border: #ccc;
+      --theme-menuBackground: rgba(5, 134, 227, 0.75);
+      --theme-cardBackground: white;
+      --theme-headerBackground: #479dda;
+      --theme-buttonBackground: #afdeff;
+      --theme-inputBackground: white;
+      --theme-topBar: #0586e3;
+      --theme-sideMenu: rgba(5, 134, 227, 0.75);
+      --theme-modalBackground: white;
+      --theme-gradient1: linear-gradient(#479dda, #80b5db);
+      --theme-gradient2: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8));
+      --theme-shadowColor: rgba(0, 0, 0, 0.3);
+      --theme-glowColor: rgba(0, 238, 255, 0.4);
+      --theme-overlayBackground: rgba(255, 255, 255, 0.8);
+      --theme-hoverBackground: #5aa5e0;
+      --theme-activeBackground: #6ab5f0;
+      --theme-scrollbarTrack: lightseagreen;
+      --theme-scrollbarThumb: darkcyan;
+      --theme-footerBackground: rgba(0, 120, 139, 0.5);
+      --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
+      --theme-motivationBackground: #80b5db;
+      --theme-showcaseBackground: #479dda;
+      --theme-appCardBackground: #80b5db;
+      --theme-transition-time: 300ms;
+      --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* Critical error specific colors */
+      --error-critical: #dc3545;
+      --error-critical-dark: #c82333;
+      --error-warning: #ffc107;
+      --error-gradient: linear-gradient(135deg, #dc3545, #c82333);
+    }
+
+    body {
+      background: var(--theme-background);
+      font-family: Arial, Helvetica, sans-serif !important;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--theme-text);
+    }
+
+    .error-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      position: relative !important;
+      border: 3px solid var(--error-critical);
+      border-radius: 0.45cm;
+      background: var(--theme-cardBackground);
+      padding-inline: 20px;
+      padding-block: 12.5px;
+      flex: 0 1 auto;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 12px var(--theme-shadowColor), 0 0 20px rgba(220, 53, 69, 0.3);
+      transition: transform var(--theme-transition-time) var(--theme-transition-curve);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 4px 12px var(--theme-shadowColor), 0 0 20px rgba(220, 53, 69, 0.3);
+      }
+      50% {
+        box-shadow: 0 4px 16px var(--theme-shadowColor), 0 0 30px rgba(220, 53, 69, 0.5);
+      }
+    }
+
+    .error-section:hover {
+      transform: translateY(-2px);
+      animation: none;
+    }
+
+    .error-title {
+      position: relative;
+      border-radius: 1cm;
+      user-select: none;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-inline: 12.5px;
+      width: 100%;
+    }
+
+    .title {
+      position: relative;
+      border-radius: 0.5cm;
+      padding: 15px 20px;
+      font-size: 2.45em;
+      box-sizing: border-box;
+      text-align: center !important;
+      border-bottom: 4px solid var(--error-critical-dark);
+      background: var(--error-gradient);
+      color: white;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .error-description {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin-inline: 12.5px;
+      padding: 12.5px;
+      box-sizing: border-box;
+      gap: 15px;
+      width: 100%;
+    }
+
+    #error {
+      cursor: pointer;
+      position: relative;
+      border: 2px solid var(--error-critical);
+      border-radius: 1cm;
+      padding: 15px 20px;
+      background: #fff5f5;
+      box-sizing: border-box;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: var(--error-critical-dark);
+      transition: all var(--theme-transition-time) var(--theme-transition-curve);
+      text-align: center;
+    }
+
+    #error:hover {
+      background: var(--error-critical);
+      color: white;
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);
+    }
+
+    .text-info {
+      position: relative;
+      border: 2px solid var(--error-warning);
+      border-radius: 1cm;
+      padding: 15px;
+      background: #fff9e6;
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .help-info {
+      border: 2px solid var(--theme-border);
+      border-radius: 1cm;
+      padding: 15px;
+      background: var(--theme-gradient2);
+      box-sizing: border-box;
+      text-align: center;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <section class="error-section">
+    <div class="error-title">
+      <h1 class="title">⚠️ Server Error!</h1>
+    </div>
+    <div class="error-description">
+      <p id="error">Error 500: The server encountered an error while processing your request.</p>
+      <span class="text-info">
+        The search function failed to process your query. Please try again in a few moments.
+      </span>
+      <span class="help-info">
+        If the problem persists please contact the developer of this page.
+      </span>
+    </div>
+  </section>
+</body>
+</html>

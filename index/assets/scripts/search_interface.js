@@ -208,27 +208,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (SearchBarInput.value.length > 0) {
                 if (e.key === "Enter") {
+                    const NoResultsPage = "./index/Error/content_not_found.html";
+                    const CriticalResultPage = "./index/Error/critical_error.html";
                     console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
                     SubmittedSearchQuery = SearchBarInput.value;
 
-                    if (SubmittedSearchQuery) {
-                        let results = ProcessSearchRequest(SubmittedSearchQuery);
+                    try {
+                        if (SubmittedSearchQuery) {
+                            let results = ProcessSearchRequest(SubmittedSearchQuery);
 
-                        if (results.hasResults && results.matches && results.bestMatch) {
-                            let BestMatchURL = results.bestMatch.url;
-                            window.notify("Redirecting...");
-                            setTimeout(() => {
-                                loadSearchPage(BestMatchURL);
-                            }, Math.random(750, 1000));
-                        } else {
-                            console.warn(
-                                "Could not find a page to load, nothing matched the input."
-                            );
+                            if (results.hasResults && results.matches && results.bestMatch) {
+                                let BestMatchURL = results.bestMatch.url;
+                                window.notify("Redirecting...");
+                                setTimeout(() => {
+                                    loadSearchPage(BestMatchURL);
+                                }, Math.random(750, 1000));
+                            } else {
+                                console.warn(
+                                    "Could not find a page to load, nothing matched the input."
+                                );
+                                window.open(`${NoResultsPage}`, "_blank");
+                            }
                         }
+                    } catch (error) {
+                        console.error("Critical Error in processing search: ", error);
+                        window.open(`${CriticalResultPage}`, "_blank");
+                    } finally {
+                        SearchBarInput.blur();
+                        toggleSearchView(false);
                     }
-
-                    SearchBarInput.blur();
-                    toggleSearchView(false);
                 }
             }
         }
