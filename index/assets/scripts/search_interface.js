@@ -208,8 +208,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (SearchBarInput.value.length > 0) {
                 if (e.key === "Enter") {
+                    /*
+                        To open critical window manually: enter this in DC (Developer Console)
+
+                        const CriticalResultPage = "./index/Error/crtitical_error.html";
+                        window.open(`${CriticalResultPage}`, "_blank", "width=750,height=750");
+                    */
+
                     const NoResultsPage = "./index/Error/content_not_found.html";
-                    const CriticalResultPage = "./index/Error/critical_error.html";
+                    const CriticalResultPage = "./index/Error/crtitical_error.html";
                     console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
                     SubmittedSearchQuery = SearchBarInput.value;
 
@@ -227,12 +234,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 console.warn(
                                     "Could not find a page to load, nothing matched the input."
                                 );
-                                window.open(`${NoResultsPage}`, "_blank");
+                                window.open(`${NoResultsPage}`, "_blank", "width=750,height=750");
                             }
                         }
                     } catch (error) {
-                        console.error("Critical Error in processing search: ", error);
-                        window.open(`${CriticalResultPage}`, "_blank");
+                        console.error(`Critical Error in processing search ${SearchBarInput.value}: `, error);
+                        window.open(`${CriticalResultPage}`, "_blank", "width=750,height=750");
                     } finally {
                         SearchBarInput.blur();
                         toggleSearchView(false);

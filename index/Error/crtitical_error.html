@@ -103,19 +103,7 @@
       width: 100%;
       box-shadow: 0 4px 12px var(--theme-shadowColor), 0 0 20px rgba(220, 53, 69, 0.3);
       transition: transform var(--theme-transition-time) var(--theme-transition-curve);
-      animation: zoomIn 1.75s ease-in-out forwards, pulse 1.5s ease-in-out 2s infinite !important;
-    }
-
-    @keyframes zoomIn {
-        0% {
-            background-size: 20%;
-        }
-        50%, 45% {
-            background-size: 70%;
-        }
-        100%, 75% {
-            background-size: 60%;
-        }
+      animation: pulse 1.5s ease-in-out infinite !important;
     }
 
     @keyframes pulse {
@@ -131,7 +119,6 @@
 
     .error-section:hover {
       transform: translateY(-2px);
-      animation: none;
     }
 
     .error-title {
@@ -226,49 +213,236 @@
       color: #555;
     }
 
-    .spinner {
-        position: absolute;
-        padding: 17.5px;
-        border-radius: 1cm;
-        border: 4px solid #ccc;
-        background: transparent;
-        box-sizing: border-box;
-        animation: spin 2s ease infinite;
-        outline: 2px dashed #a8a8a8;
-        outline-offset: -3px;
-        top: 14.5px;
-        left: 14.5px;
+    /* POPUP STYLES */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease-out;
     }
 
-    @keyframes spin {
-        0% {
-            rotate: 0deg;
-        }
-        100% {
-            rotate: -360deg;
-        }
+    .popup-overlay.hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .popup-box {
+      background: white;
+      border: 4px solid var(--error-critical);
+      border-radius: 1cm;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 4px 12px var(--theme-shadowColor), 0 0 20px rgba(220, 53, 69, 0.3);
+      animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.5) translateY(100px);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .popup-box.fly-away {
+      animation: flyAway 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+
+    @keyframes flyAway {
+      0% {
+        transform: scale(1) translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.1) translateY(-1000px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .popup-icon {
+      font-size: 4em;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: shake 0.3s ease-in-out backwards;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .popup-title {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: var(--error-critical);
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .popup-message {
+      font-size: 1.1em;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .popup-button {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2em;
+      font-weight: bold;
+      background: var(--error-gradient);
+      color: white;
+      border: none;
+      border-radius: 0.5cm;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+    }
+
+    .popup-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(220, 53, 69, 0.5);
+    }
+
+    .popup-button:active {
+      transform: scale(0.98);
     }
   </style>
     </head>
     <body>
+        <!-- POPUP -->
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup-box" id="popupBox">
+                <div class="popup-icon">⚠️</div>
+                <div class="popup-title">Critical Server Error</div>
+                <div class="popup-message">
+                    <strong>Error 500:</strong> The HtWebz server has encountered a critical error while processing your request. The search process function has failed.
+                </div>
+                <button class="popup-button" id="dismissButton">OK, I Understand</button>
+            </div>
+        </div>
+
+        <!-- MAIN ERROR PAGE -->
         <section class="error-section">
-            <div class="spinner"></div>
             <div class="error-title">
                 <h1 class="title">⚠️ Server Error!</h1>
             </div>
             <div class="error-description">
-                <p id="error">Error 500: The server encountered an error while
+                <p id="error">Error 500: The HtWebz server encountered an error
+                    while
                     processing your request.</p>
                 <span class="text-info">
-                    The search function failed to process your query. Please try
+                    The search process function failed to process your query.
+                    Please try
                     again in a few moments.
                 </span>
                 <span class="help-info">
                     If the problem persists please contact the developer of this
                     page.
                 </span>
-                <a href="../../index.html"><button class="return-to-homepage-btn">Return to Homepage</button></a>
+                <a href="../../index.html"><button
+                        class="return-to-homepage-btn">Return to
+                        Homepage</button></a>
             </div>
         </section>
+        <script>
+            let audioContext = null;
+            
+            // Initialize audio context
+            function initAudio() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+            
+            // Play error sound
+            function playErrorSound() {
+                initAudio();
+                
+                const now = audioContext.currentTime;
+                
+                // First EURGHH
+                createAlarmBeep(now);
+                
+                // Second EURGHH
+                createAlarmBeep(now + 0.5);
+            }
+            
+            function createAlarmBeep(startTime) {
+                const osc = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Square wave for harsh alarm sound
+                osc.type = 'square';
+                
+                // Frequency modulation for EURGHH effect (low to high sweep)
+                osc.frequency.setValueAtTime(300, startTime);
+                osc.frequency.exponentialRampToValueAtTime(600, startTime + 0.15);
+                osc.frequency.setValueAtTime(200, startTime + 0.15);
+                osc.frequency.exponentialRampToValueAtTime(200, startTime + 0.3);
+                
+                // Volume envelope
+                gainNode.gain.setValueAtTime(0, startTime);
+                gainNode.gain.linearRampToValueAtTime(0.5, startTime + 0.02);
+                gainNode.gain.setValueAtTime(0.5, startTime + 0.28);
+                gainNode.gain.linearRampToValueAtTime(0, startTime + 0.3);
+                
+                osc.start(startTime);
+                osc.stop(startTime + 0.3);
+            }
+            
+            // Handle popup dismiss
+            const dismissButton = document.getElementById('dismissButton');
+            const popupBox = document.getElementById('popupBox');
+            const popupOverlay = document.getElementById('popupOverlay');
+            
+            dismissButton.addEventListener('click', () => {
+                // Add fly away animation
+                popupBox.classList.add('fly-away');
+                
+                // Play the alarm sound!
+                playErrorSound();
+                
+                // Remove the popup after animation
+                setTimeout(() => {
+                    popupOverlay.classList.add('hidden');
+                }, 800);
+            });
+            
+            // Also play sound when clicking the error message
+            document.getElementById('error').addEventListener('click', playErrorSound);
+        </script>
     </body>
 </html>
