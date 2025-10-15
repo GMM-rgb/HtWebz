@@ -1,13 +1,13 @@
-<svg class="grid-icon" width="50" height="50" viewBox="0 0 200 200">
+<svg class="grid-icon" width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- Gradient definitions -->
     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4da6ff"/>
-      <stop offset="100%" stop-color="#82cfff"/>
+      <stop offset="0%" stop-color="#4da6ff" />
+      <stop offset="100%" stop-color="#82cfff" />
     </linearGradient>
     <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1a73e8"/>
-      <stop offset="100%" stop-color="#4da6ff"/>
+      <stop offset="0%" stop-color="#1a73e8" />
+      <stop offset="100%" stop-color="#4da6ff" />
     </linearGradient>
   </defs>
 
@@ -31,33 +31,33 @@
 
   <!-- Folded corner -->
   <g class="corner-fold-group">
-    <polygon transform="translate(-0.25, -0.25)" points="180,180 150,180 180,150" fill="white" opacity="0.9" stroke="darkgray" stroke-width="0.75" stroke-linejoin="miter" />
+    <polygon transform="translate(-0.25, -0.25)" points="180,180 150,180 180,150" fill="white" opacity="0.9"
+      stroke="darkgray" stroke-width="0.75" stroke-linejoin="miter"></polygon>
   </g>
+  <style>
+    .tile {
+      transition: all 0.175s ease;
+    }
+
+    .grid-icon {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .grid-icon:hover .tile {
+      filter: brightness(1.25);
+    }
+
+    .grid-icon:active .tile {
+      filter: brightness(0.9);
+    }
+
+    .grid-icon:hover {
+      transform: scale(1.025);
+    }
+
+    .grid-icon:active {
+      transform: scale(0.975);
+    }
+  </style>
 </svg>
-
-<style>
-  .tile {
-    transition: all 0.175s ease;
-  }
-
-  .grid-icon {
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-
-  .grid-icon:hover .tile {
-    filter: brightness(1.25);
-  }
-
-  .grid-icon:active .tile {
-    filter: brightness(0.9);
-  }
-
-  .grid-icon:hover {
-    transform: scale(1.025);
-  }
-
-  .grid-icon:active {
-    transform: scale(0.975);
-  }
-</style>

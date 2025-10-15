@@ -1,0 +1,25 @@
+<svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="gloss-reflection">
+            <stop offset="0%" stop-color="darkgray" />
+            <stop offset="50%" stop-color="lightgray" />
+            <stop offset="100%" stop-color="#c0c0c0" />
+        </linearGradient>
+    </defs>
+
+    <!-- Handle - Light Cyan Blue -->
+    <g class="magnifier-handle-group">
+        <rect fill="#45C9E1FF"  x="95" y="37.5" width="50" height="112.5" transform="rotate(45, 50, 50)" stroke="#007876FF" stroke-width="3" rx="7.5" />
+    </g>
+
+    <!-- Frame - Primary Part -->
+    <g class="magnifier-glass-frame-group">
+        <circle cx="134" cy="65" r="57.5" fill="#0097A7FF" stroke="#007876FF" stroke-width="3.25" id="magnifier-glass-frame"></circle>
+        <g>
+            <circle cx="135" cy="65" r="42.5" fill="#cfcfcf" stroke="#007876FF" stroke-width="3"></circle>
+            <circle cx="122.5" cy="45" fill="url(#gloss-reflection)" r="10"></circle>
+        </g>
+    </g>
+
+    
+</svg>
