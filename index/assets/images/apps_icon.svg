@@ -30,7 +30,9 @@
   </g>
 
   <!-- Folded corner -->
-  <polygon points="180,180 130,180 180,130" fill="white" opacity="0.9"/>
+  <g class="corner-fold-group">
+    <polygon transform="translate(-0.25, -0.25)" points="180,180 150,180 180,150" fill="white" opacity="0.9" stroke="darkgray" stroke-width="0.75" stroke-linejoin="miter" />
+  </g>
 </svg>
 
 <style>
