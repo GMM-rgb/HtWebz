@@ -987,6 +987,9 @@
 
             [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
                 button.addEventListener("click", () => {
+                    window.addEventListener("click", (e) => {
+                        e.preventDefault();
+                    }, { once: true });
                     let ClickPrimary = document.getElementById("GlobalClick");
                     ClickPrimary.volume = 0.5;
                     ClickPrimary.currentTime = 0;
@@ -996,8 +999,11 @@
                 });
             });
 
-            logoButton.addEventListener("mousedown", () => {
-                let LogoClick = document.getElementById("LogoClick");
+            logoButton.addEventListener("click", () => {
+                window.addEventListener("click", (e) => {
+                    e.preventDefault();
+                }, { once: true });
+                let LogoClick = document.getElementById("GlobalClick");
                 LogoClick.volume = 0.5;
                 LogoClick.currentTime = 0;
                 LogoClick.play().catch((error) => {
