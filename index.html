@@ -344,7 +344,6 @@
                     transform: scale(0.825) !important;
                 }
             }
-
             #mainLogo::after {
                 content: '';
                 inset: 0;
@@ -376,6 +375,20 @@
                 user-select: none !important;
                 transition: all 0.3s ease;
                 margin-top: 0;
+            }
+            @keyframes spinAccelerateLogo {
+                0% {
+                    transform: rotate(0deg) scale(1);
+                }
+                50% {
+                    transform: rotate(180deg) scale(1.25);
+                }
+                100% {
+                    transform: rotate(360deg) scale(1);
+                }
+            }
+            #mainLogo:hover>img {
+                animation: spinAccelerateLogo 0.587s ease-in-out forwards;
             }
             #mainLogo:hover {
                 border-color: #30a9ff;
