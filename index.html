@@ -333,6 +333,46 @@
         </div>
 
         <h1 id="pageTitle">HtWebz Homepage</h1>
+        
+        <style>
+            #mainLogo {
+                cursor: pointer;
+                width: 60px;
+                height: 60px;
+                margin-right: 10px;
+                display: inline-block;
+                vertical-align: middle;
+                border: 3px solid #0586e3;
+                border-radius: 100px;
+                transition: all 0.3s ease;
+            }
+            #mainLogo img {
+                display: block;
+                margin: auto;
+                pointer-events: none !important;
+                image-rendering: optimizeQuality !important;
+                user-select: none !important;
+                transition: all 0.3s ease;
+            }
+            #mainLogo:hover {
+                border-color: #30a9ff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                transform: scale(1.1);
+            }
+            #mainLogo:active {
+                border-color: #479dda;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+                transform: scale(0.95);
+            }
+        </style>
+
+        <div id="mainLogo">
+            <a href="index.html">
+                <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
+                    alt="HtWebz Logo" width="60" height="60"
+                    style="image-rendering: pixelated !important; user-select: none !important;" />
+            </a>
+        </div>
 
         <script name="TruncateTextScript">
             function truncateEllipsis(el, { suffix = '...', minChars = 2 } = {}) {
