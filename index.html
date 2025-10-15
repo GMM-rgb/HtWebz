@@ -983,8 +983,9 @@
             const moreFromHtWebzContainer = document.getElementById("moreFromHtWebzContainer");
             const gamesMenuOpen = document.getElementById("gamesMenuOpen");
             const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
+            const logoButton = document.getElementById("mainLogo");
 
-            [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
+            [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen, logoButton].forEach(button => {
                 button.addEventListener("click", () => {
                     let ClickPrimary = document.getElementById("GlobalClick");
                     ClickPrimary.volume = 0.5;
