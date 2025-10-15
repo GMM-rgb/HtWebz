@@ -985,7 +985,7 @@
             const resourcesMenuOpen = document.getElementById("resourcesMenuOpen");
             const logoButton = document.getElementById("mainLogo");
 
-            [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen, logoButton].forEach(button => {
+            [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
                 button.addEventListener("click", () => {
                     let ClickPrimary = document.getElementById("GlobalClick");
                     ClickPrimary.volume = 0.5;
@@ -993,6 +993,15 @@
                     ClickPrimary.play().catch((error) => {
                         console.warn(error);
                     });
+                });
+            });
+
+            logoButton.addEventListener("mousedown", () => {
+                let LogoClick = document.getElementById("LogoClick");
+                LogoClick.volume = 0.5;
+                LogoClick.currentTime = 0;
+                LogoClick.play().catch((error) => {
+                    console.warn(error);
                 });
             });
 
