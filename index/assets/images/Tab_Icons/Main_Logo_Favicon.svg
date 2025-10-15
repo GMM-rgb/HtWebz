@@ -1,0 +1,80 @@
+<svg width="500" height="500" viewBox="0 0 212.5 212.5" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="leftHalf">
+      <rect x="0" y="90" width="106.25" height="50" />
+    </clipPath>
+    <clipPath id="rightHalf">
+      <rect x="106.25" y="90" width="106.25" height="50" />
+    </clipPath>
+    <mask id="hollowCenter">
+      <rect x="0" y="0" width="212.5" height="212.5" fill="white" />
+      <!-- Rotated 45 degrees -->
+      <path d="
+        M 500 500
+        L 10 0
+        L 0 10
+        L 100 100
+      Z" fill="black" transform="rotate(270 136.5 125)" />
+      <!-- Rotated negative 45 degrees (-45) -->
+      <path d="
+        M 500 500
+        L 0 0
+        L 0 0
+        L 100 100
+      Z" fill="black" transform="rotate(270 136.5 125)" />
+      <!-- Central  -->
+      <rect x="60" y="120" width="100" height="15" fill="black" transform="rotate(-45 136.5 125)" />
+    </mask>
+  </defs>
+
+  <g class="favicon-MAIN">
+    <g class="icon-background-frame">
+      <circle cx="50.6" cy="50.6" r="50" fill="#007876FF" transform="scale(2.1)"></circle>
+      <circle cx="56" cy="56" r="50" fill="#0097A7FF" transform="scale(1.9)"></circle>
+    </g>
+    
+    <!-- Main light blue/cyan background circle -->
+    <circle cx="106.25" cy="106.25" r="85" fill="#45C9E1FF" />
+    
+    <g class="semi-circle-decor-g">
+      <!-- Left Glow semi-circle -->
+      <circle cx="106.25" cy="115" r="20" fill="#5FD4E1" clip-path="url(#leftHalf)" />
+      
+      <!-- Right Glow semi-circle -->
+      <circle cx="106.25" cy="115" r="20" fill="#5FD4E1" clip-path="url(#rightHalf)" />
+
+      <!-- Gloss Decor -->
+      <g class="gloss-decoration-group">
+        <circle cx="62.5" cy="68.5" r="12.5" fill="#14aac4" stroke="#5FD4E1"></circle>
+        <circle cx="61.5" cy="66.5" r="4.5" fill="#45C9E1FF"></circle>
+        <circle cx="67.5" cy="73.5" r="2.5" fill="#45C9E1FF"></circle>
+      </g>
+    </g>
+    
+    <!-- Medium triangle with curved bottom - medium blue -->
+    <path d="M 53 172 L 106.25 115 L 160.5 173 A 90 102.5 0 0 1 52 173.5 Z" fill="#6D9EEBFF" />
+
+    <g class="center-decor-machine-g">
+      <rect x="106" y="120" width="39.75" height="39.75" transform="rotate(45 105.1275 120.75)" fill="#7ae7faff" stroke="#4284f4ff" stroke-width="2.5" stroke-linejoin="round" />
+      <rect x="106" y="120" width="39.75" height="39.75" transform="rotate(45 105.1275 120.75)" fill="#1b86f7ff" stroke="#4284f4ff" stroke-width="2.5" stroke-linejoin="round" mask="url(#hollowCenter)" />
+      <line x1="106.35" y1="122.5" x2="106.35" y2="175" stroke="#4284f4ff" stroke-width="2.5" />
+    </g>
+
+    <g class="divider-lines-decor-g">
+      <!-- Vertical Divider line -->
+      <line x1="106.25" y1="21" x2="106.25" y2="115" stroke="#0097a7ff" stroke-width="4.435" />
+
+      <!-- Diagonal lines from center vertical line, to both bottom edges -->
+      <line x1="106.25" y1="115" x2="50" y2="172.5" stroke="#0097A7FF" stroke-width="6" />
+      <line x1="106.25" y1="115" x2="162.5" y2="172.5" stroke="#0097A7FF" stroke-width="6" />
+    </g>
+  </g>
+  <g>
+    <style>
+      .icon-background-frame {
+        -webkit-user-drag: none;
+        transition: all 0.4s ease;
+      }
+    </style>
+  </g>
+</svg>
