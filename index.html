@@ -335,24 +335,47 @@
         <h1 id="pageTitle">HtWebz Homepage</h1>
         
         <style>
+            @media (max-width: 762px) {
+                #mainLogo::after {
+                    display: none !important;
+                }
+                #mainLogo {
+                    margin: auto 10px auto 25px !important;
+                    transform: scale(0.825) !important;
+                }
+            }
+
+            #mainLogo::after {
+                content: '';
+                inset: 0;
+                position: relative;
+                border-left: 2px solid #707070;
+                border-right: 2px solid #707070;
+                padding-inline: 37.5px;
+                padding-block: 10px;
+                left: -10px;
+                top: -38.5px;
+            }
             #mainLogo {
+                pointer-events: all !important;
                 cursor: pointer;
                 width: 60px;
                 height: 60px;
-                margin-right: 10px;
                 display: inline-block;
                 vertical-align: middle;
+                background: rgba(5, 134, 227, 0.75);
                 border: 3px solid #0586e3;
                 border-radius: 100px;
                 transition: all 0.3s ease;
+                margin: auto 15px auto 5px;
             }
             #mainLogo img {
                 display: block;
-                margin: auto;
                 pointer-events: none !important;
                 image-rendering: optimizeQuality !important;
                 user-select: none !important;
                 transition: all 0.3s ease;
+                margin-top: 0;
             }
             #mainLogo:hover {
                 border-color: #30a9ff;
@@ -366,13 +389,13 @@
             }
         </style>
 
-        <div id="mainLogo">
-            <a href="index.html">
+        <a href="index.html">
+            <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Click to go to Homepage.')">
                 <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
                     alt="HtWebz Logo" width="60" height="60"
                     style="image-rendering: pixelated !important; user-select: none !important;" />
-            </a>
-        </div>
+            </div>
+        </a>
 
         <script name="TruncateTextScript">
             function truncateEllipsis(el, { suffix = '...', minChars = 2 } = {}) {
