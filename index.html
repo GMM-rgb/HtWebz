@@ -1003,12 +1003,16 @@
                 window.addEventListener("click", (e) => {
                     e.preventDefault();
                 }, { once: true });
-                let LogoClick = document.getElementById("GlobalClick");
-                LogoClick.volume = 0.5;
-                LogoClick.currentTime = 0;
-                LogoClick.play().catch((error) => {
+                try {
+                    let LogoClick = document.getElementById("GlobalClick");
+                    LogoClick.volume = 0.5;
+                    LogoClick.currentTime = 0;
+                    LogoClick.play().catch((error) => {
+                        console.warn(error);
+                    });
+                } catch (error) {
                     console.warn(error);
-                });
+                }
             });
 
             // Games menu hover
