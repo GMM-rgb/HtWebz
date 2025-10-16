@@ -41,6 +41,8 @@
   word-spacing: default;
   letter-spacing: 6.5px;
 
+  text-wrap-mode: wrap;
+
   /* Transition for hover and sticky-active states */
   transition: all 0.3s ease;
 
@@ -50,6 +52,8 @@
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   user-select: none !important;
+
+  flex: 1 1 auto;
 }
 
 .pinned-content-title.sticky-active {
@@ -70,7 +74,6 @@
 /* Mobile adjustments */
 @media (max-width: 812px) {
   .pinned-content-title {
-    font-size: 1.85em;
     border-radius: var(--radius-medium) !important;
   }
 

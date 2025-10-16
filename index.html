@@ -470,11 +470,17 @@
         </script>
 
         <script>
-            truncateEllipsis('pageTitle'); // Run once on load
+            // Run once on load
+            truncateEllipsis('pageTitle');
+            truncateEllipsis('pinnedContentTitle');
 
             // Re-run automatically if the element resizes
-            const ro = new ResizeObserver(() => truncateEllipsis('pageTitle'));
+            const ro = new ResizeObserver(() => {
+                truncateEllipsis('pageTitle');
+                truncateEllipsis('pinnedContentTitle');
+            });
             ro.observe(document.getElementById('pageTitle'));
+            ro.observe(document.getElementById('pinnedContentTitle'));
         </script>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
@@ -646,7 +652,7 @@
     <section id="rootPageSection">
 
         <section class="main-content-section" name="content">
-            <h3 class="pinned-content-title">Welcome</h3>
+            <h3 class="pinned-content-title" id="pinnedContentTitle">Welcome</h3>
             <div id="pinnedContentTop">
                 <!---->
                 <div class="about-page-container">
