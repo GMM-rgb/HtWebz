@@ -37,6 +37,8 @@
             href="index/assets/stylesheets/search_bar/search_bar.css" />
         <link rel="stylesheet"
             href="index/assets/stylesheets/decoration_svg/background_decor.css" />
+        <link rel="stylesheet" 
+            href="index/assets/stylesheets/homepage_body_content.css" />
         <i>
             <link rel="apple-touch-icon"
                 href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
@@ -335,7 +337,7 @@
         <h1 id="pageTitle">HtWebz Homepage</h1>
         
         <style>
-            @media (max-width: 762px) {
+            @media (max-width: 812px) {
                 #mainLogo::after {
                     display: none !important;
                 }
@@ -644,12 +646,11 @@
     <section id="rootPageSection">
 
         <section class="main-content-section" name="content">
+            <h3 class="pinned-content-title">Welcome</h3>
             <div id="pinnedContentTop">
-                <h3 class="pinned-content-title">Welcome</h3>
                 <!---->
                 <div class="about-page-container">
                     <!---->
-                    <h4 id="aboutTag" style="visibility:hidden;">About</h4>
                     <div id="aboutPageContentText">
                         <span class="questionOneText">Hello There</span>
                         <p class="aboutText">
@@ -799,120 +800,8 @@
             </div>
         </section>
 
-        <!-- Search Menu -->
-        <section id="searchMenu">
-            <!-- <div class="search-menu-hotbar">
-                <button id="closeSearchMenuBtn">X</button>
-                <button></button>
-            </div>
-            <div>
-                <div class="search-menu-managment">
-                    <form method="get" action="index/search_index.html"
-                        target="_blank">
-                        <button type="submit" id="exapndSearchMenuBtn"
-                            style="text-rendering: optimizeSpeed !important;"
-                            onclick="notify('Opening Search As New...')">⇱</button>
-                    </form>
-                </div>
-                <iframe id="searchPageDisplay"
-                    src="index/search_index_menu_version.html"></iframe>
-            </div> -->
-        </section>
-
-        <!---->
-        <!-- Featured Section -->
-        <div class="featuredTagBackdrop">
-            <h1 class="featuredTag">Featured</h1>
-        </div>
-
-        <section id="featuredContentSection">
-            <div id="verticalShowcase">
-
-                <div id="v-showcase">
-                    <span class></span>
-                    <img
-                        src="index/assets/images/Tab_Icons/HtWebz_AI_Assistant_Icon.png"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        aria-describedby="featured" height="auto" width="auto"
-                        class="showcasePreviewImage" />
-                    <p class="featured-description">
-                        Say Hello to your new friend, HTAssistant!
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
-                            a work in
-                            progress.</text>
-                    </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
-                </div>
-
-                <div id="v-showcase">
-                    <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured"
-                        class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
-                    <p class="featured-description">
-                        ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
-                            a work in
-                            progress.</text>
-                    </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
-                </div>
-
-                <div id="v-showcase">
-                    <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured"
-                        class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
-                    <p class="featured-description">
-                        ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
-                            a work in
-                            progress.</text>
-                    </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
-                </div>
-
-                <div id="v-showcase">
-                    <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured"
-                        class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
-                    <p class="featured-description">
-                        ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
-                            a work in
-                            progress.</text>
-                    </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
-                </div>
-
-                <div id="v-showcase">
-                    <span class></span>
-                    <img src="index/assets/images/" aria-describedby="featured"
-                        class="showcasePreviewImage"
-                        style="image-rendering: pixelated !important; user-select: none !important; border-radius: 15px;"
-                        width="auto" height="auto" />
-                    <p class="featured-description">
-                        ...
-                        <hr class="dividerShowcase"><br><text
-                            class="furthermoreDescription">This is currently
-                            a work in
-                            progress.</text>
-                    </p>
-                    <button onclick="notify('Currently Unavailable...')"
-                        id="tryButtonShowcase">Coming Soon...</button>
-                </div>
+        <section class="content-section featured" id="featured-section-A">
+            <div class="inner-frame-container" aria-atomic="false">
 
             </div>
         </section>
@@ -1110,71 +999,10 @@
 
     </section>
 
-    <section id="bottomPageSection">
-        <section id="topAppsSection">
-            <div id="topAppsBackdrop">
-                <h1 id="topAppsTitle">Top Apps</h1>
-            </div>
-            <div id="appsTrayBackdropContent">
-                <div id="appsTrayContent">
-                    <div id="appTray">
-                        <!-- Searcher App -->
-                        <div id="searcherApp">
-                            <img
-                                src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
-                                aria-describedby="featured" height="auto"
-                                width="auto"
-                                class="appTrayPreviewImage hoverable"
-                                id="searcherAppImageButton"
-                                onmouseenter="setupTooltip('#searcherAppImageButton', 'Click to navigate to searcher.')" />
-                            <p class="app-description">
-                                Search the web with the HtWebz Searcher.
-                                <hr class="dividerAppTray"><br><text
-                                    class="furthermoreDescription">This is
-                                    currently a work in
-                                    progress.</text>
-                            </p>
-                        </div>
-                        <!-- Games App -->
-                        <div id="gamesApp">
-                            <img
-                                src="index/assets/images/Tab_Icons/HtWebz_Games_Icon.png"
-                                aria-describedby="featured" height="auto"
-                                width="auto"
-                                class="appTrayPreviewImage hoverable"
-                                id="gamesAppImageButton"
-                                onmouseenter="setupTooltip('#gamesAppImageButton', 'Click to navigate to games.')" />
-                            <p class="app-description">
-                                Play games with the HtWebz Games App.
-                                <hr class="dividerAppTray"><br><text
-                                    class="furthermoreDescription">This is
-                                    currently a work in
-                                    progress.</text>
-                            </p>
-                        </div>
-                        <!-- Resources App -->
-                        <div id="resourcesApp">
-                            <img
-                                src="index/assets/images/Tab_Icons/HtWebz_Resources_Icon.png"
-                                aria-describedby="featured" height="auto"
-                                width="auto"
-                                class="appTrayPreviewImage hoverable"
-                                id="resourcesAppImageButton"
-                                onmouseenter="setupTooltip('#resourcesAppImageButton', 'Click to navigate to resources.')" />
-                            <p class="app-description">
-                                Find resources with the HtWebz Resources App.
-                                <hr class="dividerAppTray"><br><text
-                                    class="furthermoreDescription">This is
-                                    currently a work in
-                                    progress.</text>
-                            </p>
-                        </div>
-                    </div>
-                </section>
-            </section>
-        </body>
+    
 
-        <i><!-- End External Scripts ./index/assets/scripts/* -->
+    <!-- End External Scripts ./index/assets/scripts/* -->
+        <i>
             <script type="text/javascript"
                 src="index/assets/scripts/tooltip_system.js" defer></script>
             <script type="text/javascript"

@@ -11,13 +11,13 @@
     border-radius: 15px;
     background: white;
     padding: 3.75px;
-    top: -65px;
+    margin-top: -17.5px;
     transition: all 0.4s ease;
 }
 
-@media (max-width: 762px) {
+@media (max-width: 812px) {
     .about-page-container {
-        top: -85px !important;
+        margin-top: -12.5px !important;
     }
 }
 
