@@ -343,6 +343,13 @@
                     margin: auto 10px auto 25px !important;
                     transform: scale(0.825) !important;
                 }
+                #mainLogo:hover>img {
+                    animation: none !important;
+                }
+            }
+            #mainLogo::before {
+                content: '';
+                cursor: default !important;
             }
             #mainLogo::after {
                 content: '';
@@ -354,10 +361,12 @@
                 padding-block: 10px;
                 left: -10px;
                 top: -38.5px;
+                width: max-content;
+                transition: all 0.3s ease;
             }
             #mainLogo {
                 pointer-events: all !important;
-                cursor: pointer;
+                cursor: pointer !important;
                 width: 60px;
                 height: 60px;
                 display: inline-block;
@@ -380,15 +389,21 @@
                 0% {
                     transform: rotate(0deg) scale(1);
                 }
-                50% {
-                    transform: rotate(180deg) scale(1.25);
+                50%, 75% {
+                    transform: rotate(270deg) scale(1.25);
                 }
                 100% {
                     transform: rotate(360deg) scale(1);
                 }
             }
             #mainLogo:hover>img {
-                animation: spinAccelerateLogo 0.587s ease-in-out forwards;
+                animation: spinAccelerateLogo 0.585s ease-in-out forwards;
+            }
+            #mainLogo:hover::after {
+                left: -11.5px !important;
+                width: 50px !important;
+                padding-inline-end: 42.5px !important;
+                padding-inline-start: 35px !important;
             }
             #mainLogo:hover {
                 border-color: #30a9ff;
@@ -403,7 +418,7 @@
         </style>
 
         <a href="index.html">
-            <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Click to go to Homepage.')">
+            <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
                 <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
                     alt="HtWebz Logo" width="60" height="60"
                     style="image-rendering: pixelated !important; user-select: none !important;" />
@@ -462,11 +477,13 @@
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
             <button id="gamesMenuOpen"
-                onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')"><img
-                    id="gamesMenuIcon"
-                    src="index/assets/images/console_remote_controller.png"
-                    alt="Games Icon"
-                    preload="auto" height="27.5" width="27.5" />
+                onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
+                <div id="gamesIconWrapper" aria-sort="other">
+                    <img id="gamesMenuIcon"
+                        src="index/assets/images/console_remote_controller.png"
+                        alt="Games Icon"
+                        preload="auto" height="27.5" width="27.5" />
+                </div>
                 <span class="games-menu-text">Games</span></button>
             <button id="resourcesMenuOpen"
                 onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
@@ -476,7 +493,7 @@
 
                 <div id="resourcesIconWrapper" aria-sort="other">
                     <img id="resourcesMenuIcon"
-                        src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                        src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
                         alt="Resources Icon" preload="auto" height="27.5"
                         width="27.5" />
                 </div>
