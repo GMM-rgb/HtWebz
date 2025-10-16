@@ -1,4 +1,4 @@
-<svg width="50" height="50" viewBox="0 0 212.5 212.5" xmlns="http://www.w3.org/2000/svg">
+<svg width="500" height="500" viewBox="0 0 212.5 212.5" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <clipPath id="leftHalf">
       <rect x="0" y="90" width="106.25" height="50" />
@@ -29,8 +29,8 @@
 
   <g class="favicon-MAIN">
     <g class="icon-background-frame">
-      <circle cx="50.6" cy="50.6" r="50" fill="#007876FF" transform="scale(2.1)"></circle>
-      <circle cx="56" cy="56" r="50" fill="#0097A7FF" transform="scale(1.9)"></circle>
+      <circle cx="50.6" cy="50.6" r="50" fill="#007876" transform="scale(2.1)"></circle>
+      <circle cx="56" cy="56" r="50" fill="#0097A7" transform="scale(1.9)"></circle>
     </g>
     
     <!-- Main light blue/cyan background circle -->
