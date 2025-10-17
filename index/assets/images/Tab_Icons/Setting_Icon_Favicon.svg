@@ -16,7 +16,7 @@
             <g class="inner-gear-svg-group">
                 <svg id="inner-gear-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="57.5" y="57.5" width="85px"
                     height="85px" viewBox="0 0 512 512" version="1.1">
-                    <g id="surface1">
+                    <g id="surface1" style="filter:none !important;">
                         <path class="gear"
                             d="
                             M 408.320312 276.054688 
