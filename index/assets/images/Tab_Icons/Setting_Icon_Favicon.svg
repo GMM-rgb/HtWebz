@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="200" height="200" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
+<svg width="500" height="500" viewBox="0 0 275 275" xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <clipPath id="L-shape-clip">
@@ -8,7 +8,7 @@
         </clipPath>
     </defs>
 
-    <g class="settings-icon-object" transform="translate(50, 50)">
+    <g class="settings-icon-object" transform="translate(37.5, 37.5)">
         <g class="center-reference">
             <rect fill="#45C9E1" stroke="#007876" stroke-width="3.5" x="50" y="50" width="100" height="100" rx="15" />
             <circle fill="#0097A7" stroke="#007876" stroke-width="3.5" cx="100" cy="100" r="40" />
