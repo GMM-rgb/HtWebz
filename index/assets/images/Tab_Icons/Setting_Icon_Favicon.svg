@@ -164,7 +164,7 @@
     </g>
     <style>
         g {
-            filter: drop-shadow(0 0 2.5px cyan);
+            filter: drop-shadow(0 0 5px cyan);
         }
         .inner-gear-svg-group {
             filter: none !important;
