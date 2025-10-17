@@ -12,13 +12,10 @@
 
     <path clip-path="url(#L-shape-clip)" class="L-shape-poly" fill="#45C9E1" stroke="#007876" stroke-width="3.5" stroke-linejoin="round" transform="translate(50, 250)" d="
     M 0 50
-    L 0 85
-    L 100 65
-    H 100
-    L 122.5 0
-    L 100 -65
-    v 0 0
-    L 0 -85
+    L 0 100
+    L 112.5 0
+    L 0 -95
+    v 0 15
     v 0 35
     H 0 0
     L 50 0
