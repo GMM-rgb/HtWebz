@@ -13,12 +13,14 @@
   position: sticky;
   /* Sticks right at the top of the parent element */
   margin-top: -12.5px;
+  margin-bottom: 27.5px;
   top: 0;
   left: 0;
   z-index: 1000;
 
   /* Remove any default margins that might push it down */
-  padding-block: 12.5px;
+  padding-inline: 12.5px;
+  padding-block: 2.5px;
 
   /* Appearance */
   background: white;
@@ -29,19 +31,17 @@
   box-sizing: border-box;
 
   /* Text Styles */
-  font-weight: 600;
+  font-size: 3em;
+  font-weight: 700;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 2em;
   color: black;
   -webkit-text-stroke: 0.5px darkslategray;
   -webkit-text-fill-color: rgb(94, 143, 192);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.375);
   text-overflow: ellipsis !important;
+  text-indent: 2.5px;
 
-  word-spacing: default;
   letter-spacing: 6.5px;
-
-  text-wrap-mode: wrap;
 
   /* Transition for hover and sticky-active states */
   transition: all 0.3s ease;
