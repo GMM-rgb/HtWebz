@@ -7,5 +7,16 @@
     border-radius: 15px;
     box-sizing: border-box;
     min-height: max-content;
-    min-width: 100px;
+    min-width: 300px;
+}
+
+.featured-object-title {
+    text-align: center;
+    border: 3px solid #ccc;
+    border-radius: 15px;
+    background: whitesmoke;
+    width: auto;
+    -webkit-user-drag: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
 }
