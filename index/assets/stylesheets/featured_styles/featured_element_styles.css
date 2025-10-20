@@ -11,12 +11,16 @@
 }
 
 .featured-object-title {
+    cursor: pointer;
     text-align: center;
     border: 3px solid #ccc;
-    border-radius: 15px;
+    border-radius: var(--radius-liquid);
     background: whitesmoke;
+    padding-block: 5px;
     width: auto;
     -webkit-user-drag: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
+    margin-top: 0;
+    color: gray;
 }
