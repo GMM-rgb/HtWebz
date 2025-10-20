@@ -1,0 +1,11 @@
+.featured-object {
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    border: 3px solid #ccc;
+    background: white;
+    border-radius: 15px;
+    box-sizing: border-box;
+    min-height: max-content;
+    min-width: 100px;
+}
