@@ -45,6 +45,29 @@
     overflow-x: auto;
 }
 
+.inner-frame-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.inner-frame-container::-webkit-scrollbar-corner {
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.45);
+}
+
+.inner-frame-container::-webkit-scrollbar-track {
+    border-radius: 12.5px / 14.5px;
+    background: transparent;
+}
+
+.inner-frame-container::-webkit-scrollbar-thumb {
+    cursor: ew-resize;
+    border-radius: 12.5px / 14.5px;
+    background: rgba(100, 149, 237, 0.625);
+    border: 0.5px solid #ababab;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
 /* Individual class types */
 .content-section.featured {
     max-height: unset;
