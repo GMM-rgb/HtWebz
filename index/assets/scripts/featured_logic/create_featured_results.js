@@ -2,13 +2,13 @@ const featuredDisplayContainer = document.querySelector(".inner-frame-container.
 
 const ImageSourceDirectory = `./index/assets/images/featured_image_centre/`;
 const featuredDataJSON = {
-    "idk": {
-        "Description": ["hello world!"],
-        // "Image": []
+    "Settings": {
+        "Description": ["Customization."],
+        "Image": ["Gear_Icon.svg"]
     },
     "Wiki": {
         "Description": ["Information?"],
-        "Image": ["klfdlkflksl"]
+        "Image": [""]
     }
 };
 
@@ -59,7 +59,7 @@ function generateFeaturedContent() {
                 ImagePreview.height = "150";
 
                 const imageName = String(Data.Image).toLowerCase().trim();
-                const validExtensions = [".png", ".jpg", ".jpeg", ".gif"];
+                const validExtensions = [".png", ".jpg", ".jpeg", ".gif", ".svg"];
                 const isValidImage = validExtensions.some(ext => imageName.endsWith(ext));
 
                 if (isValidImage) {

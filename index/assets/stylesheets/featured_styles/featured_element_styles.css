@@ -1,5 +1,6 @@
 .featured-object {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     padding: 10px;
     position: relative;
     border: 3px solid #ccc;
@@ -17,17 +18,14 @@
     border-radius: var(--radius-liquid);
     background: whitesmoke;
     padding-block: 5px;
-    width: 100px;
+    width: auto;
     -webkit-user-drag: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
     margin-top: 0;
     color: gray;
     transition: all 0.3s ease-out;
-}
-
-.featured-object:has(h2)>.featured-object-title {
-    width: auto;
+    flex: 0 1 auto;
 }
 
 .featured-object-title:hover {
