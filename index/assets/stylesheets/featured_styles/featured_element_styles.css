@@ -17,13 +17,17 @@
     border-radius: var(--radius-liquid);
     background: whitesmoke;
     padding-block: 5px;
-    width: auto;
+    width: 100px;
     -webkit-user-drag: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
     margin-top: 0;
     color: gray;
     transition: all 0.3s ease-out;
+}
+
+.featured-object:has(h2)>.featured-object-title {
+    width: auto;
 }
 
 .featured-object-title:hover {
