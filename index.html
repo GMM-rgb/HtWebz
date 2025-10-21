@@ -314,12 +314,12 @@
     <section id="topUserInterfaceBar">
         <div class="appMenuOpenButtons">
 
-            <button id="expandMenuToolbar"
+            <!-- <button id="expandMenuToolbar"
                 onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
                 <img id="expandToolbarIcon"
                     src="index/assets/images/Hamburger_icon.png" height="25"
                     width="25" preload="auto" />
-            </button>
+            </button> -->
 
             <button id="appMenuOpen"
                 onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
@@ -480,15 +480,19 @@
             truncateEllipsis('pinnedContentTitle');
 
             // Re-run automatically if the element resizes
-            const titleRo = new ResizeObserver(() => {
-                truncateEllipsis('pageTitle');
-            });
-            const pinnedContentTitleRo = new ResizeObserver(() => {
-                truncateEllipsis('pinnedContentTitle');
-            });
+            window.addEventListener("DOMContentLoaded", () => {
+                document.onloadedmetadata = () => {
+                    const titleRo = new ResizeObserver(() => {
+                        truncateEllipsis('pageTitle');
+                    });
+                    const pinnedContentTitleRo = new ResizeObserver(() => {
+                        truncateEllipsis('pinnedContentTitle');
+                    });
 
-            titleRo.observe(document.getElementById('pageTitle'));
-            pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
+                    titleRo.observe(document.getElementById('pageTitle'));
+                    pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
+                }
+            });
         </script>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
@@ -818,10 +822,8 @@
             <div class="content-section-text-title">
                 <h1>Featured</h1>
             </div>
-            <div class="inner-frame-container featured" aria-label="Featured">
-                
-            </div>
-            <script src="./index/assets/scripts/featured_logic/create_featured_results.js"></script>
+            <div class="inner-frame-container featured" aria-label="Featured"><!-- Featured Objects get created by the following script below --></div>
+            <script type="text/javascript" src="./index/assets/scripts/featured_logic/create_featured_results.js"></script>
         </section>
 
         <style>
