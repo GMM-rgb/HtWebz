@@ -96,15 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         // List all selectors to animate
         const selectors = [
-            '.main-content-section',
-            '#pinnedContentTop',
-            '.about-page-container',
-            '.content-one',
-            '#featured-section-A',
+            `.main-content-section`,
+            `#pinnedContentTop`,
+            `.about-page-container`,
+            `.content-one`,
+            `#featured-section-A`,
+            `.developer.updated`,
+            `.developer.name`,
+            `.developer.site-name`,
+            `.developer.license`
         ];
         
         // Animate selected fixed elements
-        const fixedSelectors = ['#footerContainer'];
+        const fixedSelectors = [];
 
         // Create intersection observer with direction detection
         const observer = new IntersectionObserver((entries) => {
