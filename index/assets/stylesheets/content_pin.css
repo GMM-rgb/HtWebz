@@ -20,7 +20,6 @@
 
   /* Remove any default margins that might push it down */
   padding-inline: 12.5px;
-  padding-block: 2.5px;
 
   /* Appearance */
   background: white;
@@ -31,7 +30,7 @@
   box-sizing: border-box;
 
   /* Text Styles */
-  font-size: 3em;
+  font-size: 2em;
   font-weight: 700;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: black;
@@ -41,19 +40,21 @@
   text-overflow: ellipsis !important;
   text-indent: 2.5px;
 
-  letter-spacing: 6.5px;
+  letter-spacing: 2.5px;
 
   /* Transition for hover and sticky-active states */
   transition: all 0.3s ease;
 
   /* If we need to center it based on design */
   text-align: center;
+  line-height: 1.2;
 
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   user-select: none !important;
 
-  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .pinned-content-title.sticky-active {
