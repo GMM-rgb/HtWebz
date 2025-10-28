@@ -160,18 +160,18 @@
                 </style>
             </svg>
         </g>
+        <style>
+            g {
+                filter: drop-shadow(0 0 5px cyan);
+            }
+            .inner-gear-svg-group {
+                filter: none !important;
+            }
+            .L-shape-poly {
+                -webkit-backdrop-filter: blur(1.5px);
+                backdrop-filter: blur(1.5px);
+                fill-opacity: 0.9;
+            }
+        </style>
     </g>
-    <style>
-        g {
-            filter: drop-shadow(0 0 5px cyan);
-        }
-        .inner-gear-svg-group {
-            filter: none !important;
-        }
-        .L-shape-poly {
-            -webkit-backdrop-filter: blur(1.5px);
-            backdrop-filter: blur(1.5px);
-            fill-opacity: 0.9;
-        }
-    </style>
 </svg>
