@@ -3,16 +3,16 @@ const featuredDisplayContainer = document.querySelector(".inner-frame-container.
 const ImageSourceDirectory = `./index/assets/images/featured_image_centre/`;
 const featuredDataJSON = {
     "Settings": {
-        "Description": ["Customization."],
-        "Image": ["Gear_Icon.svg"]
+        Description: ["Customization."],
+        Image: ["Gear_Icon.svg"]
     },
     "Wiki": {
-        "Description": ["Information?"],
-        "Image": null
+        Description: ["Information?"],
+        Image: null
     },
     "Game Library": {
-        "Description": ["Dashboard for games on the page."],
-        "Image": null
+        Description: ["Dashboard for games on the page."],
+        Image: null
     }
 };
 
