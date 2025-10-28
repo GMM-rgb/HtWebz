@@ -480,17 +480,15 @@
             truncateEllipsis('pinnedContentTitle');
 
             // Re-run automatically if the element resizes
-            window.addEventListener("DOMContentLoaded", () => {
-                const titleRo = new ResizeObserver(() => {
-                    truncateEllipsis('pageTitle');
-                });
-                const pinnedContentTitleRo = new ResizeObserver(() => {
-                    truncateEllipsis('pinnedContentTitle');
-                });
-
-                titleRo.observe(document.getElementById('pageTitle'));
-                pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
+            const titleRo = new ResizeObserver(() => {
+                truncateEllipsis('pageTitle');
             });
+            const pinnedContentTitleRo = new ResizeObserver(() => {
+                truncateEllipsis('pinnedContentTitle');
+            });
+
+            titleRo.observe(document.getElementById('pageTitle'));
+            pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
         </script>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
