@@ -216,7 +216,6 @@
                 animation: spin 1s ease infinite;
             }
 
-            /* */
             g {
                 filter: drop-shadow(0 0 5px cyan);
             }
