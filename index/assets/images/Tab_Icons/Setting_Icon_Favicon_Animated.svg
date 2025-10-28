@@ -162,6 +162,47 @@
         </g>
     </g>
     <style>
+        @keyframes CordinatedScale {
+            0%, 2.5%, 100% {
+                animation-delay: random(0.1, 0.8, 0.1);
+                transform: scale(1);
+            }
+            45%, 50% {
+                transform: scale(0.995);
+            }
+            75% {
+                transform: scale(1.025)
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes spin {
+            0% {
+                rotate: 0;
+            }
+            50% {
+                rotate: 50deg
+            }
+            100% {
+                rotate: 360deg;
+            }
+        }
+        .gear-frame-teeth.layer-one {
+            transform-origin: center center;
+            transform-box: inherit;
+            animation: CordinatedScale 4s linear reverse infinite;
+        }
+        .gear-frame-teeth.layer-two {
+            transform-origin: center;
+            transform-box: inherit;
+            animation: CordinatedScale 4s linear forwards infinite;
+        }
+        #surface1 {
+            transform-origin: center center;
+            animation: spin 1s ease infinite;
+        }
+        /* */
         g {
             filter: drop-shadow(0 0 5px cyan);
         }
