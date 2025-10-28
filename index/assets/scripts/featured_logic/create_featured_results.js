@@ -8,7 +8,11 @@ const featuredDataJSON = {
     },
     "Wiki": {
         "Description": ["Information?"],
-        "Image": [""]
+        "Image": null
+    },
+    "Game Library": {
+        "Description": ["Dashboard for games on the page."],
+        "Image": null
     }
 };
 
@@ -77,14 +81,20 @@ function generateFeaturedContent() {
                 Description.textContent = `${featuredDataJSON[key].Description}`;
             } else Description = null;
 
+            // The main featured element container
             let FeaturedObject = document.createElement("div");
             FeaturedObject.setAttribute("class", "featured-object");
 
-            FeaturedObject.appendChild(Title);
+            // Append objects if available
+            if (Title) FeaturedObject.appendChild(Title);
             if (ImagePreview) FeaturedObject.appendChild(ImagePreview);
             if (Description) FeaturedObject.appendChild(Description);
 
-            appendFeaturedObject(FeaturedObject);
+            if (FeaturedObject) {
+                appendFeaturedObject(FeaturedObject);
+            } else {
+                console.warn(`WARNING: FeaturedObject is null or failed to be created`);
+            }
         }
     }
 }
