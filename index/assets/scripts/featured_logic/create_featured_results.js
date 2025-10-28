@@ -99,4 +99,4 @@ function generateFeaturedContent() {
     }
 }
 
-if (featuredDisplayContainer) { window.addEventListener("DOMContentLoaded", generateFeaturedContent); }
+if (featuredDisplayContainer) window.addEventListener("DOMContentLoaded", generateFeaturedContent);
