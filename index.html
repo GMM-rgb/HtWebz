@@ -481,17 +481,15 @@
 
             // Re-run automatically if the element resizes
             window.addEventListener("DOMContentLoaded", () => {
-                document.onloadedmetadata = () => {
-                    const titleRo = new ResizeObserver(() => {
-                        truncateEllipsis('pageTitle');
-                    });
-                    const pinnedContentTitleRo = new ResizeObserver(() => {
-                        truncateEllipsis('pinnedContentTitle');
-                    });
+                const titleRo = new ResizeObserver(() => {
+                    truncateEllipsis('pageTitle');
+                });
+                const pinnedContentTitleRo = new ResizeObserver(() => {
+                    truncateEllipsis('pinnedContentTitle');
+                });
 
-                    titleRo.observe(document.getElementById('pageTitle'));
-                    pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
-                }
+                titleRo.observe(document.getElementById('pageTitle'));
+                pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
             });
         </script>
 
