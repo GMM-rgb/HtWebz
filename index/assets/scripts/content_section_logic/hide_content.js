@@ -12,13 +12,14 @@ HideContentSectionButtons.forEach((btn) => {
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {
+    // Initialize sections based on saved visibility states and interactiveness of buttons
     HideContentSectionButtons.forEach((ContentHideBtn) => {
         if (typeof ContentHideBtn === "object" && ContentHideBtn instanceof HTMLElement) {
             let BtnSecondaryClass = ContentHideBtn.classList.item(1);
             if (!BtnSecondaryClass) return;
 
             ContentHideBtn.addEventListener("click", () => {
-                // Strip both -content and -section to get base class name format
+                // Strip both `-content and -section` to get base class name format
                 const TargetSectionClass = BtnSecondaryClass.replace("-content", "").replace("-section", "");
                 const TargetSection = document.querySelectorAll(`.inner-frame-container.${TargetSectionClass}`);
 
