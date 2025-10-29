@@ -73,9 +73,10 @@
     max-height: auto;
     height: 100%;
     width: 100%;
-    flex: auto;
+    flex: 1 1 auto;
     overflow-y: auto !important;
     overflow-x: auto !important;
+    -webkit-overflow-scrolling: auto;
     animation: ContentSectionOpen 0.5s ease forwards;
 }
 
@@ -95,6 +96,7 @@
 .inner-frame-container::-webkit-scrollbar-track {
     border-radius: 12.5px / 14.5px;
     background: transparent;
+    padding: 4.5px;
 }
 
 .inner-frame-container::-webkit-scrollbar-thumb {
