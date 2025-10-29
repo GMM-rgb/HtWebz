@@ -74,8 +74,8 @@
     height: 100%;
     width: 100%;
     flex: auto;
-    overflow-y: auto;
-    overflow-x: auto;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
     animation: ContentSectionOpen 0.5s ease forwards;
 }
 
