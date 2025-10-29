@@ -6,7 +6,7 @@ let VisibilityToggleData = VisibilityToggleDataParsed || {};
 
 HideContentSectionButtons.forEach((btn) => {
     if (typeof btn !== "object" || !(btn instanceof HTMLElement)) {
-        console.warn("WARNING: Invalid Hide Content Section Button detected:", btn);
+        return console.warn("WARNING: Invalid Hide Content Section Button detected:", btn);
     }
     btn.setAttribute("onmouseenter", "setTooltipText(this, 'Toggle Content Section Visibility');");
 });
