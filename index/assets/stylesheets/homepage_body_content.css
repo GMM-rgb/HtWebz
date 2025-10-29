@@ -13,6 +13,38 @@
     }
 }
 
+@keyframes ContentSectionOpen {
+    0% {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+    100% {
+        opacity: 1;
+        height: initial;
+        overflow: visible;
+        display: flex;
+    }
+}
+
+@keyframes ContentSectionCollapse {
+    0% {
+        opacity: 1;
+        height: initial;
+        overflow: hidden;
+    }
+    50%, 75% {
+        opacity: 0;
+        height: 50px;
+    }
+    100% {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+        display: none;
+    }
+}
+
 .content-section {
     position: relative;
     border: 3px solid #ccc;
@@ -38,11 +70,17 @@
     border: 3px solid #ccc;
     border-radius: 15px;
     min-height: 140px;
+    max-height: auto;
     height: 100%;
     width: 100%;
     flex: auto;
     overflow-y: auto;
     overflow-x: auto;
+    animation: ContentSectionOpen 0.5s ease forwards;
+}
+
+.inner-frame-container.hidden-content-section {
+    animation: ContentSectionCollapse 0.5s ease forwards !important;
 }
 
 .inner-frame-container::-webkit-scrollbar {
@@ -117,12 +155,12 @@
     height: 100%;
     padding: calc(25px / 1.25) calc(50px / 1.5);
     /* Text settings */
+    text-align: center;
     font-size: 2em;
     font-weight: bold;
     color: white;
     /* Shadow */
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
-
     transition: all 0.3s ease;
 }
 
@@ -133,4 +171,5 @@
 .hide-content-section-button.collapsed {
     background: limegreen;
     border: 4px solid greenyellow;
+    scale: 0.95;
 }

@@ -18,14 +18,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
                 console.log(`Toggling visibility for section: ${TargetSectionClass}`);
                 
                 TargetSection.forEach((section) => {
-                    if (section.style.display === "none") {
+                    if (section.classList.contains("hidden-content-section")) {
                         section.classList.remove("hidden-content-section");
-                        section.style.display = "flex";
                         ContentHideBtn.innerHTML = "&ndash;";
                         ContentHideBtn.classList.remove("collapsed");
                     } else {
                         section.classList.add("hidden-content-section");
-                        section.style.display = "none";
                         ContentHideBtn.innerHTML = "+";
                         ContentHideBtn.classList.add("collapsed");
                     }
