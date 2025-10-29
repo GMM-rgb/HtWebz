@@ -2,14 +2,14 @@
 <svg width="200" height="200" viewBox="0 0 175 175" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(7.5, 2.5)">
         <rect width="80" height="110" x="40" y="26.5" fill="darkgray" stroke="gray" stroke-width="3" stroke-linejoin="round" rx="10" />
-        <!-- Left -->
         <g>
+            <!-- Left -->
             <rect x="50" y="35" width="25" height="25" fill="lightgray" stroke="gray" stroke-width="2" stroke-linejoin="round" rx="6.25" />
             <rect x="50" y="70" width="25" height="25" fill="lightgray" stroke="gray" stroke-width="2" stroke-linejoin="round" rx="6.25" />
             <rect x="50" y="105" width="25" height="25" fill="lightgray" stroke="gray" stroke-width="2" stroke-linejoin="round" rx="6.25" />
         </g>
-        <!-- Right -->
         <g>
+            <!-- Right -->
             <rect x="85" y="35" width="25" height="25" fill="lightgray" stroke="gray" stroke-width="2" stroke-linejoin="round" rx="6.25" />
             <rect x="85" y="70" width="25" height="25" fill="lightgray" stroke="gray" stroke-width="2" stroke-linejoin="round" rx="6.25" />
             <rect x="85" y="105" width="25" height="25" fill="lightgray" stroke="gray" stroke-width="2" stroke-linejoin="round" rx="6.25" />
