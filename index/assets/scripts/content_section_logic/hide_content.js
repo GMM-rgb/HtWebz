@@ -1,4 +1,8 @@
 const HideContentSectionButtons = document.querySelectorAll(".hide-content-section-button");
+const VisibilityToggleDataLocalStorage = localStorage.getItem("VisibilityToggleData");
+let VisibilityToggleDataParsed = JSON.parse(VisibilityToggleDataLocalStorage);
+
+let VisibilityToggleData = VisibilityToggleDataParsed || {};
 
 HideContentSectionButtons.forEach((btn) => {
     if (typeof btn !== "object" || !(btn instanceof HTMLElement)) {
