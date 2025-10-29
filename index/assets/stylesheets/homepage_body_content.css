@@ -110,8 +110,8 @@
 }
 
 .hide-content-section-button {
-    cursor: pointer;
-    border-radius: calc(15px * 2);
+    cursor: pointer !important;
+    border-radius: 15px;
     border: 4px solid darkred;
     background: red;
     height: 100%;
