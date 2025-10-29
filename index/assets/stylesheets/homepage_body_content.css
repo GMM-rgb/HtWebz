@@ -111,11 +111,11 @@
 
 .hide-content-section-button {
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: calc(15px * 2);
     border: 4px solid darkred;
     background: red;
     height: 100%;
-    padding: calc(25px / 2) calc(50px / 2);
+    padding: calc(25px / 1.25) calc(50px / 1.5);
 
     /* Text settings */
     font-size: 2em;
