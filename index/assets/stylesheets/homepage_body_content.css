@@ -57,7 +57,7 @@
     padding: 10px;
     width: 100%;
     overflow-y: auto;
-    overflow-x: auto;
+    overflow-x: hidden;
 }
 
 .inner-frame-container {
