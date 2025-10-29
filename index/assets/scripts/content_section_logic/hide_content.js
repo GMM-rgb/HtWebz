@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
             if (!BtnSecondaryClass) return;
 
             ContentHideBtn.addEventListener("click", () => {
-                // Strip both -content and -section to get base class name
+                // Strip both -content and -section to get base class name format
                 const TargetSectionClass = BtnSecondaryClass.replace("-content", "").replace("-section", "");
                 const TargetSection = document.querySelectorAll(`.inner-frame-container.${TargetSectionClass}`);
                 
@@ -19,11 +19,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
                 
                 TargetSection.forEach((section) => {
                     if (section.style.display === "none") {
+                        section.classList.remove("hidden-content-section");
                         section.style.display = "flex";
                         ContentHideBtn.innerHTML = "&ndash;";
+                        ContentHideBtn.classList.remove("collapsed");
                     } else {
+                        section.classList.add("hidden-content-section");
                         section.style.display = "none";
                         ContentHideBtn.innerHTML = "+";
+                        ContentHideBtn.classList.add("collapsed");
                     }
                 });
             });
