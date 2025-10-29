@@ -83,7 +83,7 @@
 .content-section-text-title {
     cursor: pointer;
     display: block;
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
     background: #0586e3bf;
     border: 3px solid #ccc;
@@ -97,6 +97,8 @@
     -webkit-user-select: none !important;
     user-select: none !important;
     transition: all 0.3s ease;
+    font-size: 1.5em;
+    width: 100%;
 }
 
 .content-section-text-title:hover {
@@ -105,4 +107,25 @@
 
 .content-section-text-title:disabled {
     display: none;
+}
+
+.hide-content-section-button {
+    cursor: pointer;
+    border-radius: 15px;
+    border: 4px solid darkred;
+    background: red;
+    height: 100%;
+    padding: calc(25px / 2) calc(50px / 2);
+
+    /* Text settings */
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+
+    /* Shadow */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
+}
+
+.hide-content-section-button:hover {
+    animation: HoverEffect 0.5s ease forwards !important;
 }

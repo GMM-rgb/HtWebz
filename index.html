@@ -813,9 +813,25 @@
             </div>
         </section>
 
+        <style>
+            .content-section-header-container {
+                /* Flex attributes */
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+                /* Sizing */
+                height: min-content;
+                width: 100%;
+                align-items: center;
+            }
+        </style>
+
         <section class="content-section featured" id="featured-section-A">
-            <div class="content-section-text-title">
-                <h1>Featured</h1>
+            <div class="content-section-header-container">
+                <div class="content-section-text-title">
+                    <h1>Featured</h1>
+                </div>
+                <button class="hide-content-section-button featured-content">X</button>
             </div>
             <div class="inner-frame-container featured" aria-label="Featured"><!-- Featured Objects get created by the following script below --></div>
             <script type="text/javascript" src="./index/assets/scripts/featured_logic/create_featured_results.js"></script>

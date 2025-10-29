@@ -213,7 +213,7 @@
 
 #expandMenuToolbar:active {
     transform: scale(0.95) !important;
-    transition: all 0.15s ease-out !important;
+    transition: all random(0.15s, 0.3s, 0.01s) ease-out !important;
 }
 
 #appMenuOpen::before {
@@ -282,7 +282,7 @@
 
 #appMenuOpen:active {
     transform: scale(0.95) !important;
-    transition: all 0.15s ease-out !important;
+    transition: all random(0.15s, 0.3s, 0.01s) ease-out !important;
 }
 
 #settingsQuick {
@@ -347,7 +347,7 @@
 
 #settingsQuick:active {
     transform: scale(0.95) !important;
-    transition: all 0.15s ease-out !important;
+    transition: all random(0.15s, 0.3s, 0.01s) ease-out !important;
 }
 
 /* Right side interface menu buttons (More from HtWebz) */
@@ -421,8 +421,8 @@
 }
 
 #gamesIconWrapper {
-    width: 100%;
-    height: 100%;
+    width: min-content;
+    height: min-content;
     object-fit: cover;
     pointer-events: none !important;
     -webkit-user-select: none !important;
@@ -431,8 +431,8 @@
     background: rgb(236, 235, 235);
     border: 2px solid #ccc;
     border-radius: 1cm;
-    padding: 2.5px 5px;
-    max-width: fit-content, min-content;
+    padding: 2.5px 4px;
+    max-width: max-content, min-content;
 }
 
 #gamesMenuIcon {
@@ -481,8 +481,8 @@
 }
 
 #resourcesIconWrapper {
-    width: 100%;
-    height: 100%;
+    width: min-content;
+    height: min-content;
     object-fit: cover;
     pointer-events: none !important;
     -webkit-user-select: none !important;
@@ -491,8 +491,8 @@
     background: rgb(236, 235, 235);
     border: 2px solid #ccc;
     border-radius: 1cm;
-    padding: 2.5px 5px;
-    max-width: fit-content, min-content;
+    padding: 2.5px 4px;
+    max-width: max-content, min-content;
 }
 
 #resourcesMenuOpen input {
