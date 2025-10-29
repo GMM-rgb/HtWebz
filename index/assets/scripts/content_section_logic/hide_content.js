@@ -1,5 +1,12 @@
 const HideContentSectionButtons = document.querySelectorAll(".hide-content-section-button");
 
+HideContentSectionButtons.forEach((btn) => {
+    if (typeof btn !== "object" || !(btn instanceof HTMLElement)) {
+        console.warn("WARNING: Invalid Hide Content Section Button detected:", btn);
+    }
+    btn.setAttribute("onmouseenter", "setTooltipText(this, 'Toggle Content Section Visibility');");
+});
+
 window.addEventListener("DOMContentLoaded", (e) => {
     HideContentSectionButtons.forEach((ContentHideBtn) => {
         if (typeof ContentHideBtn === "object" && ContentHideBtn instanceof HTMLElement) {
@@ -10,13 +17,13 @@ window.addEventListener("DOMContentLoaded", (e) => {
                 // Strip both -content and -section to get base class name format
                 const TargetSectionClass = BtnSecondaryClass.replace("-content", "").replace("-section", "");
                 const TargetSection = document.querySelectorAll(`.inner-frame-container.${TargetSectionClass}`);
-                
+
                 if (TargetSection.length === 0) {
                     return console.warn(`WARNING: Target section not found for class: ${TargetSectionClass}`);
                 }
-                
+
                 console.log(`Toggling visibility for section: ${TargetSectionClass}`);
-                
+
                 TargetSection.forEach((section) => {
                     if (section.classList.contains("hidden-content-section")) {
                         section.classList.remove("hidden-content-section");
