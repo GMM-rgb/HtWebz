@@ -824,12 +824,19 @@
                 height: min-content;
                 width: 100%;
             }
+            .grab-move-button {
+                cursor: all-scroll;
+                background: transparent;
+                border: none;
+                transform: scale(1.5);
+                margin-left: 7.5px;
+            }
         </style>
 
         <section class="content-section featured" id="featured-section-A">
             <div class="content-section-header-container">
                 <div style="display:flex;align-self:center;">
-                    <button><img src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
+                    <button class="grab-move-button featured-section"><img src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
                 </div>
                 <div class="content-section-text-title">
                     <h1>Featured</h1>
