@@ -153,6 +153,7 @@
 
 .content-section-text-title:hover {
     animation: HoverEffect 0.5s ease forwards !important;
+    filter: saturate(150%);
 }
 
 .content-section-text-title:disabled {
@@ -178,6 +179,7 @@
 
 .hide-content-section-button:hover {
     animation: HoverEffect 0.5s ease forwards !important;
+    filter: saturate(150%);
 }
 
 .hide-content-section-button.collapsed {
