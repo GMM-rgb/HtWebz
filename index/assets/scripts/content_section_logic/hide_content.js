@@ -3,7 +3,7 @@ const VisibilityToggleDataLocalStorage = localStorage.getItem("VisibilityToggleD
 const HideButtonAmmount = HideContentSectionButtons.length;
 
 /**
- * @type {JSON?}
+ * @type {JSON | Object ?}
  */
 let VisibilityToggleDataParsed = JSON.parse(VisibilityToggleDataLocalStorage);
 let VisibilityToggleData = VisibilityToggleDataParsed || {};
