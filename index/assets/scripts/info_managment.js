@@ -1,100 +1,86 @@
-// Function to handle element animations - updated to support direction detection
-function handleElementAnimation(element, delay = 0, direction = 'in', fromDirection = 'top') {
-    setTimeout(() => {
-        element.classList.add(`animate-${direction}`);
-        element.classList.add(`from-${fromDirection}`); // Add direction-specific class
-    }, delay);
-}
-
-// Removed the beforeunload listener to disable the unsaved changes alert.
-// window.addEventListener('beforeunload', (event) => {
-//     if (!sessionStorage.getItem('intentionalReload')) {
-//         event.preventDefault();
-//         return event.returnValue = '';
-//     }
-// });
-
-// Reload Function - To ensure animations play
 function reloadPageWithAnimation() {
-    // Prevent multiple triggers
     if (window._isReloading) return;
     window._isReloading = true;
-    
-    const elements = document.querySelectorAll('.page-element');
-    const animationDuration = 1500;
-    
-    // Create and append overlay
+
+    const elements = Array.from(document.querySelectorAll('.page-element'));
+    const baseOutDuration = 600; // matches CSS 0.6s
+    const staggerStep = 80;
+    const buffer = 300;
+
+    // === Create & inject overlay ===
     const overlay = document.createElement('div');
     overlay.className = 'page-overlay';
     document.body.appendChild(overlay);
-    
-    // Force all elements to their normal state first
-    elements.forEach(el => {
-        el.style.removeProperty('opacity');
-        el.style.removeProperty('transform');
-        el.style.removeProperty('visibility');
-        el.classList.remove('animate-in', 'from-top', 'from-bottom');
+
+    // === Reset all elements ===
+    elements.forEach(element => {
+        element.classList.remove(
+            'animate-in', 'animate-out',
+            'from-top', 'from-bottom',
+            'fade-transition', 'initial-state'
+        );
+        element.style.removeProperty('opacity');
+        element.style.removeProperty('transform');
+        element.style.removeProperty('visibility');
+        element.style.removeProperty('animationDelay');
+        element.style.removeProperty('--animation-delay');
     });
-    
-    // Start animation sequence
-    window.requestAnimationFrame(() => {
-        // Add reloading class to body for CSS targeting
+
+    // Force reflow so animations paint
+    void document.body.offsetHeight;
+
+    // === Trigger OUT animations ===
+    requestAnimationFrame(() => {
         document.body.classList.add('is-reloading');
-        
-        // Animate each element with stagger
+
         elements.forEach((el, i) => {
-            el.style.setProperty('--drift-angle', `${Math.random() * 360}deg`);
-            el.style.setProperty('--drift-distance', `${300 + Math.random() * 200}px`);
-            el.style.setProperty('--animation-delay', `${i * 100}ms`);
-            el.classList.add('animate-out');
+            const rect = el.getBoundingClientRect();
+            const fromDirection = rect.top > window.innerHeight * 0.7 ? 'bottom' : 'top';
+            const delayMs = i * staggerStep;
+            el.style.animationDelay = `${delayMs}ms`;
+            el.style.setProperty('--animation-delay', `${delayMs}ms`);
+            el.classList.add('animate-out', `from-${fromDirection}`);
         });
-        
-        // Show overlay
+
         setTimeout(() => overlay.classList.add('fade-in'), 300);
-        
-        // Ensure reload happens after animations complete
-        setTimeout(() => {
+
+        // Total duration = base + last stagger + buffer
+        const totalDuration =
+            (elements.length ? baseOutDuration + ((elements.length - 1) * staggerStep) : 0)
+            + buffer;
+
+        let reloaded = false;
+        const triggerReload = () => {
+            if (reloaded) return;
+            reloaded = true;
             sessionStorage.setItem('isReloading', 'true');
-            window.location.reload();
-        }, animationDuration);
+            // Use assign so animation paints before navigation
+            window.location.assign(window.location.href);
+        };
+
+        setTimeout(triggerReload, totalDuration);
+        setTimeout(triggerReload, totalDuration + 1000); // fallback
     });
 }
 
-// Replace any direct reload calls with the animated version
-// For example, if we have a reload button:
-// document.getElementById('reloadButton').onclick = reloadPageWithAnimation;
-
-// Add page load unfold animations with Intersection Observer
-function handleInitialState() {
-    const isDirectLoad = !document.referrer || !sessionStorage.getItem('isReloading');
-    
-    if (isDirectLoad) {
-        // Fresh load - just prepare for unfold animation
-        document.body.classList.add('fresh-load');
-        return true;
-    }
-    return false;
-}
-
+// === ON LOAD: Detect reload → trigger IN animations ===
 document.addEventListener('DOMContentLoaded', () => {
     const isReloading = sessionStorage.getItem('isReloading') === 'true';
     sessionStorage.removeItem('isReloading');
-    
-    // Check if this is a direct load or navigation
-    const isFreshLoad = handleInitialState();
-    
-    if (!isFreshLoad) {
-        // For reloads/navigation, start with fade state
-        document.querySelectorAll('.page-element').forEach(el => {
-            el.classList.add('fade-transition');
-        });
+
+    const isFreshLoad = !document.referrer && !isReloading;
+    const elements = Array.from(document.querySelectorAll('.page-element'));
+
+    if (isFreshLoad) {
+        document.body.classList.add('fresh-load');
+        elements.forEach(el => el.classList.add('initial-state'));
+    } else {
+        elements.forEach(el => el.classList.add('fade-transition'));
     }
-    
+
     const initialDelay = isFreshLoad ? 0 : 300;
-    
-    // Rest of the animation setup
+
     setTimeout(() => {
-        // List all selectors to animate
         const selectors = [
             `.main-content-section`,
             `#pinnedContentTop`,
@@ -106,69 +92,108 @@ document.addEventListener('DOMContentLoaded', () => {
             `.developer.site-name`,
             `.developer.license`
         ];
-        
-        // Animate selected fixed elements
-        const fixedSelectors = [];
 
-        // Create intersection observer with direction detection
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const index = Array.from(document.querySelectorAll('.page-element')).indexOf(entry.target);
-                    const delay = isReloading ? 600 + (index * 100) : index * 100;
-                    
-                    // Determine animation direction based on element position relative to viewport
-                    const elementRect = entry.boundingClientRect;
-                    const viewportHeight = window.innerHeight;
-                    const fromDirection = elementRect.top > viewportHeight ? 'bottom' : 'top';
-                    
-                    handleElementAnimation(entry.target, delay, 'in', fromDirection);
-                    observer.unobserve(entry.target);
-                }
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+
+                const allEls = Array.from(document.querySelectorAll('.page-element'));
+                const index = allEls.indexOf(entry.target);
+                const delay = isReloading ? 600 + (index * 100) : index * 100;
+
+                const rect = entry.boundingClientRect;
+                const fromDirection = rect.top > window.innerHeight * 0.7 ? 'bottom' : 'top';
+
+                handleElementAnimation(entry.target, delay, 'in', fromDirection);
+                observer.unobserve(entry.target);
             });
         }, {
-            threshold: 0.01,  // Trigger when just 1% of element is visible
-            rootMargin: "50px 0px 50px 0px"  // Equal margins for bidirectional detection
+            threshold: 0.05,
+            rootMargin: '100px 0px 100px 0px'
         });
 
-        selectors.forEach((selector) => {
-            const element = document.querySelector(selector);
-            if (element && !fixedSelectors.includes(selector)) {
-                element.classList.add('page-element');
-                if (isFreshLoad) {
-                    // Only use initial fade for fresh loads
-                    element.classList.add('initial-state');
-                }
-                observer.observe(element);
-            }
-        });
-
-        // Animate fixed elements immediately
-        fixedSelectors.forEach(selector => {
-            const element = document.querySelector(selector);
-            if (element) {
-                handleElementAnimation(element, 0);
+        selectors.forEach(sel => {
+            const el = document.querySelector(sel);
+            if (el && !el.classList.contains('page-element')) {
+                el.classList.add('page-element');
+                if (isFreshLoad) el.classList.add('initial-state');
+                observer.observe(el);
             }
         });
     }, initialDelay);
 });
 
-// Removed the duplicate animation styles since we're using the CSS file's animations
-const animationStyles = document.createElement('style');
-animationStyles.textContent = `
+// === CORE ANIMATION HANDLER ===
+function handleElementAnimation(element, delay = 0, direction = 'in', fromDirection = 'top') {
+    setTimeout(() => {
+        element.classList.remove('animate-in', 'animate-out');
+        element.style.animationDelay = '0ms';
+        element.classList.add(`animate-${direction}`, `from-${fromDirection}`);
+    }, delay);
+}
+
+// === Safety net for native reloads ===
+window.addEventListener("beforeunload", () => {
+    document.body.classList.add('quick-fade');
+});
+
+// === CSS INJECTION ===
+const animCSS = document.createElement('style');
+animCSS.textContent = `
+    /* IN animations */
     .animate-in.from-top {
         animation: slideInFromTop 0.6s ease-out forwards;
     }
     .animate-in.from-bottom {
         animation: slideInFromBottom 0.6s ease-out forwards;
     }
+
     @keyframes slideInFromTop {
         from { transform: translateY(-30px) scale(0.95); opacity: 0; }
-        to { transform: translateY(0) scale(1); opacity: 1; }
+        to   { transform: translateY(0) scale(1); opacity: 1; }
     }
     @keyframes slideInFromBottom {
         from { transform: translateY(30px) scale(0.95); opacity: 0; }
-        to { transform: translateY(0) scale(1); opacity: 1; }
+        to   { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* OUT animations (reverse) */
+    .animate-out.from-top {
+        animation: slideOutToTop 0.6s ease-in forwards;
+        animation-delay: var(--animation-delay, 0ms);
+    }
+    .animate-out.from-bottom {
+        animation: slideOutToBottom 0.6s ease-in forwards;
+        animation-delay: var(--animation-delay, 0ms);
+    }
+
+    @keyframes slideOutToTop {
+        from { transform: translateY(0) scale(1); opacity: 1; }
+        to   { transform: translateY(-30px) scale(0.95); opacity: 0; }
+    }
+    @keyframes slideOutToBottom {
+        from { transform: translateY(0) scale(1); opacity: 1; }
+        to   { transform: translateY(30px) scale(0.95); opacity: 0; }
+    }
+
+    /* Overlay fade */
+    .page-overlay {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+        z-index: 9999;
+    }
+    .page-overlay.fade-in {
+        opacity: 0.4;
+    }
+
+    /* Quick fade safety net */
+    .quick-fade {
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 `;
-document.head.appendChild(animationStyles);
+document.head.appendChild(animCSS);

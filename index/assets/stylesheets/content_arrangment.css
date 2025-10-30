@@ -45,19 +45,6 @@
     100% { transform: scale(0.1) scaleX(0.5) translateY(-50px) translateX(-5000px); opacity: 0; }
 }
 
-@keyframes spaceDrift {
-    0% { 
-        transform: scale(1) rotate(0deg); 
-        opacity: 1;
-        filter: blur(0);
-    }
-    100% { 
-        transform: scale(0.5) rotate(var(--drift-angle, 45deg)) translate(var(--drift-distance, 300px));
-        opacity: 0;
-        filter: blur(10px);
-    }
-}
-
 .page-element {
     opacity: 0;
     transform: scale(0.95);
