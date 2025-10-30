@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `.about-page-container`,
             `.content-one`,
             `#featured-section-A`,
+            `#recent-section-A`,
             `.developer.updated`,
             `.developer.name`,
             `.developer.site-name`,
