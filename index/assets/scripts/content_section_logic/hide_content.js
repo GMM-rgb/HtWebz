@@ -1,10 +1,23 @@
 const HideContentSectionButtons = document.querySelectorAll(".hide-content-section-button");
 const VisibilityToggleDataLocalStorage = localStorage.getItem("VisibilityToggleData") || null;
+const HideButtonAmmount = HideContentSectionButtons.length;
 
+/**
+ * @type {JSON?}
+ */
 let VisibilityToggleDataParsed = JSON.parse(VisibilityToggleDataLocalStorage);
 let VisibilityToggleData = VisibilityToggleDataParsed || {};
 
-const HideButtonAmmount = HideContentSectionButtons.length;
+function logVisibilityData() {
+    console.log("Content Visibility Data:");
+    if (VisibilityToggleData) {
+        for (const key in VisibilityToggleData) {
+            console.log(`${key}: ${VisibilityToggleData[key]}`);
+        }
+    } else {
+        console.warn("WARNING: Could not fetch data");
+    }
+}
 
 // Tooltip setup
 HideContentSectionButtons.forEach((btn) => {
@@ -77,3 +90,5 @@ window.addEventListener("DOMContentLoaded", (e) => {
     }
     e.stopPropagation();
 });
+
+window.addEventListener("DOMContentLoaded", logVisibilityData);
