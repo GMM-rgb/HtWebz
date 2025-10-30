@@ -44,15 +44,17 @@ window.addEventListener("DOMContentLoaded", (e) => {
             const TargetSectionClass = BtnSecondaryClass.replace("-content", "").replace("-section", "");
             const TargetSection = document.querySelectorAll(`.inner-frame-container.${TargetSectionClass}`);
 
-            // --- Restore saved state ---
-            if (VisibilityToggleData[TargetSectionClass] === "hidden") {
-                TargetSection.forEach((section) => section.classList.add("hidden-content-section"));
-                ContentHideBtn.innerHTML = "&plus;";
-                ContentHideBtn.classList.add("collapsed");
-            } else if (VisibilityToggleData[TargetSectionClass] === "visible") {
-                TargetSection.forEach((section) => section.classList.remove("hidden-content-section"));
-                ContentHideBtn.innerHTML = "&ndash;";
-                ContentHideBtn.classList.remove("collapsed");
+            if (VisibilityToggleData && (VisibilityToggleData instanceof Object)) {
+                // --- Restore saved state ---
+                if (VisibilityToggleData[TargetSectionClass] === "hidden") {
+                    TargetSection.forEach((section) => section.classList.add("hidden-content-section"));
+                    ContentHideBtn.innerHTML = "&plus;";
+                    ContentHideBtn.classList.add("collapsed");
+                } else if (VisibilityToggleData[TargetSectionClass] === "visible") {
+                    TargetSection.forEach((section) => section.classList.remove("hidden-content-section"));
+                    ContentHideBtn.innerHTML = "&ndash;";
+                    ContentHideBtn.classList.remove("collapsed");
+                }
             }
 
             // --- Toggle + Save state ---
@@ -88,7 +90,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     } else {
         console.error(Error);
     }
-    e.stopPropagation();
+    e.stopPropagation?.() ?? console.warn();
 });
 
 window.addEventListener("DOMContentLoaded", logVisibilityData);
