@@ -48,10 +48,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
                             section.classList.remove("hidden-content-section");
                             ContentHideBtn.innerHTML = "&ndash;";
                             ContentHideBtn.classList.remove("collapsed");
+                            window.notify(`Showing ${TargetSectionClass} section.`);
                         } else {
                             section.classList.add("hidden-content-section");
                             ContentHideBtn.innerHTML = "&plus;";
                             ContentHideBtn.classList.add("collapsed");
+                            window.notify(`Hiding ${TargetSectionClass} section.`);
                         }
                     });
                 });
