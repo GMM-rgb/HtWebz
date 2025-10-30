@@ -831,12 +831,29 @@
                 transform: scale(1.5);
                 margin-left: 7.5px;
             }
+            .drag-content-section-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(245, 245, 245, 0.5);
+                border: 3px solid #ccc;
+                border-radius: 10px;
+                /* Sizing */
+                width: max-content;
+                padding-block: 25px;
+                padding-block-end: 75px;
+                height: 200%;
+                /* Position */
+                margin-top: 0;
+                /* Transition */
+                transition: all 0.3s ease;
+            }
         </style>
 
         <section class="content-section featured" id="featured-section-A">
             <div class="content-section-header-container">
-                <div style="display:flex;align-self:center;">
-                    <button class="grab-move-button featured-section"><img src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
+                <div class="drag-content-section-container">
+                    <button class="grab-move-button featured-section"><img style="pointer-events:none !important;" src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
                 </div>
                 <div class="content-section-text-title">
                     <h1>Featured</h1>
