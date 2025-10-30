@@ -6,58 +6,71 @@ let VisibilityToggleData = VisibilityToggleDataParsed || {};
 
 const HideButtonAmmount = HideContentSectionButtons.length;
 
-let tooltip_append_complete = HideContentSectionButtons.forEach((btn) => {
-    if (typeof btn !== "object" || !(btn instanceof HTMLElement)) return console.warn("WARNING: Invalid Hide Content Section Button detected:", btn);
-    let BtnClassNamedFormated = null;
+// Tooltip setup
+HideContentSectionButtons.forEach((btn) => {
+    if (!(btn instanceof HTMLElement)) return console.warn("WARNING: Invalid Hide Content Section Button detected:", btn);
     try {
         const BtnClassName = btn.className.replace(" ", ".");
-        BtnClassNamedFormated = BtnClassName.replace("", ".").charAt(0) + `${BtnClassName}`;
+        const BtnClassNamedFormated = "." + BtnClassName;
+        btn.setAttribute("onmouseenter", `setupTooltip('${BtnClassNamedFormated}', 'Toggle Content Section Visibility');`);
     } catch (FormatError) {
-        if (FormatError) reportError(FormatError);
+        reportError?.(FormatError);
         throw new Error(FormatError);
-    } finally {
-        if (BtnClassNamedFormated) {
-            btn.setAttribute("onmouseenter", `setupTooltip('${BtnClassNamedFormated}', 'Toggle Content Section Visibility');`);
-        } else {
-            return false;
-        }
     }
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {
-    if ((HideContentSectionButtons instanceof Object)) {
-        // Initialize sections based on saved visibility states and interactiveness of buttons
+    if (HideContentSectionButtons instanceof Object) {
         HideContentSectionButtons.forEach((ContentHideBtn) => {
-            if (typeof ContentHideBtn === "object" && (ContentHideBtn instanceof HTMLElement)) {
-                let BtnSecondaryClass = ContentHideBtn.classList.item(1);
-                if (!BtnSecondaryClass) return;
+            if (!(ContentHideBtn instanceof HTMLElement)) return;
 
-                ContentHideBtn.addEventListener("click", () => {
-                    // Strip both `-content and -section` to get base class name format 
-                    const TargetSectionClass = BtnSecondaryClass.replace("-content", "").replace("-section", "");
-                    const TargetSection = document.querySelectorAll(`.inner-frame-container.${TargetSectionClass}`);
+            let BtnSecondaryClass = ContentHideBtn.classList.item(1);
+            if (!BtnSecondaryClass) return;
 
-                    if (TargetSection.length === 0) {
-                        return console.warn(`WARNING: Target section not found for class: ${TargetSectionClass}`);
-                    } else {
-                        console.log(`Toggling visibility for section: ${TargetSectionClass}`);
-                    }
+            // Base class for section
+            const TargetSectionClass = BtnSecondaryClass.replace("-content", "").replace("-section", "");
+            const TargetSection = document.querySelectorAll(`.inner-frame-container.${TargetSectionClass}`);
 
-                    TargetSection.forEach((section) => {
-                        if (section.classList.contains("hidden-content-section")) {
-                            section.classList.remove("hidden-content-section");
-                            ContentHideBtn.innerHTML = "&ndash;";
-                            ContentHideBtn.classList.remove("collapsed");
-                            window.notify(`Showing ${TargetSectionClass} section.`);
-                        } else {
-                            section.classList.add("hidden-content-section");
-                            ContentHideBtn.innerHTML = "&plus;";
-                            ContentHideBtn.classList.add("collapsed");
-                            window.notify(`Hiding ${TargetSectionClass} section.`);
-                        }
-                    });
-                });
+            // --- Restore saved state ---
+            if (VisibilityToggleData[TargetSectionClass] === "hidden") {
+                TargetSection.forEach((section) => section.classList.add("hidden-content-section"));
+                ContentHideBtn.innerHTML = "&plus;";
+                ContentHideBtn.classList.add("collapsed");
+            } else if (VisibilityToggleData[TargetSectionClass] === "visible") {
+                TargetSection.forEach((section) => section.classList.remove("hidden-content-section"));
+                ContentHideBtn.innerHTML = "&ndash;";
+                ContentHideBtn.classList.remove("collapsed");
             }
+
+            // --- Toggle + Save state ---
+            ContentHideBtn.addEventListener("click", () => {
+                if (TargetSection.length === 0) {
+                    return console.warn(`WARNING: Target section not found for class: ${TargetSectionClass}`);
+                }
+
+                TargetSection.forEach((section) => {
+                    if (section.classList.contains("hidden-content-section")) {
+                        section.classList.remove("hidden-content-section");
+                        ContentHideBtn.innerHTML = "&ndash;";
+                        ContentHideBtn.classList.remove("collapsed");
+                        window.notify?.(`Showing ${TargetSectionClass} section.`) ?? console.log(`Showing ${TargetSectionClass} section.`); // If notify is callable use it, else log to console
+
+                        // Save state
+                        VisibilityToggleData[TargetSectionClass] = "visible";
+                    } else {
+                        section.classList.add("hidden-content-section");
+                        ContentHideBtn.innerHTML = "&plus;";
+                        ContentHideBtn.classList.add("collapsed");
+                        window.notify?.(`Hiding ${TargetSectionClass} section.`) ?? console.log(`Hiding ${TargetSectionClass} section.`); // If notify is callable use it, else log to console
+
+                        // Save state
+                        VisibilityToggleData[TargetSectionClass] = "hidden";
+                    }
+                });
+
+                // Persist to localStorage
+                localStorage.setItem("VisibilityToggleData", JSON.stringify(VisibilityToggleData));
+            });
         });
     } else {
         console.error(Error);
