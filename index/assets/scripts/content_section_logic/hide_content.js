@@ -8,7 +8,7 @@ const HideButtonAmmount = HideContentSectionButtons.length;
 let VisibilityToggleDataParsed = JSON.parse(VisibilityToggleDataLocalStorage);
 let VisibilityToggleData = VisibilityToggleDataParsed || {};
 
-function logVisibilityData() {
+async function logVisibilityData() {
     console.log("Content Visibility Data:");
     if (VisibilityToggleData) {
         for (const key in VisibilityToggleData) {
