@@ -3,6 +3,18 @@ const ContentSectionIndexLocalstorageData = localStorage.getItem("ContentSection
 
 let ContentSectionIndexData = ContentSectionIndexLocalstorageData ? JSON.parse(ContentSectionIndexLocalstorageData) : {};
 
+GrabContentSectionBtns.forEach((GrabButton) => {
+    if (!(GrabButton instanceof HTMLElement) || !(GrabButton instanceof HTMLButtonElement)) return console.warn("WARNING: Invalid Grab Content Section Element detected:", GrabButton);
+    try {
+        const BtnClassName = GrabButton.className.replace(" ", ".");
+        const BtnClassNamedFormated = "." + BtnClassName;
+        GrabButton.setAttribute("onmouseenter", `setupTooltip('${BtnClassNamedFormated}', 'Hold and drag, to move content to your liking.');`);
+    } catch (FormatError) {
+        reportError?.(FormatError);
+        throw new Error(FormatError);
+    }
+});
+
 function loadSavedIndexChanges(data) {
     if (!data || Object.keys(data).length === 0) return;
 
