@@ -341,6 +341,7 @@ counter-increment {
     .main-content-section {
         transform-origin: top left !important;
         gap: 4px !important;
+        margin-right: 0 !important;
     }
 }
 
