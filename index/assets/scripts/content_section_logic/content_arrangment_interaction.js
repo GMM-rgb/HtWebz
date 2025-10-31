@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 const GrabContentSectionBtns = document.querySelectorAll(".grab-move-button");
 const ContentSectionIndexLocalstorageData = localStorage.getItem("ContentSectionIndexs");
 
