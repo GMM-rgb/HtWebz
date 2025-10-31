@@ -104,7 +104,7 @@ GrabContentSectionBtns.forEach((GrabBtn) => {
                 let ghostElement = null;
                 let placeholderElement = null;
                 let lastTargetElement = null;
-                const DEAD_ZONE = 30;
+                const DEAD_ZONE = ParentBtn_ContentSection ? Number(ParentBtn_ContentSection.style.height.replace("px", "") / 10) : 60;
                 
                 // Get the main-content-section
                 const mainContentSection = document.querySelector(".main-content-section");
