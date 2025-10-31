@@ -65,6 +65,10 @@ function saveContentSectionIndexChanges() {
         newData[id] = orderValue;
     });
 
+    if (newData && (newData instanceof Object)) {
+        window.notify?.("Updated content order successfully.");
+    }
+
     localStorage.setItem("ContentSectionIndexs", JSON.stringify(newData));
     ContentSectionIndexData = newData;
 }
