@@ -67,6 +67,8 @@ function saveContentSectionIndexChanges() {
 
     if (newData && (newData instanceof Object)) {
         window.notify?.("Updated content order successfully.");
+    } else {
+        window.notify?.("Failed to update content order.");
     }
 
     localStorage.setItem("ContentSectionIndexs", JSON.stringify(newData));
