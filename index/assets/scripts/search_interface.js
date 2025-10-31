@@ -126,13 +126,32 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
-    // Button click opens
-    SearchButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!isSearching) {
-            toggleSearchView(true);
-        }
-    });
+    let IsInteractingTouch = false;
+    if (!isMobile()) {
+        // Button click opens
+        SearchButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (!isSearching) {
+                toggleSearchView(true);
+            }
+        });
+    } else {
+        SearchButton.addEventListener("touchstart", (touchev) => {
+            if (!IsInteractingTouch) {
+                IsInteractingTouch = true;
+            }
+            touchev.stopPropagation();
+        });
+        SearchButton.addEventListener("touchend", (touchev) => {
+            if (IsInteractingTouch) {
+                IsInteractingTouch = false;
+                if (!isSearching) {
+                    toggleSearchView(true);
+                }
+            }
+            touchev.stopPropagation();
+        });
+    }
 
     // Click outside closes
     document.addEventListener("click", (e) => {
