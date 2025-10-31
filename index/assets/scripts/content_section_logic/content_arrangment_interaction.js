@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 const GrabContentSectionBtns = document.querySelectorAll(".grab-move-button");
 const ContentSectionIndexLocalstorageData = localStorage.getItem("ContentSectionIndexs");
 
@@ -65,7 +67,7 @@ function saveContentSectionIndexChanges() {
         newData[id] = orderValue;
     });
 
-    if (newData && (newData instanceof Object)) {
+    if (newData && (newData instanceof Object) || typeof newData === "object") {
         window.notify?.("Updated content order successfully.");
     } else {
         window.notify?.("Failed to update content order.");
