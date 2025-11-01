@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ResultsDisplay = null;
     }
 
-    function toggleSearchView(open) {
+    function toggleSearchView(open, shouldFocus = true) {
         isSearching = open;
 
         if (open) {
@@ -91,17 +91,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             SearchLabelText.style.display = "none";
             SearchBarInput.classList.add("open");
-            
-            // CRITICAL: Use requestAnimationFrame to ensure focus happens after DOM updates
-            requestAnimationFrame(() => {
-                SearchBarInput.focus();
-            });
 
             if (WindowWidth && WindowWidth <= 762) {
                 SearchBarInput.setAttribute("placeholder", "Search...");
                 SearchBarInput.style.textIndent = "5px";
             } else {
                 SearchBarInput.setAttribute("placeholder", prompt);
+            }
+
+            // CRITICAL: Focus must happen synchronously for iOS Safari
+            if (shouldFocus) {
+                SearchBarInput.focus();
             }
 
             // Clear the flag after allowing focus to settle
@@ -141,25 +141,53 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     } else {
-        // Mobile touch event handling - simpler approach
-        let touchStartTime = 0;
+        // Mobile: use click event which iOS allows to focus inputs
+        // Track that it's from a real touch to prevent issues
+        let realTouch = false;
         
         SearchButton.addEventListener("touchstart", (e) => {
-            touchStartTime = Date.now();
-            e.stopPropagation();
+            realTouch = true;
         }, { passive: true });
         
-        SearchButton.addEventListener("touchend", (e) => {
-            const touchDuration = Date.now() - touchStartTime;
+        SearchButton.addEventListener("click", (e) => {
+            if (!realTouch) return; // Ignore synthetic clicks
+            realTouch = false;
             
-            // Only trigger if it was a tap (not a scroll/swipe)
-            if (touchDuration < 200) {
-                e.preventDefault(); // Prevent ghost click
-                e.stopPropagation();
-                
-                if (!isSearching) {
-                    toggleSearchView(true);
+            e.stopPropagation();
+            
+            if (!isSearching) {
+                // Set up the UI
+                isSearching = true;
+                justOpened = true;
+                const prompt = getNextPrompt();
+
+                SearchButton.setAttribute(
+                    "onmouseenter",
+                    `setupTooltip('#resourcesMenuOpen', '${prompt}')`
+                );
+
+                if (prompt && prompt.length > 10) {
+                    SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.75}px - 15px)`;
+                } else {
+                    SearchBarInput.style.width = "calc(175px - 15px)";
                 }
+
+                SearchLabelText.style.display = "none";
+                SearchBarInput.classList.add("open");
+
+                if (WindowWidth && WindowWidth <= 762) {
+                    SearchBarInput.setAttribute("placeholder", "Search...");
+                    SearchBarInput.style.textIndent = "5px";
+                } else {
+                    SearchBarInput.setAttribute("placeholder", prompt);
+                }
+
+                // Focus synchronously in click handler (iOS allows this)
+                SearchBarInput.focus();
+
+                setTimeout(() => {
+                    justOpened = false;
+                }, 400);
             }
         });
     }
@@ -183,22 +211,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Blur handler with guard
     SearchBarInput.addEventListener("blur", () => {
         if (justOpened) {
-            // Re-focus if we just opened
-            requestAnimationFrame(() => {
-                if (isSearching) {
-                    SearchBarInput.focus();
-                }
-            });
+            // Don't close immediately after opening
             return;
         }
         
-        if (!SearchButton.contains(document.activeElement)) {
-            clearResultsContainer();
-            toggleSearchView(false);
-            if (ResultsDisplay) {
-                ResultsDisplay.style.display = "none";
+        // Small delay to allow for touch interactions
+        setTimeout(() => {
+            if (!SearchButton.contains(document.activeElement) && !justOpened) {
+                clearResultsContainer();
+                toggleSearchView(false, false);
+                if (ResultsDisplay) {
+                    ResultsDisplay.style.display = "none";
+                }
             }
-        }
+        }, 100);
     });
 
     // Listen for keyboard input
@@ -213,7 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
-        if (e.ctrlKey) return;
         if (isSearching) {
             e.stopPropagation();
 
