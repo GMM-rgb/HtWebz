@@ -4,6 +4,7 @@
 let SubmittedSearchQuery = null;
 let KeyClickDebounce = null;
 let isSearching = false;
+let justOpened = false; // NEW: Track if search was just opened
 
 document.addEventListener("DOMContentLoaded", () => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Prompt list
     const searchPrompts = [
         "Search for something...",
-        "What’s on your mind?",
+        "What's on your mind?",
         "Looking for something?",
         "What's on todays agenda..."
     ];
@@ -74,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isSearching = open;
 
         if (open) {
+            justOpened = true; // NEW: Set flag when opening
             const prompt = getNextPrompt();
 
             SearchButton.setAttribute(
@@ -100,6 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 SearchBarInput.setAttribute("placeholder", prompt);
             }
+
+            // NEW: Clear the flag after a delay to allow focus to settle
+            setTimeout(() => {
+                justOpened = false;
+            }, 300);
         } else {
             SearchButton.setAttribute(
                 "onmouseenter",
@@ -141,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 IsInteractingTouch = true;
             }
             touchev.stopPropagation();
+            touchev.preventDefault(); // NEW: Prevent default touch behavior
         });
         SearchButton.addEventListener("touchend", (touchev) => {
             if (IsInteractingTouch) {
@@ -150,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             touchev.stopPropagation();
+            touchev.preventDefault(); // NEW: Prevent default touch behavior
         });
     }
 
@@ -161,12 +170,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Blur closes if focus leaves
+    // MODIFIED: Blur closes if focus leaves (but not if just opened)
     SearchBarInput.addEventListener("blur", () => {
+        // NEW: Don't close if we just opened the search
+        if (justOpened) {
+            return;
+        }
+        
         if (!SearchButton.contains(document.activeElement)) {
             clearResultsContainer();
             toggleSearchView(false);
-            ResultsDisplay.style.display = "none";
+            if (ResultsDisplay) {
+                ResultsDisplay.style.display = "none";
+            }
         }
     });
 
@@ -219,9 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearResultsContainer();
             }
 
-            if (SearchBarInput.value && SearchBarInput.value.length > 0) {
+            if (ResultsDisplay && SearchBarInput.value && SearchBarInput.value.length > 0) {
                 ResultsDisplay.style.display = "flex";
-            } else {
+            } else if (ResultsDisplay) {
                 ResultsDisplay.style.display = "none";
             }
 
@@ -279,9 +295,8 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleSearchView(false);
         }
 
-        // Correct way to detect Ctrl + Q
         if (e.ctrlKey && e.key.toLowerCase() === "q") {
-            e.preventDefault(); // optional, to stop browser defaults
+            e.preventDefault(); // Stop browser defaults
             console.log("Detected Input of Control + Q");
             console.log("Clearing Search Input...");
 
@@ -299,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (SearchBarInput.value) {
                 let output = ProcessSearchRequest(SearchBarInput.value);
                 DisplaySearchResults(output, "search-results", SearchBarInput.value);
-                if (ResultsDisplay.style.display === "none" && SearchBarInput.value.length > 0) {
+                if (ResultsDisplay && ResultsDisplay.style.display === "none" && SearchBarInput.value.length > 0) {
                     ResultsDisplay.style.display = "flex";
                 }
             }
