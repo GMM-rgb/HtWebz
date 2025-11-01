@@ -287,12 +287,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     try {
                         if (SubmittedSearchQuery) {
                             let results = ProcessSearchRequest(SubmittedSearchQuery);
-
+                            
                             if (results.hasResults && results.matches && results.bestMatch) {
                                 let BestMatchURL = results.bestMatch.url;
-                                window.notify("Redirecting...");
+                                window.notify?.("Redirecting...");
                                 setTimeout(() => {
-                                    loadSearchPage(BestMatchURL);
+                                    loadSearchPage?.(BestMatchURL) ?? console.error("Failed to load search page request.");
                                 }, Math.random(750, 1000));
                             } else {
                                 console.warn(
@@ -330,8 +330,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (SearchBarInput.value) {
                 SearchBarInput.value = " ";
-                let results = ProcessSearchRequest(SearchBarInput.value);
-                DisplaySearchResults(results, "search-results", SearchBarInput.value);
+                let results = ProcessSearchRequest?.(SearchBarInput.value) ?? console.warn("Could not process search.");
+                DisplaySearchResults?.(results, "search-results", SearchBarInput.value) ?? (console.warn("Could not display search results.") && window.notify?.("Search Result Display Failure"));
                 SearchBarInput.value = "";
             }
         }
@@ -340,14 +340,14 @@ document.addEventListener("DOMContentLoaded", () => {
     SearchBarInput.addEventListener("focus", (e) => {
         if (isSearching) {
             if (SearchBarInput.value) {
-                let output = ProcessSearchRequest(SearchBarInput.value);
-                DisplaySearchResults(output, "search-results", SearchBarInput.value);
+                let output = ProcessSearchRequest?.(SearchBarInput.value) ?? console.warn("Could not process search.");
+                if (output) DisplaySearchResults?.(output, "search-results", SearchBarInput.value) ?? (console.warn("Could not display search results.") && window.notify?.("Search Result Display Failure"));
                 if (ResultsDisplay && ResultsDisplay.style.display === "none" && SearchBarInput.value.length > 0) {
                     ResultsDisplay.style.display = "flex";
                 }
             }
         }
-        ensureOutputUpdate();
+        ensureOutputUpdate?.();
         e.stopPropagation();
     });
 
@@ -371,3 +371,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+console.log("✅ Search Interface Loaded.");
