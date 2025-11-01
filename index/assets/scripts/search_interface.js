@@ -4,13 +4,13 @@
 let SubmittedSearchQuery = null;
 let KeyClickDebounce = null;
 let isSearching = false;
-let justOpened = false; // NEW: Track if search was just opened
+let justOpened = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchBarInput = document.getElementById("SearchBarInput");
-    const ResultsDisplay = document.getElementById("search-results");
+    let ResultsDisplay = document.getElementById("search-results");
     const ClickSound = document.getElementById("GlobalClick");
 
     let WindowWidth = window.innerWidth || 0;
@@ -55,8 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function clearResultsContainer() {
         if (ResultsDisplay !== null) {
             ResultsDisplay.innerHTML = "";
-        } else {
-            return;
         }
     }
 
@@ -66,7 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    if (isMobile()) {
+    const isMobileDevice = isMobile();
+    
+    if (isMobileDevice && ResultsDisplay) {
         ResultsDisplay.remove();
         ResultsDisplay = null;
     }
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isSearching = open;
 
         if (open) {
-            justOpened = true; // NEW: Set flag when opening
+            justOpened = true;
             const prompt = getNextPrompt();
 
             SearchButton.setAttribute(
@@ -83,18 +83,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 `setupTooltip('#resourcesMenuOpen', '${prompt}')`
             );
 
-            // ResultsDisplay.style.display = "flex";
-
             if (prompt && prompt.length > 10) {
-                SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.75
-                    }px - 15px)`;
+                SearchBarInput.style.width = `calc(175px + ${prompt.length * 1.75}px - 15px)`;
             } else {
                 SearchBarInput.style.width = "calc(175px - 15px)";
             }
 
             SearchLabelText.style.display = "none";
             SearchBarInput.classList.add("open");
-            SearchBarInput.focus();
+            
+            // CRITICAL: Use requestAnimationFrame to ensure focus happens after DOM updates
+            requestAnimationFrame(() => {
+                SearchBarInput.focus();
+            });
 
             if (WindowWidth && WindowWidth <= 762) {
                 SearchBarInput.setAttribute("placeholder", "Search...");
@@ -103,20 +104,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 SearchBarInput.setAttribute("placeholder", prompt);
             }
 
-            // NEW: Clear the flag after a delay to allow focus to settle
+            // Clear the flag after allowing focus to settle
             setTimeout(() => {
                 justOpened = false;
-            }, 300);
+            }, 400);
         } else {
             SearchButton.setAttribute(
                 "onmouseenter",
                 "setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')"
             );
             SearchBarInput.setAttribute("placeholder", "");
-
             SearchBarInput.style.width = "0px";
             SearchBarInput.style.textIndent = "8.5px";
-
             SearchLabelText.style.display = "block";
             SearchBarInput.classList.remove("open");
             SearchBarInput.blur();
@@ -133,9 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
-    let IsInteractingTouch = false;
-    if (!isMobile()) {
-        // Button click opens
+    // Desktop/non-mobile event handling
+    if (!isMobileDevice) {
         SearchButton.addEventListener("click", (e) => {
             e.stopPropagation();
             if (!isSearching) {
@@ -143,37 +141,54 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     } else {
-        SearchButton.addEventListener("touchstart", (touchev) => {
-            if (!IsInteractingTouch) {
-                IsInteractingTouch = true;
-            }
-            touchev.stopPropagation();
-            touchev.preventDefault(); // NEW: Prevent default touch behavior
-        });
-        SearchButton.addEventListener("touchend", (touchev) => {
-            if (IsInteractingTouch) {
-                IsInteractingTouch = false;
+        // Mobile touch event handling - simpler approach
+        let touchStartTime = 0;
+        
+        SearchButton.addEventListener("touchstart", (e) => {
+            touchStartTime = Date.now();
+            e.stopPropagation();
+        }, { passive: true });
+        
+        SearchButton.addEventListener("touchend", (e) => {
+            const touchDuration = Date.now() - touchStartTime;
+            
+            // Only trigger if it was a tap (not a scroll/swipe)
+            if (touchDuration < 200) {
+                e.preventDefault(); // Prevent ghost click
+                e.stopPropagation();
+                
                 if (!isSearching) {
                     toggleSearchView(true);
                 }
             }
-            touchev.stopPropagation();
-            touchev.preventDefault(); // NEW: Prevent default touch behavior
         });
     }
 
     // Click outside closes
     document.addEventListener("click", (e) => {
-        e.stopPropagation();
         if (!SearchButton.contains(e.target)) {
             toggleSearchView(false);
         }
     });
 
-    // MODIFIED: Blur closes if focus leaves (but not if just opened)
+    // Touch outside closes (for mobile)
+    if (isMobileDevice) {
+        document.addEventListener("touchend", (e) => {
+            if (!SearchButton.contains(e.target)) {
+                toggleSearchView(false);
+            }
+        }, { passive: true });
+    }
+
+    // Blur handler with guard
     SearchBarInput.addEventListener("blur", () => {
-        // NEW: Don't close if we just opened the search
         if (justOpened) {
+            // Re-focus if we just opened
+            requestAnimationFrame(() => {
+                if (isSearching) {
+                    SearchBarInput.focus();
+                }
+            });
             return;
         }
         
@@ -198,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
+        if (e.ctrlKey) return;
         if (isSearching) {
             e.stopPropagation();
 
@@ -206,11 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return true;
             }
 
-            /**
-             * @since 1.4.0
-             * Plays a click sound when typing in the search bar, except for Control and Alt keys.
-             * This enhances user feedback while typing.
-             */
             if (!KeyClickDebounce && SearchBarInput.value.length > 0 && e.key !== "Control" && e.key !== "Alt") {
                 let ok = ResetClickSound();
                 if (ok) {
@@ -243,13 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (SearchBarInput.value.length > 0) {
                 if (e.key === "Enter") {
-                    /*
-                        To open critical window manually: enter this in DC (Developer Console)
-
-                        const CriticalResultPage = "./index/Error/crtitical_error.html";
-                        window.open(`${CriticalResultPage}`, "_blank", "width=750,height=750");
-                    */
-
                     const NoResultsPage = "./index/Error/content_not_found.html";
                     const CriticalResultPage = "./index/Error/crtitical_error.html";
                     console.log("Submitted Search Request: " + `${SearchBarInput.value}`);
@@ -286,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     SearchBarInput.addEventListener("keydown", (e) => {
         console.log(e.key);
-
         e.stopPropagation();
 
         if (e.key === "Escape" && isSearching) {
@@ -296,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (e.ctrlKey && e.key.toLowerCase() === "q") {
-            e.preventDefault(); // Stop browser defaults
+            e.preventDefault();
             console.log("Detected Input of Control + Q");
             console.log("Clearing Search Input...");
 
