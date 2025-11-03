@@ -18,7 +18,7 @@ const defaultsearch = {
 
 const wikisearch = {
     "Basics - Wiki": `./Wiki/HtWiki.html?${new URLSearchParams("topic=htwebz-basics")}`,
-    "About - Wiki": `/Wiki/HtWiki.html?${new URLSearchParams("topic=about-htwebz")}`,
+    "About - Wiki": `./Wiki/HtWiki.html?${new URLSearchParams("topic=about-htwebz")}`,
 };
 
 const SearchQueryKeywords_Command = {
