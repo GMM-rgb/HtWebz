@@ -12,9 +12,9 @@ function generateWikiTopicOverview() {
         } catch (GenerationError) {
             if (GenerationError) console.error("ERROR: Wiki Generation Output Failed.\t", GenerationError);
             if (!Retryed && (typeof LoadJSON === "function")) {
+                Retryed = true;
                 JSON_wiki_data = LoadJSON?.();
                 generateWikiTopicOverview();
-                Retryed = true;
             } else {
                 return false;
             }
