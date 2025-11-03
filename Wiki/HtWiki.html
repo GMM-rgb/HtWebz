@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../index/assets/images/Tab_Icons/HtWebz_More_Info_Icon_Dark_Mode.png" />
@@ -26,11 +27,11 @@
             -webkit-transition: width 0.2s ease;
             transition: width 0.2s ease;
         }
-        
+
         body::-webkit-scrollbar-track {
             background: lightseagreen;
         }
-        
+
         body::-webkit-scrollbar-thumb {
             background: darkcyan;
             border-radius: 2px;
@@ -76,52 +77,245 @@
             });
         }
     </script>
-  </head>
+</head>
 
-  <body>
-        <section id="topUserInterfaceBar">
+<body>
+    <span id="notification" class="notification"></span>
+
+    <section id="topUserInterfaceBar">
         <div class="appMenuOpenButtons">
 
-        <div id="expandMenuToolbar" onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
-            <img id="expandToolbarIcon" src="index/assets/images/Hamburger_icon.png" height="25" width="25" preload="auto" />
+            <!-- <button id="expandMenuToolbar"
+                onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
+                <img id="expandToolbarIcon"
+                    src="index/assets/images/Hamburger_icon.png" height="25"
+                    width="25" preload="auto" />
+            </button> -->
+
+            <button id="appMenuOpen" onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
+                    id="appMenuIcon" src="../index/assets/images/app_button_icon.png" preload="auto" aria-busy="false"
+                    height="25" width="25" /><span class="apps-menu-text">Apps</span></button>
+            <button id="settingsQuick" onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
+                <div>
+                    <img id="settingsIcon" src="../index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg" preload="auto"
+                        aria-busy="false" height="25" width="25" />
+                </div>
+                <span class="settings-quick-text">Settings</span>
+            </button>
         </div>
 
-        <h1 id="pageTitle">Placeholder</h1>
+        <h1 id="pageTitle">HtWebz Homepage</h1>
+
+        <style>
+            @media (max-width: 812px) {
+                #mainLogo::after {
+                    display: none !important;
+                }
+
+                #mainLogo {
+                    margin: auto 10px auto 25px !important;
+                    transform: scale(0.825) !important;
+                }
+
+                #mainLogo:hover>img {
+                    animation: none !important;
+                }
+            }
+
+            #mainLogo::before {
+                content: '';
+                cursor: default !important;
+            }
+
+            #mainLogo::after {
+                content: '';
+                inset: 0;
+                position: relative;
+                border-left: 2px solid #707070;
+                border-right: 2px solid #707070;
+                padding-inline: 37.5px;
+                padding-block: 10px;
+                left: -10px;
+                top: -38.5px;
+                width: max-content;
+                transition: all 0.3s ease;
+            }
+
+            #mainLogo {
+                pointer-events: all !important;
+                cursor: pointer !important;
+                width: 60px;
+                height: 60px;
+                display: inline-block;
+                vertical-align: middle;
+                background: rgba(5, 134, 227, 0.75);
+                border: 3px solid #0586e3;
+                border-radius: 100px;
+                transition: all 0.3s ease;
+                margin: auto 15px auto 5px;
+            }
+
+            #mainLogo img {
+                display: block;
+                pointer-events: none !important;
+                image-rendering: optimizeQuality !important;
+                user-select: none !important;
+                transition: all 0.3s ease;
+                margin-top: 0;
+            }
+
+            @keyframes spinAccelerateLogo {
+                0% {
+                    transform: rotate(0deg) scale(1);
+                }
+
+                50%,
+                75% {
+                    transform: rotate(270deg) scale(1.25);
+                }
+
+                100% {
+                    transform: rotate(360deg) scale(1);
+                }
+            }
+
+            #mainLogo:hover>img {
+                animation: spinAccelerateLogo 0.585s ease-in-out forwards;
+            }
+
+            #mainLogo:hover::after {
+                left: -11.5px !important;
+                width: 50px !important;
+                padding-inline-end: 42.5px !important;
+                padding-inline-start: 35px !important;
+            }
+
+            #mainLogo:hover {
+                border-color: #30a9ff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                transform: scale(1.1);
+            }
+
+            #mainLogo:active {
+                border-color: #479dda;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+                transform: scale(0.95);
+            }
+        </style>
+
+        <a href="../index.html">
+            <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
+                <img src="../index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60" height="60"
+                    style="image-rendering: pixelated !important; user-select: none !important;" />
+            </div>
+        </a>
+
+        <script name="TruncateTextScript">
+            function truncateEllipsis(el, { suffix = '...', minChars = 2 } = {}) {
+                const node = typeof el === 'string' ? document.getElementById(el) : el;
+                if (!node) return;
+
+                // Always keep the original text stored
+                const original = node.getAttribute('data-fulltext') || node.textContent;
+                node.setAttribute('data-fulltext', original);
+
+                // Reset before measuring
+                node.textContent = original;
+
+                // If it already fits, nothing to do
+                if (node.scrollWidth <= node.clientWidth) return;
+
+                // Binary search for the longest substring that fits
+                let lo = 0;
+                let hi = original.length;
+                let best = 0;
+
+                while (lo <= hi) {
+                    const mid = (lo + hi) >> 1;
+                    node.textContent = original.slice(0, Math.max(mid, minChars)) + suffix;
+
+                    if (node.scrollWidth <= node.clientWidth) {
+                        best = mid;      // this length fits
+                        lo = mid + 1;    // try longer
+                    } else {
+                        hi = mid - 1;    // too long, try shorter
+                    }
+                }
+
+                // Final write with trailing space trimmed
+                const finalLen = Math.max(best, minChars);
+                let truncated = original.slice(0, finalLen).trimEnd();
+                node.textContent = truncated + suffix;
+
+                // Show full text on hover
+                node.title = original;
+            }
+        </script>
+
+        <script>
+            // Run once on load
+            truncateEllipsis('pageTitle');
+            truncateEllipsis('pinnedContentTitle');
+
+            // Re-run automatically if the element resizes
+            const titleRo = new ResizeObserver(() => {
+                truncateEllipsis('pageTitle');
+            });
+            const pinnedContentTitleRo = new ResizeObserver(() => {
+                truncateEllipsis('pinnedContentTitle');
+            });
+
+            titleRo.observe(document.getElementById('pageTitle'));
+            pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
+        </script>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
+            <button id="gamesMenuOpen" onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
+                <div id="gamesIconWrapper" aria-sort="other">
+                    <img id="gamesMenuIcon" src="../index/assets/images/console_remote_controller.png" alt="Games Icon"
+                        preload="auto" height="27.5" width="27.5" />
+                </div>
+                <span class="games-menu-text">Games</span>
+            </button>
             <button id="resourcesMenuOpen" onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
                 <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
                     placeholder="Type here to search..." />
 
                 <div id="resourcesIconWrapper" aria-sort="other">
-                    <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/HtWebz_Searcher_Icon.png"
+                    <img id="resourcesMenuIcon" src="../index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
                         alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
                 </div>
 
                 <span class="resources-menu-text">Search</span>
             </button>
         </div>
-        <div id="search-results" aria-label="Search Results List">
-            <!-- Search Results Elements -->
+        <div id="search-results" aria-label="Search Results List"><!-- [Search Results Elements] --></div>
+    </section>
+
+    <section id="toolbarExtension">
+        <div>
+            <div id="appButtonContainerWarp">
+
+            </div>
+        </div>
+        <button id="expandExtension">^</button>
+        <div id="moreExtension">
+            <div id="extensionContent">
+                <div id="extensionContentText">
+                    <p>Minimized Items</p>
+                </div>
+            </div>
         </div>
     </section>
-  </body>
 
-  <script type="text/javascript">
-    const params = new URLSearchParams(window.location.search);
-    const topic = params.get("topic");
 
-    let detectedTopic = null;
+</body>
 
-    if (topic) {
-        // Use topic to load content, highlight section, or redirect
-        console.log("Requested topic:", topic);
-        if (detectedTopic === null) {
-            detectedTopic = topic;
-        }
-    }
-  </script>
+<!-- Search Logic Scripts -->
+<script type="text/javascript" src="../index/assets/scripts/search_interface.js" defer></script>
+<script type="text/javascript" src="../index/assets/scripts/search_process.js" defer></script>
 
-  <script type="text/javascript" src="../index/assets/scripts/search_interface.js" defer></script>
-  <script type="text/javascript" src="../index/assets/scripts/search_process.js" defer></script>
+<!-- Wiki Logic Scripts -->
+<script type="text/javascript" src="../index/assets/scripts/wiki_logic/determine_data.js" defer></script>
+
 </html>
