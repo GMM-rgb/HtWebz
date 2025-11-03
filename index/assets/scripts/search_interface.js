@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isSearching) {
             e.stopPropagation();
 
-            async function ResetClickSound() {
+            function ResetClickSound() {
                 ClickSound.currentTime = 0;
                 return true;
             }

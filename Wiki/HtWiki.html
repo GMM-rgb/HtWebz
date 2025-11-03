@@ -11,6 +11,38 @@
     <title>HtWebz &ndash; HtWiki</title>
     <style>
         :root {
+            --theme-background: skyblue;
+            --theme-primary: #479dda;
+            --theme-secondary: #80b5db;
+            --theme-text: black;
+            --theme-border: #ccc;
+            --theme-menuBackground: rgba(5, 134, 227, 0.75);
+            --theme-cardBackground: white;
+            --theme-headerBackground: #479dda;
+            --theme-buttonBackground: #afdeff;
+            --theme-inputBackground: white;
+            --theme-topBar: #0586e3;
+            --theme-sideMenu: rgba(5, 134, 227, 0.75);
+            --theme-modalBackground: white;
+            --theme-gradient1: linear-gradient(#479dda, #80b5db);
+            --theme-gradient2: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8));
+            --theme-shadowColor: rgba(0, 0, 0, 0.3);
+            --theme-glowColor: rgba(0, 238, 255, 0.4);
+            --theme-overlayBackground: rgba(255, 255, 255, 0.8);
+            --theme-hoverBackground: #5aa5e0;
+            --theme-activeBackground: #6ab5f0;
+            --theme-scrollbarTrack: lightseagreen;
+            --theme-scrollbarThumb: darkcyan;
+            --theme-footerBackground: rgba(0, 120, 139, 0.5);
+            --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
+            --theme-motivationBackground: #80b5db;
+            --theme-showcaseBackground: #479dda;
+            --theme-appCardBackground: #80b5db;
+            --theme-transition-time: 300ms;
+            --theme-transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :root {
             --scrollbar-width: 8px;
             /* default width */
         }
@@ -20,6 +52,8 @@
             overflow-y: scroll;
             overflow-x: hidden;
             font-family: Arial, Helvetica, sans-serif;
+            background: var(--theme-background);
+            color: var(--theme-text);
         }
 
         body::-webkit-scrollbar {
@@ -97,14 +131,14 @@
                     height="25" width="25" /><span class="apps-menu-text">Apps</span></button>
             <button id="settingsQuick" onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
                 <div>
-                    <img id="settingsIcon" src="../index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg" preload="auto"
-                        aria-busy="false" height="25" width="25" />
+                    <img id="settingsIcon" src="../index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg"
+                        preload="auto" aria-busy="false" height="25" width="25" />
                 </div>
                 <span class="settings-quick-text">Settings</span>
             </button>
         </div>
 
-        <h1 id="pageTitle">HtWebz Homepage</h1>
+        <h1 id="pageTitle">HtWebz &ndash; HtWiki</h1>
 
         <style>
             @media (max-width: 812px) {
@@ -205,8 +239,8 @@
 
         <a href="../index.html">
             <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
-                <img src="../index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60" height="60"
-                    style="image-rendering: pixelated !important; user-select: none !important;" />
+                <img src="../index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60"
+                    height="60" style="image-rendering: pixelated !important; user-select: none !important;" />
             </div>
         </a>
 
@@ -311,11 +345,20 @@
 
 </body>
 
-<!-- Search Logic Scripts -->
-<script type="text/javascript" src="../index/assets/scripts/search_interface.js" defer></script>
-<script type="text/javascript" src="../index/assets/scripts/search_process.js" defer></script>
+<i>
+    <script type="text/javascript" src="../index/assets/scripts/tooltip_system.js" defer></script>
 
-<!-- Wiki Logic Scripts -->
-<script type="text/javascript" src="../index/assets/scripts/wiki_logic/determine_data.js" defer></script>
+    <!-- Search Logic Scripts -->
+    <script type="text/javascript" src="../index/assets/scripts/search_interface.js"></script>
+    <script type="text/javascript" src="../index/assets/scripts/search_process.js"></script>
+
+    <!-- Wiki Logic Scripts -->
+    <script type="text/javascript" src="../index/assets/scripts/wiki_logic/determine_data.js" defer></script>
+
+    <!-- Audio -->
+    <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
+    <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
+    <audio src="index/assets/audio/menu-command.mp3" preload="auto" id="PrimaryClick"></audio>
+</i>
 
 </html>
