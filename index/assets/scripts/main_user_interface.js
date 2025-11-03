@@ -113,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.gamesMenuOpen.onclick = () => {
             openMenu(elements.gameMenu, 'dropDownGameMenu');
             notify("Game Menu Opened...");
-            document.title = "Game Menu";
         };
     }
 
@@ -121,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.closeGameMenuButton.onclick = () => {
             closeMenu(elements.gameMenu);
             notify("Game Menu Closed...");
-            document.title = "HtWebz Homepage";
         };
     }
 
@@ -145,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.settingsQuick.onclick = () => {
             openMenu(elements.settingsMenu, 'dropDownSettingsMenu');
             notify("Settings Menu Opened...");
-            document.title = "Settings Menu";
         };
     }
 
@@ -153,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.closeSettingsMenuBtn.onclick = () => {
             closeMenu(elements.settingsMenu);
             notify("Settings Menu Closed...");
-            document.title = "HtWebz Homepage";
         };
     }
 

@@ -15,7 +15,7 @@ closeAppMenu.onclick = () => {
   if (appMenu.style.display === "flex" || appMenu.style.display === "") {
     appMenu.style.display = "none";
     notify("App Menu Closed...");
-    document.title = "HtWebz Homepage";
+    // document.title = "HtWebz Homepage";
   } else {
     return;
   }
@@ -25,7 +25,7 @@ appMenuOpen.onclick = () => {
   if (appMenu.style.display === "none" || appMenu.style.display === "") {
     appMenu.style.display = "flex";
     notify("App Menu Opened...");
-    document.title = "Apps Menu";
+    // document.title = "Apps Menu";
     appMenu.classList.add("dragAppMenuIn");
     wait(650).then(() => {
       appMenu.classList.remove("dragAppMenuIn");
