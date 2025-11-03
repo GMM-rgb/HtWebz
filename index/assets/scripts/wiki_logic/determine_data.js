@@ -14,5 +14,5 @@ if (topic && (typeof topic === "string")) {
         detectedTopic = topic;
     }
 } else {
-    return console.warn("No Topic data, or topic was invalid.");
+    console.warn("No Topic data, or topic was invalid.");
 }
