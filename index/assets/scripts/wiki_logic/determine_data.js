@@ -8,11 +8,11 @@ if (topic && (typeof topic === "string")) {
     if (topic) {
         console.log("Requested topic:", topic);
     } else {
-        console.log("There was no requested topic.");
+        console.warn("There was no requested topic.");
     }
     if (detectedTopic === null) {
         detectedTopic = topic;
     }
 } else {
-    console.warn("No Topic data, or topic was invalid.");
+    console.error("No Topic data, or topic was invalid.");
 }
