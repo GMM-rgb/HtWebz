@@ -5,10 +5,11 @@ let Retryed = false;
 
 function generateWikiTopicOverview() {
     if (!contentFrame || !(contentFrame instanceof HTMLDivElement || HTMLElement)) return;
+    let ContentGeneration = {};
 
-    if (JSON_wiki_data) {
+    if (JSON_wiki_data && (typeof ContentGeneration === "object")) {
         try {
-
+            
         } catch (GenerationError) {
             if (GenerationError) console.error("ERROR: Wiki Generation Output Failed.\t", GenerationError);
             if (!Retryed && (typeof LoadJSON === "function")) {
