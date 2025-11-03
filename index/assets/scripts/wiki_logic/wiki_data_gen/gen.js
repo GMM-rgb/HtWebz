@@ -10,7 +10,7 @@ function generateWikiTopicOverview() {
         try {
 
         } catch (GenerationError) {
-            console.error("ERROR: Wiki Generation Output Failed.\t", GenerationError);
+            if (GenerationError) console.error("ERROR: Wiki Generation Output Failed.\t", GenerationError);
             if (!Retryed && (typeof LoadJSON === "function")) {
                 JSON_wiki_data = LoadJSON?.();
                 generateWikiTopicOverview();
