@@ -1,3 +1,4 @@
+const PageTitle = document.getElementById("pageTitle");
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic");
 
