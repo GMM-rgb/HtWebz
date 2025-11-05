@@ -1,8 +1,9 @@
+const express = require('express');
 const path = require('path');
 
-const { app } = require('./app_setup');
 const UserManagmentModule = require('./backend/user_managment');
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ===== DOMAIN FORWARDING CONFIGURATION =====
@@ -45,18 +46,17 @@ app.get('/public/', (req, res) => {
   res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
 });
 
-// Explicit root route to load index.html
+// Explicit root route to load index.html and other static files
 app.get('/', (req, res) => {
   res.sendFile(path.join(serveDirectory, 'index.html'));
 });
 
 app.get("/account-status", (req, res) => {
-  res.json();
-  
+  UserManagmentModule.getAccountStatus(req, res);
 });
 
 app.post("/account-register", (req, res) => {
-  
+  UserManagmentModule.registerAccount(req, res);
 });
 
 // Start the server
