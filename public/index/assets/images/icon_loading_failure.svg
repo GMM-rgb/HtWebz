@@ -1,0 +1,52 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Cyan gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7dd3fc;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#22d3ee;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Blue gradient for frame -->
+    <linearGradient id="frameGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background with cyan gradient -->
+  <rect fill="url(#bgGrad)" x="0" y="0" width="200" height="200" rx="20"/>
+  
+  <!-- Blue border frame -->
+  <rect x="30" y="30" width="140" height="140" fill="none" stroke="url(#frameGrad)" stroke-width="5" rx="12"/>
+  
+  <!-- Inner white/light area -->
+  <rect x="40" y="40" width="120" height="120" fill="rgba(255,255,255,0.9)" rx="8"/>
+  
+  <!-- Broken image placeholder elements -->
+  <path fill="#94a3b8" opacity="0.3" d="
+    M 50 140
+    L 75 110
+    L 95 125
+    L 115 105
+    L 135 125
+    L 150 140
+    Z" />
+  
+  <!-- Sun/circle placeholder -->
+  <circle cx="130" cy="70" r="10" fill="#94a3b8" opacity="0.25"/>
+  
+  <!-- Large X mark with blue theme -->
+  <g filter="url(#shadow)" style="opacity: 0.85" >
+    <!-- X background circle with blue gradient -->
+    <circle cx="100" cy="100" r="32" fill="url(#frameGrad)" opacity="0.95"/>
+    
+    <!-- X lines in white -->
+    <line x1="85" y1="85" x2="115" y2="115" stroke="white" stroke-width="7" stroke-linecap="round"/>
+    <line x1="115" y1="85" x2="85" y2="115" stroke="white" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>
