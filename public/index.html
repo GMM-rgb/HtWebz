@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>                          
+<!DOCTYPE HTML>
 <!--               
 ,__,   ,__,  ,____________,                 
 |  |   |  |  |____________|
@@ -52,9 +52,9 @@ ___        ___        ___  ,________,  ,___    ,________
             href="index/assets/stylesheets/search_bar/search_bar.css" />
         <link rel="stylesheet"
             href="index/assets/stylesheets/decoration_svg/background_decor.css" />
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
             href="index/assets/stylesheets/homepage_body_content.css" />
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
             href="index/assets/stylesheets/featured_styles/featured_element_styles.css" />
         <i>
             <link rel="apple-touch-icon"
@@ -325,6 +325,23 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <span id="notification" class="notification"></span>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // When connected, send stored ID (if any)
+        socket.on('connect', () => {
+            const storedID = localStorage.getItem('guestID');
+            socket.emit('registerGuest', { guestID: storedID });
+        });
+
+        // Save the ID the server assigns
+        socket.on('welcome', (data) => {
+            localStorage.setItem('guestID', data.guestID);
+            console.log('Guest ID:', data.guestID);
+        });
+    </script>
+
     <section id="topUserInterfaceBar">
         <div class="appMenuOpenButtons">
 
@@ -334,19 +351,27 @@ ___        ___        ___  ,________,  ,___    ,________
                     src="index/assets/images/Hamburger_icon.png" height="25"
                     width="25" preload="auto" />
             </button> -->
+            <button id="accountExpandInfo"
+                onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')">
+                <img id="accountExpandIcon"
+                    src="index/assets/images/Tab_Icons/User_Default_Icon_Favicon.svg"
+                    alt="Error" preload="auto" height="25" width="25" />
+            </button>
 
             <button id="appMenuOpen"
                 onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
                     id="appMenuIcon"
                     src="index/assets/images/app_button_icon.png" preload="auto"
                     aria-busy="false"
-                    height="25" width="25" /><span class="apps-menu-text">Apps</span></button>
+                    height="25" width="25" /><span
+                    class="apps-menu-text">Apps</span></button>
             <button id="settingsQuick"
                 onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
                 <div>
                     <img
                         id="settingsIcon"
-                        src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg" preload="auto"
+                        src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg"
+                        preload="auto"
                         aria-busy="false" height="25"
                         width="25" />
                 </div>
@@ -354,7 +379,7 @@ ___        ___        ___  ,________,  ,___    ,________
         </div>
 
         <h1 id="pageTitle">HtWebz &ndash; Homepage</h1>
-        
+
         <style>
             @media (max-width: 812px) {
                 #mainLogo::after {
@@ -439,7 +464,8 @@ ___        ___        ___  ,________,  ,___    ,________
         </style>
 
         <a href="index.html">
-            <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
+            <div id="mainLogo"
+                onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
                 <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
                     alt="HtWebz Logo" width="60" height="60"
                     style="image-rendering: pixelated !important; user-select: none !important;" />
@@ -531,7 +557,8 @@ ___        ___        ___  ,________,  ,___    ,________
                 <span class="resources-menu-text">Search</span>
             </button>
         </div>
-        <div id="search-results" aria-label="Search Results List"><!-- [Search Results Elements] --></div>
+        <div id="search-results"
+            aria-label="Search Results List"><!-- [Search Results Elements] --></div>
     </section>
 
     <section id="toolbarExtension">
@@ -673,7 +700,8 @@ ___        ___        ___  ,________,  ,___    ,________
 
         <section class="main-content-section" name="content">
             <span class="pinned-content-title">
-                <h3 id="pinnedContentTitle" style="position:static;">Welcome</h3>
+                <h3 id="pinnedContentTitle"
+                    style="position:static;">Welcome</h3>
             </span>
             <div id="pinnedContentTop">
                 <!---->
@@ -851,33 +879,49 @@ ___        ___        ___  ,________,  ,___    ,________
         <section class="content-section featured" id="featured-section-A">
             <div class="content-section-header-container">
                 <div class="drag-content-section-container">
-                    <button class="grab-move-button featured-section"><img style="pointer-events:none !important;" src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
+                    <button class="grab-move-button featured-section"><img
+                            style="pointer-events:none !important;"
+                            src="./index/assets/svg/grab_icon.svg" height="50"
+                            width="50" /></button>
                 </div>
                 <div class="content-section-text-title">
                     <h1 aria-label="Featured Section">Featured</h1>
                 </div>
-                <div class="y-column-content-section-controls featured-section controls">
-                    <button class="hide-content-section-button featured-section">&ndash;</button>
+                <div
+                    class="y-column-content-section-controls featured-section controls">
+                    <button
+                        class="hide-content-section-button featured-section">&ndash;</button>
                 </div>
             </div>
-            <div class="inner-frame-container featured" aria-label="Featured"><!-- Featured Objects get created & organized by the following script: ... create_featured_results.js --></div>
-            <script type="text/javascript" src="./index/assets/scripts/featured_logic/create_featured_results.js" defer></script>
+            <div class="inner-frame-container featured"
+                aria-label="Featured"><!-- Featured Objects get created & organized by the following script: ... create_featured_results.js --></div>
+            <script type="text/javascript"
+                src="./index/assets/scripts/featured_logic/create_featured_results.js"
+                defer></script>
         </section>
 
         <section class="content-section recent" id="recent-section-A">
             <div class="content-section-header-container">
                 <div class="drag-content-section-container">
-                    <button class="grab-move-button recent-section"><img style="pointer-events:none !important;" src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
+                    <button class="grab-move-button recent-section"><img
+                            style="pointer-events:none !important;"
+                            src="./index/assets/svg/grab_icon.svg" height="50"
+                            width="50" /></button>
                 </div>
                 <div class="content-section-text-title">
                     <h1 aria-label="Recent Section">Recents</h1>
                 </div>
-                <div class="y-column-content-section-controls recent-section controls">
-                    <button class="hide-content-section-button recent-section">&ndash;</button>
+                <div
+                    class="y-column-content-section-controls recent-section controls">
+                    <button
+                        class="hide-content-section-button recent-section">&ndash;</button>
                 </div>
             </div>
-            <div class="inner-frame-container recent" aria-label="Recent"><!-- Recent Objects get created & organized by the following script: ... create_recent_results.js --></div>
-            <script type="text/javascript" src="./index/assets/scripts/recent_logic/create_recent_results.js" defer></script>
+            <div class="inner-frame-container recent"
+                aria-label="Recent"><!-- Recent Objects get created & organized by the following script: ... create_recent_results.js --></div>
+            <script type="text/javascript"
+                src="./index/assets/scripts/recent_logic/create_recent_results.js"
+                defer></script>
 
         </section>
 
@@ -1074,37 +1118,35 @@ ___        ___        ___  ,________,  ,___    ,________
 
     </section>
 
-    
-
     <!-- End External Scripts ./index/assets/scripts/* -->
-        <i>
-            <script type="text/javascript"
-                src="index/assets/scripts/tooltip_system.js" defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/letter_effects.js" defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/main_user_interface.js"
-                defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/app_menu_script.js" defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/info_managment.js" defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/navigation_managment.js"
-                defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/button_splash_effect.js"
-                defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/search_interface.js" defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/search_process.js" defer></script>
-            <script type="text/javascript"
-                src="index/assets/scripts/window_resize_manager.js" defer>
+    <i>
+        <script type="text/javascript"
+            src="index/assets/scripts/tooltip_system.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/letter_effects.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/main_user_interface.js"
+            defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/app_menu_script.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/info_managment.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/navigation_managment.js"
+            defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/button_splash_effect.js"
+            defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/search_interface.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/search_process.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/window_resize_manager.js" defer>
             </script>
-        </i>
+    </i>
 
-        <script>
+    <script>
             /*
                 Reminder on pre-functions:
 
@@ -1114,17 +1156,19 @@ ___        ___        ___  ,________,  ,___    ,________
             */
         </script>
 
-        <script src="index/assets/scripts/toolbar_extension_manager.js"
-            defer></script>
-        <script src="index/assets/scripts/project_file_validation.js" defer
-            preload="auto"></script>
-        <script src="index/assets/scripts/content_section_logic/hide_content.js"
-            defer></script>
-        <script src="index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
-            defer></script>
+    <script src="index/assets/scripts/toolbar_extension_manager.js"
+        defer></script>
+    <script src="index/assets/scripts/project_file_validation.js" defer
+        preload="auto"></script>
+    <script src="index/assets/scripts/content_section_logic/hide_content.js"
+        defer></script>
+    <script
+        src="index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
+        defer></script>
 
-        <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
-        <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
-        <audio src="index/assets/audio/menu-command.mp3" preload="auto" id="PrimaryClick"></audio>
-    </html>
-    <!-- End Document -->
+    <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
+    <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
+    <audio src="index/assets/audio/menu-command.mp3" preload="auto"
+        id="PrimaryClick"></audio>
+</html>
+<!-- End Document -->

@@ -159,6 +159,62 @@
     flex: 0 1 content;
 }
 
+#accountExpandInfo {
+    pointer-events: all !important;
+    cursor: pointer !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    position: relative !important;
+    border: 3px solid #ccc;
+    border-radius: 1cm;
+    background: rgba(255, 255, 255, 0.85) !important;
+    user-select: none;
+    font-weight: bold;
+    padding: 10px;
+    gap: 9.5px !important;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    transform: scale(1);
+    flex: none !important;
+    -webkit-backdrop-filter: blur(1.1px);
+    backdrop-filter: blur(0.1px);
+}
+
+#accountExpandInfo:hover {
+    transform: scale(1.1);
+    background: rgb(215, 215, 215);
+    border: 3px solid #8d8d8d;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
+}
+
+#accountExpandIcon {
+    position: relative;
+    user-select: none !important;
+    pointer-events: none !important;
+    background: rgb(236, 235, 235);
+    border: 2px solid #ccc;
+    border-radius: 1cm;
+    transition: all 0.3s ease-out !important;
+    transform-origin: center center;
+    transform: scale(1.25);
+    padding: 2px;
+}
+
+#accountExpandInfo:hover>#accountExpandIcon {
+    transform: scale(1.325);
+}
+
+#accountExpandInfo:active>#accountExpandIcon {
+    transform: scale(1.15) !important;
+}
+
+#accountExpandInfo:active {
+    transform: scale(0.95) !important;
+    transition: all 0.3s ease-out !important;
+}
+
 #expandMenuToolbar {
     pointer-events: all !important;
     cursor: pointer !important;

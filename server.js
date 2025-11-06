@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const http = require('http');
+const socketIO = require('socket.io');
 
 const UserManagmentModule = require('./backend/user_managment');
 
@@ -14,7 +16,7 @@ const TARGET_DOMAIN = 'htwebz.io';
 // Define the directory to serve (the HtWebz/public folder only)
 const serveDirectory = path.resolve(__dirname, 'public');
 
-// Domain forwarding middleware
+// Middleware: domain forwarding
 if (ENABLE_DOMAIN_FORWARDING) {
   app.use((req, res, next) => {
     const host = req.get('host');
@@ -38,33 +40,42 @@ if (ENABLE_DOMAIN_FORWARDING) {
   });
 }
 
-// Serve static files from the public folder only
+// Middleware: serve static files from the public folder only
 app.use(express.static(serveDirectory));
 
-// Basic route for convenience
+// Routes
 app.get('/public/', (req, res) => {
   res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
 });
 
-// Explicit root route to load index.html and other static files
 app.get('/', (req, res) => {
   res.sendFile(path.join(serveDirectory, 'index.html'));
 });
 
-app.get("/account-status", (req, res) => {
-  UserManagmentModule.getAccountStatus(req, res);
-});
+// API Endpoints for User Management
+app.get('/account-status', UserManagmentModule.getAccountStatus);
+app.get('/account-data-fetch', UserManagmentModule.usersAccountDataFetch);
+app.post('/account-register', UserManagmentModule.registerAccount);
 
-app.post("/account-register", (req, res) => {
-  UserManagmentModule.registerAccount(req, res);
-});
+// Create HTTP server and attach Socket.IO
+const server = http.createServer(app);
+const io = socketIO(server);
+
+// Attach socket handlers for guest lifecycle
+UserManagmentModule.attachSocketHandlers(io);
 
 // Start the server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running and serving the HtWebz/public folder on http://localhost:${PORT}`);
-  if (ENABLE_DOMAIN_FORWARDING) {
-    console.log(`Domain forwarding enabled: redirecting to http://${TARGET_DOMAIN}`);
-  } else {
-    console.log(`Domain forwarding disabled`);
-  }
+  console.log(
+    ENABLE_DOMAIN_FORWARDING
+      ? `Domain forwarding enabled: redirecting to http://${TARGET_DOMAIN}`
+      : 'Domain forwarding disabled'
+  );
+});
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+  console.log('Shutting down...');
+  server.close(() => process.exit(0));
 });
