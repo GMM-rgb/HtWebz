@@ -359,6 +359,9 @@ ___        ___        ___  ,________,  ,___    ,________
                 setTimeout(() => {
                     UserAccountProfilePicture.classList.add('fade-in');
                     UserAccountProfilePicture.src = finalURL;
+                    UserAccountProfilePicture.addEventListener('animationend', () => {
+                        UserAccountProfilePicture.classList.remove('fade-in');
+                    }, { once: true, passive: true });
                 }, Math.random() * 750 + 500);
             };
 
