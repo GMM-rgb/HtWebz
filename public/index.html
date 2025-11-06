@@ -355,7 +355,7 @@ ___        ___        ___  ,________,  ,___    ,________
             }, 5000); // 5s timeout for Loading time set
 
             img.onload = () => {
-                clearTimeout(timeoutId);
+                clearTimeout(timeoutId); // Clear the timeout to prevent fallback from continueing
                 setTimeout(() => {
                     UserAccountProfilePicture.classList.add('fade-in');
                     UserAccountProfilePicture.src = finalURL;
