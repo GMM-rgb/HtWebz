@@ -184,6 +184,7 @@
     flex: none !important;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
 }
 
 #accountExpandInfo:hover {
@@ -204,6 +205,7 @@
     transform-origin: center center;
     transform: scale(1.25);
     padding: 2px;
+    object-fit: fill;
 }
 
 #accountExpandInfo:hover>#accountExpandIcon {
