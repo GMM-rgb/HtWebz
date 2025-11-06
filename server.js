@@ -100,7 +100,7 @@ process.on('SIGINT', () => {
   if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") /*&& CurrentConnections > 0*/) {
     (server.closeAllConnections?.() ?? console.warn("WARNING: Could not close connections, module or does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
   }
-  
+
   // Kick all connected sockets
   io.sockets.sockets.forEach((socket) => {
     socket.disconnect(true); // force disconnect
@@ -108,25 +108,26 @@ process.on('SIGINT', () => {
 
   console.log("Shut Down?\t Y/N");
 
-  process.stdin.on("keypress", function(str, key_type) {
+  process.stdin.on("keypress", function (str, key_type) {
     let KeyName = `${key_type.name}`.toLocaleLowerCase();
     if (key_type && (key_type instanceof Object)) {
       if (KeyName === "y") {
-
+        confirmed = true;
       } else if (KeyName === "n") {
-
+        confirmed = false
+      }
+      // Now close the server
+      try {
+        if (confirmed && typeof confirmed === "boolean") server.close(() => {
+          console.log(`\nServer closed.`);
+          console.log("===================\n");
+          process.exit(0);
+        }); else {
+          return;
+        }
+      } catch (ShutdownError) {
+        throw new Error(`ShutdownError:\n${ShutdownError}`);
       }
     }
   });
-
-  // Now close the server
-  if (confirmed && typeof confirmed === "boolean") server.close(() => {
-    console.log(`Server closed.`);
-    console.log("===================\n");
-    process.exit(0);
-  }).catch((ShutdownError) => {
-    throw new Error(ShutdownError);
-  }); else {
-    process.off('SIGINT', this);
-  }
 });
