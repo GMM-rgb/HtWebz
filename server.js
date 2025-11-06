@@ -74,8 +74,18 @@ server.listen(PORT, () => {
   );
 });
 
-// Graceful shutdown
+// Shutdown handler on exit
 process.on('SIGINT', () => {
   console.log('Shutting down...');
-  server.close(() => process.exit(0));
+
+  // Kick all connected sockets
+  io.sockets.sockets.forEach((socket) => {
+    socket.disconnect(true); // force disconnect
+  });
+
+  // Now close the server
+  server.close(() => {
+    console.log('Server closed.');
+    process.exit(0);
+  });
 });

@@ -200,14 +200,14 @@
     background: rgb(236, 235, 235);
     border: 2px solid #ccc;
     border-radius: 1cm;
-    transition: all 0.3s ease-out !important;
+    transition: all 0.3s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     transform-origin: center center;
     transform: scale(1.25);
     padding: 2px;
 }
 
 #accountExpandInfo:hover>#accountExpandIcon {
-    transform: scale(1.325);
+    transform: scale(1.325) rotate(360deg);
 }
 
 #accountExpandInfo:active>#accountExpandIcon {
