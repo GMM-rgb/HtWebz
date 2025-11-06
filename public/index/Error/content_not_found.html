@@ -242,8 +242,22 @@
         <span class="help-info">
           If the problem persists please contact the developer of this page.
         </span>
-        <a href="../../index.html"><button class="return-to-homepage-btn">Return to Homepage</button></a>
+        <a href="../../index.html"><button class="return-to-homepage-btn">Return
+            to Homepage</button></a>
       </div>
     </section>
+    <!-- Socket.io connection -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on('connect', () => {
+          const storedID = localStorage.getItem('guestID');
+          socket.emit('registerGuest', { guestID: storedID });
+        });
+
+        socket.on('welcome', (data) => {
+          localStorage.setItem('guestID', data.guestID);
+        });
+    </script>
   </body>
 </html>

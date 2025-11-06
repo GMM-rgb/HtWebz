@@ -445,5 +445,18 @@
             // Also play sound when clicking the error message
             document.getElementById('error').addEventListener('click', playErrorSound);
         </script>
+        <!-- Socket.io connection -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io();
+            socket.on('connect', () => {
+              const storedID = localStorage.getItem('guestID');
+              socket.emit('registerGuest', { guestID: storedID });
+            });
+
+            socket.on('welcome', (data) => {
+              localStorage.setItem('guestID', data.guestID);
+            });
+        </script>
     </body>
 </html>
