@@ -57,7 +57,20 @@ app.get('/account-status', UserManagmentModule.getAccountStatus);
 app.get('/account-data-fetch', UserManagmentModule.usersAccountDataFetch);
 app.post('/account-register', UserManagmentModule.registerAccount);
 
-// Create HTTP server and attach Socket.IO
+// ===== ERROR HANDLING =====
+
+// 404 handler (no route matched)
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(serveDirectory, 'index/Error/content_not_found.html'));
+});
+
+// 500 handler (critical server error)
+app.use((err, req, res, next) => {
+  console.error('Critical server error:', err.stack || err);
+  res.status(500).sendFile(path.join(serveDirectory, 'index/Error/critical_error.html'));
+});
+
+// ===== SERVER CREATION =====
 const server = http.createServer(app);
 const io = socketIO(server);
 
