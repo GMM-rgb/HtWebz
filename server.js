@@ -89,8 +89,13 @@ server.listen(PORT, () => {
 
 // Shutdown handler on exit
 process.on('SIGINT', () => {
-  console.log('Shutting down...');
+  let CurrentConnections = server.connections;
+  console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections ? CurrentConnections !== null : (0 && console.warn("WARNING: Connection Integer was null or undefined."))}\n`);
 
+  if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") /*&& CurrentConnections > 0*/) {
+    (server.closeAllConnections?.() ?? console.warn("WARNING: Could not close connections, module or does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
+  }
+  
   // Kick all connected sockets
   io.sockets.sockets.forEach((socket) => {
     socket.disconnect(true); // force disconnect
@@ -98,7 +103,8 @@ process.on('SIGINT', () => {
 
   // Now close the server
   server.close(() => {
-    console.log('Server closed.');
+    console.log(`Server closed.`);
+    console.log("===================\n");
     process.exit(0);
   });
 });
