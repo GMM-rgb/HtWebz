@@ -55,6 +55,10 @@
     .drag-content-section-container{
         padding-block: 25px !important;
     }
+    #gamesMenuOpen,
+    #settingsQuick {
+        display: none !important;
+    }
 }
 
 .content-section {
