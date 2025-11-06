@@ -2,11 +2,15 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
+const readline = require('readline');
 
 const UserManagmentModule = require('./backend/user_managment');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setEncoding('utf8');
 
 // ===== DOMAIN FORWARDING CONFIGURATION =====
 const ENABLE_DOMAIN_FORWARDING = false; // Toggle: set to false to disable for development mode
@@ -89,6 +93,7 @@ server.listen(PORT, () => {
 
 // Shutdown handler on exit
 process.on('SIGINT', () => {
+  let confirmed = false;
   let CurrentConnections = server.connections;
   console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections ? CurrentConnections !== null : (0 && console.warn("WARNING: Connection Integer was null or undefined."))}\n`);
 
@@ -101,10 +106,27 @@ process.on('SIGINT', () => {
     socket.disconnect(true); // force disconnect
   });
 
+  console.log("Shut Down?\t Y/N");
+
+  process.stdin.on("keypress", function(str, key_type) {
+    let KeyName = `${key_type.name}`.toLocaleLowerCase();
+    if (key_type && (key_type instanceof Object)) {
+      if (KeyName === "y") {
+
+      } else if (KeyName === "n") {
+
+      }
+    }
+  });
+
   // Now close the server
-  server.close(() => {
+  if (confirmed && typeof confirmed === "boolean") server.close(() => {
     console.log(`Server closed.`);
     console.log("===================\n");
     process.exit(0);
-  });
+  }).catch((ShutdownError) => {
+    throw new Error(ShutdownError);
+  }); else {
+    process.off('SIGINT', this);
+  }
 });
