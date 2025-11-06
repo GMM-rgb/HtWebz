@@ -479,7 +479,7 @@
 }
 
 #gamesMenuOpen:hover>#gamesIconWrapper {
-    animation: switchRotationAndScaleBounce 0.65s 0.2s ease-out forwards !important;
+    animation: switchRotationAndScaleBounce 0.65s 0.2s cubic-bezier(0.25, 1, 0.5, 1.25) forwards !important;
 }
 
 #gamesIconWrapper {
@@ -539,7 +539,7 @@
 }
 
 #resourcesMenuOpen:hover>#resourcesIconWrapper {
-    animation: switchRotationAndScaleBounce 0.65s 0.2s ease-out forwards !important;
+    animation: switchRotationAndScaleBounce 0.65s 0.2s cubic-bezier(0.25, 1, 0.5, 1.25) forwards !important;
 }
 
 #resourcesIconWrapper {
