@@ -210,8 +210,8 @@
     border-radius: 10px;
     /* Sizing */
     width: max-content;
-    padding-block: 22.5px;
-    height: 200%;
+    padding-block: 24.5px;
+    height: max-content;
     /* Position */
     margin-top: 0;
     /* Transition */
