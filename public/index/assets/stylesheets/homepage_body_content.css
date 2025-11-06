@@ -55,7 +55,12 @@
     .drag-content-section-container{
         padding-block: 25px !important;
     }
-    #gamesMenuOpen,
+    #gamesMenuOpen {
+        display: none !important;
+    }
+}
+
+@media (max-width: 812px) {
     #settingsQuick {
         display: none !important;
     }
