@@ -123,7 +123,7 @@ process.on('SIGINT', () => {
           console.log("===================\n");
           process.exit(0);
         }); else {
-          return;
+          return console.log("Shutdown Canceled!");
         }
       } catch (ShutdownError) {
         throw new Error(`ShutdownError:\n${ShutdownError}`);
