@@ -82,6 +82,10 @@
 
 /* Interface button media sizing for device display */
 @media (max-width: 812px) {
+    #accountExpandInfo {
+        transform: scale(0.825) !important;
+    }
+
     #expandMenuToolbar {
         transform: scale(0.825) !important;
     }

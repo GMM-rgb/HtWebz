@@ -327,8 +327,16 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        // Socket.io connection
         const socket = io();
+        // Elements
+        let UserAccountProfilePicture, WelcomeMainContentTitle;
 
+        window.addEventListener('DOMContentLoaded', () => {
+            UserAccountProfilePicture = document.getElementById('accountExpandIcon');
+            WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
+        });
+    
         // When connected, send stored ID (if any)
         socket.on('connect', () => {
             const storedID = localStorage.getItem('guestID');
@@ -338,7 +346,28 @@ ___        ___        ___  ,________,  ,___    ,________
         // Save the ID the server assigns
         socket.on('welcome', (data) => {
             localStorage.setItem('guestID', data.guestID);
-            console.log('Guest ID:', data.guestID);
+
+            if (data.type === "guest") {
+                console.log('User is a guest.');
+                console.log('Guest ID:', data.guestID);
+                if (WelcomeMainContentTitle && (WelcomeMainContentTitle instanceof HTMLElement)) {
+                    WelcomeMainContentTitle.textContent = `Welcome, ${data.guestID}`;
+                } else {
+                    console.log('No welcome title element found, either it is not an HTMLElement, or invalid.');
+                }
+                if (UserAccountProfilePicture) {
+                    UserAccountProfilePicture.src = 'index/assets/images/avatardefault_92824.png';
+                } else {
+                    console.log('No profile picture element found.');
+                }
+            } else if (data.type === "registered") {
+                console.log('User is registered.');
+                if (UserAccountProfilePicture && data.profilePictureURL && (data.profilePictureURL instanceof String || typeof data.profilePictureURL === 'string')) {
+                    UserAccountProfilePicture.src = data.profilePictureURL;
+                } else {
+                    console.log('No profile picture URL provided.');
+                }
+            }
         });
     </script>
 
@@ -354,7 +383,7 @@ ___        ___        ___  ,________,  ,___    ,________
             <button id="accountExpandInfo"
                 onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')">
                 <img id="accountExpandIcon"
-                    src="index/assets/images/Tab_Icons/User_Default_Icon_Favicon.svg"
+                    src="index/assets/images/avatardefault_92824.png"
                     alt="Error" preload="auto" height="25" width="25" />
             </button>
 

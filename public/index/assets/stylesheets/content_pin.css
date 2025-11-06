@@ -38,15 +38,15 @@
   -webkit-text-fill-color: rgb(94, 143, 192);
   text-overflow: ellipsis !important;
   text-indent: 2.5px;
-
-  letter-spacing: 2.5px;
+  white-space: nowrap;
 
   /* Transition for hover and sticky-active states */
   transition: all 0.3s ease;
 
   /* If we need to center it based on design */
   text-align: center;
-  line-height: 0.75;
+  line-height: 1.125;
+  letter-spacing: 2.5px;
 
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
@@ -54,6 +54,9 @@
 
   overflow-x: hidden;
   overflow-y: hidden;
+
+  text-wrap-mode: wrap;
+  word-wrap: break-word;
 }
 
 .pinned-content-title.sticky-active {
