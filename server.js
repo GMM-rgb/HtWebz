@@ -117,7 +117,7 @@ process.on('SIGINT', () => {
       if (KeyName === "y") {
         confirmed = true;
       } else if (KeyName === "n") {
-        confirmed = false
+        confirmed = false;
       }
       // Now close the server
       try {
