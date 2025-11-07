@@ -5,6 +5,7 @@ const socketIO = require('socket.io');
 const readline = require('readline');
 
 const UserManagmentModule = require('./backend/user_managment');
+const { stdout } = require('process');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -93,12 +94,13 @@ server.listen(PORT, () => {
 
 // Shutdown handler on exit
 process.on('SIGINT', () => {
+  let CanceledConfirm = false;
   let confirmed = false;
   let CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
   console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && console.warn("WARNING: Connection Integer was null or undefined."))}\n`);
 
   if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") /*&& CurrentConnections > 0*/) {
-    (server.closeAllConnections?.() ?? console.warn("WARNING: Could not close connections, module or does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
+    (server.closeAllConnections?.() ?? console.warn("WARNING: Could not close connections, module does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
   }
 
   // Kick all connected sockets
@@ -107,7 +109,8 @@ process.on('SIGINT', () => {
   });
 
   console.log("Shut Down?\t Y/N");
-
+  stdout._write("CHOOSE: ");
+  
   process.stdin.on("keypress", function (str, key_type) {
     let KeyName = `${key_type.name}`.toLocaleLowerCase();
     if (key_type && (key_type instanceof Object)) {
@@ -123,7 +126,11 @@ process.on('SIGINT', () => {
           console.log("===================\n");
           process.exit(0);
         }); else {
-          return console.log("Shutdown Canceled!");
+          if (!CanceledConfirm) {
+            console.log("\nShutdown Canceled!");
+            CanceledConfirm = true;
+          }
+          return;
         }
       } catch (ShutdownError) {
         throw new Error(`ShutdownError:\n${ShutdownError}`);
