@@ -108,7 +108,7 @@ process.on('SIGINT', () => {
     return console.warn(`\t${warn_message}`);
   }
 
-  if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") /*&& CurrentConnections > 0*/) {
+  if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") && CurrentConnections > 0) {
     (server.closeAllConnections?.() ?? ConsoleWarnShutdown("WARNING: Could not close connections, module does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
   }
 
