@@ -36,6 +36,8 @@ function attachSocketHandlers(io) {
 }
 
 module.exports = {
+  CurrentNumberOfUsersOnline: () => Object.keys(CurrentUsersOnline).length,
+
   getAccountStatus: (req, res) => {
     res.json({ onlineUsers: Object.keys(CurrentUsersOnline).length });
   },

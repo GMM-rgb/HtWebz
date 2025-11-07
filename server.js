@@ -94,8 +94,8 @@ server.listen(PORT, () => {
 // Shutdown handler on exit
 process.on('SIGINT', () => {
   let confirmed = false;
-  let CurrentConnections = server.connections;
-  console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections ? CurrentConnections !== null : (0 && console.warn("WARNING: Connection Integer was null or undefined."))}\n`);
+  let CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
+  console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && console.warn("WARNING: Connection Integer was null or undefined."))}\n`);
 
   if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") /*&& CurrentConnections > 0*/) {
     (server.closeAllConnections?.() ?? console.warn("WARNING: Could not close connections, module or does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
