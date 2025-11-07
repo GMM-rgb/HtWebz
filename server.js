@@ -97,7 +97,16 @@ process.on('SIGINT', () => {
   let CanceledConfirm = false;
   let confirmed = false;
   let CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
+  let HasWarnings = false;
   console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && console.warn("WARNING: Connection Integer was null or undefined."))}\n`);
+
+  function ConsoleWarnShutdown(warn_message) {
+    if (!HasWarnings) {
+      HasWarnings = true;
+      stdout._write("WARNINGS:\n");
+    }
+    return console.warn(`\t${warn_message}`);
+  }
 
   if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") /*&& CurrentConnections > 0*/) {
     (server.closeAllConnections?.() ?? console.warn("WARNING: Could not close connections, module does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
@@ -108,7 +117,7 @@ process.on('SIGINT', () => {
     socket.disconnect(true); // force disconnect
   });
 
-  console.log("Shut Down?\t Y/N");
+  console.log("\nShut Down?\t Y/N");
   stdout._write("CHOOSE: ");
   
   process.stdin.on("keypress", function (str, key_type) {
