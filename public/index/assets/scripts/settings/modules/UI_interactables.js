@@ -13,7 +13,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
   
   try {
     ToggleSwitch = document.createElement("button");
-    ToggleSwitch.id = (typeof switch_toggle_IDNAME === "string" && switch_toggle_IDNAME) || "SwitchToggleBtn";
+    ToggleSwitch.setAttribute("id", switch_toggle_IDNAME || "SwitchToggleBtn");
     ToggleSwitch.setAttribute("class", "toggle-switch-btn");
     ToggleSwitch.setAttribute("Activated", "false");
 
@@ -30,6 +30,21 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
     let startX = 0;
     let startMarginLeft = 0;
 
+    // Helper function to dispatch custom event
+    const dispatchToggleEvent = (newState) => {
+      const event = new CustomEvent('togglechange', {
+        detail: {
+          id: ToggleSwitch.id,
+          name: switch_toggle_name,
+          activated: newState === "true",
+          value: newState
+        },
+        bubbles: true,
+        cancelable: false
+      });
+      ToggleSwitch.dispatchEvent(event);
+    };
+
     const ActivationObserverState = new MutationObserver((mutationList) => {
       for (const mutation of mutationList) {
         if (mutation.type === "attributes" && mutation.attributeName.toLowerCase() === "activated") {
@@ -43,12 +58,15 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
           if (ActivationStatusAttribute === "true") {
             ToggleSwitchSlider.classList.remove("slide-backward");
             ToggleSwitchSlider.classList.add("slide-forward");
-            ToggleSwitchSlider.innerText =  ActivationStatusAttribute === "true" ? 'ON' : 'OFF';
+            ToggleSwitchSlider.innerText = 'ON';
           } else {
             ToggleSwitchSlider.classList.remove("slide-forward");
             ToggleSwitchSlider.classList.add("slide-backward");
-            ToggleSwitchSlider.innerText = ActivationStatusAttribute === "false" ? 'OFF' : 'ON';
+            ToggleSwitchSlider.innerText = 'OFF';
           }
+
+          // Dispatch custom event
+          dispatchToggleEvent(ActivationStatusAttribute);
         }
       }
     });
@@ -67,7 +85,6 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
       hasMoved = false;
       startX = getEventX(e);
       
-      // Get current position
       const computedStyle = window.getComputedStyle(ToggleSwitchSlider);
       const marginLeft = computedStyle.marginLeft;
       const rect = ToggleSwitchInnerFrame.getBoundingClientRect();
@@ -93,18 +110,16 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
         ToggleSwitchSlider.style.transition = "none";
       }
       
-      // Check if cursor/finger is WAY off the toggle area (generous buffer)
       const rect = ToggleSwitchInnerFrame.getBoundingClientRect();
       const currentY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
       
-      const bufferZone = 150; // 150px buffer before canceling
+      const bufferZone = 150;
       const isWayOutOfBounds = currentX < rect.left - bufferZone || 
                                currentX > rect.right + bufferZone || 
                                currentY < rect.top - bufferZone || 
                                currentY > rect.bottom + bufferZone;
       
       if (isWayOutOfBounds) {
-        // Cancel drag and snap back to current state
         isDragging = false;
         hasMoved = false;
         ToggleSwitchSlider.style.marginLeft = "";
@@ -113,7 +128,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
         const currentState = ToggleSwitch.getAttribute("Activated");
         ToggleSwitch.setAttribute("Activated", currentState);
         
-        if (DebugMode) console.log("Drag cancelled - went way out of bounds");
+        console.log("Drag cancelled - went way out of bounds");
         return;
       }
       
@@ -138,37 +153,31 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
         return;
       }
       
-      // Get final position
       const computedStyle = window.getComputedStyle(ToggleSwitchSlider);
       const marginLeft = parseFloat(computedStyle.marginLeft);
       const rect = ToggleSwitchInnerFrame.getBoundingClientRect();
       const marginPercent = (marginLeft / rect.width) * 100;
       
-      // Reset styles
       ToggleSwitchSlider.style.marginLeft = "";
       ToggleSwitchSlider.style.transition = "";
       
       isDragging = false;
       
-      // Determine state based on position (midpoint -> middle, is 24%)
       const newState = marginPercent > 24 ? "true" : "false";
       ToggleSwitch.setAttribute("Activated", newState);
       
       console.log("Drag ended at", marginPercent.toFixed(1), "%, set to:", newState);
     };
 
-    // Slider drag events
     ToggleSwitchSlider.addEventListener("mousedown", handleDragStart);
     ToggleSwitchSlider.addEventListener("touchstart", handleDragStart, { passive: false });
     
-    // Global move/end events
     document.addEventListener("mousemove", handleDragMove);
     document.addEventListener("mouseup", handleDragEnd);
     document.addEventListener("touchmove", handleDragMove, { passive: false });
     document.addEventListener("touchend", handleDragEnd);
 
-    // Track background click
-    ToggleSwitch.addEventListener("click", (e) => {
+    ToggleSwitchInnerFrame.addEventListener("click", (e) => {
       if (e.target === ToggleSwitchSlider) return;
       
       e.stopPropagation();
