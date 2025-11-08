@@ -22,6 +22,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
   
     let ToggleSwitchSlider = document.createElement("div");
     ToggleSwitchSlider.setAttribute("class", "toggle-switch-slider-element");
+    ToggleSwitchSlider.innerText = `OFF`;
 
     // Drag state
     let isDragging = false;
@@ -42,9 +43,11 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
           if (ActivationStatusAttribute === "true") {
             ToggleSwitchSlider.classList.remove("slide-backward");
             ToggleSwitchSlider.classList.add("slide-forward");
+            ToggleSwitchSlider.innerText =  ActivationStatusAttribute === "true" ? 'ON' : 'OFF';
           } else {
             ToggleSwitchSlider.classList.remove("slide-forward");
             ToggleSwitchSlider.classList.add("slide-backward");
+            ToggleSwitchSlider.innerText = ActivationStatusAttribute === "false" ? 'OFF' : 'ON';
           }
         }
       }
@@ -147,7 +150,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
       
       isDragging = false;
       
-      // Determine state based on position (midpoint is 24%)
+      // Determine state based on position (midpoint -> middle, is 24%)
       const newState = marginPercent > 24 ? "true" : "false";
       ToggleSwitch.setAttribute("Activated", newState);
       

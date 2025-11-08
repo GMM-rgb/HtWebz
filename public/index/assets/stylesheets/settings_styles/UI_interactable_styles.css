@@ -68,6 +68,12 @@
 }
 
 .toggle-switch-slider-element {
+  align-self: center;
+  text-indent: -1.125px;
+  text-align: flex-start;
+  font-family: Monospace;
+  font-weight: bold;
+  font-size: 0.725em;
   cursor: pointer;
   border: 2px solid #ccc;
   border-radius: 1cm;
