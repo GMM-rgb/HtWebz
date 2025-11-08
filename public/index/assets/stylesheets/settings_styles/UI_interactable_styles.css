@@ -45,7 +45,7 @@
   cursor: default;
   padding: 3.5px;
   background: whitesmoke;
-  box-shadow: inset 0 0 2.5px rgba(0,0,0,0.45);
+  box-shadow: inset 0 0 2.5px rgba(0,0,0,0.45), 0 1px 2.5px rgba(0,0,0,0.45);
   border: 3px solid #80b5db;
   border-radius: 1cm;
   width: 75px;
