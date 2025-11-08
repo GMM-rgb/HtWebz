@@ -9,6 +9,8 @@
   }
   40% {
     width: 92.5%;   /* stretch forward */
+    letter-spacing: 1.15em;
+    text-indent: 2.5px;
     margin-left: 0;
   }
   70% {
@@ -24,13 +26,16 @@
 @keyframes SwitchSlideBackward {
   0% {
     width: 50%;
-    margin-left: 47.5%;
+    margin-left: 48%;
   }
   40% {
     width: 92.5%;   /* stretch backward */
+    letter-spacing: 1.15em;
+    text-indent: -2.5px;
     margin-left: 1.125%;
   }
   70% {
+  letter-spacing: 0.1em;
     width: 35%;    /* trailing edge catching up */
     margin-left: 5%;
   }
