@@ -56,8 +56,8 @@
   border-radius: 1cm;
   width: 85px;
   height: min-content;
-  -webkit-user-select: none;
-  user-select: none;
+  -webkit-user-select: none !important;
+  user-select: none !important;
 }
 
 .toggle-switch-inner-frame {
@@ -91,7 +91,6 @@
   transition: all 0.3s ease;
   animation: none;
   min-width: 25px !important;
-  flex: 0 1 auto;
   color: whitesmoke;
 }
 
