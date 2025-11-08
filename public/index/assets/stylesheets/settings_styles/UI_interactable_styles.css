@@ -86,6 +86,7 @@
   animation: none;
   min-width: 25px !important;
   flex: 0 1 auto;
+  color: whitesmoke;
 }
 
 .toggle-switch-slider-element.slide-forward {

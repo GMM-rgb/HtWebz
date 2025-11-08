@@ -22,7 +22,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
   
     let ToggleSwitchSlider = document.createElement("div");
     ToggleSwitchSlider.setAttribute("class", "toggle-switch-slider-element");
-    ToggleSwitchSlider.innerText = `OFF`;
+    ToggleSwitchSlider.innerText = 'OFF';
 
     // Drag state
     let isDragging = false;
