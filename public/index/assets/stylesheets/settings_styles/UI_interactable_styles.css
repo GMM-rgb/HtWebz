@@ -98,12 +98,11 @@
   -webkit-transform: translateZ(0);
   -webkit-font-smoothing: antialiased;
   will-change: width, margin-left !important;
-  outline-offset: 1px;
   outline: none;
 }
 
-.toggle-switch-slider-element:focus-within {
-  outline: 3px solid #afdeff !important;
+.toggle-switch-inner-frame>.toggle-switch-slider-element:focus-within {
+  outline: 3px solid #0066ad !important;
 }
 
 .toggle-switch-slider-element.slide-forward {
