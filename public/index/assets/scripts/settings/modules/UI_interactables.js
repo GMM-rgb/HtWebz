@@ -12,7 +12,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
   let ToggleSwitch = null;
   
   try {
-    ToggleSwitch = document.createElement("button");
+    ToggleSwitch = document.createElement("div");
     ToggleSwitch.setAttribute("id", switch_toggle_IDNAME || "SwitchToggleBtn");
     ToggleSwitch.setAttribute("class", "toggle-switch-btn");
     ToggleSwitch.setAttribute("Activated", "false");
@@ -20,7 +20,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
     let ToggleSwitchInnerFrame = document.createElement("div");
     ToggleSwitchInnerFrame.setAttribute("class", "toggle-switch-inner-frame");
   
-    let ToggleSwitchSlider = document.createElement("div");
+    let ToggleSwitchSlider = document.createElement("button");
     ToggleSwitchSlider.setAttribute("class", "toggle-switch-slider-element");
     ToggleSwitchSlider.innerText = 'OFF';
 
@@ -168,6 +168,24 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
       
       console.log("Drag ended at", marginPercent.toFixed(1), "%, set to:", newState);
     };
+
+    // Keyboard accessibility
+    ToggleSwitchSlider.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        const ActivationState = ToggleSwitch.getAttribute("Activated");
+        ToggleSwitch.setAttribute("Activated", ActivationState === "true" ? "false" : "true");
+        console.log("Keyboard toggled to:", ToggleSwitch.getAttribute("Activated"));
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        ToggleSwitch.setAttribute("Activated", "true");
+        console.log("Arrow key toggled to: true");
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        ToggleSwitch.setAttribute("Activated", "false");
+        console.log("Arrow key toggled to: false");
+      }
+    });
 
     ToggleSwitchSlider.addEventListener("mousedown", handleDragStart);
     ToggleSwitchSlider.addEventListener("touchstart", handleDragStart, { passive: false });
