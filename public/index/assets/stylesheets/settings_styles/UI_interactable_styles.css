@@ -73,7 +73,7 @@
   align-self: center;
   text-indent: -1.125px;
   text-align: flex-start;
-  font-family: Monospace;
+  font-family: Monospace !important;
   font-weight: bold;
   font-size: 0.725em;
   cursor: pointer;
