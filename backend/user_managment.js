@@ -1,6 +1,10 @@
 const path = require('path');
 let CurrentUsersOnline = {};
 
+function UserManagmentLogger(message) {
+  console.log(`[UserManagment] ${message}`);
+}
+
 // Generate Anonymous Guest User with random ID separated by underscore
 function generateGuestUserID() {
   const randomID = Math.random().toString(36).substring(2, 10);
@@ -22,14 +26,14 @@ function attachSocketHandlers(io) {
       const userType = guestID.startsWith('Guest_') ? 'guest' : 'registered';
 
       CurrentUsersOnline[guestID] = { type: userType, connectedAt: Date.now() };
-      console.log(`${userType} connected: ${guestID}`);
+      UserManagmentLogger(`${userType} connected: ${guestID}`);
 
       // Send ID and type back to client
       socket.emit('welcome', { guestID, type: userType });
 
       socket.on('disconnect', () => {
         delete CurrentUsersOnline[guestID];
-        console.log(`${userType} disconnected: ${guestID}`);
+        UserManagmentLogger(`${userType} disconnected: ${guestID}`);
       });
     });
   });
