@@ -3,6 +3,7 @@ const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
 const readline = require('readline');
+const picocolors = require('picocolors');
 
 const UserManagmentModule = require('./backend/user_managment');
 const { stdout } = require('process');
@@ -92,7 +93,7 @@ server.listen(PORT, () => {
   );
   let ThreeDimensionalArt = true
   if (ThreeDimensionalArt) {
-    console.log(`
+    console.log(picocolors.blueBright(`
     ___  ___  _________  ___       __   _______   ________  ________     
    |\\  \\|\\  \\|\\___   ___\\\\  \\     |\\  \\|\\  ___ \\ |\\   __  \\|\\  ___   \\    
     \\ \\  \\\\\\  \\|___ \\  \\_\\ \\  \\    \\ \\  \\ \\   __/|\\ \\  \\|\\  \\ \\___/  /|   
@@ -101,8 +102,8 @@ server.listen(PORT, () => {
        \\ \\__\\ \\__\\   \\ \\__\\ \\ \\____________\\ \\_______\\ \\_______\\________\\
         \\|__|\\|__|    \\|__|  \\|____________|\\|_______|\\|_______|\\|_______|
                                
-                         T h e   D i g i t a l   W o r l d       
-    `);
+                         ${picocolors.cyan('T h e   D i g i t a l   W o r l d')}       
+    `));
   } else {
     console.log(`
     ,__,   ,__,  ,____________,       ___        ___        ___  ,________,  ,___    ,________
