@@ -2,7 +2,7 @@ const path = require('path');
 let CurrentUsersOnline = {};
 
 function UserManagmentLogger(message) {
-  console.log(`[UserManagment] ${message}`);
+  console.log(`[UserManagment]:\t ${message}`);
 }
 
 // Generate Anonymous Guest User with random ID separated by underscore
