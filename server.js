@@ -90,6 +90,14 @@ server.listen(PORT, () => {
       ? `Domain forwarding enabled: redirecting to http://${TARGET_DOMAIN}`
       : 'Domain forwarding disabled'
   );
+  console.log(`
+  ,__,   ,__,  ,____________,    ___        ___        ___  ,________,  ,___    ,________
+  |  |   |  |  |____________|    \  \      /   \      /  /  |  ______|  |   \   |___    /
+  |  |___|  |       |  |          \  \    /  /\ \    /  /   |  |____    | O  )     /   /
+  |  |___|  |       |  |           \  \  /  /  \ \  /  /    |   ____|   |   (     /   /
+  |  |   |  |       |  |            \  \/  /    \ \/  /     |  |_____   | O  )   /   /___
+  |__|   |__|       |__|             \____/      \___/      |________|  |___/   |________|
+  `);
 });
 
 // Shutdown handler on exit
