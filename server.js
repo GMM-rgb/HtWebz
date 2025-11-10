@@ -89,11 +89,11 @@ server.listen(PORT, () => {
   console.log(
     ENABLE_DOMAIN_FORWARDING
       ? `Domain forwarding enabled: redirecting to http://${TARGET_DOMAIN}`
-      : 'Domain forwarding disabled'
+      : 'Domain forwarding disabled > development mode'
   );
   let ThreeDimensionalArt = true
   if (ThreeDimensionalArt) {
-    console.log(picocolors.bold(picocolors.cyanBright(`%c\t\t\t      W e l c o m e  T o`)), 'font-style: italic;', picocolors.blueBright(`
+    console.log('\n', picocolors.bgBlack(picocolors.cyan(`\t\t\t      W e l c o m e  T o `)), picocolors.blueBright(`
     ___  ___  _________  ___       __   _______   ________  ________     
    |\\  \\|\\  \\|\\___   ___\\\\  \\     |\\  \\|\\  ___ \\ |\\   __  \\|\\  ___   \\    
     \\ \\  \\\\\\  \\|___ \\  \\_\\ \\  \\    \\ \\  \\ \\   __/|\\ \\  \\|\\  \\ \\___/  /|   
@@ -118,8 +118,13 @@ server.listen(PORT, () => {
   }
 });
 
+let shuttingDown = false;
+
 // Shutdown handler on exit
 process.on('SIGINT', () => {
+  if (shuttingDown) return;
+  shuttingDown = true;
+
   let CanceledConfirm = false;
   let confirmed = false;
   let CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
@@ -157,6 +162,7 @@ process.on('SIGINT', () => {
       // Now close the server
       try {
         if (confirmed && typeof confirmed === "boolean") server.close(() => {
+          shuttingDown = false;
           console.log(`\nServer closed.`);
           console.log("===================\n");
           process.exit(0);
@@ -164,12 +170,19 @@ process.on('SIGINT', () => {
           if (!CanceledConfirm) {
             console.log("\nShutdown Canceled!");
             CanceledConfirm = true;
+            shuttingDown = false;
+            process.stdin.removeAllListeners("keypress");
+            return;
           }
           return;
         }
       } catch (ShutdownError) {
+        shuttingDown = false;
         throw new Error(`ShutdownError:\n${ShutdownError}`);
       }
     }
+
+    shuttingDown = false;
+    return;
   });
 });
