@@ -1,8 +1,9 @@
 const path = require('path');
+const picocolors = require('picocolors');
 let CurrentUsersOnline = {};
 
 function UserManagmentLogger(message) {
-  console.log(`[UserManagment]:\t ${message}`);
+  console.log(picocolors.bgGreen(`${picocolors.bold('[UserManagment]:')}\t${picocolors.bgBlack(message)}`));
 }
 
 // Generate Anonymous Guest User with random ID separated by underscore

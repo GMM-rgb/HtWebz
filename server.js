@@ -125,8 +125,9 @@ process.on('SIGINT', () => {
   if (shuttingDown) return;
   shuttingDown = true;
 
-  let CanceledConfirm = false;
+  let invalidShown = false;
   let confirmed = false;
+  let CanceledConfirm = false;
   let CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
   let HasWarnings = false;
   console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && ConsoleWarnShutdown("WARNING: Connection Integer was null or undefined."))}\n`);
@@ -150,39 +151,51 @@ process.on('SIGINT', () => {
 
   console.log("\nShut Down?\t Y/N");
   stdout._write("CHOOSE: ");
-  
-  process.stdin.on("keypress", function (str, key_type) {
-    let KeyName = `${key_type.name}`.toLocaleLowerCase();
-    if (key_type && (key_type instanceof Object)) {
-      if (KeyName === "y") {
-        confirmed = true;
-      } else if (KeyName === "n") {
-        confirmed = false;
-      }
-      // Now close the server
-      try {
-        if (confirmed && typeof confirmed === "boolean") server.close(() => {
+
+  process.stdin.on("data", function (key) {
+    // Always allow Ctrl+C to exit
+    if (key === "\u0003") {
+      console.log("\nForce exit.");
+      process.exit();
+    }
+
+    // Normalize to lowercase
+    const keyName = key.trim().toLowerCase();
+
+    if (keyName === "y") {
+      confirmed = true;
+    } else if (keyName === "n") {
+      confirmed = false;
+    } else if (key === "\r" || key === "\n") {
+      // Enter just resets cycle
+      return;
+    } else {
+      console.log(picocolors.red("\nInvalid Key! Press Y to confirm shutdown or N to cancel."));
+      stdout._write("CHOOSE: ");
+      return;
+    }
+
+    // Stop listening once we have a valid answer
+    process.stdin.removeAllListeners("data");
+
+    try {
+      if (confirmed) {
+        server.close(() => {
           shuttingDown = false;
           console.log(`\nServer closed.`);
           console.log("===================\n");
           process.exit(0);
-        }); else {
-          if (!CanceledConfirm) {
-            console.log("\nShutdown Canceled!");
-            CanceledConfirm = true;
-            shuttingDown = false;
-            process.stdin.removeAllListeners("keypress");
-            return;
-          }
-          return;
+        });
+      } else {
+        if (!CanceledConfirm) {
+          console.log("\nShutdown Canceled!");
+          CanceledConfirm = true;
         }
-      } catch (ShutdownError) {
         shuttingDown = false;
-        throw new Error(`ShutdownError:\n${ShutdownError}`);
       }
+    } catch (ShutdownError) {
+      shuttingDown = false;
+      throw new Error(`ShutdownError:\n${ShutdownError}`);
     }
-
-    shuttingDown = false;
-    return;
   });
 });
