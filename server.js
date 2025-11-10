@@ -93,7 +93,7 @@ server.listen(PORT, () => {
   );
   let ThreeDimensionalArt = true
   if (ThreeDimensionalArt) {
-    console.log(picocolors.blueBright(`
+    console.log(picocolors.bold(picocolors.cyanBright(`%c\t\t\t      W e l c o m e  T o`)), 'font-style: italic;', picocolors.blueBright(`
     ___  ___  _________  ___       __   _______   ________  ________     
    |\\  \\|\\  \\|\\___   ___\\\\  \\     |\\  \\|\\  ___ \\ |\\   __  \\|\\  ___   \\    
     \\ \\  \\\\\\  \\|___ \\  \\_\\ \\  \\    \\ \\  \\ \\   __/|\\ \\  \\|\\  \\ \\___/  /|   
