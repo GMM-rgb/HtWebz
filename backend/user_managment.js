@@ -3,12 +3,20 @@ const picocolors = require('picocolors');
 let CurrentUsersOnline = {};
 
 function UserManagmentLogger(message) {
-  if (message.includes("connected")) {
-    console.log(picocolors.bgGreen(`[UserManagment]:\t${picocolors.bgBlack(message)}`));
-  } else if (message.includes("disconnected")) {
-    console.log(picocolors.bgRed(`[UserManagment]:\t${picocolors.bgBlack(message)}`));
+  const lower = message.toLowerCase();
+
+  if (lower.includes("disconnected:")) {
+    console.log(
+      `${picocolors.bgRed("[UserManagment]:")}\t${picocolors.bgBlack(message)}`
+    );
+  } else if (lower.includes("connected:")) {
+    console.log(
+      `${picocolors.bgGreen("[UserManagment]:")}\t${picocolors.bgBlack(message)}`
+    );
   } else {
-    console.log(picocolors.bgBlue(`[UserManagment]:\t${picocolors.bgBlack(message)}`));
+    console.log(
+      `${picocolors.bgBlue("[UserManagment]:")}\t${picocolors.bgBlack(message)}`
+    );
   }
 }
 
