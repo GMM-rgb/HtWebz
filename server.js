@@ -188,7 +188,7 @@ process.on('SIGINT', () => {
         });
       } else {
         if (!CanceledConfirm) {
-          console.log("\nShutdown Canceled!");
+          console.log("\nShutdown Canceled!\n");
           CanceledConfirm = true;
         }
         shuttingDown = false;
