@@ -3,7 +3,13 @@ const picocolors = require('picocolors');
 let CurrentUsersOnline = {};
 
 function UserManagmentLogger(message) {
-  console.log(picocolors.bgGreen(`${picocolors.bold('[UserManagment]:')}\t${picocolors.bgBlack(message)}`));
+  if (message.includes("connected")) {
+    console.log(picocolors.bgGreen(`[UserManagment]:\t${picocolors.bgBlack(message)}`));
+  } else if (message.includes("disconnected")) {
+    console.log(picocolors.bgRed(`[UserManagment]:\t${picocolors.bgBlack(message)}`));
+  } else {
+    console.log(picocolors.bgBlue(`[UserManagment]:\t${picocolors.bgBlack(message)}`));
+  }
 }
 
 // Generate Anonymous Guest User with random ID separated by underscore
