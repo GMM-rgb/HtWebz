@@ -3,19 +3,20 @@ const picocolors = require('picocolors');
 let CurrentUsersOnline = {};
 
 function UserManagmentLogger(message) {
+  let CurrentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const lower = message.toLowerCase();
 
   if (lower.includes("disconnected:")) {
     console.log(
-      `${picocolors.bgRed("[UserManagment]:")}\t${picocolors.bgBlack(message)}`
+      `${picocolors.bgRed("[UserManagment]:")}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`
     );
   } else if (lower.includes("connected:")) {
     console.log(
-      `${picocolors.bgGreen("[UserManagment]:")}\t${picocolors.bgBlack(message)}`
+      `${picocolors.bgGreen("[UserManagment]:")}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`
     );
   } else {
     console.log(
-      `${picocolors.bgBlue("[UserManagment]:")}\t${picocolors.bgBlack(message)}`
+      `${picocolors.bgBlue("[UserManagment]:")}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`
     );
   }
 }
