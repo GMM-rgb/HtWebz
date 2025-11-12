@@ -3,7 +3,7 @@ const picocolors = require('picocolors');
 let CurrentUsersOnline = {};
 
 function UserManagmentLogger(message) {
-  let CurrentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+  const CurrentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const lower = message.toLowerCase();
 
   if (lower.includes("disconnected:")) {
