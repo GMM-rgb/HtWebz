@@ -1,13 +1,14 @@
+const { stdout } = require('process');
 const express = require('express');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
 const readline = require('readline');
 const picocolors = require('picocolors');
+const bodyParser = require('body-parser');
 
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
-const { stdout } = require('process');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -49,6 +50,7 @@ if (ENABLE_DOMAIN_FORWARDING) {
 
 // Middleware: serve static files from the public folder only
 app.use(express.static(serveDirectory));
+app.use(bodyParser.json());
 
 // Routes
 app.get('/public/', (req, res) => {
@@ -59,10 +61,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(serveDirectory, 'index.html'));
 });
 
-// API Endpoints for User Management
-app.get('/account-status', UserManagmentModule.getAccountStatus);
-app.get('/account-data-fetch', UserManagmentModule.usersAccountDataFetch);
-app.post('/account-register', UserManagmentModule.registerAccount);
+/*
+ - API Endpoints for User Management
+*/
+app.get('/account-status', (req, res) => UserManagmentModule.getAccountStatus);
+app.get('/account-data-fetch', (req, res) => UserManagmentModule.usersAccountDataFetch);
+app.post('/account-register', (req, res) => UserManagmentModule.registerAccount);
 
 /*
  - API Endpoints for Data Store Module
@@ -70,23 +74,28 @@ app.post('/account-register', UserManagmentModule.registerAccount);
 app.get('/datastore-send', (req, res) => {
   res.send(DataStoreModle.getUsers());
 });
-app.post('/datastore-receive', express.json(), (req, res) => {
-  const user = req.body;
-  if (user && user.id) {
-    DataStoreModle.addUser(user);
-    res.status(200).send({ message: 'User added successfully' });
+
+app.post('/datastore-receive', (req, res) => {
+  const data = req.body;
+
+  if (!data && data === null) {
+    res.status(400).send({ message: "❌ ERR: No data was received.\n" });
+    console.error(picocolors.red("ERR:\tNo data was received."));
   } else {
-    res.status(400).send({ message: 'Invalid user data' });
+    res.status(200).send({ message: "✅ SUCCESS: Data was received." });
+    console.log(picocolors.green("SUCCESS:\tData was received.\n"));
   }
+
+  console.log("DataReceived:\n", data , "\n");
 });
 
 // ===== ERROR HANDLING =====
-
+//
 // 404 handler (no route matched)
 app.use((req, res) => {
   res.status(404).sendFile(path.join(serveDirectory, 'index/Error/content_not_found.html'));
 });
-
+//
 // 500 handler (critical server error)
 app.use((err, req, res, next) => {
   console.error('Critical server error:', err.stack || err);

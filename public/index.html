@@ -257,9 +257,9 @@ ___        ___        ___  ,________,  ,___    ,________
         }
 
         if (isMobile()) {
-            console.log("Mobile device");
+            console.log("Mobile device -> [Bool]:\t", isMobile());
         } else {
-            console.log("Desktop device");
+            console.log("Desktop device -> [Bool]:\t", isMobile());
         }
     </script>
         <!---->
@@ -407,6 +407,31 @@ ___        ___        ___  ,________,  ,___    ,________
                 }
             }
         });
+    </script>
+
+    <!-- Data Store API Client -->
+    <script type="text/javascript">
+        const TestDataDefintion = {
+            0 : "Hello",
+            1 : "World",
+            2 : "!"
+        };
+
+        /**
+         * 
+         * @param {JSON} input_data
+        */
+        async function SendDataToServer(input_data) {
+            fetch("/datastore-receive", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(input_data)
+            }).then(response => response.json()).then(data => console.log('Success:', data))
+            .catch(error => console.error("ERR:\t", error));
+        }
+        SendDataToServer(TestDataDefintion);
     </script>
 
     <section id="topUserInterfaceBar">
