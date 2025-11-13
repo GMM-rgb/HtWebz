@@ -16,7 +16,7 @@
   100% {
     width: 50%;    /* back to normal width */
     margin-left: 48%; /* fully shifted */
-    text-indent: 1px;
+    text-indent: 0.5px;
   }
 }
 
