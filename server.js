@@ -6,7 +6,7 @@ const readline = require('readline');
 const picocolors = require('picocolors');
 
 const UserManagmentModule = require('./backend/user_managment');
-const DataStoremModle = require('./backend/datastore_backend_system');
+const DataStoreModle = require('./backend/datastore_backend_system');
 const { stdout } = require('process');
 
 const app = express();
@@ -63,6 +63,22 @@ app.get('/', (req, res) => {
 app.get('/account-status', UserManagmentModule.getAccountStatus);
 app.get('/account-data-fetch', UserManagmentModule.usersAccountDataFetch);
 app.post('/account-register', UserManagmentModule.registerAccount);
+
+/*
+ - API Endpoints for Data Store Module
+*/
+app.get('/datastore-send', (req, res) => {
+  res.send(DataStoreModle.getUsers());
+});
+app.post('/datastore-receive', express.json(), (req, res) => {
+  const user = req.body;
+  if (user && user.id) {
+    DataStoreModle.addUser(user);
+    res.status(200).send({ message: 'User added successfully' });
+  } else {
+    res.status(400).send({ message: 'Invalid user data' });
+  }
+});
 
 // ===== ERROR HANDLING =====
 
