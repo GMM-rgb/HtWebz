@@ -105,10 +105,13 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
         return;
       }
       
+      ToggleSwitchSlider.style.cursor = "grabbing";
+      
       if (!hasMoved) {
         hasMoved = true;
         ToggleSwitchSlider.classList.remove("slide-forward", "slide-backward");
         ToggleSwitchSlider.style.transition = "none";
+        ToggleSwitchSlider.style.cursor = "pointer";
       }
       
       const rect = ToggleSwitchInnerFrame.getBoundingClientRect();
@@ -125,6 +128,7 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
         hasMoved = false;
         ToggleSwitchSlider.style.marginLeft = "";
         ToggleSwitchSlider.style.transition = "";
+        ToggleSwitchSlider.style.cursor = "pointer";
         
         const currentState = ToggleSwitch.getAttribute("Activated");
         ToggleSwitch.setAttribute("Activated", currentState);
@@ -145,6 +149,8 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
 
     const handleDragEnd = (e) => {
       if (!isDragging) return;
+      
+      ToggleSwitchSlider.style.cursor = "pointer";
       
       if (!hasMoved) {
         isDragging = false;
@@ -215,6 +221,5 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
     }
   }
 }
-
 
 export { CreateToggleSettingElement, ToggleSwitchCreationError };
