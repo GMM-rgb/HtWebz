@@ -16,6 +16,7 @@
   100% {
     width: 50%;    /* back to normal width */
     margin-left: 48%; /* fully shifted */
+    text-indent: 1px;
   }
 }
 
@@ -36,8 +37,9 @@
     margin-left: 5%;
   }
   100% {
-    width: 50%;
+    width: 52.5%;
     margin-left: 1.125%; /* fully reset */
+    text-indent: -1.5px;
   }
 }
 
@@ -76,18 +78,23 @@
   overflow: hidden;
   backface-visibility: hidden;
   perspective: 1000px;
+  justify-self: flex-start;
   align-self: center;
-  text-indent: -1.125px;
-  text-align: flex-start;
-  font-family: Monospace !important;
+  text-align: center;
+  text-indent: -1.5px;
+  text-anchor: center center;
+  font-family: Comic Sans MS !important;
   font-weight: bold;
-  font-size: 0.75em;
+  font-size: 0.65em;
   cursor: pointer;
   border: 2px solid #ccc;
   border-radius: 1cm;
   box-sizing: border-box;
   background: #479dda;
+  
   padding: 5px;
+
+  min-width: 55% !important;
   width: 52.5%;
   margin-left: 1.125%;
   transition: all 0.3s ease;

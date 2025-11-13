@@ -12,9 +12,10 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
   let ToggleSwitch = null;
   
   try {
-    ToggleSwitch = document.createElement("div");
-    ToggleSwitch.setAttribute("id", switch_toggle_IDNAME || "SwitchToggleBtn");
+    ToggleSwitch = document.createElement("toggleswitch");
+    ToggleSwitch.setAttribute("id", switch_toggle_IDNAME ? switch_toggle_IDNAME : "SwitchToggleBtn");
     ToggleSwitch.setAttribute("class", "toggle-switch-btn");
+    ToggleSwitch.setAttribute("name", switch_toggle_name ? switch_toggle_name : "Unnamed");
     ToggleSwitch.setAttribute("Activated", "false");
 
     let ToggleSwitchInnerFrame = document.createElement("div");
@@ -214,5 +215,6 @@ function CreateToggleSettingElement(switch_toggle_name, switch_toggle_IDNAME) {
     }
   }
 }
+
 
 export { CreateToggleSettingElement, ToggleSwitchCreationError };
