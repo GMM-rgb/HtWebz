@@ -110,7 +110,7 @@ server.listen(PORT, () => {
   );
   let ThreeDimensionalArt = true
   if (ThreeDimensionalArt) {
-    console.log('\n', picocolors.bgBlack(picocolors.cyan(`\t\t\t      W e l c o m e  T o `)), picocolors.blueBright(`
+    console.log('\n', picocolors.cyan(`\t\t\t      W e l c o m e  T o `), picocolors.blueBright(`
     ___  ___  _________  ___       __   _______   ________  ________     
    |\\  \\|\\  \\|\\___   ___\\\\  \\     |\\  \\|\\  ___ \\ |\\   __  \\|\\  ___   \\    
     \\ \\  \\\\\\  \\|___ \\  \\_\\ \\  \\    \\ \\  \\ \\   __/|\\ \\  \\|\\  \\ \\___/  /|   
