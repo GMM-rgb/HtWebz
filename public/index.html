@@ -421,17 +421,23 @@ ___        ___        ___  ,________,  ,___    ,________
          * 
          * @param {JSON} input_data
         */
-        async function SendDataToServer(input_data) {
+        async function SendDataToServer(IsJSON, input_data) {
             fetch("/datastore-receive", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(input_data)
+                body: {
+                    isJSON_Boolean: IsJSON || false,
+                    // The main data that will be proccessed.
+                    DATA: {
+                        TestData: JSON.stringify(input_data)
+                    }
+                }
             }).then(response => response.json()).then(data => console.log('Success:', data))
             .catch(error => console.error("ERR:\t", error));
         }
-        SendDataToServer(TestDataDefintion);
+        SendDataToServer(true, TestDataDefintion);
     </script>
 
     <section id="topUserInterfaceBar">

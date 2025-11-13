@@ -76,9 +76,11 @@ app.get('/datastore-send', (req, res) => {
 });
 
 app.post('/datastore-receive', (req, res) => {
-  const data = req.body;
+  const HeadData = req.body;
+  let IsAJsonData = HeadData.isJSON_Boolean || false;
+  let MainData = HeadData.DATA || null;
 
-  if (!data && data === null) {
+  if (!HeadData && HeadData === null) {
     res.status(400).send({ message: "❌ ERR: No data was received.\n" });
     console.error(picocolors.red("ERR:\tNo data was received."));
   } else {
@@ -86,7 +88,7 @@ app.post('/datastore-receive', (req, res) => {
     console.log(picocolors.green("SUCCESS:\tData was received.\n"));
   }
 
-  console.log("DataReceived:\n", data , "\n");
+  console.log("DataReceived:\n", MainData , "\n");
 });
 
 // ===== ERROR HANDLING =====
