@@ -34,21 +34,23 @@ module.exports = {
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
     },
     removeUser: function(userToRemove) {
-        if (!userToRemove || userToRemove === null) return false;
+        const dr = false;
+        if (!userToRemove || userToRemove === null) return dr;
         let SuccessfullyRemovedUser = false;
 
-        if (this.getUsers instanceof Function) {
-            const UserData = this.getUsers();
-
-
+        if (this.getUsers !== null && this.getUsers instanceof Function) {
+            const UserData = this.getUsers() || console.error(picocolors.red(`ERROR: Failed to fetch users from json data.`)).then(() => { return dr; });
+            
+            
         } else {
             console.warn(picocolors.yellow(`WARNING: function: getUsers is not a function, or either invalid or missing.`));
+            return dr;
         }
 
         if (SuccessfullyRemovedUser) {
             return true;
         } else {
-            return false;
+            return dr;
         }
     }
 };
