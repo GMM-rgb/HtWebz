@@ -841,6 +841,15 @@
         inset 0 0 15px rgba(0, 0, 0, 0.35);
 }
 
+/* Kill glow when the same element ALSO has .Focused */
+#resourcesMenuOpen.Focused:hover::before {
+  box-shadow: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  content: none !important; /* Trashes pseudo-element */
+}
+
 /* Enhanced click effect with deeper shadow */
 #appMenuOpen.clicked::before,
 #settingsQuick.clicked::before,
