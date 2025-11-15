@@ -451,8 +451,7 @@
     background: rgba(210, 210, 210, 0.65);
     border: 3px solid #ccc;
     border-radius: 1cm;
-    padding-inline: 5px;
-    padding-right: 5px;
+    padding-inline: 2.5px;
     padding-block: 2.5px;
     height: fit-content;
     width: fit-content;
@@ -524,7 +523,7 @@
     background: rgb(236, 235, 235);
     border: 2px solid #ccc;
     border-radius: 1cm;
-    padding: 2.5px 4px;
+    padding: 2.5px 5px;
     max-width: max-content, min-content;
 }
 
@@ -580,9 +579,10 @@
 }
 
 .ResourcesInteractable.Focused {
-    border-width: 4.5px !important;
+    border-width: 3px !important;
     border-style: solid !important;
     border-color: transparent !important;
+    border-image-width: auto;
     background: 
         linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)) padding-box,
         conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #00f2ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
@@ -619,8 +619,8 @@
     background: rgb(236, 235, 235);
     border: 2px solid #ccc;
     border-radius: 1cm;
-    padding: 2.5px 4px;
-    max-width: max-content, min-content;
+    padding: 2.5px 5px;
+    max-width: min-content;
     animation: none;
 }
 
