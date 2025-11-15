@@ -570,19 +570,22 @@
     padding: 10px;
     transform: scale(1);
     transform-origin: center right;
-    transition: all 0.3s, padding-left 0.65s ease !important;
+    transition: all 0.3s, padding-left 0.65s ease, border 1.125s ease-out, border-width 0.675s ease-out !important;
     gap: 9.5px;
+    will-change: border, background;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
     clip-path: view-box;
     object-fit: contain;
 }
 
-.ResourcesInteractable.Focus {
-    border: 3px solid transparent !important;
+.ResourcesInteractable.Focused {
+    border-width: 4.5px !important;
+    border-style: solid !important;
+    border-color: transparent !important;
     background: 
         linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)) padding-box,
-        conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #0072ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
+        conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #00f2ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
     animation: rotateGradient 3s linear infinite;
 }
 
