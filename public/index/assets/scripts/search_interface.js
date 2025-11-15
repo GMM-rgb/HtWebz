@@ -6,6 +6,9 @@ let KeyClickDebounce = null;
 let isSearching = false;
 let justOpened = false;
 
+let isFocused = false;
+let justLostFocus = false;
+
 document.addEventListener("DOMContentLoaded", () => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
@@ -231,6 +234,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        isFocused = false;
+        justLostFocus = true;
+        setTimeout(() => {
+            justLostFocus = false;
+        }, 200);
+
         requestAnimationFrame(() => ToggleBlueBorderGradient(false));
 
         setTimeout(() => {
@@ -363,6 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
     SearchBarInput.addEventListener("focus", (e) => {
         if (isSearching) {
             if (SearchBarInput.value) {
+                isFocused = true;
                 let output = ProcessSearchRequest?.(SearchBarInput.value) ?? console.warn("Could not process search.");
                 if (output) DisplaySearchResults?.(output, "search-results", SearchBarInput.value) ?? (console.warn("Could not display search results.") && window.notify?.("Search Result Display Failure"));
                 if (ResultsDisplay && ResultsDisplay.style.display === "none" && SearchBarInput.value.length > 0) {
@@ -377,11 +387,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     SearchBarInput.addEventListener("focusin", (e) => {
         if (!PlayedFocusAnimationSpin && justOpened) {
+            isFocused = true;
             SearchLabelIconWrapper.classList.add("FocusSpin");
             SearchLabelIconWrapper.addEventListener("animationend", (e) => {
                 if (e.animationName === "FocusSpinAnimation") SearchLabelIconWrapper.classList.remove("FocusSpin");
             }, { once: true });
             PlayedFocusAnimationSpin = true;
+        }
+    });
+
+    SearchButton.addEventListener("click", () => {
+        if (isSearching && !SearchButton.classList.contains("Focused") && !justLostFocus) {
+            SearchBarInput.focus();
         }
     });
 
