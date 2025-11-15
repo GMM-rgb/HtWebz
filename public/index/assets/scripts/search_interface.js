@@ -10,10 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchBarInput = document.getElementById("SearchBarInput");
-    let ResultsDisplay = document.getElementById("search-results");
     const ClickSound = document.getElementById("GlobalClick");
 
+    let ResultsDisplay = document.getElementById("search-results");
     let WindowWidth = window.innerWidth || 0;
+
+    async function ToggleBlueBorderGradient(toggle_bool) {
+        if (SearchButton && (SearchButton instanceof HTMLButtonElement)) {
+            if (toggle_bool) {
+                SearchButton.classList.add("Focused");
+            } else if (!toggle_bool) {
+                SearchButton.classList.remove("Focused");
+            }
+        } else {
+            console.warn(`WARNING: Invalid Search Button Element.`);
+        }
+    }
 
     window.addEventListener("resize", (e) => {
         e.stopImmediatePropagation();
@@ -215,6 +227,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         
+        setTimeout(() => {
+            if (!justOpened || !isSearching) SearchBarInput.value = "";
+        }, 500);
+
         // Small delay to allow for touch interactions
         setTimeout(() => {
             if (!SearchButton.contains(document.activeElement) && !justOpened) {

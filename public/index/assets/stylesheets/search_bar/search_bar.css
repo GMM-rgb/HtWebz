@@ -12,24 +12,29 @@
     height: 32px;
     padding-block: 7.5px;
     padding-inline: 2.5px;
+    pointer-events: none;
     border: 2px solid #8b8b8b;
     border-radius: 15px;
     background: rgb(235, 235, 235);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     text-indent: 8.5px;
     text-overflow: ellipsis;
+    text-justify: distribute-all-lines;
+    text-box-trim: trim-end;
     box-sizing: border-box;
-    opacity: 0;
-    pointer-events: none;
+    box-shadow: none;
     outline: none;
     outline-offset: -2px;
-    box-shadow: none;
     will-change: width, opacity, border-radius;
     transition: width 0.65s ease, opacity 0.4s ease, border-radius 0.65s ease, box-shadow 0.3s ease;
     font-size: 16.15px;
     flex-wrap: nowrap;
+    flex: 0 1 auto;
+    opacity: 0;
 }
 
-.search-bar-input:focus {
+.search-bar-input:focus-within {
     outline: 1px solid rgba(0, 195, 255, 0.5);
     outline-offset: 1.5px !important;
 }
@@ -47,7 +52,7 @@
 
 .search-bar-input.open {
     display: inline-flex;
-    width: 160px;
+    width: max-content;
     /* final width */
     opacity: 1;
     pointer-events: auto;
