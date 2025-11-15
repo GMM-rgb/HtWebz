@@ -563,7 +563,7 @@
     position: relative;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: rgba(255, 255, 255, 0.85) !important;
+    background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
     font-weight: bold;
@@ -576,6 +576,29 @@
     backdrop-filter: blur(0.1px);
     clip-path: view-box;
     object-fit: contain;
+}
+
+.ResourcesInteractable.Focus {
+    border: 3px solid transparent !important;
+    background: 
+        linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)) padding-box,
+        conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #0072ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
+    animation: rotateGradient 3s linear infinite;
+}
+
+@keyframes rotateGradient {
+    0% {
+        --angle: 0deg;
+    }
+    100% {
+        --angle: 360deg;
+    }
+}
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
 }
 
 #resourcesMenuOpen:hover>#resourcesIconWrapper {

@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 SearchButton.classList.add("Focused");
             } else if (!toggle_bool) {
                 SearchButton.classList.remove("Focused");
+            } else {
+                SearchButton.classList.add("Focused");
             }
         } else {
             console.warn(`WARNING: Invalid Search Button Element.`);
@@ -229,6 +231,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        requestAnimationFrame(() => ToggleBlueBorderGradient(false));
+
         setTimeout(() => {
             if (!justOpened || !isSearching) SearchBarInput.value = "";
         }, 500);
@@ -365,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ResultsDisplay.style.display = "flex";
                 }
             }
+            requestAnimationFrame(() => ToggleBlueBorderGradient(true));
         }
         ensureOutputUpdate?.();
         e.stopPropagation();
