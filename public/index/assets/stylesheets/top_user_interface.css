@@ -470,6 +470,7 @@
     gap: 9.5px;
     /* hides any accidental overflow */
     max-height: 85.5px;
+    object-fit: contain;
 }
 
 #gamesMenuOpen {
