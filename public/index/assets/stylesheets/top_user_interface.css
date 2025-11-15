@@ -579,7 +579,7 @@
 }
 
 .ResourcesInteractable.Focused {
-    border-width: 3px !important;
+    border-width: 4.5px !important;
     border-style: solid !important;
     border-color: transparent !important;
     border-image-width: auto;
@@ -587,6 +587,10 @@
         linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)) padding-box,
         conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #00f2ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
     animation: rotateGradient 3s linear infinite;
+}
+
+.moreFromHtWebzContainer:has(.ResourcesInteractable.Focused) {
+    padding-inline: calc(2.5px + 1.5px) !important;
 }
 
 @keyframes rotateGradient {

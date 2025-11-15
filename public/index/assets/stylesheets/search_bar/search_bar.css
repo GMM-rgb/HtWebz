@@ -26,11 +26,11 @@
     box-shadow: none;
     outline: none;
     outline-offset: -2px;
-    will-change: width, opacity, border-radius;
-    transition: width 0.65s ease, opacity 0.4s ease, border-radius 0.65s ease, box-shadow 0.3s ease;
+    will-change: width, opacity, border-radius !important;
+    transition: width 0.65s ease, opacity 0.4s ease, border-radius 0.65s ease, box-shadow 0.3s ease !important;
     font-size: 16.15px;
     flex-wrap: nowrap;
-    flex: 0 1 auto;
+    /* flex: 0 1 auto; */
     opacity: 0;
 }
 
@@ -52,7 +52,7 @@
 
 .search-bar-input.open {
     display: inline-flex;
-    width: max-content;
+    width: min-content;
     /* final width */
     opacity: 1;
     pointer-events: auto;
