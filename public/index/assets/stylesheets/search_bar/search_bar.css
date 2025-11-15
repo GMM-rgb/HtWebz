@@ -41,7 +41,7 @@
 
 @media (max-width: 762px) {
     .search-bar-input.open {
-        width: 80px !important;
+        width: 120px !important;
         /* final width */
     }
 
