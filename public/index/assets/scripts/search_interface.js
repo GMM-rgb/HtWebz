@@ -390,9 +390,11 @@ document.addEventListener("DOMContentLoaded", () => {
             isFocused = true;
             SearchLabelIconWrapper.classList.add("FocusSpin");
             SearchLabelIconWrapper.addEventListener("animationend", (e) => {
-                if (e.animationName === "FocusSpinAnimation") SearchLabelIconWrapper.classList.remove("FocusSpin");
+                if (e.animationName === "FocusSpinAnimation") {
+                    PlayedFocusAnimationSpin = true;
+                    SearchLabelIconWrapper.classList.remove("FocusSpin");
+                }
             }, { once: true });
-            PlayedFocusAnimationSpin = true;
         }
     });
 
