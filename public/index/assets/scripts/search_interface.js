@@ -9,11 +9,13 @@ let justOpened = false;
 document.addEventListener("DOMContentLoaded", () => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
+    const SearchLabelIconWrapper = SearchButton.querySelector("#resourcesIconWrapper");
     const SearchBarInput = document.getElementById("SearchBarInput");
     const ClickSound = document.getElementById("GlobalClick");
 
     let ResultsDisplay = document.getElementById("search-results");
     let WindowWidth = window.innerWidth || 0;
+    let PlayedFocusAnimationSpin = false;
 
     async function ToggleBlueBorderGradient(toggle_bool) {
         if (SearchButton && (SearchButton instanceof HTMLButtonElement)) {
@@ -226,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Don't close immediately after opening
             return;
         }
-        
+
         setTimeout(() => {
             if (!justOpened || !isSearching) SearchBarInput.value = "";
         }, 500);
@@ -241,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         }, 100);
+        PlayedFocusAnimationSpin = false;
     });
 
     // Listen for keyboard input
@@ -365,6 +368,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         ensureOutputUpdate?.();
         e.stopPropagation();
+    });
+
+    SearchBarInput.addEventListener("focusin", (e) => {
+        if (!PlayedFocusAnimationSpin && justOpened) {
+            SearchLabelIconWrapper.classList.add("FocusSpin");
+            SearchLabelIconWrapper.addEventListener("animationend", (e) => {
+                if (e.animationName === "FocusSpinAnimation") SearchLabelIconWrapper.classList.remove("FocusSpin");
+            }, { once: true });
+            PlayedFocusAnimationSpin = true;
+        }
     });
 
     let EnsureUpdateTimeout = null;

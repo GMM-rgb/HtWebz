@@ -544,6 +544,15 @@
     transform: scaleY(1.25);
 }
 
+@keyframes FocusSpinAnimation {
+    0%, 35% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 #resourcesMenuOpen {
     display: flex !important;
     width: fit-content;
@@ -570,7 +579,7 @@
 }
 
 #resourcesMenuOpen:hover>#resourcesIconWrapper {
-    animation: switchRotationAndScaleBounce 0.65s 0.2s cubic-bezier(0.25, 1, 0.5, 1.25) forwards !important;
+    animation: switchRotationAndScaleBounce 0.65s 0.2s cubic-bezier(0.25, 1, 0.5, 1.25) forwards;
 }
 
 #resourcesIconWrapper {
@@ -586,6 +595,11 @@
     border-radius: 1cm;
     padding: 2.5px 4px;
     max-width: max-content, min-content;
+    animation: none;
+}
+
+.Resources-Icon-Wrapper-Div.FocusSpin {
+    animation: FocusSpinAnimation 0.475s ease-out forwards !important;
 }
 
 #resourcesMenuOpen input {
