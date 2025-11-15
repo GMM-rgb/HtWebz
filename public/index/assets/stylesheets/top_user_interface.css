@@ -459,7 +459,7 @@
     max-width: 87.5%;
     /* prevent overflow off-screen */
     overflow: hidden;
-    will-change: scroll-position, flex !important;
+    will-change: scroll-position, flex, padding !important;
     margin-right: 10px;
     margin-left: auto;
     box-sizing: border-box !important;
