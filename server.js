@@ -87,8 +87,7 @@ app.post('/datastore-receive', (req, res) => {
     res.status(200).send({ message: "✅ SUCCESS: Data was received." });
     console.log(picocolors.green("SUCCESS:\tData was received.\n"));
   }
-
-  console.log("DataReceived:\n", MainData , "\n");
+  console.log("DataReceived:\n\t", MainData , "\n");
 });
 
 // ===== ERROR HANDLING =====
