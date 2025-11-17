@@ -205,12 +205,19 @@
     padding: 10px;
     gap: 9.5px !important;
     box-sizing: border-box;
-    transition: all 0.3s;
+    transition: all 0.3s, outline-offset 0.75s ease-out;
     transform: scale(1);
     flex: none !important;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
     box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+    outline: 4px double transparent;
+    outline-offset: -4px;
+}
+
+#accountExpandInfo:focus-within {
+    outline-color: #0072ff !important;
+    outline-offset: 1px;
 }
 
 #accountExpandInfo:hover {
