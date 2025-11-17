@@ -558,8 +558,10 @@
     display: flex !important;
     flex-flow: nowrap;
     flex-direction: row;
+    flex-shrink: 1 !important; /* Allow it to shrink */
     justify-content: flex-start;
     align-items: center;
+    overflow: hidden;
 
     cursor: pointer !important;
     position: relative;
