@@ -9,7 +9,7 @@
     width: 0;
     /* collapsed */
     height: 32px;
-    min-width: 0; /* Initial Minimum width incase width is below 0 */
+    min-width: 12.5px; /* Initial Minimum width */
     max-width: 100% !important; /* Never exceed container */
     flex-shrink: 1 !important; /* Allow shrinking */
     padding-block: 7.5px;
