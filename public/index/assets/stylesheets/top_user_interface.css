@@ -466,6 +466,7 @@
     transition: all 0.3s ease;
     /* smoother than 0.1s */
     box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
+    flex-shrink: 1 !important;
     flex: 0 1 auto;
     gap: 9.5px;
     /* hides any accidental overflow */
