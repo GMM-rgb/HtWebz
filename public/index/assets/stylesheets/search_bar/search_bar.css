@@ -1,7 +1,7 @@
 .search-bar-input {
     position: fixed;
     top: 0;
-    right: 0 !important;
+    margin-right: 0 !important;
     /* lock right edge */
     left: auto !important;
     /* makes sure left is never used */
@@ -19,9 +19,7 @@
     background-origin: border-box;
     background-clip: padding-box, border-box;
     text-indent: 8.5px;
-    text-overflow: ellipsis;
-    text-justify: distribute-all-lines;
-    text-box-trim: trim-end;
+    text-size-adjust: auto;
     box-sizing: border-box;
     box-shadow: none;
     outline: none;
@@ -30,8 +28,15 @@
     transition: width 0.65s ease, opacity 0.4s ease, border-radius 0.65s ease, box-shadow 0.3s ease !important;
     font-size: 16.15px;
     flex-wrap: nowrap;
-    /* flex: 0 1 auto; */
+    flex: 0 1 auto;
     opacity: 0;
+}
+
+.search-bar-input::placeholder {
+    overflow: hidden;
+    text-overflow: clip;
+    overflow-block: hidden;
+    white-space: wrap;
 }
 
 .search-bar-input:focus-within {
@@ -40,19 +45,14 @@
 }
 
 @media (max-width: 762px) {
-    .search-bar-input.open {
-        width: 120px !important;
-        /* final width */
-    }
-
     #search-results {
         right: 12.5px !important;
     }
 }
 
 .search-bar-input.open {
-    display: inline-flex;
-    width: min-content;
+    display: flex;
+    width: 100%;
     /* final width */
     opacity: 1;
     pointer-events: auto;

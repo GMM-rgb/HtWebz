@@ -553,12 +553,13 @@
     }
 }
 
+/* Search Bar Interactable */
 #resourcesMenuOpen {
     display: flex !important;
-    width: fit-content;
+    flex-flow: nowrap;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     cursor: pointer !important;
     position: relative;
     border: 3px solid #ccc;
@@ -571,12 +572,11 @@
     transform: scale(1);
     transform-origin: center right;
     transition: all 0.3s, padding-left 0.65s ease, border 1.125s ease-out, border-width 0.675s ease-out !important;
-    gap: 9.5px;
-    will-change: border, background;
+    will-change: border, background !important;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
-    clip-path: view-box;
-    object-fit: contain;
+    width: 100%;
+    gap: 9.5px;
 }
 
 .ResourcesInteractable.Focused {
@@ -666,6 +666,7 @@
     -webkit-user-drag: none !important;
     letter-spacing: 1.25px;
     transform: scaleY(1.25);
+    line-break: strict;
 }
 
 @keyframes jumpTitleUI {
