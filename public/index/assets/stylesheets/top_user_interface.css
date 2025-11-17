@@ -453,8 +453,8 @@
     border-radius: 1cm;
     padding-inline: 2.5px;
     padding-block: 2.5px;
-    height: fit-content;
-    width: fit-content;
+    height: auto;
+    width: auto;
     /* removed 'auto' */
     max-width: 87.5%;
     /* prevent overflow off-screen */
@@ -558,8 +558,9 @@
     display: flex !important;
     flex-flow: nowrap;
     flex-direction: row;
-    align-items: center;
     justify-content: flex-start;
+    align-items: center;
+
     cursor: pointer !important;
     position: relative;
     border: 3px solid #ccc;
@@ -569,6 +570,7 @@
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
+
     transform: scale(1);
     transform-origin: center right;
     transition: all 0.3s, padding-left 0.65s ease, border 1.125s ease-out, border-width 0.675s ease-out !important;
@@ -627,6 +629,7 @@
     padding: 2.5px 5px;
     max-width: min-content;
     animation: none;
+    margin-right: auto;
 }
 
 .Resources-Icon-Wrapper-Div.FocusSpin {
