@@ -33,7 +33,8 @@ async function verifyDataDirectorys() {
      * @param {string} message_input 
      */
     function createFileSystemError(message_input) {
-        
+        if (!message_input || message_input === null) return;
+        throw new Error(message_input);
     }
 
     // Create the data folder directory if non-existent
@@ -68,6 +69,7 @@ async function verifyDataDirectorys() {
 
     return 
 }
+verifyDataDirectorys();
 
 module.exports = {
     /**
@@ -78,7 +80,6 @@ module.exports = {
         return new Promise(JSON.parse(usersData));
     },
     /**
-     * 
      * @param {Object} user - The user object to add
      */
     addUser: function(user) {
@@ -87,7 +88,6 @@ module.exports = {
         fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
     },
     /**
-     * 
      * @param {string|Object} userToRemove 
      * @returns
      */
@@ -116,7 +116,4 @@ module.exports = {
     },
 };
 
-verifyDataDirectorys();
-UserDataJSON = getUsers();
-
-
+UserDataJSON = this.getUsers;
