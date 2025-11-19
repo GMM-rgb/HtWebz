@@ -25,25 +25,28 @@ const userDataDirectory = path.join(__dirname, 'user_data');
  */
 const usersFilePath = path.join(dataDirectory, 'users.json');
 
+/**
+ * 
+ * @returns {Promise< true | false >}
+ */
 async function verifyDataDirectorys() {
     let success = false;
     if (!dataDirectory || !userDataDirectory || !usersFilePath) return;
-
     /**
-     * @param {string} message_input 
+     * @param {string} message_input
+     * @returns {ErrorCallback}
      */
     function createFileSystemError(message_input) {
         if (!message_input || message_input === null) return;
         throw new Error(message_input);
     }
-
     // Create the data folder directory if non-existent
     if (!fs.existsSync(dataDirectory)) {
         fs.mkdirSync(dataDirectory).then(() => {
             success = true;
         }).catch((errMessage) => {
             success = false;
-            throw new Error(errMessage);
+            createFileSystemError(errMessage);
         });
     }
     // Initialize users.json if it doesn't exist
@@ -52,7 +55,7 @@ async function verifyDataDirectorys() {
             success = true;
         }).catch((errMessage) => {
             success = false;
-            throw new Error(errMessage);
+            createFileSystemError(errMessage);
         });
     }
     // Create the user_data folder directory if non-existent
@@ -61,7 +64,7 @@ async function verifyDataDirectorys() {
             success = true;
         }).catch((errMessage) => {
             success = false;
-            throw new Error(errMessage);
+            createFileSystemError(errMessage);
         });
     }
     if (success === null) return false;
