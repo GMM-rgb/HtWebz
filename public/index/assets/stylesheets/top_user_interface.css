@@ -238,7 +238,7 @@
     transform-origin: center center;
     transform: scale(1.25);
     padding: 2px;
-    object-fit: fill;
+    object-fit: contain;
 }
 
 #accountExpandIcon.fade-in {
