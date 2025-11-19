@@ -46,7 +46,6 @@ async function verifyDataDirectorys() {
             throw new Error(errMessage);
         });
     }
-
     // Initialize users.json if it doesn't exist
     if (!fs.existsSync(usersFilePath)) {
         fs.writeFileSync(usersFilePath, JSON.stringify({ users: {}}, null, 2)).then(() => {
@@ -56,7 +55,6 @@ async function verifyDataDirectorys() {
             throw new Error(errMessage);
         });
     }
-
     // Create the user_data folder directory if non-existent
     if (!fs.existsSync(userDataDirectory)) {
         fs.mkdirSync(userDataDirectory).then(() => {
@@ -66,8 +64,8 @@ async function verifyDataDirectorys() {
             throw new Error(errMessage);
         });
     }
-
-    return 
+    if (success === null) return false;
+    return success;
 }
 verifyDataDirectorys();
 
