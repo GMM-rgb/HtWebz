@@ -342,7 +342,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <span id="notification" class="notification"></span>
 
-    <script type="text/javascript" src="/socket.io/socket.io.js" defer></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         let UserAccountProfilePicture, WelcomeMainContentTitle;
@@ -411,6 +411,13 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <!-- Data Store API Client -->
     <script type="text/javascript">
+        let connected = false;
+
+        socket.on('connect', () => {
+            console.log("Connected to Data Store Server -> Socket ID:\t", socket.id);
+            connected = true;
+        });
+
         const TestDataDefintion = {
             0 : "Hello",
             1 : "World",
@@ -421,7 +428,7 @@ ___        ___        ___  ,________,  ,___    ,________
          * 
          * @param {JSON} input_data
         */
-        async function SendDataToServer(IsJSON, input_data) {
+        function SendDataToServer(IsJSON, input_data) {
             fetch("/datastore-receive", {
                 method: 'POST',
                 headers: {
@@ -437,7 +444,7 @@ ___        ___        ___  ,________,  ,___    ,________
             }).then(response => response.json()).then(data => console.log('Success:', data))
             .catch(error => console.error("ERR:\t", error));
         }
-        SendDataToServer(true, TestDataDefintion);
+        if (connected) SendDataToServer(true, TestDataDefintion);
     </script>
 
     <section id="topUserInterfaceBar">
