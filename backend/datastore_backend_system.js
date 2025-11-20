@@ -42,33 +42,21 @@ async function verifyDataDirectorys() {
     }
     // Create the data folder directory if non-existent
     if (!fs.existsSync(dataDirectory)) {
-        fs.mkdirSync(dataDirectory).then(() => {
-            success = true;
-        }).catch((errMessage) => {
-            success = false;
-            createFileSystemError(errMessage);
-        });
+        fs.mkdirSync(dataDirectory);
+        success = true;
     }
     // Initialize users.json if it doesn't exist
     if (!fs.existsSync(usersFilePath)) {
-        fs.writeFileSync(usersFilePath, JSON.stringify({ users: {}}, null, 2)).then(() => {
-            success = true;
-        }).catch((errMessage) => {
-            success = false;
-            createFileSystemError(errMessage);
-        });
+        fs.writeFileSync(usersFilePath, JSON.stringify({ users: {}}, null, 2));
+        success = true;
     }
     // Create the user_data folder directory if non-existent
     if (!fs.existsSync(userDataDirectory)) {
-        fs.mkdirSync(userDataDirectory).then(() => {
-            success = true;
-        }).catch((errMessage) => {
-            success = false;
-            createFileSystemError(errMessage);
-        });
+        fs.mkdirSync(userDataDirectory);
+        success = true;
     }
     if (success === null) return false;
-    return success;
+    return success || false;
 }
 verifyDataDirectorys();
 
