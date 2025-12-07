@@ -15,6 +15,36 @@ ___        ___        ___  ,________,  ,___    ,________
 
     -->
 <html lang="en-US">
+    <noscript>
+        <style>
+            .no-script-background {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                position: fixed;
+                margin: auto;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: aquamarine;
+                z-index: 999999 !important;
+                pointer-events: all;
+                -webkit-user-select: none !important;
+                user-select: none !important;
+            }
+            .no-script-text {
+                text-align: center;
+                font-weight: bold;
+            }
+        </style>
+        <div class="no-script-background">
+            <h2 style="text-align:center;color:red;font-weight:bold;">Javascript not enabled, please consult to enabling it for the
+            page to function properly</h2>
+            <p class="no-script-text">Thank you!</p>
+            <h3 class="no-script-text">HtWebz</h3>
+        </div>
+    </noscript>
 
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -1224,12 +1254,6 @@ ___        ___        ___  ,________,  ,___    ,________
                 }
             });
         </script>
-
-        <noscript>
-            Javascript not enabled, please consult to enabling it for the
-            page to function properly
-        </noscript>
-
     </section>
 
     <!-- End External Scripts ./index/assets/scripts/* -->
