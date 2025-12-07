@@ -1,3 +1,49 @@
+/**
+ * @description
+ * 
+ * @param {boolean} dynamic 
+ */
+async function createContextMenuElements(dynamic) {
+    if ((typeof dynamic === "boolean") && dynamic === true) {
+        // nothing yet
+    } else {
+        // Context menu root element
+        const myMenuContainer = document.createElement("div");
+        myMenuContainer.setAttribute("id", "UserContextMenu");
+        myMenuContainer.setAttribute("class", "user-context-menu");
+
+        // copy contents button
+        let copyContentsBtn = document.createElement("button");
+        copyContentsBtn.textContent = "Copy";
+        // paste contents button
+        let pasteContentsBtn = document.createElement("button");
+        pasteContentsBtn.textContent = "Paste";
+        // reload contents button
+        let reloadBtn = document.createElement("button");
+        reloadBtn.textContent = "Reload";
+        // open in new tab; url
+        let open_in_new_tab_Btn = document.createElement("button");
+        open_in_new_tab_Btn.setAttribute("class", "user-context-menu url-open-new-tab");
+        // open in new window; url
+        let open_in_new_window_Btn = document.createElement("button");
+        open_in_new_window_Btn.setAttribute("class", "user-context-menu url-open-new-window");
+        // view source
+        let viewsourceBtn = document.createElement("button");
+        viewsourceBtn.setAttribute("class", "user-context-menu view-source");
+        // inspect (dev tools)
+        let inspectBtn = document.createElement("button");
+        inspectBtn.setAttribute("class", "user-context-menu inspect");
+
+        // Append all elements to respective origins
+        requestAnimationFrame(() => document.body.appendChild(myMenuContainer));
+        // Child elements
+        requestAnimationFrame(() => {
+            myMenuContainer.appendChild(viewsourceBtn);
+            myMenuContainer.appendChild(inspectBtn);
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var menu = document.getElementById('myMenu');
     var inspectOption = document.getElementById('inspect');
@@ -7,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var currentLink = null;
     var activeElement = null;
 
-    document.addEventListener('contextmenu', function(e) {
+    document.addEventListener('contextmenu', (e) => {
         e.preventDefault();
 
         // Get the viewport width and height
@@ -68,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             viewSourceOption.classList.remove('disabled');
         }
-    });
+    }, { passive: true, capture: true });
 
     document.addEventListener('click', function() {
         menu.style.display = 'none';
@@ -84,7 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Failed to copy text: ', err);
             });
         } else {
-            alert('Please select some text to copy.');
+            console.warn("Could not copy to clipboard, no text was selected.");
+            // alert('Please select some text to copy.');
         }
     });
 
@@ -118,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     inspectOption.addEventListener('click', function() {
         if (!inspectOption.classList.contains('disabled')) {
-            alert('To open Developer Tools, press F12 or right-click and select "Inspect".');
+            alert('To open Developer Tools, press F12 or right-click and select "Inspect".\nThis is still a WIP.');
         }
     });
 
@@ -140,12 +187,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    /**
+     * 
+     * @param {string} action 
+     * @returns {boolean}
+     */
     // Function to check user permissions (for demonstration purposes)
     function checkUserPermission(action) {
-        // Simulate permission check (replace with real logic as needed)
+        //navigator.permissions.query(action);
         if (action === 'inspect' || action === 'viewSource') {
             return true; // Allow both actions
         }
         return false;
     }
-});
+}, { once: true, passive: true });
+
+window.addEventListener("DOMContentLoaded", createContextMenuElements(false), { once: true });
