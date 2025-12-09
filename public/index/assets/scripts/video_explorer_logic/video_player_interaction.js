@@ -6,7 +6,28 @@ const VideoPlayer = document.getElementById("VideoPlayer");
 const VideoFeedPlayback = VideoPlayer.querySelector("#VideoFeedPlaybackView");
 /**
  * @type {HTMLSpanElement?} */
-const VideoControls = VideoPlayer.querySelector("#VideoPlayerControls:nth-child(1)");
+const VideoControls = VideoPlayer.querySelector("#VideoPlayerControls span");
+
+/**
+ * 
+ * @param {numer} seconds 
+ * @returns {Promise<string>}
+ */
+async function formatTimestamp(seconds) {
+  // Ensure it's an integer
+  const totalSeconds = Math.floor(seconds);
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const secs = totalSeconds % 60;
+
+  // Pad with leading zeros
+  const hDisplay = hours > 0 ? String(hours).padStart(2, '0') + ":" : "";
+  const mDisplay = String(minutes).padStart(2, '0') + ":";
+  const sDisplay = String(secs).padStart(2, '0');
+
+  return hDisplay + mDisplay + sDisplay;
+}
 
 window.addEventListener("DOMContentLoaded", () => {
     /**
@@ -14,7 +35,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let PlayButton = VideoControls.querySelector(".video-playback-toggle");
 
     VideoFeedPlayback.addEventListener("timeupdate", (e) => {
-        e.stopPropagation();
-        const CurrentTimestamp = e.timeStamp || 0;
+        e.stopPropagation?.();
+        const CurrentTimestamp = Math.floor(e.timeStamp || 0);
+        if (CurrentTimestamp !== null) console.log(`Video Timestamp: ${CurrentTimestamp}`); else return;
+        
     });
 }, { once: true });
