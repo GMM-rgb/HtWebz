@@ -22,14 +22,15 @@
     <body>
         <video-explorer>
             <div id="VideoPlayer">
-                <video id="VideoFeedPlaybackView" preload="auto">
+                <video id="VideoFeedPlaybackView" preload="auto" contenteditable="false">
+                    <!-- Test Video Source File -->
                     <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" loading="true"
-                        fetchpriority="high" type="video/mp4">
+                        fetchpriority="high" accesskey type="video/mp4">
                     Your browser doesn't support video playback.
                 </video>
                 <div id="VideoPlayerControls">
                     <span class="video-player-controls-dock">
-                        <button>
+                        <button class="video-playback-toggle">
                             <svg id="playPauseBtn" width="50" height="50" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
                                 <!-- Play icon -->
                                 <path id="playIcon"
@@ -110,6 +111,11 @@
                                         to="0" />
                                 </path>
                             </svg>
+                        </button>
+                        <!---->
+                        <button class="video-duration-view">
+                            <span class="video-current-timestamp">0:00</span>
+                            <div class="video-current-duration-bar"></div>
                         </button>
                     </span>
                 </div>

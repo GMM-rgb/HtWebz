@@ -36,7 +36,7 @@ video:fullscreen {
     box-sizing: border-box;
     flex-shrink: 0; /* Controls should NEVER shrink */
     z-index: 9999;
-    /* Padding */
+    /* Padding Properties */
     padding-inline: 5px;
     padding-block: 2.5px;
 }
@@ -49,8 +49,8 @@ video:fullscreen {
 
 .video-player-controls-dock {
     display: flex;
-    flex: 0 1 auto;
-    flex-direction: row;
+    flex: 0 1 auto; /* Flex dock vertically & adjust horizontal automatically in scale */
+    flex-direction: row; /* Align items in a row so they don't stack vertically. */
     justify-content: flex-start;
     align-items: center;
 }
