@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Video Library</title>
+        <link rel="icon" type="image/svg+xml" href="index/assets/images/Tab_Icons/Video_Gallery_Icon.png" />
         <link rel="stylesheet"
             href="index/assets/stylesheets/video_library_styles/video_player.css" />
         <link rel="stylesheet"
@@ -14,16 +15,17 @@
             font-family: Arial, Helvetica, sans-serif;
             overflow-y: auto;
             overflow-x: hidden;
+            background: aquamarine;
             margin: 0;
         }
     </style>
     <body>
         <video-explorer>
             <div id="VideoPlayer">
-                <video>
+                <video id="VideoFeedPlaybackView" preload="auto">
                     <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" loading="true"
                         fetchpriority="high" type="video/mp4">
-                    Your browser does not support the video tag.
+                    Your browser doesn't support video playback.
                 </video>
                 <div id="VideoPlayerControls">
                     <span class="video-player-controls-dock">
@@ -114,9 +116,10 @@
             </div>
             
             <div id="ExplorerContentSection">
-
+                <h2 style="text-align: center;">Explore</h2>
             </div>
         </video-explorer>
+        <script type="text/javascript" src="index/assets/scripts/video_explorer_logic/video_player_interaction.js" defer></script>
         <script type="text/javascript">
             const svg = document.getElementById('playPauseBtn');
             const hidePlay = document.getElementById('hidePlay');
