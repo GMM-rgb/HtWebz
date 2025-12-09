@@ -1,0 +1,47 @@
+#VideoPlayer {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Stack video and controls vertically */
+    max-height: 100vh; /* Don't exceed viewport height */
+    background: deepskyblue;
+}
+
+video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 65px); /* Reserve space for controls! */
+    object-fit: contain;
+    box-sizing: border-box;
+    flex-shrink: 1; /* Allow video to shrink */
+}
+
+#VideoPlayerControls {
+    display: flex;
+    flex-flow: nowrap;
+    flex-direction: row;
+    min-height: 65px;
+    align-items: center;
+    justify-content: space-evenly;
+    background: rgba(5, 134, 227, 0.65);
+    box-sizing: border-box;
+    flex-shrink: 0; /* Controls should NEVER shrink */
+    z-index: 9999;
+    /* Padding */
+    padding-inline: 5px;
+    padding-block: 2.5px;
+}
+
+#VideoPlayerControls>.video-player-controls-dock>button {
+    border-radius: 0.125cm;
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+}
+
+.video-player-controls-dock {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
