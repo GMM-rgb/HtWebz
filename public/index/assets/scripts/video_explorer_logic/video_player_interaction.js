@@ -38,6 +38,6 @@ window.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation?.();
         const CurrentTimestamp = Math.floor(e.timeStamp || 0);
         if (CurrentTimestamp !== null) console.log(`Video Timestamp: ${CurrentTimestamp}`); else return;
-        
+        formatTimestamp?.(CurrentTimestamp) ?? console.error(`ERROR: Failed to format video timestamp.`);
     });
 }, { once: true });

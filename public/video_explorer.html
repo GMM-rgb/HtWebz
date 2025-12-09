@@ -30,7 +30,7 @@
                 </video>
                 <div id="VideoPlayerControls">
                     <span class="video-player-controls-dock">
-                        <button class="video-playback-toggle">
+                        <button class="video-playback-toggle" playing="false">
                             <svg id="playPauseBtn" width="50" height="50" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
                                 <!-- Play icon -->
                                 <path id="playIcon"
@@ -135,6 +135,15 @@
             let isPlaying = false;
 
             svg.addEventListener('click', () => {
+                /**
+                 * @type {HTMLButtonElement?}
+                */
+                const SVG_Parent_Button = svg.parentElement || null;
+                if (SVG_Parent_Button.getAttribute("playing") === "true") {
+                    SVG_Parent_Button.setAttribute("playing", "false");
+                } else if (SVG_Parent_Button.getAttribute("playing") === "false") {
+                    SVG_Parent_Button.setAttribute("playing", "true");
+                }
                 console.log('Clicked! isPlaying:', isPlaying);
                 if (isPlaying) {
                     hidePause.beginElement();
