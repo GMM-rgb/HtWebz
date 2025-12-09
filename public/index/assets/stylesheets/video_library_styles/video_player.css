@@ -9,18 +9,26 @@
 
 video {
     display: block;
+    flex-shrink: 1; /* Allow video to shrink */
+    flex: 0 0 0;
     width: 100%;
     height: auto;
     max-height: calc(100vh - 65px); /* Reserve space for controls! */
     object-fit: contain;
     box-sizing: border-box;
-    flex-shrink: 1; /* Allow video to shrink */
+    border-bottom: 2px solid #ccc;
+}
+
+video:fullscreen {
+    border: none !important;
 }
 
 #VideoPlayerControls {
     display: flex;
     flex-flow: nowrap;
     flex-direction: row;
+    flex-shrink: 1 !important;
+    flex-grow: 1 1 content;
     min-height: 65px;
     align-items: center;
     justify-content: space-evenly;
@@ -41,6 +49,7 @@ video {
 
 .video-player-controls-dock {
     display: flex;
+    flex: 0 1 auto;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
