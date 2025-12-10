@@ -6,6 +6,7 @@ const socketIO = require('socket.io');
 const readline = require('readline');
 const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
+const { buffer } = require('stream/consumers');
 
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
@@ -48,17 +49,34 @@ if (ENABLE_DOMAIN_FORWARDING) {
   });
 }
 
+app.get('/videos/:ID', (req, res) => {
+  /**
+   * @type {string}
+   */
+  const RequestedVideoID = req.params.ID;
+  let isAuthorized = false;
+  if (RequestedVideoID !== null) {
+    isAuthorized = true; // just authorize everything for now. (temp)
+    console.log(`Requested Video -> ID: ${RequestedVideoID}`);
+  }
+  if (isAuthorized) {
+    res.sendFile(path.join(serveDirectory, "video_explorer.html"));
+  } else {
+    res.status(403).send("Unauthorized to view requested resource.");
+  }
+});
+
 // Middleware: serve static files from the public folder only
 app.use(express.static(serveDirectory));
 app.use(bodyParser.json());
 
 // Routes
-app.get('/public/', (req, res) => {
+app.get('/public', (req, res) => {
   res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(serveDirectory, 'index.html'));
+  res.sendFile(path.join(serveDirectory, "index.html"));
 });
 
 /*
@@ -90,19 +108,6 @@ app.post('/datastore-receive', (req, res) => {
   if (MainData !== null) console.log("DataReceived:\n\t", MainData , "\n");
 });
 
-// ===== ERROR HANDLING =====
-//
-// 404 handler (no route matched)
-app.use((req, res) => {
-  res.status(404).sendFile(path.join(serveDirectory, 'index/Error/content_not_found.html'));
-});
-//
-// 500 handler (critical server error)
-app.use((err, req, res, next) => {
-  console.error('Critical server error:', err.stack || err);
-  res.status(500).sendFile(path.join(serveDirectory, 'index/Error/critical_error.html'));
-});
-
 // ===== SERVER CREATION =====
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -131,8 +136,20 @@ server.listen(PORT, () => {
   `));
 });
 
-let shuttingDown = false;
+// ===== ERROR HANDLING =====
 
+// 404 handler (no route matched)
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(serveDirectory, 'index/Error/content_not_found.html'));
+});
+
+// 500 handler (critical server error)
+app.use((err, req, res, next) => {
+  console.error('Critical server error:', err.stack || err);
+  res.status(500).sendFile(path.join(serveDirectory, 'index/Error/critical_error.html'));
+});
+
+let shuttingDown = false;
 // Shutdown handler on exit
 process.on('SIGINT', () => {
   if (shuttingDown) return;
