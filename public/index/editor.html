@@ -565,6 +565,17 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
+        /* Font Alignment Paragraphs */
+        .font-alignment.left {
+            text-align: left !important;
+        }
+        .font-alignment.center {
+            text-align: center !important;
+        }
+        .font-alignment.right {
+            text-align: right !important;
+        }
     </style>
 
     <link rel="stylesheet" href="assets/stylesheets/toolbar_styles.css">
@@ -634,6 +645,14 @@
                         <input type="text" id="fontSize" value="16" readonly>
                         <button onclick="changeFontSize(1)">+</button>
                     </div>
+
+                    <div class="toolbar-group">
+                        <div class="font-size-controls">
+                            <button class="left" onclick="textAlignment(this.className);">
+
+                            </button>
+                        </div>
+                    </div>
                     
                     <div class="font-type-controls">
                         <button class="font-button-change" id="fontChangeButton">Font: Arial</button>
@@ -673,7 +692,10 @@
 
     <!-- Editor functionality -->
     <script>
-        let editor;
+        /**
+         * @type {HTMLDivElement?}
+        */
+        let editor = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             editor = document.getElementById('content');
@@ -1118,6 +1140,18 @@
                 sel.addRange(range);
                 debouncedSave();
             });
+        }
+
+        /**
+         * 
+         * @param {string} alignmentDirection
+         * @returns {Promise<void>}
+        */
+        function textAlignment(alignmentDirection) {
+            if (alignmentDirection === null) return;
+            const CurrentTextSelection = window.getSelection?.() ?? console.error("ERROR: Could not get text selection. [Function: textAlignment]");
+            if (CurrentTextSelection !== null && (CurrentTextSelection instanceof Selection)) {
+            }
         }
 
         // Update font size monitoring
