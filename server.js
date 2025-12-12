@@ -64,12 +64,12 @@ app.get('/videos', (req, res) => {
    * @returns {boolean}
    */
   function videoValid() {
-    let expectedVideoPath = path.join(videoDirectory, RequestedVideoID);
+    const expectedVideoPath = path.join(videoDirectory, RequestedVideoID);
     let expectedVideoData = path.join(expectedVideoPath, "extra.json");
     let expectedVideo = path.join(expectedVideoPath, `${RequestedVideoID}.mp4`);
     if (RequestedVideoID && videoDirectory !== null && (fs.existsSync(expectedVideoPath))) {
       if (fs.existsSync(expectedVideo)) {
-        
+
       }
     }
   }
