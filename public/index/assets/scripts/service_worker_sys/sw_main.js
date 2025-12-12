@@ -1,15 +1,18 @@
 let requestInstallData = [
-    "/",
-    "index.html",
+  "/",
 ];
 
 self.addEventListener("install", (e) => {
-    e.waitUntil(
-        caches.open("AppInstallData").then(thisCacheData =>
-            thisCacheData.addAll(requestInstallData),
-        ),
-    );
-}, { passive: true, once: true });
+  e.waitUntil(
+    caches.open("AppInstallData").then(thisCacheData =>
+      thisCacheData.addAll(requestInstallData),
+    ),
+  );
+}, { passive: true });
+
+self.addEventListener("appinstalled", (e) => {
+  console.log(e.target);
+});
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
@@ -25,5 +28,9 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener("offline", (e) => {
-
+  console.log("Disconnected from internet. [Offline]");
+  self.addEventListener("online", (e) => {
+    e.stopPropagation();
+    console.log("Connected to internet. [Online]");
+  }, { once: true });
 }, { passive: true, capture: true});

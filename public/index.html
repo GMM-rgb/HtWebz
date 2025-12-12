@@ -82,6 +82,8 @@ ___        ___        ___  ,________,  ,___    ,________
         <!-- Service Workers -->
         <script async src="index/assets/scripts/service_worker_sys/sw_registration.js" defer></script>
 
+        <link rel="manifest" href="mainifest.json" />
+
         <link rel="icon" href="/index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" type="image/svg+xml">
         <title name="DocumentTitle">HtWebz &ndash; Homepage</title>
         <link rel="stylesheet"
@@ -300,11 +302,7 @@ ___        ___        ___  ,________,  ,___    ,________
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        if (isMobile()) {
-            console.log("Mobile device -> [Bool]:\t", isMobile());
-        } else {
-            console.log("Desktop device -> [Bool]:\t", isMobile());
-        }
+        console.log("Desktop device -> [Bool]:\t", !isMobile());
     </script>
         <!---->
         <script>
@@ -664,19 +662,13 @@ ___        ___        ___  ,________,  ,___    ,________
         <script>
             // Run once on load
             truncateEllipsis('pageTitle');
-            truncateEllipsis('pinnedContentTitle');
 
             // Re-run automatically if the element resizes
             const titleRo = new ResizeObserver(() => {
                 truncateEllipsis('pageTitle');
             });
-            //
-            const pinnedContentTitleRo = new ResizeObserver(() => {
-                truncateEllipsis('pinnedContentTitle');
-            });
 
             titleRo.observe(document.getElementById('pageTitle'));
-            pinnedContentTitleRo.observe(document.getElementById('pinnedContentTitle'));
         </script>
 
         <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
@@ -1195,7 +1187,7 @@ ___        ___        ___  ,________,  ,___    ,________
             const logoButton = document.getElementById("mainLogo");
 
             [expandToolbarButton, appButton, settingsOpen, gamesMenuOpen, resourcesMenuOpen].forEach(button => {
-                button.addEventListener("click", () => {
+                if (button !== null && (button instanceof HTMLButtonElement)) button.addEventListener("click", () => {
                     window.addEventListener("click", (e) => {
                         e.preventDefault();
                     }, { once: true });

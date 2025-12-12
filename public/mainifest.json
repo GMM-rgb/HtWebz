@@ -1,0 +1,15 @@
+{
+  "name": "HtWebz",
+  "short_name": "HtWebz",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "rgba(0, 0, 0, 0)",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/index/assets/images/Tab_Icons/Main_Logo_Favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

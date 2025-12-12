@@ -5,19 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const elements = {
         notification: document.getElementById("notification"),
         quickSettings: document.getElementById("settingsQuick"),
+        searchMenuOpen: document.getElementById("resourcesMenuOpen"),
         gameMenu: document.getElementById("gameMenu"),
-        searchMenu: document.getElementById("searchMenu"),
         menuBlur: document.getElementById("menuBlur"),
         closeGameMenuButton: document.getElementById("closeGameMenuButton"),
-        closeSearchMenuBtn: document.getElementById("closeSearchMenuBtn"),
-        searchMenuOpen: document.getElementById("resourcesMenuOpen"),
-        searchPageDisplay: document.getElementById("searchPageDisplay"),
         closeSettingsMenuBtn: document.getElementById("closeSettingsMenuBtn"),
         settingsMenu: document.getElementById("settingsMenu"),
         settingsQuick: document.getElementById("settingsQuick"),
         appMenuOpen: document.getElementById("appMenuOpen"),
         gamesMenuOpen: document.getElementById("gamesMenuOpen"),
-        expandMenuToolbar: document.getElementById("expandMenuToolbar")
+        // expandMenuToolbar: document.getElementById("expandMenuToolbar")
     };
 
     var notifySound = document.getElementById("notifySound"); // Grab the notification sound element
