@@ -29,8 +29,8 @@ const usersFilePath = path.join(dataDirectory, 'users.json');
  */
 const videoData = path.join(dataDirectory, 'video_files');
 /**
- * 
- * @returns {Promise< true | false >}
+ * Verifies if the directorys & files exist, if not this creates them as fresh new files.
+ * @returns {Promise<true|false>}
  */
 async function verifyDataDirectorys() {
     let success = false;
