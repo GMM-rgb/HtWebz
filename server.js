@@ -74,15 +74,18 @@ app.get('/videos', (req, res) => {
     }
   }
 
-  if (!RequestedVideoID) {
+  if (RequestedVideoID === null) {
     return res.status(400).send("Please provide a video ID: /video?id=your-video-id");
   }
   
   let isAuthorized = false;
   if (RequestedVideoID !== null) {
-    isAuthorized = true; // just authorize everything for now. (temp)
-    console.log(`Requested Video -> ID: ${RequestedVideoID}`);
-    
+    if (videoValid()) {
+      isAuthorized = true; // just authorize everything for now. (temp)
+      console.log(`Requested Video -> ID: ${RequestedVideoID}`);
+    } else {
+      console.log("Video-ID for video, is not valid or does not exist.");
+    }
   }
   
   if (isAuthorized) {
