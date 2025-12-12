@@ -27,8 +27,9 @@ const TARGET_DOMAIN = 'htwebz.io';
 
 // Define the directory to serve (the HtWebz/public folder only)
 const serveDirectory = path.resolve(__dirname, 'public');
-
-// Middleware: domain forwarding
+/*
+ * Middleware: domain forwarding
+*/
 if (ENABLE_DOMAIN_FORWARDING) {
   app.use((req, res, next) => {
     const host = req.get('host');
@@ -58,7 +59,6 @@ app.use(bodyParser.json());
 // ===== DYNAMIC ROUTES =====
 app.get('/videos', (req, res) => {
   const RequestedVideoID = req.query.id; // Gets the ?id= parameter
-
   /**
    * 
    * @returns {boolean}
