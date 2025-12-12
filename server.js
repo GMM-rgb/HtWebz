@@ -1,6 +1,7 @@
 const { stdout } = require('process');
 const express = require('express');
 const path = require('path');
+const fs = require("fs");
 const http = require('http');
 const socketIO = require('socket.io');
 const readline = require('readline');
@@ -13,6 +14,8 @@ const DataStoreModle = require('./backend/datastore_backend_system');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const videoDirectory = path.join(__dirname, "backend", "data", "video_files");
 
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setEncoding('utf8');
@@ -51,10 +54,26 @@ if (ENABLE_DOMAIN_FORWARDING) {
 
 // Middleware: body parser (must come before routes that need it)
 app.use(bodyParser.json());
+
 // ===== DYNAMIC ROUTES =====
 app.get('/videos', (req, res) => {
   const RequestedVideoID = req.query.id; // Gets the ?id= parameter
-  
+
+  /**
+   * 
+   * @returns {boolean}
+   */
+  function videoValid() {
+    let expectedVideoPath = path.join(videoDirectory, RequestedVideoID);
+    let expectedVideoData = path.join(expectedVideoPath, "extra.json");
+    let expectedVideo = path.join(expectedVideoPath, `${RequestedVideoID}.mp4`);
+    if (RequestedVideoID && videoDirectory !== null && (fs.existsSync(expectedVideoPath))) {
+      if (fs.existsSync(expectedVideo)) {
+        
+      }
+    }
+  }
+
   if (!RequestedVideoID) {
     return res.status(400).send("Please provide a video ID: /video?id=your-video-id");
   }
@@ -63,6 +82,7 @@ app.get('/videos', (req, res) => {
   if (RequestedVideoID !== null) {
     isAuthorized = true; // just authorize everything for now. (temp)
     console.log(`Requested Video -> ID: ${RequestedVideoID}`);
+    
   }
   
   if (isAuthorized) {
