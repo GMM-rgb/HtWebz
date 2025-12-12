@@ -249,6 +249,12 @@
     <!-- Socket.io connection -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let RegisteredServiceWorker of registrations) {
+            RegisteredServiceWorker.unregister().catch((err) => console.error(`${err}`));
+          }
+        });
+
         const socket = io();
         socket.on('connect', () => {
           const storedID = localStorage.getItem('guestID');
