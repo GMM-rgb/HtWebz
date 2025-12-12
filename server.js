@@ -79,6 +79,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(serveDirectory, "index.html"));
 });
 
+app.get('/chat', (req, res) => {
+  res.sendFile(path.join(serveDirectory, "message_page.html"));
+});
+
 /*
  - API Endpoints for User Management
 */
