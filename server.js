@@ -49,16 +49,22 @@ if (ENABLE_DOMAIN_FORWARDING) {
   });
 }
 
-app.get('/videos/:ID', (req, res) => {
-  /**
-   * @type {string}
-   */
-  const RequestedVideoID = req.params.ID;
+// Middleware: body parser (must come before routes that need it)
+app.use(bodyParser.json());
+// ===== DYNAMIC ROUTES =====
+app.get('/videos', (req, res) => {
+  const RequestedVideoID = req.query.id; // Gets the ?id= parameter
+  
+  if (!RequestedVideoID) {
+    return res.status(400).send("Please provide a video ID: /video?id=your-video-id");
+  }
+  
   let isAuthorized = false;
   if (RequestedVideoID !== null) {
     isAuthorized = true; // just authorize everything for now. (temp)
     console.log(`Requested Video -> ID: ${RequestedVideoID}`);
   }
+  
   if (isAuthorized) {
     res.sendFile(path.join(serveDirectory, "video_explorer.html"));
   } else {
@@ -66,21 +72,12 @@ app.get('/videos/:ID', (req, res) => {
   }
 });
 
-// Middleware: serve static files from the public folder only
-app.use(express.static(serveDirectory));
-app.use(bodyParser.json());
-
-// Routes
-app.get('/public', (req, res) => {
-  res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(serveDirectory, "index.html"));
-});
-
 app.get('/chat', (req, res) => {
   res.sendFile(path.join(serveDirectory, "message_page.html"));
+});
+
+app.get('/public', (req, res) => {
+  res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
 });
 
 /*
@@ -110,6 +107,15 @@ app.post('/datastore-receive', (req, res) => {
     console.log(picocolors.green("SUCCESS:\tData was received.\n"));
   }
   if (MainData !== null) console.log("DataReceived:\n\t", MainData , "\n");
+});
+
+// ===== STATIC MIDDLEWARE (AFTER DYNAMIC ROUTES) =====
+// This serves static files from the public folder
+app.use(express.static(serveDirectory));
+
+// Root route - can use static middleware or explicit route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(serveDirectory, "index.html"));
 });
 
 // ===== ERROR HANDLING =====

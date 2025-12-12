@@ -24,7 +24,10 @@ const userDataDirectory = path.join(__dirname, 'user_data');
  * @type {string}
  */
 const usersFilePath = path.join(dataDirectory, 'users.json');
-
+/**
+ * @type {string}
+ */
+const videoData = path.join(dataDirectory, 'video_files');
 /**
  * 
  * @returns {Promise< true | false >}
@@ -53,6 +56,11 @@ async function verifyDataDirectorys() {
     // Create the user_data folder directory if non-existent
     if (!fs.existsSync(userDataDirectory)) {
         fs.mkdirSync(userDataDirectory);
+        success = true;
+    }
+    // Create the video_data directory if doesn't exist
+    if (!fs.existsSync(videoData)) {
+        fs.mkdirSync(videoData);
         success = true;
     }
     if (success === null) return false;
