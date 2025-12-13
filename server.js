@@ -95,6 +95,10 @@ app.get('/videos', (req, res) => {
   }
 });
 
+app.get('/homepage', async (req, res) => {
+  res.sendFile(path.join(serveDirectory, "index.html"));
+});
+
 app.get('/chat', (req, res) => {
   res.sendFile(path.join(serveDirectory, "message_page.html"));
 });
