@@ -248,7 +248,7 @@
     </section>
     <!-- Socket.io connection -->
     <script src="/socket.io/socket.io.js"></script>
-    <script>
+    <script type="text/javascript">
         navigator.serviceWorker.getRegistrations().then(registrations => {
           for (let RegisteredServiceWorker of registrations) {
             RegisteredServiceWorker.unregister().catch((err) => console.error(`${err}`));
@@ -264,6 +264,54 @@
         socket.on('welcome', (data) => {
           localStorage.setItem('guestID', data.guestID);
         });
+    </script>
+
+    <!-- Error Tone Handler -->
+    <script type="text/javascript">
+      window.addEventListener("DOMContentLoaded", async () => {
+        try {
+          // Create the AudioContext
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          
+          // Fetch the audio file
+          const response = await fetch('/index/assets/audio/error-tone.mp3');
+          const arrayBuffer = await response.arrayBuffer();
+          
+          // Decode it into audio data
+          const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+          
+          // Function to play the sound
+          const playSound = () => {
+            const source = audioCtx.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioCtx.destination);
+            source.start(0, 0.2); // Play immediately
+            console.log("✓ Audio played!");
+          };
+          
+          // Try to play immediately
+          if (audioCtx.state === 'suspended') {
+            await audioCtx.resume();
+          }
+          playSound();
+          
+        } catch (err) {
+          console.log("Web Audio failed:", err);
+          
+          // Fallback: play on first interaction
+          document.addEventListener("click", async () => {
+            const audioCtx = new AudioContext();
+            const response = await fetch('/index/assets/audio/error-tone.mp3');
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+            
+            const source = audioCtx.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioCtx.destination);
+            source.start(0, 0.2);
+          }, { once: true });
+        }
+      });
     </script>
   </body>
 </html>
