@@ -8,6 +8,7 @@ let justOpened = false;
 
 let isFocused = false;
 let justLostFocus = false;
+let isTogglingView = false;
 
 window.addEventListener("DOMContentLoaded", (e) => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
@@ -25,46 +26,52 @@ window.addEventListener("DOMContentLoaded", (e) => {
      * @param {boolean} reversed
      * @param {number} volume
      */
-    async function playSearchBarEffect(reversed, volume) {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            // Simple fix: just check if reversed is truthy
-            const audioFile = await fetch(reversed ? 
-                "/index/assets/audio/UI_Effects/menu_open_sound_reverse.mp3" : 
-                "/index/assets/audio/UI_Effects/menu_open_sound.mp3"
-            );
-            const audioArrayBuffer = await audioFile.arrayBuffer();
-            const audioBuffer = await audioCtx.decodeAudioData(audioArrayBuffer);
+    function playSearchBarEffect(reversed, volume) {
+        // Fire and forget - no Promise returned!
+        setTimeout(() => {
+            (async () => {
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const audioFile = await fetch(reversed ? 
+                        "/index/assets/audio/UI_Effects/menu_open_sound_reverse.mp3" : 
+                        "/index/assets/audio/UI_Effects/menu_open_sound.mp3"
+                    );
+                    const audioArrayBuffer = await audioFile.arrayBuffer();
+                    const audioBuffer = await audioCtx.decodeAudioData(audioArrayBuffer);
 
-            const playSound = async () => {
-                const source = audioCtx.createBufferSource();
-                source.buffer = audioBuffer;
-                // Volume control
-                const gainNode = audioCtx.createGain();
-                gainNode.gain.value = volume ? volume : 2.0; // 0.0 = silent, 1.0 = full volume
-                // Apply modifiers and audio
-                source.connect(audioCtx.destination);
-                gainNode.connect(audioCtx.destination);
-                // Begin playing the audio effect
-                source.start(0);
-            };
-            if (audioCtx.state === 'suspended') {
-                await audioCtx.resume();
-            }
-            playSound();
-        } catch (playbackError) {
-            console.error(playbackError);
-        }
+                    const playSound = () => {
+                        const source = audioCtx.createBufferSource();
+                        source.buffer = audioBuffer;
+                        
+                        const gainNode = audioCtx.createGain();
+                        gainNode.gain.value = volume ? volume : 2.0;
+                        
+                        source.connect(gainNode);
+                        gainNode.connect(audioCtx.destination);
+                        
+                        source.start(0, 0.2);
+                        console.log("✓ Audio played!");
+                    };
+                    
+                    if (audioCtx.state === 'suspended') {
+                        await audioCtx.resume();
+                    }
+                    playSound();
+                } catch (playbackError) {
+                    console.error(playbackError);
+                }
+            })();
+        }, 0);
     }
 
-    async function ToggleBlueBorderGradient(toggle_bool) {
+    function ToggleBlueBorderGradient(toggle_bool) {
         if (SearchButton && (SearchButton instanceof HTMLButtonElement)) {
             if (toggle_bool) {
                 SearchButton.classList.add("Focused");
-                playSearchBarEffect(false); // Don't await! Let it play in background
+                playSearchBarEffect(false);
             } else {
                 SearchButton.classList.remove("Focused");
-                playSearchBarEffect(true); // Don't await! Let it play in background
+                playSearchBarEffect(true);
             }
         } else {
             console.warn(`WARNING: Invalid Search Button Element.`);
@@ -174,7 +181,13 @@ window.addEventListener("DOMContentLoaded", (e) => {
             SearchBarInput.style.textIndent = "8.5px";
             SearchLabelText.style.display = "block";
             SearchBarInput.classList.remove("open");
+            
+            // Set flag BEFORE blur to prevent event cascade
+            isTogglingView = true;
             SearchBarInput.blur();
+            setTimeout(() => {
+                isTogglingView = false;
+            }, 50);
         }
     }
 
@@ -266,24 +279,24 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     // Blur handler with guard
     SearchBarInput.addEventListener("blur", () => {
-        if (justOpened) {
-            // Don't close immediately after opening
+        if (isTogglingView) {  // REMOVED justOpened check!
             return;
         }
 
         isFocused = false;
         justLostFocus = true;
+        
+        // IMMEDIATE classList change!
+        ToggleBlueBorderGradient(false);
+        
         setTimeout(() => {
             justLostFocus = false;
         }, 200);
-
-        requestAnimationFrame(() => ToggleBlueBorderGradient(false));
 
         setTimeout(() => {
             if (!justOpened || !isSearching) SearchBarInput.value = "";
         }, 500);
 
-        // Small delay to allow for touch interactions
         setTimeout(() => {
             if (!SearchButton.contains(document.activeElement) && !justOpened) {
                 clearResultsContainer();
@@ -295,7 +308,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
         }, 100);
         PlayedFocusAnimationSpin = false;
     });
-
+    
     // Listen for keyboard input
     SearchBarInput.addEventListener("keypress", (e) => {
         e.stopPropagation();
@@ -416,7 +429,8 @@ window.addEventListener("DOMContentLoaded", (e) => {
                     ResultsDisplay.style.display = "flex";
                 }
             }
-            requestAnimationFrame(() => ToggleBlueBorderGradient(true));
+            // IMMEDIATE classList change - no requestAnimationFrame!
+            ToggleBlueBorderGradient(true);
         }
         ensureOutputUpdate?.();
         e.stopPropagation();
