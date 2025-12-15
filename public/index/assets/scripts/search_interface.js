@@ -27,7 +27,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
      * @param {number} volume
      */
     function playSearchBarEffect(reversed, volume) {
-        // Fire and forget - no Promise returned!
+        // Fire and forget - no Promise return! Cause there were issues with the animation getting out of sync.
         setTimeout(() => {
             (async () => {
                 try {
@@ -279,14 +279,14 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     // Blur handler with guard
     SearchBarInput.addEventListener("blur", () => {
-        if (isTogglingView) {  // REMOVED justOpened check!
+        if (isTogglingView) {  // REMOVED justOpened check
             return;
         }
 
         isFocused = false;
         justLostFocus = true;
         
-        // IMMEDIATE classList change!
+        // IMMEDIATE classList change
         ToggleBlueBorderGradient(false);
         
         setTimeout(() => {
@@ -429,7 +429,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
                     ResultsDisplay.style.display = "flex";
                 }
             }
-            // IMMEDIATE classList change - no requestAnimationFrame!
+            // IMMEDIATE classList change
             ToggleBlueBorderGradient(true);
         }
         ensureOutputUpdate?.();
