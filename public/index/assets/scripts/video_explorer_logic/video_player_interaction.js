@@ -14,7 +14,7 @@ const VideoControls = VideoPlayer.querySelector("#VideoPlayerControls span");
  * @returns {Promise<string>}
  */
 async function formatTimestamp(seconds) {
-  // Ensure it's an integer
+  // Ensure it's an integer (no long or just no decimals)
   const totalSeconds = Math.floor(seconds);
 
   const hours = Math.floor(totalSeconds / 3600);
