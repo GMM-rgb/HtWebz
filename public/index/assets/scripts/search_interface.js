@@ -9,7 +9,7 @@ let justOpened = false;
 let isFocused = false;
 let justLostFocus = false;
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", (e) => {
     const SearchButton = document.getElementById("resourcesMenuOpen");
     const SearchLabelText = SearchButton.querySelector(".resources-menu-text");
     const SearchLabelIconWrapper = SearchButton.querySelector("#resourcesIconWrapper");
@@ -20,14 +20,49 @@ document.addEventListener("DOMContentLoaded", () => {
     let WindowWidth = window.innerWidth || 0;
     let PlayedFocusAnimationSpin = false;
 
+    /**
+     * Plays the menu open sound normally, or reversed based on the boolean input.
+     * @param {boolean} reversed 
+     */
+    async function playSearchBarEffect(reversed) {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            // Simple fix: just check if reversed is truthy
+            const audioFile = await fetch(reversed ? 
+                "/index/assets/audio/UI_Effects/menu_open_sound_reverse.mp3" : 
+                "/index/assets/audio/UI_Effects/menu_open_sound.mp3"
+            );
+            const audioArrayBuffer = await audioFile.arrayBuffer();
+            const audioBuffer = await audioCtx.decodeAudioData(audioArrayBuffer);
+
+            const playSound = () => {
+                const source = audioCtx.createBufferSource();
+                source.buffer = audioBuffer;
+                source.connect(audioCtx.destination);
+                source.start(0, 0.2);
+                console.log("✓ Audio played!");
+            };
+            
+            if (audioCtx.state === 'suspended') {
+                await audioCtx.resume();
+            }
+            playSound();
+        } catch (playbackError) {
+            console.error(playbackError);
+        }
+    }
+
     async function ToggleBlueBorderGradient(toggle_bool) {
         if (SearchButton && (SearchButton instanceof HTMLButtonElement)) {
             if (toggle_bool) {
                 SearchButton.classList.add("Focused");
+                await playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
             } else if (!toggle_bool) {
                 SearchButton.classList.remove("Focused");
+                await playSearchBarEffect?.(true) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
             } else {
                 SearchButton.classList.add("Focused");
+                await playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
             }
         } else {
             console.warn(`WARNING: Invalid Search Button Element.`);
@@ -423,6 +458,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
     }
-});
+}, { once: true });
 
-console.log("✅ Search Interface Loaded.");
+console.log("✓ Search Interface Loaded & Operational.");
