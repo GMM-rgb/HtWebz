@@ -51,7 +51,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
                         gainNode.connect(audioCtx.destination);
                         
                         source.start(0, 0.2);
-                        // console.log("✓ Audio played!");
                     };
                     if (audioCtx.state === 'suspended') {
                         await audioCtx.resume();
