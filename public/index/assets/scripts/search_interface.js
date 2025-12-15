@@ -45,6 +45,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
                 // Apply modifiers and audio
                 source.connect(audioCtx.destination);
                 gainNode.connect(audioCtx.destination);
+                // Begin playing the audio effect
                 source.start(0);
             };
             if (audioCtx.state === 'suspended') {
