@@ -61,13 +61,10 @@ window.addEventListener("DOMContentLoaded", (e) => {
         if (SearchButton && (SearchButton instanceof HTMLButtonElement)) {
             if (toggle_bool) {
                 SearchButton.classList.add("Focused");
-                playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
-            } else if (!toggle_bool) {
-                SearchButton.classList.remove("Focused");
-                playSearchBarEffect?.(true) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
+                playSearchBarEffect(false); // Don't await! Let it play in background
             } else {
-                SearchButton.classList.add("Focused");
-                playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
+                SearchButton.classList.remove("Focused");
+                playSearchBarEffect(true); // Don't await! Let it play in background
             }
         } else {
             console.warn(`WARNING: Invalid Search Button Element.`);
