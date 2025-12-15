@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     function playSearchBarEffect(reversed, volume) {
         // Fire and forget - no Promise return! Cause there were issues with the animation getting out of sync.
         setTimeout(() => {
-            (async () => {
+            (async function() {
                 try {
                     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                     const audioFile = await fetch(reversed ? 
