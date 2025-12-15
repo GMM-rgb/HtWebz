@@ -22,9 +22,10 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     /**
      * Plays the menu open sound normally, or reversed based on the boolean input.
-     * @param {boolean} reversed 
+     * @param {boolean} reversed
+     * @param {number} volume
      */
-    async function playSearchBarEffect(reversed) {
+    async function playSearchBarEffect(reversed, volume) {
         try {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             // Simple fix: just check if reversed is truthy
@@ -35,14 +36,17 @@ window.addEventListener("DOMContentLoaded", (e) => {
             const audioArrayBuffer = await audioFile.arrayBuffer();
             const audioBuffer = await audioCtx.decodeAudioData(audioArrayBuffer);
 
-            const playSound = () => {
+            const playSound = async () => {
                 const source = audioCtx.createBufferSource();
                 source.buffer = audioBuffer;
+                // Volume control
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.value = volume ? volume : 2.0; // 0.0 = silent, 1.0 = full volume
+                // Apply modifiers and audio
                 source.connect(audioCtx.destination);
-                source.start(0, 0.2);
-                console.log("✓ Audio played!");
+                gainNode.connect(audioCtx.destination);
+                source.start(0);
             };
-            
             if (audioCtx.state === 'suspended') {
                 await audioCtx.resume();
             }
@@ -56,13 +60,13 @@ window.addEventListener("DOMContentLoaded", (e) => {
         if (SearchButton && (SearchButton instanceof HTMLButtonElement)) {
             if (toggle_bool) {
                 SearchButton.classList.add("Focused");
-                await playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
+                playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
             } else if (!toggle_bool) {
                 SearchButton.classList.remove("Focused");
-                await playSearchBarEffect?.(true) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
+                playSearchBarEffect?.(true) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
             } else {
                 SearchButton.classList.add("Focused");
-                await playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
+                playSearchBarEffect?.(false) ?? console.warn("WARNING: Could not play search bar interaction audio effect.");
             }
         } else {
             console.warn(`WARNING: Invalid Search Button Element.`);
