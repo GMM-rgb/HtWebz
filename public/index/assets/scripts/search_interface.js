@@ -25,6 +25,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
      * Plays the menu open sound normally, or reversed based on the boolean input.
      * @param {boolean} reversed
      * @param {number} volume
+     * @returns {void}
      */
     function playSearchBarEffect(reversed, volume) {
         // Fire and forget - no Promise return! Cause there were issues with the animation getting out of sync.
@@ -44,15 +45,14 @@ window.addEventListener("DOMContentLoaded", (e) => {
                         source.buffer = audioBuffer;
                         
                         const gainNode = audioCtx.createGain();
-                        gainNode.gain.value = volume ? volume : 2.0;
+                        gainNode.gain.value = volume ? volume !== null : 2.0;
                         
                         source.connect(gainNode);
                         gainNode.connect(audioCtx.destination);
                         
                         source.start(0, 0.2);
-                        console.log("✓ Audio played!");
+                        // console.log("✓ Audio played!");
                     };
-                    
                     if (audioCtx.state === 'suspended') {
                         await audioCtx.resume();
                     }
