@@ -3,7 +3,7 @@
   "short_name": "HtWebz",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "rgba(0, 0, 0, 0)",
+  "background_color": "rgba(0,0,0,0)",
   "theme_color": "#000000",
   "icons": [
     {
