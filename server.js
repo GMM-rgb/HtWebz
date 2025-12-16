@@ -13,6 +13,8 @@ const { buffer } = require('stream/consumers');
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
 
+const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -96,7 +98,7 @@ app.get('/videos', (req, res) => {
   if (isAuthorized) {
     res.sendFile(path.join(serveDirectory, "video_explorer.html"));
   } else {
-    res.status(403).send(`<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`);
+    res.status(403).send(`${UnauthorizedMessage}`);
   }
 });
 
