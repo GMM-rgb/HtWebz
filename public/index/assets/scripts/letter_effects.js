@@ -1,135 +1,162 @@
 class LetterEffect {
-    static letterPool = [];
+    static animatedElements = new Set();
     
     static initializeLetters(selector) {
         const elements = document.querySelectorAll(selector);
         
         elements.forEach(element => {
-            if (element.hasAttribute('data-letter-effect')) return;
+            if (this.animatedElements.has(element)) return;
+            this.animatedElements.add(element);
             
-            const text = element.textContent;
-            element.setAttribute('data-letter-effect', 'true');
+            const text = element.textContent.trim();
+            if (!text) return;
             
-            // Create container with same styles as original
-            const container = document.createElement('div');
-            container.className = 'letter-effect-container';
+            // Get the ACTUAL color before we modify anything
             const computedStyle = window.getComputedStyle(element);
-            container.style.fontSize = computedStyle.fontSize;
-            container.style.lineHeight = computedStyle.lineHeight;
+            let originalColor = computedStyle.color;
+            const originalDisplay = computedStyle.display;
+            const webkitStroke = computedStyle.getPropertyValue('-webkit-text-stroke');
+            const webkitFill = computedStyle.getPropertyValue('-webkit-text-fill-color');
             
+            // If color is black/default, try to get it from parent or inline styles
+            if (originalColor === 'rgb(0, 0, 0)' || originalColor === 'rgba(0, 0, 0, 1)') {
+                // Check if element has inline color
+                if (element.style.color) {
+                    originalColor = element.style.color;
+                } else {
+                    // Walk up the DOM to find a non-black color
+                    let parent = element.parentElement;
+                    while (parent && (originalColor === 'rgb(0, 0, 0)' || originalColor === 'rgba(0, 0, 0, 1)')) {
+                        const parentStyle = window.getComputedStyle(parent);
+                        const parentColor = parentStyle.color;
+                        if (parentColor !== 'rgb(0, 0, 0)' && parentColor !== 'rgba(0, 0, 0, 1)') {
+                            originalColor = parentColor;
+                            break;
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
+            }
+            
+            console.log('Animating:', element.tagName, 'Color:', originalColor, 'Display:', originalDisplay);
+            
+            // Don't change display properties - preserve layout
+            const preservedStyles = {
+                display: originalDisplay,
+                position: element.style.position || computedStyle.position
+            };
+            
+            // Clear text content only
             element.textContent = '';
-            element.appendChild(container);
             
-            // Measure letter width for proper spacing
-            const tempSpan = document.createElement('span');
-            tempSpan.style.visibility = 'hidden';
-            tempSpan.textContent = 'M';  // Use M for average width
-            container.appendChild(tempSpan);
-            const letterWidth = tempSpan.offsetWidth * 0.6;  // Adjust spacing
-            container.removeChild(tempSpan);
+            // Only set position relative if it's not already positioned
+            if (preservedStyles.position === 'static') {
+                element.style.position = 'relative';
+            }
             
-            // Create dropping letters with proper spacing
-            const letters = text.split('').map((char, i) => ({
-                char,
-                x: Math.random() * 1,  // Reduced random spread
-                y: -50 - (Math.random() * 24),  // Reduced height
-                rotation: Math.random() * 180 - 90,  // -90 to 90 degrees
-                finalX: i * letterWidth,  // Use measured width
-                finalY: 0,
-                element: null
-            }));
+            // Create letter spans
+            text.split('').forEach((char, i) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.className = 'letter-drop';
+                span.style.display = 'inline-block';
+                span.style.whiteSpace = 'pre';
+                span.style.opacity = '0';
+                
+                // FORCE the color with !important
+                span.style.setProperty('color', originalColor, 'important');
+                
+                // Apply webkit properties if they exist
+                if (webkitStroke && webkitStroke !== '0px none') {
+                    span.style.setProperty('-webkit-text-stroke', webkitStroke, 'important');
+                }
+                if (webkitFill && webkitFill !== 'rgb(0, 0, 0)') {
+                    span.style.setProperty('-webkit-text-fill-color', webkitFill, 'important');
+                }
+                
+                // Random start position
+                const startX = (Math.random() * 60 - 30);
+                const startY = -(150 + Math.random() * 100);
+                const startRotation = (Math.random() * 180 - 90);
+                
+                span.style.setProperty('--start-x', `${startX}px`);
+                span.style.setProperty('--start-y', `${startY}px`);
+                span.style.setProperty('--start-rotation', `${startRotation}deg`);
+                span.style.setProperty('--delay', `${i * 30}ms`);
+                
+                element.appendChild(span);
+            });
             
-            this.letterPool.push(...letters);
-            
-            // Create observer with larger threshold
-            const observer = new IntersectionObserver(entries => {
+            // Create observer for EACH element individually
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
+                    console.log('Observer fired for:', entry.target.tagName, 'isIntersecting:', entry.isIntersecting, 'ratio:', entry.intersectionRatio);
                     if (entry.isIntersecting) {
-                        this.animateLetters(letters, container);
-                        observer.unobserve(entry.target);
+                        console.log('✓ Triggering animation for:', entry.target.tagName);
+                        const spans = entry.target.querySelectorAll('.letter-drop');
+                        console.log('Found spans:', spans.length);
+                        spans.forEach(span => {
+                            span.style.animation = 'letterDrop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                            span.style.animationDelay = span.style.getPropertyValue('--delay');
+                        });
+                        obs.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.5 });
+            }, { 
+                threshold: [0, 0.05, 0.1, 0.5],  // Multiple thresholds to catch it
+                rootMargin: '200px 0px'  // Look 200px ahead
+            });
             
             observer.observe(element);
+            console.log('Observer set up for:', element.tagName, element.textContent.substring(0, 20));
+            
+            // Also check if element is already in view immediately
+            setTimeout(() => {
+                const rect = element.getBoundingClientRect();
+                const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isInView) {
+                    console.log('Element already in view:', element.tagName);
+                    const spans = element.querySelectorAll('.letter-drop');
+                    spans.forEach(span => {
+                        span.style.animation = 'letterDrop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                        span.style.animationDelay = span.style.getPropertyValue('--delay');
+                    });
+                }
+            }, 100);
         });
-    }
-    
-    static animateLetters(letters, container) {
-        // Create final text container that will show after animation
-        const finalText = document.createElement('div');
-        finalText.className = 'final-text';
-        finalText.textContent = letters.map(l => l.char).join('');
-        finalText.style.opacity = '0';
-        container.appendChild(finalText);
-
-        // Create falling letters
-        letters.forEach((letter, i) => {
-            const span = document.createElement('span');
-            span.className = 'falling-letter';
-            span.textContent = letter.char;
-            span.style.setProperty('--start-x', `${letter.x}px`);
-            span.style.setProperty('--start-y', `${letter.y}px`);
-            span.style.setProperty('--start-rotation', `${letter.rotation}deg`);
-            span.style.setProperty('--final-x', `${i * (finalText.offsetWidth / letters.length)}px`);
-            span.style.setProperty('--delay', `${i * 50}ms`);
-            container.appendChild(span);
-            letter.element = span;
-        });
-
-        // Switch to final text after animation
-        setTimeout(() => {
-            container.querySelectorAll('.falling-letter').forEach(el => el.remove());
-            finalText.style.opacity = '1';
-        }, (letters.length * 50) + 500);
     }
 }
 
 // Add required styles
 const letterStyles = document.createElement('style');
 letterStyles.textContent = `
-    .letter-effect-container {
-        position: relative;
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;           // Prevent container from expanding
-        line-height: 1;              // Force minimal line height
-        height: 1em;                // Set container height to match font-size
-        vertical-align: middle;
-    }
-    
-    .final-text {
-        transition: opacity 0.3s ease-out;
-    }
-    
-    .falling-letter {
-        position: absolute;
-        display: inline-block;
+    .letter-drop {
+        display: inline-block !important;
         opacity: 0;
-        transform-origin: center;
-        transform: translate3d(var(--start-x), var(--start-y), 0) rotate(var(--start-rotation));
-        animation: fallAndSettle 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        animation-delay: var(--delay);
+        white-space: pre;
+        transform: translate(var(--start-x), var(--start-y)) rotate(var(--start-rotation));
     }
     
-    @keyframes fallAndSettle {
+    @keyframes letterDrop {
         0% {
             opacity: 0;
-            transform: translate3d(var(--start-x), var(--start-y), 0) rotate(var(--start-rotation));
+            transform: translate(var(--start-x), var(--start-y)) rotate(var(--start-rotation));
         }
-        70% {
+        60% {
             opacity: 1;
-            transform: translate3d(var(--final-x), 5px, 0) rotate(0deg) scale(1.1);
+            transform: translate(0, 5px) rotate(0deg) scale(1.05);
         }
         100% {
             opacity: 1;
-            transform: translate3d(var(--final-x), 0, 0) rotate(0deg) scale(1);
+            transform: translate(0, 0) rotate(0deg) scale(1);
         }
     }
 `;
 document.head.appendChild(letterStyles);
 
-// Initialize after DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    LetterEffect.initializeLetters('h1, h2, h3, h4, .featured-title');
+// Wait for everything to load
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        LetterEffect.initializeLetters('h1, h2, h3');
+    }, 200);
 });
