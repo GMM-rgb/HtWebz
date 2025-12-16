@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
     (async () => {
         AccountCookie = await cookieStore.set("AccountToken");
     });
-});
+}, { once: true });
 
 socket.on('connect', () => {
     const storedID = localStorage.getItem('guestID');

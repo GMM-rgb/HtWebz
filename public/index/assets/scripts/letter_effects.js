@@ -159,4 +159,4 @@ window.addEventListener('load', () => {
     setTimeout(() => {
         LetterEffect.initializeLetters('h1, h2, h3');
     }, 200);
-});
+}, { once: true });
