@@ -882,7 +882,7 @@
 #pageTitle::before {
     content: '' !important;
     inset: 0 !important;
-    position: absolute !important;
+    position: fixed !important;
     background: rgb(0, 215, 215);
     border-radius: 0 0 5px 5px;
     z-index: 999;
