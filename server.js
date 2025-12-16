@@ -96,7 +96,7 @@ app.get('/videos', (req, res) => {
   if (isAuthorized) {
     res.sendFile(path.join(serveDirectory, "video_explorer.html"));
   } else {
-    res.status(403).send("Unauthorized to view requested resource.");
+    res.status(403).send(`<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`);
   }
 });
 
