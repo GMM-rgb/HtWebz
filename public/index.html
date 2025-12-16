@@ -385,71 +385,7 @@ ___        ___        ___  ,________,  ,___    ,________
     <span id="notification" class="notification"></span>
 
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        let UserAccountProfilePicture, WelcomeMainContentTitle;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            UserAccountProfilePicture = document.getElementById('accountExpandIcon');
-            WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
-        });
-
-        socket.on('connect', () => {
-            const storedID = localStorage.getItem('guestID');
-            socket.emit('registerGuest', { guestID: storedID });
-        });
-
-        function swapWithLoading(finalURL) {
-            if (!UserAccountProfilePicture) return;
-
-            // Step 1: show loading gif immediately
-            requestAnimationFrame(() => { UserAccountProfilePicture.src = 'index/assets/images/load_icon_5649.gif'; });
-
-            // Step 2: preload the final image
-            const img = new Image();
-
-            let timeoutId = setTimeout(() => {
-                console.warn("Image load timed out, falling back to default.");
-                UserAccountProfilePicture.src = 'index/assets/images/icon_loading_failure.svg';
-            }, 5000); // 5s timeout for Loading time set
-
-            img.onload = () => {
-                clearTimeout(timeoutId); // Clear the timeout to prevent fallback from continueing
-                setTimeout(() => {
-                    UserAccountProfilePicture.classList.add('fade-in');
-                    UserAccountProfilePicture.src = finalURL;
-                    UserAccountProfilePicture.addEventListener('animationend', () => {
-                        UserAccountProfilePicture.classList.remove('fade-in');
-                    }, { once: true, passive: true });
-                }, Math.random() * 750 + 500);
-            };
-
-            img.onerror = () => {
-                clearTimeout(timeoutId);
-                console.warn("Failed to load profile image, falling back to default.");
-                UserAccountProfilePicture.src = 'index/assets/images/icon_loading_failure.svg';
-            };
-
-            img.src = finalURL;
-        }
-
-        socket.on('welcome', (data) => {
-            localStorage.setItem('guestID', data.guestID);
-
-            if (data.type === "guest") {
-                console.log('User is a guest.');
-                if (WelcomeMainContentTitle) {
-                    WelcomeMainContentTitle.textContent = `Welcome, ${data.guestID}`;
-                }
-                swapWithLoading('index/assets/images/avatardefault_92824.png');
-            } else if (data.type === "registered") {
-                console.log('User is registered.');
-                if (typeof data.profilePictureURL === 'string') {
-                    swapWithLoading(data.profilePictureURL);
-                }
-            }
-        });
-    </script>
+    <script async defer src="index/assets/scripts/account_profiler_client/profiler.js"></script>
 
     <!-- Data Store API Client -->
     <script type="text/javascript">
