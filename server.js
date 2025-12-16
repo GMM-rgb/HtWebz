@@ -66,6 +66,7 @@ app.get('/public', (req, res) => {
 
 app.get('/videos', (req, res) => {
   const RequestedVideoID = req.query.id; // Gets the ?id= parameter
+  let isAuthorized = false; // tracks if the user that requested the resource is authorized or not
   /**
    * 
    * @returns {boolean}
@@ -85,7 +86,6 @@ app.get('/videos', (req, res) => {
     return res.status(400).send("Please provide a video ID: /video?id=your-video-id");
   }
   
-  let isAuthorized = false;
   if (RequestedVideoID !== null) {
     if (videoValid()) {
       isAuthorized = true; // just authorize everything for now. (temp)
