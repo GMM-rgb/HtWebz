@@ -68,7 +68,6 @@ app.get('/videos', (req, res) => {
   const RequestedVideoID = req.query.id; // Gets the ?id= parameter
   let isAuthorized = false; // tracks if the user that requested the resource is authorized or not
   /**
-   * 
    * @returns {boolean}
    */
   function videoValid() {
@@ -77,9 +76,10 @@ app.get('/videos', (req, res) => {
     let expectedVideo = path.join(expectedVideoPath, `${RequestedVideoID}.mp4`);
     if (RequestedVideoID && videoDirectory !== null && (fs.existsSync(expectedVideoPath))) {
       if (fs.existsSync(expectedVideo)) {
-
+        return true;
       }
     }
+    return false;
   }
 
   if (RequestedVideoID === null) {
