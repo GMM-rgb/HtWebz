@@ -35,6 +35,87 @@
     flex-basis: 1 content 1;
     flex-shrink: 0 1 auto;
 }
+/* Main Logo Styles */
+@media (max-width: 812px) {
+    #mainLogo::after {
+        display: none !important;
+    }
+    #mainLogo {
+        margin: auto 10px auto 25px !important;
+        transform: scale(0.825) !important;
+    }
+    #mainLogo:hover>img {
+        animation: none !important;
+    }
+}
+#mainLogo::before {
+    content: '';
+    cursor: default !important;
+}
+#mainLogo::after {
+    content: '';
+    inset: 0;
+    position: relative;
+    border-left: 2px solid #707070;
+    border-right: 2px solid #707070;
+    padding-inline: 37.5px;
+    padding-block: 10px;
+    left: -10px;
+    top: -38.5px;
+    width: max-content;
+    transition: all 0.3s ease;
+}
+#mainLogo {
+    pointer-events: all !important;
+    cursor: pointer !important;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+    background: rgba(5, 134, 227, 0.75);
+    border: 3px solid #0586e3;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    margin: auto 15px auto 5px;
+}
+#mainLogo img {
+    display: block;
+    pointer-events: none !important;
+    image-rendering: optimizeQuality !important;
+    user-select: none !important;
+    transition: all 0.3s ease;
+    margin-top: 0;
+}
+@keyframes spinAccelerateLogo {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50%, 75% {
+        transform: rotate(270deg) scale(1.25);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+#mainLogo:hover>img {
+    animation: spinAccelerateLogo 0.585s ease-in-out forwards;
+}
+#mainLogo:hover::after {
+    left: -11.5px !important;
+    width: 50px !important;
+    padding-inline-end: 42.5px !important;
+    padding-inline-start: 35px !important;
+}
+#mainLogo:hover {
+    border-color: #30a9ff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+#mainLogo:active {
+    border-color: #479dda;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+}
 
 @keyframes switchRotationAndScaleBounce {
     0% {

@@ -7,7 +7,7 @@
         <title>FlowChat</title>
         <link rel="icon" href="index/assets/images/Tab_Icons/" type="image/svg+xml" />
         <!-- Stylesheets -->
-        <link rel="stylesheet" href="index/assets/stylesheets/" />
+        <link rel="stylesheet" href="index/assets/stylesheets/top_user_interface.css" />
     </head>
     <style>
         body {
@@ -19,6 +19,17 @@
         }
     </style>
     <body>
+        <section id="topUserInterfaceBar">
+            <button id="accountExpandInfo"
+                onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')" onclick="notify('Under Construction');">
+                <img id="accountExpandIcon"
+                    src="index/assets/images/load_icon_5649.gif"
+                    alt="Error" preload="auto" height="25" width="25" />
+            </button>
 
+            <h1 id="pageTitle">FlowChat</h1>
+
+            
+        </section>
     </body>
 </html>

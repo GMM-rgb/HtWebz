@@ -1,3 +1,4 @@
+// Built-in Modules
 const { stdout } = require('process');
 const express = require('express');
 const path = require('path');
@@ -8,7 +9,7 @@ const readline = require('readline');
 const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
 const { buffer } = require('stream/consumers');
-
+// External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
 
@@ -57,6 +58,10 @@ if (ENABLE_DOMAIN_FORWARDING) {
 app.use(bodyParser.json());
 
 // ===== DYNAMIC ROUTES =====
+app.get('/public', (req, res) => {
+  res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
+});
+
 app.get('/videos', (req, res) => {
   const RequestedVideoID = req.query.id; // Gets the ?id= parameter
   /**
@@ -100,11 +105,7 @@ app.get('/homepage', async (req, res) => {
 });
 
 app.get('/chat', (req, res) => {
-  res.sendFile(path.join(serveDirectory, "message_page.html"));
-});
-
-app.get('/public', (req, res) => {
-  res.send('Serving all files from the HtWebz/public folder! Navigate to /file_name to access specific files.');
+  res.sendFile(path.join(serveDirectory, "connection_message_page.html"));
 });
 
 /*
