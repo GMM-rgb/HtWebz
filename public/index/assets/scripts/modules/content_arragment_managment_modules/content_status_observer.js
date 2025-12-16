@@ -27,7 +27,6 @@ class StickyContent {
 
 /**
  * Field: `Content Status Observer` module functions.
- * @type {Object}
 */
 const ExportedFunctions = {
     ObserveStickyElementViewport: StickyContent.pinObserveStickyElement,

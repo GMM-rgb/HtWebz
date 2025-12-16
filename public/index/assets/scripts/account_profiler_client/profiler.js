@@ -13,10 +13,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 }, { once: true });
 
-socket.on('connect', () => {
-    const storedID = localStorage.getItem('guestID');
-    var storedAccountToken;
-    socket.emit('registerGuest', { guestID: storedID });
+socket.on('connect', async () => {
+    let storedAccountToken = null;
+    const storedGuestID = localStorage.getItem('guestID');
+    if (storedGuestID && storedAccountToken === null) socket.emit('registerGuest', { guestID: storedGuestID });
 });
 
 function swapWithLoading(finalURL) {
