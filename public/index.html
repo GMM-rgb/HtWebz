@@ -16,6 +16,8 @@ ___        ___        ___  ,________,  ,___    ,________
 
     -->
 <html lang="en-US">
+    <base href="/public" />
+    <!---->
     <noscript>
         <style>
             .no-script-background {
@@ -386,7 +388,7 @@ ___        ___        ___  ,________,  ,___    ,________
     <span id="notification" class="notification"></span>
 
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script async defer src="index/assets/scripts/account_profiler_client/profiler.js"></script>
+    <script src="index/assets/scripts/account_profiler_client/profiler.js"></script>
 
     <!-- Data Store API Client -->
     <script type="text/javascript">
@@ -471,7 +473,7 @@ ___        ___        ___  ,________,  ,___    ,________
             </div>
         </a>
 
-        <script async name="TruncateTextScript" defer src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
+        <script name="TruncateTextScript" src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
         <script>
             // Run once on load
             truncateEllipsis('pageTitle');
@@ -1138,7 +1140,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
         self.addEventListener("DOMContentLoaded", () => {
             if (FormatedSavedScrollPosParse !== null) {
-                console.log(`%cScroll Position Y #: %c${FormatedSavedScrollPosParse}`, "color: green;", "color: lime !important;");
+                console.log(`%cScroll Position Y #: %c${FormatedSavedScrollPosParse}`, "color: aqua;", "color: lime !important;");
                 window.scrollTo(0, FormatedSavedScrollPosParse);
             } else {
                 return;
