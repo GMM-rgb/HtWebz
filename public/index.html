@@ -1,3 +1,4 @@
+<!-- Index Begin -->
 <!DOCTYPE HTML>
 <!--               
 ,__,   ,__,  ,____________,                 
@@ -1109,19 +1110,45 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <!-- <script async src="index/assets/scripts/context_menu.js"
         defer></script> -->
-    <script src="index/assets/scripts/toolbar_extension_manager.js"
+    <script type="text/javascript"
+        src="index/assets/scripts/toolbar_extension_manager.js"
         defer></script>
-    <script src="index/assets/scripts/project_file_validation.js" defer
+    <script type="text/javascript"
+        src="index/assets/scripts/project_file_validation.js" defer
         preload="auto"></script>
-    <script src="index/assets/scripts/content_section_logic/hide_content.js"
+    <script type="text/javascript"
+        src="index/assets/scripts/content_section_logic/hide_content.js"
         defer></script>
-    <script
+    <script type="text/javascript"
         src="index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
         defer></script>
+
+    <script type="text/javascript" defer>
+        let UserSavesScrollPosition = localStorage.getItem("Save_Scroll_Position_Policy");
+        let AllowSavesScroll = JSON.parse(UserSavesScrollPosition) ? UserSavesScrollPosition !== null : false;
+
+        /**
+         * @type {string?}
+        */
+        let LastSavedScrollPosition = localStorage.getItem("Scroll_Position_Saved");
+        /**
+         * @type {number}
+        */
+        let FormatedSavedScrollPosParse = Math.floor() * JSON.parse(LastSavedScrollPosition) ? LastSavedScrollPosition !== null : 0;
+
+        self.addEventListener("DOMContentLoaded", () => {
+            if (FormatedSavedScrollPosParse !== null) {
+                console.log(`%cScroll Position Y #: %c${FormatedSavedScrollPosParse}`, "color: green;", "color: lime !important;");
+                window.scrollTo(0, FormatedSavedScrollPosParse);
+            } else {
+                return;
+            }
+        }, { once: true });
+    </script>
 
     <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
     <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
     <audio src="index/assets/audio/menu-command.mp3" preload="auto"
         id="PrimaryClick"></audio>
 </html>
-<!-- End Document -->
+<!-- Index End -->
