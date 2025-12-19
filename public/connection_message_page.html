@@ -29,6 +29,15 @@
 
             <h1 id="pageTitle">FlowChat</h1>
 
+            <a href="/homepage">
+                <div id="mainLogo"
+                    onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
+                    <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
+                        alt="HtWebz Logo" width="60" height="60"
+                        style="image-rendering: pixelated !important; user-select: none !important;" />
+                </div>
+            </a>
+            
             <script type="text/javascript" src="/socket.io/socket.io.js"></script>
             <script async defer src="index/assets/scripts/account_profiler_client/profiler.js"></script>
 
@@ -37,5 +46,7 @@
 
         <script type="text/javascript"
             src="index/assets/scripts/tooltip_system.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/letter_effects.js" defer></script>
     </body>
 </html>
