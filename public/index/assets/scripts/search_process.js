@@ -255,7 +255,7 @@ function DisplaySearchResults(searchResults, containerId, CurrentInputData) {
     if (!container) return;
     if (!containerId) return;
 
-    if (!searchResults.hasResults) {
+    if (searchResults !== null && !searchResults.hasResults) {
         container.innerHTML = '<span class="search-result-item no-results"><strong>No results found</strong></span>';
         return;
     }
@@ -277,7 +277,7 @@ function DisplaySearchResults(searchResults, containerId, CurrentInputData) {
     }
 
     let html = '<div class="search-results">';
-    searchResults.matches.forEach((result, index) => {
+    if (searchResults !== null) searchResults.matches.forEach((result, index) => {
         const highlightedKey = highlightMatch(result.key, inputChars);
         if (index < 1) {
             html += `
