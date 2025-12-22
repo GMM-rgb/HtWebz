@@ -1,20 +1,27 @@
 // fetch_user_cookies.js
-//
-class UserCookieFetcher {
+// Typescript Modules
+class CookieFetchFunctions {
     /**
      * 
      * @param {string} PastDurationDate
      * @returns {Promise<void>}
      */
     static async getUserRecentsDataCookie(PastDurationDate) {
-        
+        if (!PastDurationDate) PastDurationDate = "Last Hour" && console.warn();
     }
+    /**
+     * Functions defined in the `current` class.
+     * @type {Array}
+    */
+    static FetchFunctionArray = [
+        this.getUserRecentsDataCookie
+    ];
 }
-//
+
 /**
  * 
  * @param {string} name 
- * @returns {Promise<string?>}
+ * @returns {Promise<string>}
  */
 async function getCookie(name) {
     const nameEQ = name + "=";
@@ -28,18 +35,18 @@ async function getCookie(name) {
             return decodeURIComponent(c.substring(nameEQ.length, c.length));
         }
     }
-    return null; // Return null value if not found
+    return ""; // Return empty string value if not found
 }
 
 function attatchUserCookieLoader() {
     (async function() {
-        e.stopPropagation?.() ?? console.error(this.ErrorEvent);
-        await getUserRecentsDataCookie();
+        if (('FetchFunctionArray' in CookieFetchFunctions) !== null) {
+            
+        }
     });
 }
 
 export {
-    UserCookieFetcher,
+    CookieFetchFunctions,
     attatchUserCookieLoader,
-    getCookie,
 };

@@ -16,8 +16,14 @@ ___        ___        ___  ,________,  ,___    ,________
 
     -->
 <html lang="en-US">
-    <base href="/public" />
-    <!---->
+    <!-- <base href="/public" /> -->
+    <!-- Primary JavaScript Modules -->
+    <script type="module" src="./index/assets/scripts/modules/logging/logger.js"></script>
+    <script type="module" src="./index/assets/scripts/modules/cookie_store_manager.js"></script>
+    <script type="module" src="./index/assets/scripts/modules/fetch_user_cookies.js"></script>
+    <script type="module" src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
+    <script type="module" src="./index/assets/scripts/recent_logic/user_recents_loader.js"></script>
+    <!-- Browser JavaScript disabled -->
     <noscript>
         <style>
             .no-script-background {
@@ -101,7 +107,8 @@ ___        ___        ___  ,________,  ,___    ,________
             href="/index/assets/stylesheets/content_pin.css" />
         <link rel="stylesheet"
             href="/index/assets/stylesheets/about_content.css" />
-        <link rel="stylesheet" href="/index/assets/stylesheets/games_menu.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/games_menu.css" />
         <link rel="stylesheet"
             href="/index/assets/stylesheets/search_menu.css" />
         <link rel="stylesheet"
@@ -476,13 +483,13 @@ ___        ___        ___  ,________,  ,___    ,________
         <script name="TruncateTextScript" src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
         <script>
             // Run once on load
-            truncateEllipsis('pageTitle');
-
+            self.onload = async () => {
+                truncateEllipsis('pageTitle');
+            }
             // Re-run automatically if the element resizes
             const titleRo = new ResizeObserver(() => {
                 truncateEllipsis('pageTitle');
             });
-
             titleRo.observe(document.getElementById('pageTitle'));
         </script>
 
@@ -501,14 +508,12 @@ ___        ___        ___  ,________,  ,___    ,________
                 <input autocomplete="off" class="search-bar-input"
                     id="SearchBarInput" type="text"
                     placeholder="Type here to search..." />
-
                 <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
                     <img id="resourcesMenuIcon"
                         src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
                         alt="Resources Icon" preload="auto" height="27.5"
                         width="27.5" />
                 </div>
-
                 <span class="resources-menu-text">Search</span>
             </button>
         </div>
@@ -872,12 +877,7 @@ ___        ___        ___  ,________,  ,___    ,________
                         class="hide-content-section-button recent-section">&ndash;</button>
                 </div>
             </div>
-            <div class="inner-frame-container recent"
-                aria-label="Recent"><!-- Recent Objects get created & organized by the following script: ... create_recent_results.js --></div>
-            <script type="text/javascript"
-                src="./index/assets/scripts/recent_logic/create_recent_results.js"
-                defer></script>
-
+            <div class="inner-frame-container recent" aria-label="Recent"><!-- Recent Objects get created & organized by the following script: ... create_recent_results.js --></div>
         </section>
 
         <style>
@@ -1123,6 +1123,10 @@ ___        ___        ___  ,________,  ,___    ,________
         defer></script>
     <script type="text/javascript"
         src="index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
+        defer></script>
+
+    <script type="module"
+        src="./index/assets/scripts/recent_logic/create_recent_results.js"
         defer></script>
 
     <script type="text/javascript" defer>
