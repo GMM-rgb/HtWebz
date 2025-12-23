@@ -12,7 +12,7 @@ class SchedulerUtilitys {
             console.error(`The function %cWaitForCondition%c, encountered an error: ${ConditionWaitError}`, "color: yellow;", "color: normal;");
             return false;
         } finally {
-            return AllowContinue !== null ? AllowContinue : false;
+            return (AllowContinue !== null && AllowContinue === true) ? AllowContinue : false;
         }
     }
 }
