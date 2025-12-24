@@ -210,22 +210,24 @@
 }
 
 .drag-content-section-container {
-    cursor: all-scroll;
     display: flex;
+    cursor: all-scroll;
     align-items: center;
     justify-content: center;
+    flex-shrink: 1 !important;
+    padding-block: 24px;
+    padding-block-start: 26px;
     background: rgba(245, 245, 245, 0.5);
     border: 3px solid #ccc;
     border-radius: 10px;
     /* Sizing */
     width: max-content;
-    padding-block: 24.5px;
-    height: max-content;
+    max-height: 30px;
     /* Position */
     margin-top: 0;
+    margin-bottom: auto;
     /* Transition */
     transition: all 0.3s ease;
-    
     -webkit-user-select: none !important;
     user-select: none !important;
 }
