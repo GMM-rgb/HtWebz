@@ -2,8 +2,7 @@
   "name": "express-app",
   "version": "1.0.0",
   "scripts": {
-    "start": "cmd && %node% server.js",
-    "preinstall": "cmd && set PATH npm=C:\\Users\\6041464\\node\\npm.cmd && npm update",
+    "start": "node server.js",
     "test": "cmd && echo \"No test currently please enter start. \" && exit 1"
   },
   "dependencies": {
