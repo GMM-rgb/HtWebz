@@ -249,6 +249,7 @@ ___        ___        ___  ,________,  ,___    ,________
     }
     
     body::-webkit-scrollbar {
+        position: relative;
         width: var(--scrollbar-width);
         -webkit-transition: width 0.2s ease;
         transition: width 0.2s ease;
@@ -257,11 +258,12 @@ ___        ___        ___  ,________,  ,___    ,________
     body::-webkit-scrollbar-track {
         background: lightseagreen;
     }
-    
+
     body::-webkit-scrollbar-thumb {
         background: darkcyan;
         border-radius: 2px;
-        cursor: ns-resize;
+        border-block: 2px solid #ccc;
+        cursor: ns-resize !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
     }
     /* Removed - it doesn't work */

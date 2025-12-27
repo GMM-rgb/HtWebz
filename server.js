@@ -139,14 +139,14 @@ app.post('/datastore-receive', (req, res) => {
   if (MainData !== null) console.log("DataReceived:\n\t", MainData , "\n");
 });
 
+// Redirects the user to the websites homepage
+app.get('/', (req, res) => {
+  res.redirect("/homepage");
+});
+
 // ===== STATIC MIDDLEWARE (AFTER DYNAMIC ROUTES) =====
 // This serves static files from the public folder
 app.use(express.static(serveDirectory));
-
-// Root route - can use static middleware or explicit route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(serveDirectory, "index.html"));
-});
 
 // ===== ERROR HANDLING =====
 // 404 handler (no route matched)
