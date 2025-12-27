@@ -197,9 +197,10 @@ process.on('SIGINT', () => {
   let invalidShown = false;
   let confirmed = false;
   let CanceledConfirm = false;
-  let CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
+  const CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
   let HasWarnings = false;
-  console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && ConsoleWarnShutdown("WARNING: Connection Integer was null or undefined."))}\n`);
+
+  console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && ConsoleWarnShutdown?.("WARNING: Connection Integer was null or undefined."))}\n`);
 
   function ConsoleWarnShutdown(warn_message) {
     if (!HasWarnings) {
@@ -210,7 +211,7 @@ process.on('SIGINT', () => {
   }
 
   if ((CurrentConnections instanceof Number || typeof CurrentConnections === "number") && CurrentConnections > 0) {
-    (server.closeAllConnections?.() ?? ConsoleWarnShutdown("WARNING: Could not close connections, module does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
+    (server.closeAllConnections?.() ?? ConsoleWarnShutdown?.("WARNING: Could not close connections, module does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
   }
 
   // Kick all connected sockets
