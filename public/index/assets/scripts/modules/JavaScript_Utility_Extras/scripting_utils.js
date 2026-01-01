@@ -1,5 +1,7 @@
 const SocketConnection = io();
 class SchedulerUtilitys {
+    
+    static e = 0;
     /**
      * 
      * @param {...any} args
@@ -24,10 +26,11 @@ class DevelopmentUtilitys {
     /**
      * 
      * @param {string} ERROR_Message 
+     * @param {boolean} isFeedback
      */
-    static ReportClientError(ERROR_Message) {
+    static ReportClientError(ERROR_Message, isFeedback) {
         if (!ERROR_Message || !(typeof ERROR_Message === "string")) return;
-        SocketConnection.emit("ClientErrorReport", `${ERROR_Message}`);
+        SocketConnection.emit("ClientErrorReport", `${ERROR_Message}`, isFeedback !== null ? isFeedback : false);
     }
 }
 

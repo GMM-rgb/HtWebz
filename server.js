@@ -12,7 +12,9 @@ const { buffer } = require('stream/consumers');
 // External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
-
+const ErrorReportUtility = require("./backend/report_system/reporter_utility");
+const { type } = require('os');
+// Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
 
 const app = express();
@@ -164,6 +166,13 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = socketIO(server);
 
+// 
+io.on("ClientErrorReport", (msg, feedback) => {
+  if ((typeof msg !== "string") || (typeof feedback !== "boolean")) return;
+
+  
+});
+
 // Attach socket handlers for guest lifecycle
 UserManagmentModule.attachSocketHandlers(io);
 
@@ -214,7 +223,7 @@ process.on('SIGINT', () => {
     (server.closeAllConnections?.() ?? ConsoleWarnShutdown?.("WARNING: Could not close connections, module does not exist or failed.")) && console.log("SUCESS: Closed all remaining connections.");
   }
 
-  // Kick all connected sockets
+  // Kick all connected sockets (devices)
   io.sockets.sockets.forEach((socket) => {
     socket.disconnect(true); // force disconnect
   });
