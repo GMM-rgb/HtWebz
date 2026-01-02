@@ -1,11 +1,8 @@
-const { dir } = require("console");
 const fs = require("fs");
-const { dirname } = require("path");
 const path = require("path");
 const { stdout } = require("process");
-
 class ErrorReportValidation {
-    static ClientReportsDirectory = path.join(dirname, 'reports', 'client');
+    static ClientReportsDirectory = path.join(__dirname, 'reports', 'client');
     /**
      * 
      * @returns {Promise<boolean>}
