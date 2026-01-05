@@ -1,24 +1,24 @@
 const SocketConnection = io();
 class SchedulerUtilitys {
-    
-    static e = 0;
     /**
      * 
      * @param {...any} args
      * @returns {void}
      */
-    static WaitForCondition(...args) {
+    static WaitForCondition(timeout, ...args) {
         let CanContinue = false;
         (async () => {
             try {
+                if (timeout !== null && (typeof timeout === "number")) setTimeout(async function() {
 
+                }, timeout);
             } catch (ConditionWaitError) {
                 console.error(`The function %cWaitForCondition%c, encountered an error: ${ConditionWaitError}`, "color: yellow;", "color: normal;");
                 return false;
             } finally {
                 return (CanContinue !== null && CanContinue === true) ? CanContinue : false;
             }
-        });
+        })();
     }
 }
 
