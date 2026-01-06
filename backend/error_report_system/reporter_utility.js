@@ -12,7 +12,7 @@ class ErrorReportValidation {
         if (fs === null || fs === undefined) return false;
         // Verifies that the root reports folder (directory) exists + valid
         if (!fs.existsSync(this.ClientReportsDirectory)) {
-            console.log(`"[reports] folder does not exist; creating directory..."`);
+            console.log(`[reports] folder does not exist; creating directory...`);
             (async () => {
                 try {
                     console.log("Please wait... this shouldn't take long.");
@@ -20,7 +20,7 @@ class ErrorReportValidation {
                 } catch (ReportsInternalError) {
                     console.error(ReportsInternalError);
                 } finally {
-                    console.log("SUCCESS: [reports]s' directory has been created.\nContinuing validation check...");
+                    console.log("SUCCESS: [reports] directory has been created.\nContinuing validation check...");
                 }
             })();
         }
