@@ -12,7 +12,7 @@ const { buffer } = require('stream/consumers');
 // External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
-const ErrorReportUtility = require("./backend/report_system/reporter_utility");
+const ErrorReportUtility = require("./backend/error_report_system/reporter_utility");
 const { type } = require('os');
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
@@ -58,8 +58,15 @@ if (ENABLE_DOMAIN_FORWARDING) {
   });
 }
 
-// Middleware: body parser (must come before routes that need it)
+// Middleware: body parser
 app.use(bodyParser.json());
+
+// Inital setup
+function SetupServerUtils() {
+  (async () => {
+    await ErrorReportUtility.ErrorReportValidation.ValidateReports();
+  })();
+}
 
 // ===== DYNAMIC ROUTES =====
 app.get('/public', (req, res) => {
@@ -196,6 +203,8 @@ server.listen(PORT, () => {
                         ${picocolors.cyan('T h e   D i g i t a l   W o r l d')}\n       
   `));
 });
+
+SetupServerUtils();
 
 let shuttingDown = false;
 // Shutdown handler on exit
