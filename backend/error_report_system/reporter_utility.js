@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const { stdout, allowedNodeEnvironmentFlags, nextTick } = require("process");
-const { json } = require("stream/consumers");
 
 class ErrorReportValidation {
     static ClientReportsDirectory = path.join(__dirname, 'reports');
@@ -10,7 +9,21 @@ class ErrorReportValidation {
      * @returns {Promise<boolean>}
      */
     static async ValidateReports() {
-        if (fs === null || !fs) return false;
+        if (fs === null || fs === undefined) return false;
+        // Verifies that the root reports folder (directory) exists + valid
+        if (!fs.existsSync(this.ClientReportsDirectory)) {
+            console.log(`"[reports] folder does not exist; creating directory..."`);
+            (async () => {
+                try {
+                    console.log("Please wait... this shouldn't take long.");
+                    fs.mkdirSync(path.join(this.ClientReportsDirectory, ''));
+                } catch (ReportsInternalError) {
+                    console.error(ReportsInternalError);
+                } finally {
+                    console.log("SUCCESS: [reports]s' directory has been created.\nContinuing validation check...");
+                }
+            })();
+        }
         // Checks if the client directory exists
         if (!fs.existsSync(path.join(this.ClientReportsDirectory, 'client'))) {
             (async () => {
