@@ -28,6 +28,12 @@ class ErrorReportValidation {
             (async () => {
                 fs.mkdirSync(path.join(this.ClientReportsDirectory, 'client'));
             })();
+        }
+        // 
+        if (!fs.existsSync(path.join(this.ClientReportsDirectory, 'server'))) {
+            (async () => {
+                fs.mkdirSync(path.join(this.ClientReportsDirectory, 'server'));
+            })();
             return false;
         }
         return true;
