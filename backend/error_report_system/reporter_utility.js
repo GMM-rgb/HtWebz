@@ -29,7 +29,7 @@ class ErrorReportValidation {
                 fs.mkdirSync(path.join(this.ClientReportsDirectory, 'client'));
             })();
         }
-        // 
+        // Checks if the server directory exists
         if (!fs.existsSync(path.join(this.ClientReportsDirectory, 'server'))) {
             (async () => {
                 fs.mkdirSync(path.join(this.ClientReportsDirectory, 'server'));
