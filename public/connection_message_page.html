@@ -8,6 +8,11 @@
         <link rel="icon" href="index/assets/images/Tab_Icons/" type="image/svg+xml" />
         <!-- Stylesheets -->
         <link rel="stylesheet" href="index/assets/stylesheets/top_user_interface.css" />
+        <link rel="stylesheet" href="index/assets/stylesheets/content_arrangment.css" />
+        <!-- Chat UI Stylesheet Configuration -->
+        <link rel="stylesheet" href="index/assets/stylesheets/chat_ui_styles/chat.css" />
+        <link rel="stylesheet" href="index/assets/stylesheets/chat_ui_styles/chat_menu.css" />
+        <link rel="stylesheet" href="index/assets/stylesheets/chat_ui_styles/chat_box.css" />
     </head>
     <style>
         body {
@@ -27,7 +32,7 @@
                     alt="Error" preload="auto" height="25" width="25" />
             </button>
 
-            <h1 id="pageTitle">FlowChat</h1>
+            <h1 id="pageTitle">User Chat</h1>
 
             <a href="/homepage">
                 <div id="mainLogo"
@@ -43,8 +48,15 @@
                 const socket = io();
             </script>
             <script async="true" src="index/assets/scripts/account_profiler_client/profiler.js"></script>
+        </section>
 
-            
+        <section id="rootPageSection">
+            <div id="ChatFlexContainer">
+                <div class="user-chat-menu">
+
+                </div>
+            </div>
+
         </section>
 
         <script type="text/javascript"

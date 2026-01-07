@@ -1,0 +1,7 @@
+#ChatFlexContainer {
+    display: flex;
+    margin-block: 5px;
+    flex-direction: row;
+    object-fit: contain;
+    gap: 6px;
+}
