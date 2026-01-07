@@ -15,11 +15,14 @@ const ErrorReportUtility = require("./backend/error_report_system/reporter_utili
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
 
-// Inital setup
-ErrorReportUtility.ErrorReportValidation.ValidateReports();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
+//
+let FixedMissingDirectorys = null;
+// Inital setup
+(async () => {
+  FixedMissingDirectorys = await ErrorReportUtility.ErrorReportValidation.ValidateReports();
+})();
 
 const videoDirectory = path.join(__dirname, "backend", "data", "video_files");
 
@@ -27,7 +30,7 @@ readline.emitKeypressEvents(process.stdin);
 process.stdin.setEncoding('utf8');
 
 // ===== DOMAIN FORWARDING CONFIGURATION =====
-const ENABLE_DOMAIN_FORWARDING = false; // Toggle: set to false to disable for development mode
+const ENABLE_DOMAIN_FORWARDING = false; // Toggle: false to disable for development mode
 const TARGET_DOMAIN = 'htwebz.io';
 // ============================================
 

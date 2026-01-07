@@ -34,15 +34,15 @@ class ErrorReportValidation {
             (async () => {
                 fs.mkdirSync(path.join(this.ClientReportsDirectory, 'server'));
             })();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
 
 class ErrorReportHelper {
     /**
-     * 
+     * Logs an error; that's supposed to be from client machine, to server storage client directory reports.
      * @param {string} ReportedErrorMsg 
      * @param {boolean} WasFeedbackReport
      * @param {...any} opts
@@ -80,7 +80,9 @@ class ErrorReportHelper {
     }
 }
 
-module.exports = {
-    ErrorReportValidation,
-    ErrorReportHelper
-};
+(() => {
+    module.exports = {
+        ErrorReportValidation,
+        ErrorReportHelper
+    };
+})();
