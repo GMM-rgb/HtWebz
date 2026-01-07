@@ -1,5 +1,5 @@
 :root {
-    /* These will be overridden by theme_managment.js */
+    /* The following will be overridden by theme_managment.js */
     --theme-background: aquamarine;
     --theme-primary: #479dda;
     --theme-secondary: #80b5db;
