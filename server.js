@@ -117,8 +117,8 @@ app.get('/chat', (req, res) => {
  - API Endpoints for User Management
 */
 app.get('/account-status', (req, res) => UserManagmentModule.getAccountStatus);
-app.get('/account-data-fetch', (req, res) => UserManagmentModule.usersAccountDataFetch);
-app.post('/account-register', (req, res) => UserManagmentModule.registerAccount);
+app.get('/account-data-fetch', async (req, res) => UserManagmentModule.usersAccountDataFetch);
+app.post('/account-register', async (req, res) => UserManagmentModule.registerAccount);
 
 /*
  - API Endpoints for Data Store Module
