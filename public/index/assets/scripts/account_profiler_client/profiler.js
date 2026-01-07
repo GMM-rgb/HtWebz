@@ -21,16 +21,16 @@ socket.on('connect', async () => {
 function swapWithLoading(finalURL) {
     if (!UserAccountProfilePicture) return;
 
-    // Step 1: show loading gif immediately
+    // show loading gif immediately
     requestAnimationFrame(() => { UserAccountProfilePicture.src = 'index/assets/images/load_icon_5649.gif'; });
 
-    // Step 2: preload the final image
+    // preload the final image
     const img = new Image();
 
-    let timeoutId = setTimeout(async () => {
-        console.warn("Image load timed out, falling back to default.");
+    const timeoutId = setTimeout(async () => {
+        console.warn("Image load timed out, falling back to failure icon.");
         UserAccountProfilePicture.src = (await fetch('index/assets/images/icon_loading_failure.svg')).url;
-    }, 5000); // 5s timeout for Loading time set
+    }, 2500); // 2.5s timeout for Loading time set
 
     img.onload = () => {
         clearTimeout(timeoutId); // Clear the timeout to prevent fallback from continueing
@@ -48,6 +48,10 @@ function swapWithLoading(finalURL) {
         console.warn("Failed to load profile image, falling back to default.");
         UserAccountProfilePicture.src = (await fetch('index/assets/images/icon_loading_failure.svg')).url;
     };
+
+    img.onwaiting = () => {
+        console.log("Loading profile...");
+    }
 
     img.src = finalURL;
 }

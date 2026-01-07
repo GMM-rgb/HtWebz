@@ -39,7 +39,10 @@
             </a>
             
             <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-            <script async defer src="index/assets/scripts/account_profiler_client/profiler.js"></script>
+            <script type="text/javascript">
+                const socket = io();
+            </script>
+            <script async="true" src="index/assets/scripts/account_profiler_client/profiler.js"></script>
 
             
         </section>

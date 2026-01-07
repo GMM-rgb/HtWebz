@@ -42,10 +42,10 @@ class ErrorReportValidation {
 
 class ErrorReportHelper {
     /**
-     * Logs an error; that's supposed to be from client machine, to server storage client directory reports.
+     * Logs an `Error`; that's supposed to be from client machine, to server storage client directory reports.
      * @param {string} ReportedErrorMsg 
      * @param {boolean} WasFeedbackReport
-     * @param {...any} opts
+     * @param {...*} opts
      * @returns {void}
      */
     static LogClientError(ReportedErrorMsg, WasFeedbackReport, CurrentRegionTimestamp, ...opts) {
@@ -54,25 +54,35 @@ class ErrorReportHelper {
         if (fs === null || fs === undefined) return;
 
         (async () => {
-            var FormatedResponse = null;
-
+            let FormatedResponse = null;
             /**
-             * 
+             * Formats the `Error` data to readable type before saving to log file.
              * @param {*} Error_DataToFormat
-             * @returns {string}
+             * @returns {Promise<string>}
              */
-            function formatErrorResponse(Error_DataToFormat) {
+            async function formatErrorResponse(Error_DataToFormat) {
                 if (!Error_DataToFormat) return;
-            }
+                var Formated = undefined;
 
+                JSON.parse(Error_DataToFormat);
+
+                if (Formated !== null && Formated !== undefined) {
+                    return Formated;
+                } else {
+                    return "ERROR Formating.";
+                }
+            }
+            //
+            FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
+            //
             if (CurrentRegionTimestamp !== null) {
                 fs.writeFileSync(CurrentRegionTimestamp + ".txt", formatErrorResponse());
             }
         })();
     }
     /**
-     * 
-     * @param {} 
+     * Logs an `Error`, and stores the server error; in server storage reports.
+     * @param {...*} opts
      * @returns
      */
     static LogServerError(...opts) {

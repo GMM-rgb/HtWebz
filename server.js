@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
 const ErrorReportUtility = require("./backend/error_report_system/reporter_utility");
+const ChatSystemMain = require("./backend/chat_system/chat_system_main");
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
 

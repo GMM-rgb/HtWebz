@@ -3,7 +3,7 @@ function reloadPageWithAnimation() {
     window._isReloading = true;
 
     const elements = Array.from(document.querySelectorAll('.page-element'));
-    const baseOutDuration = 600; // matches CSS 0.6s
+    const baseOutDuration = 600;
     const staggerStep = 80;
     const buffer = 300;
 
@@ -44,7 +44,6 @@ function reloadPageWithAnimation() {
 
         setTimeout(() => overlay.classList.add('fade-in'), 300);
 
-        // Total duration = base + last stagger + buffer
         const totalDuration =
             (elements.length ? baseOutDuration + ((elements.length - 1) * staggerStep) : 0)
             + buffer;
@@ -54,12 +53,11 @@ function reloadPageWithAnimation() {
             if (reloaded) return;
             reloaded = true;
             sessionStorage.setItem('isReloading', 'true');
-            // Use assign so animation paints before navigation
             window.location.assign(window.location.href);
         };
 
         setTimeout(triggerReload, totalDuration);
-        setTimeout(triggerReload, totalDuration + 1000); // fallback
+        setTimeout(triggerReload, totalDuration + 1000);
     });
 }
 
@@ -113,13 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
             rootMargin: '100px 0px 100px 0px'
         });
 
+        // === KEY UPGRADE: Use querySelectorAll to get ALL matching elements ===
         selectors.forEach(sel => {
-            const el = document.querySelector(sel);
-            if (el && !el.classList.contains('page-element')) {
-                el.classList.add('page-element');
-                if (isFreshLoad) el.classList.add('initial-state');
-                observer.observe(el);
-            }
+            const matchingElements = document.querySelectorAll(sel);
+            
+            matchingElements.forEach(el => {
+                if (!el.classList.contains('page-element')) {
+                    el.classList.add('page-element');
+                    if (isFreshLoad) el.classList.add('initial-state');
+                    observer.observe(el);
+                }
+            });
         });
     }, initialDelay);
 });
@@ -141,6 +143,12 @@ window.addEventListener("beforeunload", () => {
 // === CSS INJECTION ===
 const animCSS = document.createElement('style');
 animCSS.textContent = `
+    /* Initial state for fresh loads */
+    .initial-state {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
     /* IN animations */
     .animate-in.from-top {
         animation: slideInFromTop 0.6s ease-out forwards;
@@ -195,6 +203,11 @@ animCSS.textContent = `
     .quick-fade {
         opacity: 0;
         transition: opacity 0.3s ease;
+    }
+
+    /* Fade transition for reloads */
+    .fade-transition {
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
 `;
 document.head.appendChild(animCSS);
