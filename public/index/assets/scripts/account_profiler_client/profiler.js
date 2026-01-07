@@ -1,7 +1,3 @@
-/**
- * @extends {Function<PropertyDefinition>}
- */
-const socket = io();
 let AccountCookie = null;
 let UserAccountProfilePicture, WelcomeMainContentTitle;
 
@@ -10,13 +6,16 @@ window.addEventListener('DOMContentLoaded', () => {
     WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
     (async () => {
         AccountCookie = await cookieStore.set("AccountToken");
-    });
+    })();
 }, { once: true });
 
 socket.on('connect', async () => {
     let storedAccountToken = null;
     const storedGuestID = localStorage.getItem('guestID');
-    if (storedGuestID && storedAccountToken === null) socket.emit('registerGuest', { guestID: storedGuestID });
+    if (storedGuestID && storedAccountToken === null) {
+        console.log("Registering as geust..." + `\tID: ${storedGuestID}`);
+        socket.emit('registerGuest', { guestID: storedGuestID });
+    }
 });
 
 function swapWithLoading(finalURL) {

@@ -8,14 +8,15 @@ const socketIO = require('socket.io');
 const readline = require('readline');
 const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
-const { buffer } = require('stream/consumers');
 // External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
 const ErrorReportUtility = require("./backend/error_report_system/reporter_utility");
-const { type } = require('os');
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
+
+// Inital setup
+ErrorReportUtility.ErrorReportValidation.ValidateReports();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -60,13 +61,6 @@ if (ENABLE_DOMAIN_FORWARDING) {
 
 // Middleware: body parser
 app.use(bodyParser.json());
-
-// Inital setup
-function SetupServerUtils() {
-  (async () => {
-    await ErrorReportUtility.ErrorReportValidation.ValidateReports();
-  })();
-}
 
 // ===== DYNAMIC ROUTES =====
 app.get('/public', (req, res) => {
@@ -149,7 +143,7 @@ app.post('/datastore-receive', (req, res) => {
 });
 
 // Redirects the user to the websites homepage
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   res.redirect("/homepage");
 });
 
@@ -173,14 +167,13 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = socketIO(server);
 
-// 
-io.on("ClientErrorReport", (msg, feedback) => {
+io.on("ClientErrorReport", async (msg, feedback) => {
   if ((typeof msg !== "string") || (typeof feedback !== "boolean")) return;
 
   
 });
 
-// Attach socket handlers for guest lifecycle
+// Attach socket handlers for APIs' lifecycle
 UserManagmentModule.attachSocketHandlers(io);
 
 // Start the server
@@ -203,8 +196,6 @@ server.listen(PORT, () => {
                         ${picocolors.cyan('T h e   D i g i t a l   W o r l d')}\n       
   `));
 });
-
-SetupServerUtils();
 
 let shuttingDown = false;
 // Shutdown handler on exit

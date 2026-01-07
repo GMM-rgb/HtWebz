@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { stdout, allowedNodeEnvironmentFlags, nextTick } = require("process");
 
 class ErrorReportValidation {
     static ClientReportsDirectory = path.join(__dirname, 'reports');
@@ -8,7 +7,7 @@ class ErrorReportValidation {
      * Validates that the client & server; directorys for error reports exist.
      * @returns {Promise<boolean>}
      */
-    static async ValidateReports() {
+    static ValidateReports() {
         if (fs === null || fs === undefined) return false;
         // Verifies that the root reports folder (directory) exists + valid
         if (!fs.existsSync(this.ClientReportsDirectory)) {
