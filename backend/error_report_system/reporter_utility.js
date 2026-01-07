@@ -69,29 +69,33 @@ class ErrorReportHelper {
              * @returns {Promise<string>}
              */
             async function formatErrorResponse(Error_DataToFormat) {
+                if (!Error_DataToFormat || !(Error_DataToFormat instanceof String)) return "ERROR Formating.";
                 /**
                  * @type {string?}
-                 */
-                let Formated = null;
-                if (!Error_DataToFormat || !(Error_DataToFormat instanceof String)) return "ERROR Formating.";
-
+                 */ let Formated = null;
                 try {
                     Formated = JSON.parse(Error_DataToFormat);
                     if (opts !== null && (opts instanceof Array) && opts.length >= 1) {
+                        /**
+                         * Variable for tracking the opts arguments index; when each one has been added.
+                         * @type {number}
+                         */
+                        let IndexValue = 0;
+                        Formated += "\n";
                         opts.forEach((arg) => {
-                            if (Formated.normalize()) {
-
+                            if ((Math.floor(Formated.length) > 0)) {
+                                Formated += `${arg}\n`;
                             }
                         });
                     }
                 } catch (FormatError) {
                     console.error(`[ERROR Formating Report Data]:\n${FormatError}`);
-                }
-
-                if (Formated !== null && Formated !== undefined) {
-                    return Formated;
-                } else {
-                    return "ERROR Formating.";
+                } finally {
+                    if (Formated !== null && Formated !== undefined) {
+                        return Formated;
+                    } else {
+                        return "ERROR Formating.";
+                    }
                 }
             }
             //

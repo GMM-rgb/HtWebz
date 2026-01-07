@@ -36,19 +36,19 @@
         -webkit-mask-position: 100% 0;
     }
     60% {
-        transform: scale(1.05) scaleX(1.1) translateY(10px);
+        transform: scale(1.0125) scaleX(1.025) translateY(10px);
         opacity: 0.8;
         mask-position: 30% 0;
         -webkit-mask-position: 30% 0;
     }
     75%, 85% {
-        transform: scale(0.9) scaleX(0.8) translateY(-5px);
+        transform: scale(0.975) scaleX(0.925) translateY(-5px);
         opacity: 0.9;
         mask-position: 10% 0;
         -webkit-mask-position: 10% 0;
     }
     80% {
-        transform: scale(0.9) scaleX(0.8) translateY(-5px);
+        transform: scale(0.95) scaleX(0.9) translateY(-5px);
         opacity: 0.9;
     }
     100% {
