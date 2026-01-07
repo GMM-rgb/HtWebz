@@ -42,6 +42,13 @@ class ErrorReportValidation {
 
 class ErrorReportHelper {
     /**
+     * Writes a new `.txt` (text) file with the report error info, etc.
+     * @returns {void}
+     */
+    static CreateNewReportFile() {
+
+    }
+    /**
      * Logs an `Error`; that's supposed to be from client machine, to server storage client directory reports.
      * @param {string} ReportedErrorMsg 
      * @param {boolean} WasFeedbackReport
@@ -49,22 +56,37 @@ class ErrorReportHelper {
      * @returns {void}
      */
     static LogClientError(ReportedErrorMsg, WasFeedbackReport, CurrentRegionTimestamp, ...opts) {
-        if (!ReportedErrorMsg || (typeof ReportedErrorMsg !== "object")) return;
+        if (!ReportedErrorMsg || !(ReportedErrorMsg instanceof String)) return;
         if (WasFeedbackReport === null) WasFeedbackReport = false;
         if (fs === null || fs === undefined) return;
+        // The finalized data response to be saved
+        let FormatedResponse = null;
 
         (async () => {
-            let FormatedResponse = null;
             /**
              * Formats the `Error` data to readable type before saving to log file.
-             * @param {*} Error_DataToFormat
+             * @param {string} Error_DataToFormat
              * @returns {Promise<string>}
              */
             async function formatErrorResponse(Error_DataToFormat) {
-                if (!Error_DataToFormat) return;
-                var Formated = undefined;
+                /**
+                 * @type {string?}
+                 */
+                let Formated = null;
+                if (!Error_DataToFormat || !(Error_DataToFormat instanceof String)) return "ERROR Formating.";
 
-                JSON.parse(Error_DataToFormat);
+                try {
+                    Formated = JSON.parse(Error_DataToFormat);
+                    if (opts !== null && (opts instanceof Array) && opts.length >= 1) {
+                        opts.forEach((arg) => {
+                            if (Formated.normalize()) {
+
+                            }
+                        });
+                    }
+                } catch (FormatError) {
+                    console.error(`[ERROR Formating Report Data]:\n${FormatError}`);
+                }
 
                 if (Formated !== null && Formated !== undefined) {
                     return Formated;
@@ -76,7 +98,7 @@ class ErrorReportHelper {
             FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
             //
             if (CurrentRegionTimestamp !== null) {
-                fs.writeFileSync(CurrentRegionTimestamp + ".txt", formatErrorResponse());
+                fs.writeFileSync(CurrentRegionTimestamp + "_" + ErrorType + ".txt", formatErrorResponse());
             }
         })();
     }
@@ -90,9 +112,7 @@ class ErrorReportHelper {
     }
 }
 
-(() => {
-    module.exports = {
-        ErrorReportValidation,
-        ErrorReportHelper
-    };
-})();
+module.exports = {
+    ErrorReportValidation,
+    ErrorReportHelper
+};
