@@ -105,6 +105,7 @@ class ErrorReportHelper {
             FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
             //
             if (RegionTimestamp !== null) {
+                if (FormatedResponse instanceof String) console.log(`Writing client Error report to Storage...\n${FormatedResponse}`);
                 fs.writeFileSync(RegionTimestamp + "_" + ErrorType + ".txt", formatErrorResponse());
             }
         })();
@@ -118,7 +119,7 @@ class ErrorReportHelper {
         if (ServerError === null || !(ServerError instanceof String)) return;
         if (RegionTimestamp === null || !(RegionTimestamp instanceof Number)) return;
 
-        
+
     }
 }
 
