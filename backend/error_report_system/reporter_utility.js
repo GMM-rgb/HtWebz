@@ -41,6 +41,9 @@ class ErrorReportValidation {
 }
 
 class ErrorReportHelper {
+    static CheckAdditionalArgumentInputs() {
+        
+    }
     /**
      * Writes a new `.txt` (text) file with the report error info, etc.
      * @returns {void}
@@ -119,7 +122,9 @@ class ErrorReportHelper {
         if (ServerError === null || !(ServerError instanceof String)) return;
         if (RegionTimestamp === null || !(RegionTimestamp instanceof Number)) return;
 
+        (async () => {
 
+        })();
     }
 }
 
