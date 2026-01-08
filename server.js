@@ -18,8 +18,11 @@ const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthor
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-//
-let FixedMissingDirectorys = null;
+/**
+ * Determines if any of the required directorys that are missing were just fixed.
+ * @type {boolean}
+ */
+let FixedMissingDirectorys = false;
 // Inital setup
 (async () => {
   FixedMissingDirectorys = await ErrorReportUtility.ErrorReportValidation.ValidateReports();
