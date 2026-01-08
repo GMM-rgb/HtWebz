@@ -52,10 +52,10 @@ class ErrorReportHelper {
     }
     /**
      * Writes a new `.txt` (text) file with the report error info, etc.
-     * @param {*}
+     * @param {any} QueriedSaveData
      * @returns {void}
      */
-    static CreateNewReportFile() {
+    static CreateNewReportFile(QueriedSaveData) {
 
     }
     /**
