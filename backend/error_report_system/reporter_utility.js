@@ -41,11 +41,18 @@ class ErrorReportValidation {
 }
 
 class ErrorReportHelper {
-    static CheckAdditionalArgumentInputs() {
-        
+    /**
+     * Checks that the function argument is available, and has more than one parameter; else it returns false.
+     * @param {Array<any>} InputArgumentsArray 
+     * @returns {boolean}
+     */
+    static HasArgumentArray(InputArgumentsArray) {
+        if (InputArgumentsArray === null || !(InputArgumentsArray instanceof Array)) return false;
+        if (InputArgumentsArray && InputArgumentsArray.length <= 0) return false; else return true;
     }
     /**
      * Writes a new `.txt` (text) file with the report error info, etc.
+     * @param {*}
      * @returns {void}
      */
     static CreateNewReportFile() {
@@ -123,7 +130,7 @@ class ErrorReportHelper {
         if (RegionTimestamp === null || !(RegionTimestamp instanceof Number)) return;
 
         (async () => {
-
+            
         })();
     }
 }
