@@ -55,11 +55,14 @@ class ErrorReportHelper {
      * @param {...*} opts
      * @returns {void}
      */
-    static LogClientError(ReportedErrorMsg, WasFeedbackReport, CurrentRegionTimestamp, ...opts) {
+    static LogClientError(ReportedErrorMsg, WasFeedbackReport, RegionTimestamp, ...opts) {
         if (!ReportedErrorMsg || !(ReportedErrorMsg instanceof String)) return;
         if (WasFeedbackReport === null) WasFeedbackReport = false;
         if (fs === null || fs === undefined) return;
-        // The finalized data response to be saved
+        /**
+         * The finalized data response to be saved.
+         * @type {string?}
+        */
         let FormatedResponse = null;
 
         (async () => {
@@ -98,11 +101,11 @@ class ErrorReportHelper {
                     }
                 }
             }
-            //
+            // Update variable to the formated Error Response from the following function attatched
             FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
             //
-            if (CurrentRegionTimestamp !== null) {
-                fs.writeFileSync(CurrentRegionTimestamp + "_" + ErrorType + ".txt", formatErrorResponse());
+            if (RegionTimestamp !== null) {
+                fs.writeFileSync(RegionTimestamp + "_" + ErrorType + ".txt", formatErrorResponse());
             }
         })();
     }
@@ -111,8 +114,11 @@ class ErrorReportHelper {
      * @param {...*} opts
      * @returns
      */
-    static LogServerError(...opts) {
+    static LogServerError(ServerError, RegionTimestamp, ...opts) {
+        if (ServerError === null || !(ServerError instanceof String)) return;
+        if (RegionTimestamp === null || !(RegionTimestamp instanceof Number)) return;
 
+        
     }
 }
 
