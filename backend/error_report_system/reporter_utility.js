@@ -52,10 +52,11 @@ class ErrorReportHelper {
     }
     /**
      * Writes a new `.txt` (text) file with the report error info, etc.
-     * @param {any} QueriedSaveData
+     * @param {any?} QueriedSaveData
+     * @param {string} DeviceType
      * @returns {void}
      */
-    static CreateNewReportFile(QueriedSaveData) {
+    static CreateNewReportFile(QueriedSaveData, DeviceType) {
 
     }
     /**
@@ -116,7 +117,7 @@ class ErrorReportHelper {
             }
             // Update variable to the formated Error Response from the following function attatched
             FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
-            //
+            // Finalize the error report file
             if (RegionTimestamp !== null) {
                 if (FormatedResponse instanceof String) console.log(`Writing client Error report to Storage...\n${FormatedResponse}`);
                 fs.writeFileSync(RegionTimestamp + "_" + ErrorType + ".txt", formatErrorResponse());

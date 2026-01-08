@@ -114,8 +114,6 @@ ___        ___        ___  ,________,  ,___    ,________
         <link rel="stylesheet"
             href="/index/assets/stylesheets/settings_menu.css" />
         <link rel="stylesheet"
-            href="/index/assets/stylesheets/info_of_the_day.css" />
-        <link rel="stylesheet"
             href="/index/assets/stylesheets/top_apps_arrangment.css" />
         <link rel="stylesheet"
             href="/index/assets/stylesheets/toolbar_extension.css" />
@@ -557,11 +555,12 @@ ___        ___        ___  ,________,  ,___    ,________
             // Fixed the coordinate system - Note: smaller Y = higher up
             const minHeight = -10; // Closer to top of SVG
             const maxHeight = window.innerWidth < 480 ? 50 : window.innerWidth < 768 ? 60 : Math.min(80, window.innerWidth * 0.05); // Further from top
+            const MinMaxMultiplier = Math.floor(Math.random() * 0.8);
             
             // Create realistic flowing wave curves
             function createWavePath() {
                 const numPoints = 6;
-                const baselineY = minHeight + (maxHeight - minHeight) * 0.4; // Baseline between min and max
+                const baselineY = Math.ceil(minHeight + (maxHeight - minHeight) * 0.2); // Baseline between min and max
                 let path = `M -10 ${baselineY}`; // Start further left to prevent gaps
                 
                 // Create gentle wave variations around the baseline
