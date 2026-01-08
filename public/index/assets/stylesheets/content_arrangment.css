@@ -360,9 +360,18 @@ counter-increment {
     will-change: transform, opacity;
 }
 
+#bottom-background-decoration>svg {
+    transition: opacity 0.4s ease-out;
+    opacity: 1;
+}
+
 @media (max-width: 812px) {
     #rootPageSection {
         padding-inline: 20px !important;
+    }
+
+    #bottom-background-decoration>svg {
+        opacity: 0 !important;
     }
 
     .main-content-section {
