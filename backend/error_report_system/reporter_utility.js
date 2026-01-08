@@ -68,7 +68,10 @@ class ErrorReportHelper {
     static LogClientError(ReportedErrorMsg, WasFeedbackReport, RegionTimestamp, ...opts) {
         if (!ReportedErrorMsg || !(ReportedErrorMsg instanceof String)) return;
         if (WasFeedbackReport === null) WasFeedbackReport = false;
-        if (fs === null || fs === undefined) return;
+        if (fs === null || fs === undefined) {
+            console.error("The [fs] package dependency failed to load, or is not installed.");
+            return;
+        }
         /**
          * The finalized data response to be saved.
          * @type {string?}
