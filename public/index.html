@@ -451,21 +451,21 @@ ___        ___        ___  ,________,  ,___    ,________
                     src="index/assets/images/Hamburger_icon.png" height="25"
                     width="25" preload="auto" />
             </button> -->
-            <button id="accountExpandInfo"
+            <button aria-label="Account Options" id="accountExpandInfo"
                 onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')" onclick="notify('Under Construction');">
                 <img id="accountExpandIcon"
                     src="index/assets/images/load_icon_5649.gif"
                     alt="Error" preload="auto" height="25" width="25" />
             </button>
 
-            <button id="appMenuOpen"
+            <button aria-label="Apps" id="appMenuOpen"
                 onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
                     id="appMenuIcon"
                     src="index/assets/images/app_button_icon.png" preload="auto"
                     aria-busy="false"
                     height="25" width="25" /><span
                     class="apps-menu-text">Apps</span></button>
-            <button id="settingsQuick"
+            <button aria-label="Settings" id="settingsQuick"
                 onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
                     <img
                         id="settingsIcon"
@@ -500,7 +500,7 @@ ___        ___        ___  ,________,  ,___    ,________
             titleRo.observe(document.getElementById('pageTitle'));
         </script>
 
-        <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
+        <div aria-label="Games" class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
             <button id="gamesMenuOpen"
                 onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
                 <div id="gamesIconWrapper" aria-sort="other">
@@ -510,7 +510,7 @@ ___        ___        ___  ,________,  ,___    ,________
                         preload="auto" height="27.5" width="27.5" />
                 </div>
                 <span class="games-menu-text">Games</span></button>
-            <button id="resourcesMenuOpen" class="ResourcesInteractable"
+            <button aria-label="Search" id="resourcesMenuOpen" class="ResourcesInteractable"
                 onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
                 <input autocomplete="off" class="search-bar-input"
                     id="SearchBarInput" type="text"
