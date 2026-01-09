@@ -4,9 +4,9 @@ let UserAccountProfilePicture, WelcomeMainContentTitle;
 window.addEventListener('DOMContentLoaded', () => {
     UserAccountProfilePicture = document.getElementById('accountExpandIcon');
     WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
-    (async () => {
-        AccountCookie = await cookieStore.set("AccountToken");
-    })();
+    // (async () => {
+    //     AccountCookie = await cookieStore.set("AccountToken");
+    // })();
 }, { once: true });
 
 socket.on('connect', async () => {
@@ -26,6 +26,18 @@ function swapWithLoading(finalURL) {
 
     // preload the final image
     const img = new Image();
+    (async () => {
+        (() => {
+            img.onwaiting = () => {
+                console.log("Loading profile icon...");
+            }
+        })();
+        await fetch('index/assets/images/load_icon_5649.gif').then(async () => {
+            await fetch('index/assets/images/icon_loading_failure.svg').then(async () => {
+                await fetch('index/assets/images/avatardefault_92824.png');
+            });
+        });
+    })();
 
     const timeoutId = setTimeout(async () => {
         console.warn("Image load timed out, falling back to failure icon.");
@@ -49,20 +61,26 @@ function swapWithLoading(finalURL) {
         UserAccountProfilePicture.src = (await fetch('index/assets/images/icon_loading_failure.svg')).url;
     };
 
-    img.onwaiting = () => {
-        console.log("Loading profile...");
-    }
-
     img.src = finalURL;
 }
 
 socket.on('welcome', async (data) => {
+    console.log("User has been registered as a temporary Geust Account.");
     localStorage.setItem('guestID', data.guestID);
+    var FormatedUserName = null;
+    /**
+     * @type {string?}
+     */
+    const GeustID = data.guestID;
+    const Normalized = GeustID.replace("_", "\s");
+    const SlicedString = Normalized.split();
+    const UserID = SlicedString[SlicedString.length];
+    FormatedUserName = Normalized.replace(" " + UserID).toString();
 
     if (data.type === "guest") {
         console.log('User is a guest.');
         if (WelcomeMainContentTitle) {
-            WelcomeMainContentTitle.textContent = `Welcome, ${data.guestID}`;
+            WelcomeMainContentTitle.textContent = `Welcome ${data.guestID}`;
         }
         swapWithLoading('index/assets/images/avatardefault_92824.png');
     } else if (data.type === "registered") {

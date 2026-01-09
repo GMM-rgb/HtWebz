@@ -221,9 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         mutationObserver.observe(document.documentElement, {
             childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['style', 'class']
+            subtree: true
         });
     }, initialDelay);
 });
