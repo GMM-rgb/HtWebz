@@ -1,5 +1,8 @@
 const fs = require("fs");
 const path = require("path");
+const colors = require("picocolors");
+
+const TimeUtilitys = require("../time_utilitys");
 
 class ErrorReportValidation {
     static ClientReportsDirectory = path.join(__dirname, 'reports');
@@ -47,23 +50,26 @@ class ErrorReportHelper {
      * @returns {boolean}
      */
     static HasArgumentArray(InputArgumentsArray) {
-        if (InputArgumentsArray === null || !(InputArgumentsArray instanceof Array)) return false;
+        if (InputArgumentsArray === null || InputArgumentsArray === undefined || !(InputArgumentsArray instanceof Array)) return false;
         if (InputArgumentsArray && InputArgumentsArray.length <= 0) return false; else return true;
     }
     /**
-     * Writes a new `.txt` (text) file with the report error info, etc.
-     * @param {any?} QueriedSaveData
-     * @param {string} DeviceType
-     * @returns {void}
+     * Writes a new `.txt` (text) file to the corresponding folder in reports; with report error info, etc.
+     * @param {string} QueriedSaveData
+     * @param {"client"|"server"} DeviceType
+     * @returns {Promise<void>}
+     * @callback then<ok>
      */
-    static CreateNewReportFile(QueriedSaveData, DeviceType) {
-
+    static async CreateNewReportFile(QueriedSaveData, DeviceType) {
+        if (!fs || QueriedSaveData === null || !(QueriedSaveData instanceof String) || (DeviceType !== "client" && DeviceType !== "server")) return null;
+        if (QueriedSaveData instanceof String) console.log(`Writing ${DeviceType.toUpperCase().toString()} Error report to Storage...\n${FormatedResponse}`);
+        fs.writeFileSync(path.join(ErrorReportValidation.ClientReportsDirectory, DeviceType, `${TimeUtilitys.TimeBasic.GetCurrentTime().replaceAll(":", "")}`), QueriedSaveData.toString());
     }
     /**
      * Logs an `Error`; that's supposed to be from client machine, to server storage client directory reports.
-     * @param {string} ReportedErrorMsg 
+     * @param {string} ReportedErrorMsg
      * @param {boolean} WasFeedbackReport
-     * @param {...*} opts
+     * @param {...any} opts
      * @returns {void}
      */
     static LogClientError(ReportedErrorMsg, WasFeedbackReport, RegionTimestamp, ...opts) {
@@ -123,8 +129,9 @@ class ErrorReportHelper {
             FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
             // Finalize the error report file
             if (RegionTimestamp !== null) {
-                if (FormatedResponse instanceof String) console.log(`Writing client Error report to Storage...\n${FormatedResponse}`);
-                fs.writeFileSync(RegionTimestamp + "_" + ErrorType + ".txt", formatErrorResponse());
+                await this.CreateNewReportFile(FormatedResponse, "client").then(() => {
+                    console.log(colors.greenBright(`SUCCESS: Successfully saved the error report file `));
+                }).catch((err) => console.error(err));
             }
         })();
     }
