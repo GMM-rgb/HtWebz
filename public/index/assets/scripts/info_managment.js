@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `.developer.updated`,
             `.developer.name`,
             `.developer.site-name`,
-            `.developer.license`
+            `.developer.license`,
+            `.appButton`,
         ];
 
         let animationCounter = 0;

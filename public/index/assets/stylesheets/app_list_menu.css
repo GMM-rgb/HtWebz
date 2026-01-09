@@ -23,7 +23,6 @@
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
   gap: 8px;
   background: var(--theme-menuBackground);
-  color: var(--theme-text);
   border-color: var(--theme-border);
 }
 
@@ -257,8 +256,8 @@
   padding-block: 12.5px;
   box-sizing: border-box;
   transition: all 0.65s ease;
-  gap: 10px;
   background: var(--theme-primary);
+  gap: 10px;
 }
 
 #appListContainer {
@@ -272,12 +271,12 @@
   padding-block: 6.5px;
   box-sizing: border-box;
   transition: all 0.65s ease;
-  gap: 10px;
   background: var(--theme-secondary);
+  gap: 10px;
 }
 
 :root {
-  --textColor: black;
+  --textColor: #333;
   --borderColor: #ccc;
   --fontFamily: 'Arial', sans-serif;
   --background: #afdeff;
@@ -285,13 +284,14 @@
 }
 
 .appButton {
+  color: var(--textColor) !important;
   cursor: pointer;
   position: relative;
   border: 2px solid #ccc;
   border-radius: 50px;
   /* Make it a circle */
   background: var(--background);
-  padding-inline: 3.5px;
+  padding-inline: 8.5px;
   padding-block: 6.5px;
   box-sizing: border-box;
   transition: all 0.65s ease;
@@ -299,20 +299,22 @@
   font-weight: bold;
   font-size: 1.75em;
   text-align: center;
+  text-overflow: ellipsis;
+  text-box-trim: trim-both;
   background: var(--theme-buttonBackground);
-  color: var(--theme-text);
   border-color: var(--theme-border);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease !important;
   /* Smooth transition for background and color */
 }
 
 .appButton:hover {
   /* Change the background color on hover */
   background: var(--theme-buttonBackgroundHover, #ccc);
-  /* Fallback to #ccc if var is not set */
-  color: var(--theme-textHover, white);
+  /* Fallback to white if var is not set */
+  color: var(--theme-textHover, white) !important;
   /* Fallback to white if var is not set */
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
+  border-color: rgb(179, 179, 179) !important;
   border-radius: var(--borderRadius);
 }
 
