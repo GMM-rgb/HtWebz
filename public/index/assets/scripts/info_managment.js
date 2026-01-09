@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let animationCounter = 0;
         let observer;
+        let activeAnimations = 0;
 
         const createObserver = () => {
             if (observer) {
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             animationCounter = 0;
+            activeAnimations = 0; // Reset active animations count
 
             observer = new IntersectionObserver((entries) => {
                 // Sort entries by their DOM order
@@ -114,11 +116,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const delay = animationCounter * 100;
                     animationCounter++;
+                    activeAnimations++;
 
                     const rect = entry.boundingClientRect;
                     const fromDirection = rect.top > window.innerHeight * 0.7 ? 'bottom' : 'top';
 
                     handleElementAnimation(entry.target, delay, 'in', fromDirection);
+                    
+                    // Decrease counter after animation completes
+                    setTimeout(() => {
+                        activeAnimations = Math.max(0, activeAnimations - 1);
+                    }, delay + 600);
+                    
                     observer.unobserve(entry.target);
                 });
             }, {
@@ -150,9 +159,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Watch for display property changes and re-animate in sequence
         let reanimateTimeout;
+        
         const mutationObserver = new MutationObserver(() => {
             clearTimeout(reanimateTimeout);
             reanimateTimeout = setTimeout(() => {
+                let hasVisibilityChange = false;
+                
+                // First check if any elements changed from hidden to visible
+                selectors.forEach(sel => {
+                    const matchingElements = document.querySelectorAll(sel);
+                    
+                    matchingElements.forEach(el => {
+                        const isVisible = el.offsetParent !== null;
+                        const wasHidden = el.dataset.wasHidden === 'true';
+                        
+                        if (isVisible && wasHidden) {
+                            hasVisibilityChange = true;
+                        }
+                    });
+                });
+                
+                // If something became visible, restart immediately. Otherwise check if animating
+                if (!hasVisibilityChange && activeAnimations > 0) return;
+                
                 let hasChanges = false;
                 
                 selectors.forEach(sel => {
@@ -187,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     observer = createObserver();
                     observeElements();
                 }
-            }, 50);
+            }, 100);
         });
 
         mutationObserver.observe(document.documentElement, {
