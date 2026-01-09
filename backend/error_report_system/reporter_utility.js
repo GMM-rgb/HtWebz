@@ -89,19 +89,23 @@ class ErrorReportHelper {
                 if (!Error_DataToFormat || !(Error_DataToFormat instanceof String)) return "ERROR Formating.";
                 /**
                  * @type {string?}
-                 */ let Formated = null;
+                 */
+                let Formated = null;
                 try {
-                    Formated = JSON.parse(Error_DataToFormat);
-                    if (opts !== null && (opts instanceof Array) && opts.length >= 1) {
+                    if (ErrorReportHelper.HasArgumentArray(opts)) {
                         /**
                          * Variable for tracking the opts arguments index; when each one has been added.
                          * @type {number}
                          */
                         let IndexValue = 0;
-                        Formated += "\n";
                         opts.forEach((arg) => {
-                            if ((Math.floor(Formated.length) > 0)) {
-                                Formated += `${arg}\n`;
+                            if ((Math.floor(opts.length) > 0)) {
+                                IndexValue += 1;
+                                if (IndexValue < opts.length) {
+                                    Formated += `${arg}\n`;
+                                } else {
+                                    Formated += `${arg}`;
+                                }
                             }
                         });
                     }
