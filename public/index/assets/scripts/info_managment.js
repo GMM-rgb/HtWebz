@@ -92,36 +92,109 @@ document.addEventListener('DOMContentLoaded', () => {
             `.developer.license`
         ];
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
+        let animationCounter = 0;
+        let observer;
 
-                const allEls = Array.from(document.querySelectorAll('.page-element'));
-                const index = allEls.indexOf(entry.target);
-                const delay = isReloading ? 600 + (index * 100) : index * 100;
+        const createObserver = () => {
+            if (observer) {
+                observer.disconnect();
+            }
 
-                const rect = entry.boundingClientRect;
-                const fromDirection = rect.top > window.innerHeight * 0.7 ? 'bottom' : 'top';
+            animationCounter = 0;
 
-                handleElementAnimation(entry.target, delay, 'in', fromDirection);
-                observer.unobserve(entry.target);
+            observer = new IntersectionObserver((entries) => {
+                // Sort entries by their DOM order
+                const sortedEntries = entries.sort((a, b) => {
+                    const allEls = Array.from(document.querySelectorAll('.page-element'));
+                    return allEls.indexOf(a.target) - allEls.indexOf(b.target);
+                });
+
+                sortedEntries.forEach((entry, batchIndex) => {
+                    if (!entry.isIntersecting) return;
+
+                    const delay = animationCounter * 100;
+                    animationCounter++;
+
+                    const rect = entry.boundingClientRect;
+                    const fromDirection = rect.top > window.innerHeight * 0.7 ? 'bottom' : 'top';
+
+                    handleElementAnimation(entry.target, delay, 'in', fromDirection);
+                    observer.unobserve(entry.target);
+                });
+            }, {
+                threshold: 0.05,
+                rootMargin: '100px 0px 100px 0px'
             });
-        }, {
-            threshold: 0.05,
-            rootMargin: '100px 0px 100px 0px'
+
+            return observer;
+        };
+
+        observer = createObserver();
+
+        const observeElements = () => {
+            selectors.forEach(sel => {
+                const matchingElements = document.querySelectorAll(sel);
+                
+                matchingElements.forEach(el => {
+                    if (!el.classList.contains('page-element')) {
+                        el.classList.add('page-element');
+                        if (isFreshLoad) el.classList.add('initial-state');
+                    }
+                    observer.observe(el);
+                });
+            });
+        };
+
+        // Initial observation
+        observeElements();
+
+        // Watch for display property changes and re-animate in sequence
+        let reanimateTimeout;
+        const mutationObserver = new MutationObserver(() => {
+            clearTimeout(reanimateTimeout);
+            reanimateTimeout = setTimeout(() => {
+                let hasChanges = false;
+                
+                selectors.forEach(sel => {
+                    const matchingElements = document.querySelectorAll(sel);
+                    
+                    matchingElements.forEach(el => {
+                        const isVisible = el.offsetParent !== null;
+                        const wasHidden = el.dataset.wasHidden === 'true';
+                        
+                        // Element just became visible
+                        if (isVisible && wasHidden) {
+                            el.dataset.wasHidden = 'false';
+                            hasChanges = true;
+                            
+                            // Reset animation state
+                            el.classList.remove('animate-in', 'animate-out');
+                            el.classList.add('initial-state');
+                        }
+                        // Element just became hidden
+                        else if (!isVisible && !wasHidden) {
+                            el.dataset.wasHidden = 'true';
+                        }
+                        // Track initial visibility state
+                        else if (!el.dataset.wasHidden) {
+                            el.dataset.wasHidden = isVisible ? 'false' : 'true';
+                        }
+                    });
+                });
+                
+                // Completely restart the observer from scratch
+                if (hasChanges) {
+                    observer = createObserver();
+                    observeElements();
+                }
+            }, 50);
         });
 
-        // === KEY UPGRADE: Use querySelectorAll to get ALL matching elements ===
-        selectors.forEach(sel => {
-            const matchingElements = document.querySelectorAll(sel);
-            
-            matchingElements.forEach(el => {
-                if (!el.classList.contains('page-element')) {
-                    el.classList.add('page-element');
-                    if (isFreshLoad) el.classList.add('initial-state');
-                    observer.observe(el);
-                }
-            });
+        mutationObserver.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class']
         });
     }, initialDelay);
 });
@@ -129,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // === CORE ANIMATION HANDLER ===
 function handleElementAnimation(element, delay = 0, direction = 'in', fromDirection = 'top') {
     setTimeout(() => {
-        element.classList.remove('animate-in', 'animate-out');
+        element.classList.remove('animate-in', 'animate-out', 'initial-state');
         element.style.animationDelay = '0ms';
         element.classList.add(`animate-${direction}`, `from-${fromDirection}`);
     }, delay);

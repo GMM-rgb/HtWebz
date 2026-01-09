@@ -1,9 +1,10 @@
 #appMenu {
   display: none;
   flex-direction: column;
+  flex-shrink: 1;
   position: fixed;
   border: 3px solid #ccc;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
   padding: 10px;
   padding-block-end: calc(50px + 20px);
   background: linear-gradient(rgba(5, 134, 227, 0.75),
@@ -12,7 +13,7 @@
       rgba(245, 245, 245, 0.4),
       rgba(139, 139, 139, 0.35));
   height: 100%;
-  width: 40%;
+  max-width: 45vw;
   box-sizing: border-box;
   transition: all 0.3s ease;
   z-index: 9999 !important;
@@ -67,13 +68,11 @@
 
   50% {
     transform: translateX(83px);
-    border-radius: 0 0 5px 5px;
   }
 
   70%,
   100% {
-    transform: translateX(10px);
-    border-radius: 2px 2px 10px 10px;
+    transform: translateX(0);
   }
 
   90% {
@@ -152,7 +151,9 @@
 
 @media (max-width: 763px) {
   #appMenu {
-    width: 80% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 0 !important;
   }
 
   .settings-container {
