@@ -26,3 +26,10 @@ pm2 start ecosystem.config.js
 pm2 save
 pm2 startup  # Adds auto-start on system boot
 ```
+
+### Notes:
+- If need to restart run...
+```bash
+pm2 restart htwebz
+pm2 logs htwebz
+```

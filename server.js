@@ -9,7 +9,7 @@ const readline = require('readline');
 const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
 // Critical Project Modules
-const AutoUpdater = require('./backend/auto_updater');
+const AutoUpdater = require('./backend/mainifest_server_auto_update');
 // External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
@@ -212,16 +212,18 @@ server.listen(PORT, () => {
                         ${picocolors.cyan('T h e   D i g i t a l   W o r l d')}\n       
   `));
   // Initalize the auto-updater utility system
-  updater.startAutoUpdate();
+  (async () => {
+    await updater.startAutoUpdate();
+  })();
 });
 
 let shuttingDown = false;
 // Shutdown handler on exit
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   if (shuttingDown) return;
   shuttingDown = true;
   
-  updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
+  await updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
 
   let invalidShown = false;
   let confirmed = false;

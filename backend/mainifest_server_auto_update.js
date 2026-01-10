@@ -1,4 +1,4 @@
-// backend/auto_updater.js
+// backend/manifest_server_auto_updater.js
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -179,9 +179,9 @@ class AutoUpdater {
    * Start automatic update checking
    */
   async startAutoUpdate() {
-    console.log(picocolors.green('\n🤖 Auto-updater started'));
-    console.log(picocolors.gray(`   Checking for updates every ${this.checkInterval / 1000} seconds`));
-    console.log(picocolors.gray(`   Branch: ${this.branch}\n`));
+    console.log(picocolors.green('\nAuto-updater started'));
+    console.log(picocolors.gray(`\tChecking for updates every ${this.checkInterval / 1000} seconds`));
+    console.log(picocolors.gray(`\tBranch: ${this.branch}\n`));
 
     // Get initial commit hash
     this.lastCommitHash = await this.getCurrentCommitHash();
@@ -224,6 +224,4 @@ class AutoUpdater {
   }
 }
 
-module.exports = {
-    AutoUpdater
-};
+module.exports = AutoUpdater;
