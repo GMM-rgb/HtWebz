@@ -72,7 +72,7 @@ class ErrorReportHelper {
      * @param {...any} opts
      * @returns {void}
      */
-    static LogClientError(ReportedErrorMsg, WasFeedbackReport, RegionTimestamp, ...opts) {
+    static LogClientError(ReportedErrorMsg, WasFeedbackReport, ...opts) {
         if (!ReportedErrorMsg || !(ReportedErrorMsg instanceof String)) return;
         if (WasFeedbackReport === null) WasFeedbackReport = false;
         if (fs === null || fs === undefined) {
@@ -128,22 +128,19 @@ class ErrorReportHelper {
             // Update variable to the formated Error Response from the following function attatched
             FormatedResponse = await formatErrorResponse(ReportedErrorMsg);
             // Finalize the error report file
-            if (RegionTimestamp !== null) {
-                await this.CreateNewReportFile(FormatedResponse, "client").then(() => {
-                    console.log(colors.greenBright(`SUCCESS: Successfully saved the error report file `));
-                }).catch((err) => console.error(err));
-            }
+            await this.CreateNewReportFile(FormatedResponse, "client").then(() => {
+                console.log(colors.greenBright(`SUCCESS: Successfully saved the error report file `));
+            }).catch((err) => console.error(err));
         })();
     }
     /**
      * Logs an `Error`, and stores the server error; in server storage reports.
-     * @param {...*} opts
+     * @param {string} ServerError
+     * @param {...any} opts
      * @returns
      */
-    static LogServerError(ServerError, RegionTimestamp, ...opts) {
+    static LogServerError(ServerError, ...opts) {
         if (ServerError === null || !(ServerError instanceof String)) return;
-        if (RegionTimestamp === null || !(RegionTimestamp instanceof Number)) return;
-
         (async () => {
             
         })();

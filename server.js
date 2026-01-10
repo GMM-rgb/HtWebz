@@ -8,6 +8,8 @@ const socketIO = require('socket.io');
 const readline = require('readline');
 const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
+// Critical Project Modules
+const AutoUpdater = require('./backend/auto_updater');
 // External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
@@ -174,6 +176,13 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = socketIO(server);
 
+const updater = new AutoUpdater({
+  checkInterval: 300000, // Check every 5 minutes for updates
+  branch: 'Stable_Main_1', // Main production git branch
+  autoRestart: true,
+  repositoryPath: __dirname
+});
+
 io.on("ClientErrorReport", async (msg, feedback) => {
   if ((typeof msg !== "string") || (typeof feedback !== "boolean")) return;
 
@@ -202,6 +211,8 @@ server.listen(PORT, () => {
                               
                         ${picocolors.cyan('T h e   D i g i t a l   W o r l d')}\n       
   `));
+  // Initalize the auto-updater utility system
+  updater.startAutoUpdate();
 });
 
 let shuttingDown = false;
@@ -209,6 +220,8 @@ let shuttingDown = false;
 process.on('SIGINT', () => {
   if (shuttingDown) return;
   shuttingDown = true;
+  
+  updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
 
   let invalidShown = false;
   let confirmed = false;
