@@ -18,6 +18,9 @@ const ChatSystemMain = require("./backend/chat_system/chat_system_main");
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
 
+picocolors.createColors({ useColor: true });
+process.env.FORCE_COLOR = '3';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 /**
@@ -37,7 +40,7 @@ process.stdin.setEncoding('utf8');
 
 // ===== DOMAIN FORWARDING CONFIGURATION =====
 const ENABLE_DOMAIN_FORWARDING = false; // Toggle: false to disable for development mode
-const TARGET_DOMAIN = 'htwebz.io';
+const TARGET_DOMAIN = 'htwebz.com';
 // ============================================
 
 // Define the directory to serve (the HtWebz/public folder only)

@@ -3,6 +3,10 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const picocolors = require('picocolors');
+const { clearInterval } = require('timers');
+
+picocolors.createColors({ useColor: true });
+process.env.FORCE_COLOR = '3';
 
 class AutoUpdater {
   constructor(options = {}) {
@@ -17,6 +21,8 @@ class AutoUpdater {
 
   /**
    * Execute a shell command and return a promise
+   * @param {string} command
+   * @returns {Promise<any?>}
    */
   executeCommand(command) {
     return new Promise((resolve, reject) => {
@@ -63,10 +69,10 @@ class AutoUpdater {
   async checkForUpdates() {
     try {
       await this.fetchUpdates();
-      
+
       const localHash = await this.executeCommand('git rev-parse HEAD');
       const remoteHash = await this.executeCommand(`git rev-parse origin/${this.branch}`);
-      
+
       return localHash !== remoteHash;
     } catch (error) {
       console.error(picocolors.red('Error checking for updates:'), error);
@@ -96,10 +102,10 @@ class AutoUpdater {
   async updateDependencies() {
     try {
       console.log(picocolors.yellow('Updating dependencies...'));
-      
+
       // Check if package.json was modified
       const status = await this.executeCommand('git diff HEAD@{1} HEAD --name-only');
-      
+
       if (status.includes('package.json') || status.includes('package-lock.json')) {
         console.log(picocolors.cyan('Package files changed, running npm install...'));
         await this.executeCommand('npm install');
@@ -113,7 +119,7 @@ class AutoUpdater {
       console.error(picocolors.red('Error updating dependencies:'), error);
       return false;
     }
-  }
+  } 
 
   /**
    * Restart the server
@@ -121,7 +127,7 @@ class AutoUpdater {
   restartServer() {
     console.log(picocolors.yellow('\n🔄 Restarting server...'));
     console.log(picocolors.cyan('Shutting down current process...\n'));
-    
+
     // Exit with code 0 - PM2 or nodemon will restart automatically
     setTimeout(() => {
       process.exit(0);
@@ -179,22 +185,33 @@ class AutoUpdater {
    * Start automatic update checking
    */
   async startAutoUpdate() {
+    clearInterval(this.updateTimer);
     console.log(picocolors.green('\nAuto-updater started'));
     console.log(picocolors.gray(`\tChecking for updates every ${this.checkInterval / 1000} seconds`));
     console.log(picocolors.gray(`\tBranch: ${this.branch}\n`));
 
     // Get initial commit hash
     this.lastCommitHash = await this.getCurrentCommitHash();
+    let TimeoutDuration = this.checkInterval || 0;
 
-    // Start periodic checking
-    this.updateTimer = setInterval(async () => {
-      const hasUpdates = await this.checkForUpdates();
-      
-      if (hasUpdates) {
-        console.log(picocolors.green('\n✨ New updates available!'));
-        await this.performUpdate();
-      }
-    }, this.checkInterval);
+    (() => {
+      // Start periodic checking
+      this.updateTimer = setInterval(async () => {
+        const hasUpdates = await this.checkForUpdates();
+
+        if (hasUpdates) {
+          console.log(picocolors.green('\n✨ New updates available!'));
+          await this.performUpdate();
+        } else {
+          console.log(picocolors.gray(`[${new Date().toLocaleTimeString()}] ✓ No updates found - already up to date`));
+        }
+      }, this.checkInterval);
+    })();
+
+    setInterval(() => {
+      TimeoutDuration -= 100;
+      console.log(`Time till next Update Check ${TimeoutDuration}`);
+    }, 1000);
   }
 
   /**
@@ -214,7 +231,7 @@ class AutoUpdater {
   async triggerUpdate() {
     console.log(picocolors.cyan('\n📥 Manual update triggered...'));
     const hasUpdates = await this.checkForUpdates();
-    
+
     if (hasUpdates) {
       return await this.performUpdate();
     } else {
