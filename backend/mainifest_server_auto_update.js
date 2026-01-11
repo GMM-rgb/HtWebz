@@ -192,7 +192,7 @@ class AutoUpdater {
 
     // Get initial commit hash
     this.lastCommitHash = await this.getCurrentCommitHash();
-    let TimeoutDuration = this.checkInterval || 0;
+    var TimeoutDuration = this.checkInterval || 0;
 
     (() => {
       // Start periodic checking
@@ -206,12 +206,14 @@ class AutoUpdater {
           console.log(picocolors.gray(`[${new Date().toLocaleTimeString()}] ✓ No updates found - already up to date`));
         }
       }, this.checkInterval);
+      (() => {
+        setInterval(() => console.log(`Time till next Update Check ${TimeoutDuration}`), 5000);
+      })();
+      (() => {
+        setInterval(() => TimeoutDuration -= 100, 1000);
+      })();
     })();
 
-    setInterval(() => {
-      TimeoutDuration -= 100;
-      console.log(`Time till next Update Check ${TimeoutDuration}`);
-    }, 1000);
   }
 
   /**

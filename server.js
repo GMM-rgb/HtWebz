@@ -22,7 +22,7 @@ picocolors.createColors({ useColor: true });
 process.env.FORCE_COLOR = '3';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5058;
 /**
  * Determines if any of the required directorys that are missing were just fixed.
  * @type {boolean}

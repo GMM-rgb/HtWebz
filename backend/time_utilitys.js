@@ -1,3 +1,4 @@
+
 class TimeBasic {
     /**
      * Gets the current time from the running system.
