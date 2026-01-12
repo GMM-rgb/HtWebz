@@ -1,6 +1,11 @@
 let AccountCookie = null;
 let UserAccountProfilePicture, WelcomeMainContentTitle;
 
+function UpdateUserGeustBool(isGeust) {
+    if (isGeust === null || !(isGeust instanceof Boolean)) return;
+    
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     UserAccountProfilePicture = document.getElementById('accountExpandIcon');
     WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
@@ -68,7 +73,6 @@ socket.on('welcome', async (data) => {
     console.log("User has been registered as a temporary Geust Account.");
     localStorage.setItem('guestID', data.guestID);
     let FormatedUserName = null;
-
     function TrimUserID() {
         /**
          * @type {string?}
@@ -76,12 +80,12 @@ socket.on('welcome', async (data) => {
         const GeustID = data.guestID;
         const Normalized = GeustID.replace("_", " ");
         const SlicedString = Normalized.split(" ");
-        const UserID = SlicedString[SlicedString.length - 1];
+        const UserID = SlicedString[SlicedString.length - 1].toString();
         FormatedUserName = Normalized.replace(" " + UserID, "").toString().trimStart();
         // console.log(SlicedString);
         // console.log(UserID);
         // console.log(FormatedUserName);
-        console.log(`%cTrimmed Username ID successfully.`, 'color: lime;');
+        if (FormatedUserName !== null && (typeof FormatedUserName === "string")) console.log(`%cTrimmed Username ID successfully.`, 'color: lime;');
     }
     TrimUserID();
 
