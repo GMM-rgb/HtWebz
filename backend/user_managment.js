@@ -30,8 +30,8 @@ function generateGuestUserID() {
 
 // Hook into socket connections to manage guest lifecycle
 function attachSocketHandlers(io) {
-  io.on('connection', (socket) => {
-    socket.on('registerGuest', (data) => {
+  io.on('connection', async (socket) => {
+    (socket || io).on('registerGuest', (data) => {
       let guestID = data.guestID;
 
       if (!guestID || !CurrentUsersOnline[guestID]) {
@@ -46,9 +46,9 @@ function attachSocketHandlers(io) {
       UserManagmentLogger(`${userType} connected: ${guestID}`);
 
       // Send ID and type back to client
-      socket.emit('welcome', { guestID, type: userType });
+      (socket || io).emit('welcome', { guestID, type: userType });
 
-      socket.on('disconnect', () => {
+      (socket || io).on('disconnect', () => {
         delete CurrentUsersOnline[guestID];
         UserManagmentLogger(`${userType} disconnected: ${guestID}`);
       });

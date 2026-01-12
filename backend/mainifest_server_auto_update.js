@@ -206,14 +206,7 @@ class AutoUpdater {
           console.log(picocolors.gray(`[${new Date().toLocaleTimeString()}] ✓ No updates found - already up to date`));
         }
       }, this.checkInterval);
-      (() => {
-        setInterval(() => console.log(`Time till next Update Check ${TimeoutDuration}`), 5000);
-      })();
-      (() => {
-        setInterval(() => TimeoutDuration -= 100, 1000);
-      })();
     })();
-
   }
 
   /**

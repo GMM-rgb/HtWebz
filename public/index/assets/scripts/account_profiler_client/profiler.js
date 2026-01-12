@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 socket.on('connect', async () => {
     let storedAccountToken = null;
     const storedGuestID = localStorage.getItem('guestID');
-    if (storedGuestID && storedAccountToken === null) {
+    if (storedGuestID || storedGuestID === null && storedAccountToken === null) {
         console.log("Registering as geust..." + `\tID: ${storedGuestID}`);
         socket.emit('registerGuest', { guestID: storedGuestID });
     }
@@ -67,7 +67,7 @@ function swapWithLoading(finalURL) {
 socket.on('welcome', async (data) => {
     console.log("User has been registered as a temporary Geust Account.");
     localStorage.setItem('guestID', data.guestID);
-    var FormatedUserName = null;
+    let FormatedUserName = null;
     /**
      * @type {string?}
      */
@@ -75,7 +75,8 @@ socket.on('welcome', async (data) => {
     const Normalized = GeustID.replace("_", "\s");
     const SlicedString = Normalized.split();
     const UserID = SlicedString[SlicedString.length];
-    FormatedUserName = Normalized.replace(" " + UserID).toString();
+    FormatedUserName = Normalized.replace(" " + UserID, "").toString();
+    console.log(FormatedUserName);
 
     if (data.type === "guest") {
         console.log('User is a guest.');
