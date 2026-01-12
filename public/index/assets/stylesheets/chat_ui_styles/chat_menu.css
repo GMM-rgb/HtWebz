@@ -23,9 +23,18 @@
     gap: 8px;
 }
 
-.user-chat-menu>input {
+#SearchUserChat {
     border-radius: 15px;
     border: 3px solid #ccc;
+    outline-color: rgba(5, 134, 227, 0.75);
+    outline-width: 2px;
+    outline-style: none;
+    outline-offset: 1px;
+    padding-inline: 5px;
+}
+
+#SearchUserChat:focus-within {
+    outline-style: solid !important;
 }
 
 .chats-list-container {
