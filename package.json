@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js",
-    "test": "cmd && echo \"No test currently please enter start. \" && exit 1"
+    "test": "cmd && echo \"No test currently please enter start. \" && exit 1",
+    "serve": ""
   },
   "dependencies": {
     "body-parser": "^2.2.0",
@@ -13,6 +14,7 @@
     "http": "^0.0.1-security",
     "node-fetch": "^3.3.2",
     "path": "^0.12.7",
+    "pm2": "^6.0.14",
     "readline": "^1.3.0",
     "socket": "^1.1.25",
     "socket.io": "^4.8.1"

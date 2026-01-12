@@ -33,3 +33,7 @@ pm2 startup  # Adds auto-start on system boot
 pm2 restart htwebz
 pm2 logs htwebz
 ```
+
+```bash
+%npm% exec -g pm2
+```
