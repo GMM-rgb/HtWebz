@@ -68,20 +68,27 @@ socket.on('welcome', async (data) => {
     console.log("User has been registered as a temporary Geust Account.");
     localStorage.setItem('guestID', data.guestID);
     let FormatedUserName = null;
-    /**
-     * @type {string?}
-     */
-    const GeustID = data.guestID;
-    const Normalized = GeustID.replace("_", "\s");
-    const SlicedString = Normalized.split();
-    const UserID = SlicedString[SlicedString.length];
-    FormatedUserName = Normalized.replace(" " + UserID, "").toString();
-    console.log(FormatedUserName);
+
+    function TrimUserID() {
+        /**
+         * @type {string?}
+         */
+        const GeustID = data.guestID;
+        const Normalized = GeustID.replace("_", " ");
+        const SlicedString = Normalized.split(" ");
+        const UserID = SlicedString[SlicedString.length - 1];
+        FormatedUserName = Normalized.replace(" " + UserID, "").toString().trimStart();
+        // console.log(SlicedString);
+        // console.log(UserID);
+        // console.log(FormatedUserName);
+        console.log(`%cTrimmed Username ID successfully.`, 'color: lime;');
+    }
+    TrimUserID();
 
     if (data.type === "guest") {
         console.log('User is a guest.');
         if (WelcomeMainContentTitle) {
-            WelcomeMainContentTitle.textContent = `Welcome ${data.guestID}`;
+            WelcomeMainContentTitle.textContent = `Welcome ${FormatedUserName || data.guestID}`;
         }
         swapWithLoading('index/assets/images/avatardefault_92824.png');
     } else if (data.type === "registered") {
