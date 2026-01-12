@@ -31,6 +31,7 @@
     outline-style: none;
     outline-offset: 1px;
     padding-inline: 5px;
+    padding-block: 2.5px;
 }
 
 #SearchUserChat:focus-within {
