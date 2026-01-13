@@ -203,7 +203,7 @@ class AutoUpdater {
           console.log(picocolors.green('\n✨ New updates available!'));
           await this.performUpdate();
         } else {
-          console.log(picocolors.gray(`[${new Date().toLocaleTimeString()}] ✓ No updates found - already up to date`));
+          console.log(picocolors.gray(`[${new Date().toLocaleTimeString().toString()}] ✓ No updates found - already up to date`));
         }
       }, this.checkInterval);
     })();
