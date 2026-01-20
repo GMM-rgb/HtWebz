@@ -1,5 +1,6 @@
 #appMenu {
   display: none;
+  object-fit: fill;
   position: fixed;
   flex-direction: column;
   flex-shrink: 1;
