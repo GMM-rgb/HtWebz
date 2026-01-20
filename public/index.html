@@ -127,6 +127,8 @@ ___        ___        ___  ,________,  ,___    ,________
             href="/index/assets/stylesheets/featured_styles/featured_element_styles.css" />
         <link rel="stylesheet"
             href="/index/assets/stylesheets/settings_styles/UI_interactable_styles.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/user_arrangment_interface.css" />
         <i>
             <link rel="apple-touch-icon"
                 href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
@@ -359,42 +361,6 @@ ___        ___        ___  ,________,  ,___    ,________
     </i>
 
     <body>
-        <div id="appMenu">
-            <div class="top-app-menu-section">
-                <h2 id="appMenuTitle">Apps</h2>
-                <button id="closeAppMenu">X</button>
-            </div>
-            <!-- <div class="settings-container" id="settingsContainer">
-            <text class>This is the settings section here you will find user
-                costumization. Such as text size, color
-                theme, and much more!</text>
-        </div> -->
-            <div class="appsContainer">
-                <p id="appsTextTag">Apps</p>
-                <div id="appList">
-                    <div id="appListContainer">
-                        <button class="appButton" id="searcherAppButton"
-                            onclick="notify('Redirecting...')">Chat</button>
-                        <button class="appButton"
-                            id="textEditorAppButton">Text Editor</button>
-                    </button>
-                </div>
-                <div id="appListFooter">
-                    <p>More Apps Coming Soon...</p>
-                </div>
-                <!-- Navigation control -->
-                <script>
-                    const ChatBtn = document.getElementById("searcherAppButton");
-
-                    ChatBtn.onclick = () => {
-                        (async () => {
-                            window.location.href = "/chat";
-                        })();
-                    }
-                </script>
-            </div>
-        </div>
-    </div>
 
     <span id="notification" class="notification"></span>
 
@@ -442,90 +408,128 @@ ___        ___        ___  ,________,  ,___    ,________
         if (connected) SendDataToServer(true, TestDataDefintion);
     </script>
 
-    <section id="topUserInterfaceBar">
-        <div class="appMenuOpenButtons">
-
-            <!-- <button id="expandMenuToolbar"
-                onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
-                <img id="expandToolbarIcon"
-                    src="index/assets/images/Hamburger_icon.png" height="25"
-                    width="25" preload="auto" />
-            </button> -->
-            <button aria-label="Account Options" id="accountExpandInfo"
-                onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')" onclick="notify('Under Construction');">
-                <img id="accountExpandIcon"
-                    src="index/assets/images/load_icon_5649.gif"
-                    alt="Error" preload="auto" height="25" width="25" />
-            </button>
-
-            <button aria-label="Apps" id="appMenuOpen"
-                onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
-                    id="appMenuIcon"
-                    src="index/assets/images/app_button_icon.png" preload="auto"
-                    aria-busy="false"
-                    height="25" width="25" /><span
-                    class="apps-menu-text">Apps</span></button>
-            <button aria-label="Settings" id="settingsQuick"
-                onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
-                    <img
-                        id="settingsIcon"
-                        src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg"
-                        preload="auto"
-                        aria-busy="false" height="25"
-                        width="25" />
-                <span class="settings-quick-text">Settings</span></button>
-        </div>
-
-        <h1 id="pageTitle">HtWebz &ndash; Homepage</h1>
-
-        <a href="/homepage">
-            <div id="mainLogo"
-                onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
-                <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
-                    alt="HtWebz Logo" width="60" height="60"
-                    style="image-rendering: pixelated !important; user-select: none !important;" />
+    <section class="staticStickyUiFlex">
+        <div id="appMenu">
+            <div class="top-app-menu-section">
+                <div class="app-menu-title-container">
+                    <h2 id="appMenuTitle">Apps</h2>
+                </div>
+                <!-- Close Button for App Menu -->
+                <button id="closeAppMenu">X</button>
             </div>
-        </a>
-
-        <script name="TruncateTextScript" src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
-        <script>
-            // Run once on load
-            self.onload = async () => {
-                truncateEllipsis('pageTitle');
-            }
-            // Re-run automatically if the element resizes
-            const titleRo = new ResizeObserver(() => {
-                truncateEllipsis('pageTitle');
-            });
-            titleRo.observe(document.getElementById('pageTitle'));
-        </script>
-
-        <div aria-label="Games" class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-            <button id="gamesMenuOpen"
-                onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
-                <div id="gamesIconWrapper" aria-sort="other">
-                    <img id="gamesMenuIcon"
-                        src="index/assets/images/console_remote_controller.png"
-                        alt="Games Icon"
-                        preload="auto" height="27.5" width="27.5" />
+            <!-- The App Menu Contents -->
+            <div class="appsContainer">
+                <p id="appsTextTag">Apps</p>
+                <div id="appList">
+                    <div id="appListContainer">
+                        <button class="appButton" id="searcherAppButton"
+                            onclick="notify('Redirecting...')">Chat</button>
+                        <button class="appButton" id="textEditorAppButton"
+                            onclick="notify('Redirecting...')">Text Editor</button>
+                    </button>
                 </div>
-                <span class="games-menu-text">Games</span></button>
-            <button aria-label="Search" id="resourcesMenuOpen" class="ResourcesInteractable"
-                onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
-                <input autocomplete="off" class="search-bar-input"
-                    id="SearchBarInput" type="text"
-                    placeholder="Type here to search..." />
-                <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
-                    <img id="resourcesMenuIcon"
-                        src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
-                        alt="Resources Icon" preload="auto" height="27.5"
-                        width="27.5" />
+                <div id="appListFooter">
+                    <p>More Apps Coming Soon...</p>
                 </div>
-                <span class="resources-menu-text">Search</span>
-            </button>
+                    <!-- Navigation control -->
+                    <script>
+                        const ChatBtn = document.getElementById("searcherAppButton");
+
+                        ChatBtn.onclick = () => {
+                            (async () => {
+                                window.location.href = "/chat";
+                            })();
+                        }
+                    </script>
+                </div>
+            </div>
         </div>
-        <div id="search-results"
-            aria-label="Search Results List"><!-- [Search Results Elements] --></div>
+        <!---->
+        <section id="topUserInterfaceBar">
+            <div class="appMenuOpenButtons">
+
+                <!-- <button id="expandMenuToolbar"
+                    onmouseenter="setupTooltip('#expandMenuToolbar', 'Click to Expand Toolbar.')">
+                    <img id="expandToolbarIcon"
+                        src="index/assets/images/Hamburger_icon.png" height="25"
+                        width="25" preload="auto" />
+                </button> -->
+                <button aria-label="Account Options" id="accountExpandInfo"
+                    onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')" onclick="notify('Under Construction');">
+                    <img id="accountExpandIcon"
+                        src="index/assets/images/load_icon_5649.gif"
+                        alt="Error" preload="auto" height="25" width="25" />
+                </button>
+
+                <button aria-label="Apps" id="appMenuOpen"
+                    onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
+                        id="appMenuIcon"
+                        src="index/assets/images/app_button_icon.png" preload="auto"
+                        aria-busy="false"
+                        height="25" width="25" /><span
+                        class="apps-menu-text">Apps</span></button>
+                <button aria-label="Settings" id="settingsQuick"
+                    onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
+                        <img
+                            id="settingsIcon"
+                            src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg"
+                            preload="auto"
+                            aria-busy="false" height="25"
+                            width="25" />
+                    <span class="settings-quick-text">Settings</span></button>
+            </div>
+
+            <h1 id="pageTitle">HtWebz &ndash; Homepage</h1>
+
+            <a href="/homepage">
+                <div id="mainLogo"
+                    onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
+                    <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
+                        alt="HtWebz Logo" width="60" height="60"
+                        style="image-rendering: pixelated !important; user-select: none !important;" />
+                </div>
+            </a>
+
+            <script name="TruncateTextScript" src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
+            <script>
+                // Run once on load
+                self.onload = async () => {
+                    truncateEllipsis('pageTitle');
+                }
+                // Re-run automatically if the element resizes
+                const titleRo = new ResizeObserver(() => {
+                    truncateEllipsis('pageTitle');
+                });
+                titleRo.observe(document.getElementById('pageTitle'));
+            </script>
+
+            <div aria-label="Games" class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
+                <button id="gamesMenuOpen"
+                    onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
+                    <div id="gamesIconWrapper" aria-sort="other">
+                        <img id="gamesMenuIcon"
+                            src="index/assets/images/console_remote_controller.png"
+                            alt="Games Icon"
+                            preload="auto" height="27.5" width="27.5" />
+                    </div>
+                    <span class="games-menu-text">Games</span></button>
+                <button aria-label="Search" id="resourcesMenuOpen" class="ResourcesInteractable"
+                    onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
+                    <input autocomplete="off" class="search-bar-input"
+                        id="SearchBarInput" type="text"
+                        placeholder="Type here to search..." />
+                    <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
+                        <img id="resourcesMenuIcon"
+                            src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
+                            alt="Resources Icon" preload="auto" height="27.5"
+                            width="27.5" />
+                    </div>
+                    <span class="resources-menu-text">Search</span>
+                </button>
+            </div>
+            <div id="search-results"
+                aria-label="Search Results List"><!-- [Search Results Elements] --></div>
+        </section>
     </section>
 
     <section id="toolbarExtension">

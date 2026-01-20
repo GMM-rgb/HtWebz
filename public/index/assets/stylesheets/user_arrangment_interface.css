@@ -1,0 +1,9 @@
+.staticStickyUiFlex {
+    position: sticky;
+    display: block;
+    flex: 1 1 auto;
+    flex-flow: nowrap;
+    /* */
+    z-index: 9999 !important;
+    top: 0 !important;
+}

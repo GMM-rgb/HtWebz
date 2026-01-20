@@ -17,9 +17,12 @@ window.addEventListener('DOMContentLoaded', () => {
 socket.on('connect', async () => {
     let storedAccountToken = null;
     const storedGuestID = localStorage.getItem('guestID');
-    if (storedGuestID || storedGuestID === null && storedAccountToken === null) {
+    if (storedGuestID || storedGuestID === null || storedAccountToken === null) {
         console.log("Registering as geust..." + `\tID: ${storedGuestID}`);
         socket.emit('registerGuest', { guestID: storedGuestID });
+    } else {
+        console.log("Did not register as geust.");
+        return;
     }
 });
 
@@ -70,8 +73,8 @@ function swapWithLoading(finalURL) {
 }
 
 socket.on('welcome', async (data) => {
-    console.log("User has been registered as a temporary Geust Account.");
     localStorage.setItem('guestID', data.guestID);
+    console.log("User has been registered as a temporary Geust Account.");
     let FormatedUserName = null;
     function TrimUserID() {
         /**

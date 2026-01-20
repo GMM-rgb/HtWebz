@@ -17,10 +17,10 @@
       rgba(139, 139, 139, 0.35));
   height: 100%;
   max-width: 45vw;
-  min-width: 400px;
+  min-width: 0;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
-  z-index: 9999 !important;
+  z-index: 99999 !important;
   top: 0 !important;
   overflow-y: auto;
   overflow-x: hidden;
@@ -105,12 +105,12 @@
 }
 
 .top-app-menu-section {
+  display: flex;
   position: sticky;
   top: 0 !important;
-  display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
   background: rgba(46, 168, 255, 0.65);
   padding: 10px;
   margin: -10px;
@@ -120,6 +120,13 @@
   border-bottom: 2px solid #ccc;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+}
+
+.app-menu-title-container {
+  position: relative;
+  align-self: center;
+  top: -25px;
+  left: 0;
 }
 
 #appMenuTitle {
@@ -134,7 +141,7 @@
   font-size: 3em;
   transition: all 0.5s ease-in-out;
   align-self: last baseline;
-  flex: 0 1 auto;
+  flex-shrink: 1;
 }
 
 #closeAppMenu {
@@ -149,14 +156,16 @@
   padding-inline: 18.5px;
   padding-block: 10px;
   transform: scale(0.75);
-  transition: all 0.3s ease-in;
+  transform-origin: center center;
+  transition: all 0.25s ease-out;
   color: white !important;
   user-select: none !important;
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
+  margin: 0;
 }
 
 #closeAppMenu:hover {
-  transform: scale(1);
+  transform: scale(0.8);
   box-shadow: 0 4px 14.5px rgba(0, 0, 0, 0.275);
 }
 
@@ -239,7 +248,7 @@
   padding-block: 12.5px;
   box-sizing: border-box;
   transition: all 0.65s ease;
-  background: var(--theme-cardBackground);
+  /* background: var(--theme-cardBackground); */
   top: calc(10px + 10px);
 }
 
