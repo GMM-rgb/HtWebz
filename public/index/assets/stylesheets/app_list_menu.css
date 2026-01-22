@@ -1,12 +1,12 @@
 #appMenu {
   display: none;
-  object-fit: fill;
   position: fixed;
+  object-fit: fill;
+  flex-flow: column;
   flex-direction: column;
-  flex-shrink: 1;
   border: 3px solid #ccc;
   border-color: var(--theme-border);
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px 10px 10px 10px;
   padding: 10px;
   padding-block-end: calc(50px + 20px);
   -webkit-backdrop-filter: opacity(0.5);
@@ -16,16 +16,21 @@
       rgba(245, 245, 245, 0.5),
       rgba(245, 245, 245, 0.4),
       rgba(139, 139, 139, 0.35));
-  height: 100%;
-  max-width: 45vw;
-  min-width: 0;
+  top: var(--app-menu-top, var(--top-ui-height, 95px));
+  bottom: var(--app-menu-bottom, 16px);
+  max-height: calc(100vh - var(--app-menu-top, var(--top-ui-height, 95px)) - var(--app-menu-bottom, 16px));
+  height: auto;
+  left: 0.5rem;
+  right: auto;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
   z-index: 99999 !important;
-  top: 0 !important;
+  margin-block: 5px;
+  margin-inline: 10px;
   overflow-y: auto;
   overflow-x: hidden;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  order: 1 !important;
   gap: 8px;
 }
 
@@ -61,7 +66,7 @@
 
   30% {
     transform: translateX(50px);
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   40% {
@@ -85,7 +90,7 @@
   100% {
     transform: translateX(0);
     border-radius: 10px;
-    border-radius: 0 0 10px 10px;
+    border-radius: initial;
   }
 }
 
@@ -110,17 +115,19 @@
   position: sticky;
   top: 0 !important;
   flex-direction: row;
+  align-items: start;
   justify-content: space-between;
-  align-items: center;
   background: rgba(46, 168, 255, 0.65);
   padding: 10px;
-  margin: -10px;
   z-index: 10;
-  height: 125px;
+  height: min-content;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45);
   box-sizing: border-box;
-  border-bottom: 2px solid #ccc;
+  border: 3px solid #ccc;
+  border-radius: 15px;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+  order: 0 !important;
 }
 
 .app-menu-title-container {
@@ -131,7 +138,7 @@
 }
 
 #appMenuTitle {
-  top: 27.5px;
+  top: 0;
   left: 0;
   color: black;
   position: relative;
@@ -141,7 +148,6 @@
   user-select: none !important;
   font-size: 3em;
   transition: all 0.5s ease-in-out;
-  align-self: last baseline;
   flex-shrink: 1;
 }
 
@@ -162,7 +168,6 @@
   color: white !important;
   user-select: none !important;
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
-  margin: 0;
 }
 
 #closeAppMenu:hover {
@@ -172,9 +177,12 @@
 
 @media (max-width: 812px) {
   #appMenu {
-    max-width: 100% !important;
+    top: var(--app-menu-top-mobile, var(--top-ui-height, 62.5px));
+    left: 0;
+    right: 0;
     width: 100% !important;
-    border-radius: 0 !important;
+    max-width: 100% !important;
+    max-height: calc(100vh - var(--app-menu-top-mobile, var(--top-ui-height, 62.5px)) - var(--app-menu-bottom, 12px));
   }
 
   #appMenu.dragAppMenuIn {
@@ -239,8 +247,8 @@
 
 .appsContainer {
   position: relative;
-  height: auto;
   max-height: auto !important;
+  height: auto, fit-content;
   width: 100% !important;
   border: 2px solid #ccc;
   border-radius: 15px;
@@ -250,7 +258,7 @@
   box-sizing: border-box;
   transition: all 0.65s ease;
   /* background: var(--theme-cardBackground); */
-  top: calc(10px + 10px);
+  /* top: calc(10px + 10px); */
 }
 
 #appsTextTag {
@@ -309,7 +317,7 @@
 }
 
 .appButton {
-  color: var(--textColor) !important;
+  color: #333 !important;
   cursor: pointer;
   position: relative;
   border: 2px solid #ccc;
@@ -325,11 +333,18 @@
   font-size: 1.75em;
   text-align: center;
   text-overflow: ellipsis;
-  text-box-trim: trim-both;
+  text-box-trim: trim-end;
   background: var(--theme-buttonBackground);
   border-color: var(--theme-border);
   transition: all 0.3s ease !important;
   /* Smooth transition for background and color */
+}
+
+.appButton::before {
+  content: "";
+  background: #80b5db;
+  background-blend-mode: overlay;
+  background-attachment: local;
 }
 
 .appButton:hover {

@@ -9,7 +9,7 @@ head {
     flex-direction: row;
     justify-content: space-between;
     align-items: center !important;
-    position: sticky !important;
+    position: relative !important;
     border: 2px solid #8b8b8b;
     border-top: none !important;
     border-left-width: 3px !important;
@@ -22,7 +22,7 @@ head {
     box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375), inset 0 1px 19.85px rgba(0, 0, 0, 0.45);
     will-change: transform, opacity, background;
     max-height: calc(100px - 5px);
-    width: auto;
+    width: 100%;
     padding: 9.5px;
     top: 0 !important;
     left: 0 !important;
@@ -40,6 +40,8 @@ head {
     flex-flow: nowrap !important;
     flex-basis: 1 content 1;
     flex-shrink: 1 !important;
+    /* provides a CSS var for the app menu to reference; adjust if the bar changes size */
+    --top-ui-height: calc(100px - 5px);
 }
 /* Main Logo Styles */
 @media (max-width: 812px) {
