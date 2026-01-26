@@ -125,6 +125,13 @@ app.get('/chat', (req, res) => {
   res.sendFile(path.join(serveDirectory, "connection_message_page.html"));
 });
 
+app.get('/block-editor', (req, res) => {
+  res.status(200).send("Sending Page Data...");
+  (async () => {
+    res.sendFile(path.join(serveDirectory, "CodeEditor_Block", "block_editor.html"));
+  })();
+});
+
 /*
  - API Endpoints for User Management
 */
