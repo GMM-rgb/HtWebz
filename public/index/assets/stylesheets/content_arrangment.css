@@ -144,12 +144,14 @@
     justify-content: center;
     align-items: top;
     position: relative !important;
-    margin-top: 5px !important;
-    margin-inline: 10px;
-    margin-bottom: calc(57.5px * 2);
+    padding-block-start: 5px !important;
+    padding-block-end: calc(57.5px * 2);
+    padding-inline: 10px;
+    /* margin-bottom: calc(57.5px * 2); */
     gap: 8px !important;
     flex-flow: column;
     flex-direction: row;
+    background: radial-gradient(aquamarine, rgba(5, 134, 227, 0.65));
 }
 
 .main-content-section {
