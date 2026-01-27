@@ -2,7 +2,7 @@
 body {
     margin: 0 !important;
     font-family: Arial, Helvetica, sans-serif;
-    background: rgba(5, 134, 227, 0.65);
+    background: rgb(53, 171, 255);
     overflow-y: auto;
     overflow-x: hidden;
 }
