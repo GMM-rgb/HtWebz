@@ -122,6 +122,11 @@ app.get('/homepage', async (req, res) => {
   res.sendFile(path.join(serveDirectory, "index.html"));
 });
 
+app.get('/search', async (req, res) => {
+  const RequestedSearch = req.query.SearchString; // 
+  res.sendFile(path.join(serveDirectory, "SearchEngineExtra", "search_results.html"));
+});
+
 app.get('/chat', (req, res) => {
   res.sendFile(path.join(serveDirectory, "connection_message_page.html"));
 });

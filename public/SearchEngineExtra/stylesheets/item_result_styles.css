@@ -1,0 +1,16 @@
+/* Search Result Container Classlist Styling */
+.search-result.container {
+    position: relative;
+    padding: 5px;
+    border-radius: 15px;
+    border: 3px solid #ccc;
+    background: rgba(5, 134, 227, 0.75);
+}
+/* Search Result Title Classlist Styling */
+.search-result.name {
+    position: relative;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    background: gray;
+}
