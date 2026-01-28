@@ -19,6 +19,11 @@
     --theme-tooltipBackground: rgba(0, 65, 156, 0.8);
 }
 
+/* JavaScript controlled CSS variables */
+:root {
+    --DOM-viewport-min-height: 0px;
+}
+
 * {
     color: var(--theme-text);
     border-color: var(--theme-border);
@@ -144,7 +149,7 @@
     /* Flex Arrangment */
     flex-direction: column;
     justify-content: center;
-    align-items: block-start;
+    align-items: top;
     background: radial-gradient(at center, aquamarine, rgb(53, 171, 255) 90%);
     position: relative !important;
     /* Sizing Configuration */
@@ -152,6 +157,7 @@
     padding-block-end: calc(57.5px * 2);
     padding-inline: 10px;
     height: 100% !important;
+    min-height: var(--DOM-viewport-min-height);
     object-fit: cover;
 }
 
