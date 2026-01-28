@@ -140,10 +140,11 @@
 
 #rootPageSection {
     display: flex !important;
+    gap: 8px !important;
     /* Flex Arrangment */
     flex-direction: column;
     justify-content: center;
-    align-items: top;
+    align-items: block-start;
     background: radial-gradient(at center, aquamarine, rgb(53, 171, 255) 90%);
     position: relative !important;
     /* Sizing Configuration */
@@ -151,7 +152,6 @@
     padding-block-end: calc(57.5px * 2);
     padding-inline: 10px;
     height: 100%;
-    gap: 8px !important;
 }
 
 .main-content-section {
