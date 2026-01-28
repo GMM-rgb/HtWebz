@@ -24,7 +24,7 @@ class SearchProcesser {
                 WordCount: Math.floor(SearchString.split(" ").length)
             };
             //
-            if (SearchQuery !== null) {
+            if (SearchQuery !== null && (SearchQuery instanceof Object)) {
                 
             }
         }
