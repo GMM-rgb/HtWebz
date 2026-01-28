@@ -179,10 +179,10 @@
 
 @media (max-width: 812px) {
   #appMenu {
-    top: var(--app-menu-top-mobile, var(--top-ui-height, 62.5px));
+    top: calc(var(--app-menu-top-mobile, var(--top-ui-height, 62.5px) + 5px));
     left: 0;
-    right: 0;
-    width: 100% !important;
+    right: auto;
+    width: calc(100% - 20px) !important;
     max-width: 100% !important;
     max-height: calc(100vh - var(--app-menu-top-mobile, var(--top-ui-height, 62.5px)) - var(--app-menu-bottom, 12px));
   }

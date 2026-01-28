@@ -43,24 +43,31 @@ head {
     flex-shrink: 1 !important;
     /* provides a CSS var for the app menu to reference; adjust if the bar changes size */
     --top-ui-height: calc(100px - 5px);
+    --toolbar-width: calc(100% - 10px);
 }
+
 /* Main Logo Styles */
 @media (max-width: 812px) {
     #mainLogo::after {
         display: none !important;
     }
+
     #mainLogo {
-        margin: auto 10px auto 25px !important;
+        /* margin: auto 10px auto 25px !important; */
         transform: scale(0.825) !important;
+        left: 50% !important;
     }
+
     #mainLogo:hover>img {
         animation: none !important;
     }
 }
+
 #mainLogo::before {
     content: '';
     cursor: default !important;
 }
+
 #mainLogo::after {
     content: '';
     inset: 0;
@@ -74,7 +81,11 @@ head {
     width: max-content;
     transition: all 0.3s ease;
 }
+
 #mainLogo {
+    position: relative;
+    display: flex;
+    flex-shrink: 1 !important;
     pointer-events: all !important;
     cursor: pointer !important;
     width: 60px;
@@ -87,6 +98,7 @@ head {
     transition: all 0.3s ease;
     margin: auto 15px auto 5px;
 }
+
 #mainLogo img {
     display: block;
     pointer-events: none !important;
@@ -95,31 +107,39 @@ head {
     transition: all 0.3s ease;
     margin-top: 0;
 }
+
 @keyframes spinAccelerateLogo {
     0% {
         transform: rotate(0deg) scale(1);
     }
-    50%, 75% {
+
+    50%,
+    75% {
         transform: rotate(270deg) scale(1.25);
     }
+
     100% {
         transform: rotate(360deg) scale(1);
     }
 }
+
 #mainLogo:hover>img {
     animation: spinAccelerateLogo 0.585s ease-in-out forwards;
 }
+
 #mainLogo:hover::after {
     left: -11.5px !important;
     width: 50px !important;
     padding-inline-end: 42.5px !important;
     padding-inline-start: 35px !important;
 }
+
 #mainLogo:hover {
     border-color: #30a9ff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
 }
+
 #mainLogo:active {
     border-color: #479dda;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -159,7 +179,8 @@ head {
         opacity: 0.5;
     }
 
-    50%, 100% {
+    50%,
+    100% {
         transform: rotate(270deg) scale(0.9);
         opacity: 0.35;
     }
@@ -213,12 +234,19 @@ head {
         height: 62.5px !important;
     }
 
-    #appMenuOpen {
+    #appMenuOpen,
+    #settingsQuick {
         transform: scale(0.825) !important;
     }
 
-    #settingsQuick {
-        transform: scale(0.825) !important;
+    #appMenuOpen:hover,
+    #settingsQuick:hover {
+        transform: scale(0.85) !important;
+    }
+
+    #appMenuOpen:active,
+    #settingsQuick:active {
+        transform: scale(0.775) !important;
     }
 
     .settings-quick-text,
@@ -649,9 +677,12 @@ head {
 }
 
 @keyframes FocusSpinAnimation {
-    0%, 35% {
+
+    0%,
+    35% {
         transform: rotate(0);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -662,7 +693,8 @@ head {
     display: flex !important;
     flex-flow: nowrap;
     flex-direction: row;
-    flex-shrink: 1 !important; /* Allow it to shrink */
+    flex-shrink: 1 !important;
+    /* Allow it to shrink */
     justify-content: center;
     align-items: center;
     overflow-y: hidden;
@@ -704,7 +736,7 @@ head {
     border-style: solid !important;
     border-color: transparent !important;
     border-image-width: auto;
-    background: 
+    background:
         linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)) padding-box,
         conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #00f2ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
     animation: rotateGradient 3s linear infinite;
@@ -718,6 +750,7 @@ head {
     0% {
         --angle: 0deg;
     }
+
     100% {
         --angle: 360deg;
     }
@@ -982,11 +1015,12 @@ head {
 
 /* Kill glow when the same element ALSO has .Focused */
 #resourcesMenuOpen.Focused:hover::before {
-  box-shadow: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  opacity: 0 !important;
-  content: none !important; /* Trashes pseudo-element */
+    box-shadow: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    content: none !important;
+    /* Trashes pseudo-element */
 }
 
 /* Enhanced click effect with deeper shadow */
