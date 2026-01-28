@@ -210,7 +210,6 @@ head {
 
     #topUserInterfaceBar {
         transform: scale(1) !important;
-        width: 100% !important;
         height: 62.5px !important;
     }
 
