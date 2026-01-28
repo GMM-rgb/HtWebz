@@ -244,8 +244,8 @@ ___        ___        ___  ,________,  ,___    ,________
         font-family: Arial, Helvetica, sans-serif;
         overflow-y: auto;
         overflow-x: hidden !important;
-        scroll-snap-type: proximity;
         overscroll-behavior: contain !important;
+        scroll-snap-type: proximity;
     }
     
     :root {
@@ -256,18 +256,19 @@ ___        ___        ___  ,________,  ,___    ,________
     body::-webkit-scrollbar {
         position: relative;
         width: var(--scrollbar-width);
-        -webkit-transition: width 0.2s ease;
-        transition: width 0.2s ease;
     }
     
     body::-webkit-scrollbar-track {
         background: lightseagreen;
+        border-radius: 7.5px;
+        border: 2px solid rgb(204, 204, 204, 0.6);
+        padding: 2px;
     }
 
     body::-webkit-scrollbar-thumb {
         background: darkcyan;
-        border-radius: 2px;
-        border-block: 2px solid #ccc;
+        border-radius: 7.5px;
+        border: 2px solid #ccc;
         cursor: ns-resize !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
     }
