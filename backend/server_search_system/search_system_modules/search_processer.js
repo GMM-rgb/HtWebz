@@ -1,15 +1,29 @@
 const fs = require("fs");
 const path = require("path");
 /**
- * @class 
+ * @class DatabaseFetcher
  */
 class DatabaseFetcher {
     /**
-     * 
-     * @returns {void}
+     * Fetches the `SearchEngineDatabase`; to be indexed in search process.
+     * @returns {Promise<{
+     *   DatabaseDirectory: string,
+     * }?>}
      */
     static FetchDatabase = async function() {
+        if (fs !== null && path !== null) {
+            /**
+             * @type {string?}
+             */
+            var DatabaseDirectory = null;
+            
 
+            return;
+        } else {
+            if (fs === null) console.warn(``);
+            if (path === null) console.warn(`[${DatabaseFetcher.FetchDatabase.name.toString()}]:\t`);
+            return null;
+        }
     }
     /**
      * 
@@ -47,5 +61,6 @@ class SearchProcesser {
 }
 //
 module.exports = {
+    DatabaseFetcher,
     SearchProcesser,
 };
