@@ -63,11 +63,6 @@ head {
     }
 }
 
-#mainLogo::before {
-    content: '';
-    cursor: default !important;
-}
-
 #mainLogo::after {
     content: '';
     inset: 0;
@@ -80,6 +75,8 @@ head {
     top: -38.5px;
     width: max-content;
     transition: all 0.3s ease;
+    outline: 4px double transparent;
+    outline-offset: -4px;
 }
 
 #mainLogo {
@@ -97,6 +94,13 @@ head {
     border-radius: 100px;
     transition: all 0.3s ease;
     margin: auto 15px auto 5px;
+    outline: 4px double transparent;
+    outline-offset: -4px;
+}
+
+#mainLogo:focus-within {
+    outline-color: #0072ff !important;
+    outline-offset: 1px;
 }
 
 #mainLogo img {
