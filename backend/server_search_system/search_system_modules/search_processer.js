@@ -4,7 +4,20 @@ const path = require("path");
  * @class 
  */
 class DatabaseFetcher {
+    /**
+     * 
+     * @returns {void}
+     */
+    static FetchDatabase = async function() {
 
+    }
+    /**
+     * 
+     * @returns {void}
+     */
+    static FindSearchRequestInDatabase = function() {
+        
+    }
 }
 /**
  * @class SearchProcesser
