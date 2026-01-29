@@ -206,7 +206,7 @@ io.on("ClientErrorReport", async (msg, feedback) => {
 UserManagmentModule.attachSocketHandlers(io);
 
 // Start the server
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running and serving the HtWebz/public folder on http://localhost:${PORT}`);
   console.log(
     ENABLE_DOMAIN_FORWARDING
