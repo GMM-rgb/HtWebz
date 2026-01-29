@@ -941,6 +941,25 @@ ___        ___        ___  ,________,  ,___    ,________
                 overflow-y: hidden;
                 overflow-x: auto;
                 transition: all 0.25s steps(120) !important;
+                background-clip: border-box;
+            }
+
+            #footerContainer::-webkit-scrollbar {
+                width: 2px;
+            }
+
+            #footerContainer::-webkit-scrollbar-track {
+                border-radius: 10px;
+                background: #5aa5e0;
+                border: 1px solid #479dda;
+                margin: 8px;
+            }
+
+            #footerContainer::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                background: #afdeff;
+                border: 1px solid #5aa5e0;
+                cursor: ew-resize;
             }
             
             #developer {
