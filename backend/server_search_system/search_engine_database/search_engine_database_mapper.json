@@ -1,6 +1,8 @@
 {
     "MapperBlueprint": {
-        "SearchResultTitle": null
+        "SearchResultTitle": null,
+        "DateWhenCreated": "",
+        "TimeWhenCreated": "00:00:00"
     },
     "SearchResultItems": {}
 }
