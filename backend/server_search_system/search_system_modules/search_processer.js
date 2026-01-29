@@ -8,6 +8,7 @@ class DatabaseFetcher {
      * Fetches the `SearchEngineDatabase`; to be indexed in search process.
      * @returns {Promise<{
      *   DatabaseDirectory: string,
+     *   FetchedFileData: JSON
      * }?>}
      */
     static FetchDatabase = async function() {
