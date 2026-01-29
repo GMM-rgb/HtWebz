@@ -1,9 +1,42 @@
 const fs = require("fs");
 const path = require("path");
+const TransformersModel = require("transformers.js");
 /**
  * @class DatabaseFetcher
+ * @classdesc
+ * #### Contains Function Methods such as:
+ * ```javascript
+ * // method types
+ * FetchDatabase();
+ * ```
  */
 class DatabaseFetcher {
+    /**
+     * @private {
+     *  @type {string?}
+     * }
+     */
+    static LocalizedDatabaseDirectoryVariable = null;
+    /**
+     * Fetches a Database file from the requested input parameter.
+     * @param {string} RequestedFileName
+     * @returns {File}
+     */
+    static async FetchDatabaseFile(RequestedFileName) {
+        if (RequestedFileName !== null && (RequestedFileName instanceof String) && fs) {
+            /**
+             * @type {File?}
+             */
+            var FetchedDatabaseFile = null;
+            /**
+             * 
+             * @returns {string[]?}
+             */
+            function ScanDatabase() {
+                var DirToScan = fs.opendirSync("");
+            }
+        }
+    }
     /**
      * Fetches the `SearchEngineDatabase`; to be indexed in search process.
      * @returns {Promise<{
@@ -16,13 +49,6 @@ class DatabaseFetcher {
         //
         if (fs !== null && path !== null) {
             /**
-             * Fetches a Database file from the requested input parameter.
-             * @param {string} RequestedFileName
-             */
-            async function FetchDatabaseFile(RequestedFileName) {
-
-            }
-            /**
              * Fetches the directory of the SearchEngineDatabase & returns the name of it.
              * @returns {Promise<string?>}
              */
@@ -30,30 +56,47 @@ class DatabaseFetcher {
                 const DatabasePossibleFileNames = {
                     DatabaseMapperJSON: "search_engine_database_mapper",
                 };
-
                 /**
+                 * Variable to return in further process; for return result of FetchDatabase function method.
                  * @type {string?}
                  */
                 var Directory = null;
                 /**
                  * @type {string[]?}
                  */
-                var SearchSystemDirectorysAndFiles = fs.readdirSync(path.join("../"));
+                var SearchSystemDirectorysAndFiles = fs.readdirSync(path.join('..'));
                 /**
                  * @returns {string?}
                  */
                 function FindDatabaseDirectory() {
-                    var FD = null;
-
+                    var FoundDirectory = null;
+                    // 
                     if (SearchSystemDirectorysAndFiles !== null && (SearchSystemDirectorysAndFiles instanceof Array)) {
+                        var HasFoundDatabaseDirectory = false;
                         for (let ReadDirIndex = 0; ReadDirIndex < SearchSystemDirectorysAndFiles.length; ReadDirIndex++) {
-                            
+                            try {
+                                var ActiveDirectory = SearchSystemDirectorysAndFiles[ReadDirIndex];
+                                if (ActiveDirectory !== null && (ActiveDirectory instanceof String)) {
+                                    if (fs.existsSync(path.join('.', ActiveDirectory.toString()))) {
+                                        if ((!ActiveDirectory.toString().trim().includes(".") && ActiveDirectory.toString().replace("_", " ").search("database"))) {
+                                            console.log(`Found Database directory:\t"${ActiveDirectory.toString()}"`);
+                                        } else {
+                                            console.log(`Didn't find Database directory `);
+                                        }
+                                    }
+                                }
+                            } catch (ScanError) {
+                                console.error(`ERROR: Failed to FindDatabaseDirectory:\n${ScanError}`);
+                            }
+                        }
+                        //
+                        if (!HasFoundDatabaseDirectory) {
+
                         }
                     }
-
-                    return FD;
+                    // 
+                    return FoundDirectory;
                 }
-
                 // Ensures that the directory contents can be accessed.
                 try {
                     var FsConstants = fs.constants;
@@ -63,7 +106,7 @@ class DatabaseFetcher {
                     console.error(`Could not access SearchEngineDatabase directory, permmisions inssuficent!\nERROR:\n${PermissionError}`);
                     return null;
                 }
-
+                // 
                 if (Directory !== null && !(Directory instanceof String)) {
                     return null;
                 } else {
