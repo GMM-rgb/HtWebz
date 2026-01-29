@@ -12,6 +12,8 @@ class DatabaseFetcher {
      * }?>}
      */
     static FetchDatabase = async function() {
+        const FunctionName = DatabaseFetcher.FetchDatabase.name.toString();
+        //
         if (fs !== null && path !== null) {
             /**
              * @type {string?}
@@ -21,8 +23,8 @@ class DatabaseFetcher {
 
             return;
         } else {
-            if (fs === null) console.warn(``);
-            if (path === null) console.warn(`[${DatabaseFetcher.FetchDatabase.name.toString()}]:\t`);
+            if (fs === null) console.warn(`[${FunctionName}]:\t`);
+            if (path === null) console.warn(`[${FunctionName}]:\t"Path" module was not imported; or not installed to Node Dependencies.`);
             return null;
         }
     }
