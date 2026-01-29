@@ -1,33 +1,7 @@
 // NodeJS Modules
 const fs = require("fs");
 const path = require("path");
+// Modules
+const SearchProcesser = require("./search_system_modules/search_processer");
+//
 
-class SearchProcesser {
-    /**
-     * 
-     */
-    static RequestSearchEngineSegmentData() {
-        
-    }
-    /**
-     * @param {string} RequestedSearchString
-     * 
-     * @returns {JSON?}
-     */
-    static async ProcessSearch(RequestedSearchString) {
-        console.log(`${this.name.toString()}: `);
-        //
-        let PulledSearchData = {};
-        //
-        if (RequestedSearchString !== null && (RequestedSearchString instanceof String)) {
-            const SearchArgumentWordAmount = RequestedSearchString.split(" ").length;
-        }
-        // Returns back the search data; that was pulled from SearchEngine JSON.
-        if (PulledSearchData === null) return null;
-        return PulledSearchData;
-    }
-}
-
-module.exports = {
-
-};
