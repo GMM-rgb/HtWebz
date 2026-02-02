@@ -48,5 +48,6 @@
     /* Size config */
     height: 100%;
     width: 100%;
+    min-height: 65px;
     min-width: 2vw;
 }
