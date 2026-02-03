@@ -42,6 +42,10 @@ class DatabaseFetcher {
      *   DatabaseDirectory: string,
      *   FetchedFileData: JSON,
      * }?>}
+     * `DatabaseDirectory` : `String`  
+     * `FetchedFileData` : `JSON`
+     * #### Asynchronous Function Usage  
+     * 
      */
     static FetchDatabase = async function() {
         const FunctionName = DatabaseFetcher.FetchDatabase.name.toString();
@@ -65,6 +69,11 @@ class DatabaseFetcher {
                  */
                 var SearchSystemDirectorysAndFiles = fs.readdirSync(path.join('..'));
                 /**
+                 * @type {boolean}
+                 */
+                var CanAccess = false;
+
+                /**
                  * @returns {string?}
                  */
                 function FindDatabaseDirectory() {
@@ -72,12 +81,13 @@ class DatabaseFetcher {
                     // 
                     if (SearchSystemDirectorysAndFiles !== null && (SearchSystemDirectorysAndFiles instanceof Array)) {
                         var HasFoundDatabaseDirectory = false;
-                        for (let ReadDirIndex = 0; ReadDirIndex < SearchSystemDirectorysAndFiles.length; ReadDirIndex++) {
+                        for (var ReadDirIndex = 0; ReadDirIndex < SearchSystemDirectorysAndFiles.length; ReadDirIndex++) {
                             try {
                                 var ActiveDirectory = SearchSystemDirectorysAndFiles[ReadDirIndex];
                                 if (ActiveDirectory !== null && (ActiveDirectory instanceof String)) {
                                     if (fs.existsSync(path.join('.', ActiveDirectory.toString()))) {
                                         if ((!ActiveDirectory.toString().trim().includes(".") && ActiveDirectory.toString().replace("_", " ").search("database"))) {
+                                            if (!HasFoundDatabaseDirectory) HasFoundDatabaseDirectory = true;
                                             console.log(`Found Database directory:\t"${ActiveDirectory.toString()}"`);
                                         } else {
                                             console.log(`Didn't find Database directory `);
@@ -98,10 +108,11 @@ class DatabaseFetcher {
                 }
                 // Ensures that the directory contents can be accessed.
                 try {
-                    var FsConstants = fs.constants;
+                    const FsConstants = fs.constants;
                     fs.accessSync("search_engine_database", FsConstants.R_OK | FsConstants.W_OK);
-                    
+                    CanAccess = true;
                 } catch (PermissionError) {
+                    CanAccess = false;
                     console.error(`Could not access SearchEngineDatabase directory, permmisions inssuficent!\nERROR:\n${PermissionError}`);
                     return null;
                 }
@@ -125,8 +136,10 @@ class DatabaseFetcher {
             //
             return;
         } else {
-            if (fs === null) console.warn(`[${FunctionName}]:\t`);
-            if (path === null) console.warn(`[${FunctionName}]:\t"Path" module was not imported; or not installed to Node Dependencies.`);
+            (() => {
+                if (fs === null) console.warn(`[${FunctionName}]:\tFS module was not found; or not installed to Node Dependencies.`);
+                if (path === null) console.warn(`[${FunctionName}]:\t"Path" module was not imported; or not installed to Node Dependencies.`);
+            }) ();
             return null;
         }
     }
