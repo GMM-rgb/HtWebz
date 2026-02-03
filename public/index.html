@@ -332,17 +332,43 @@ ___        ___        ___  ,________,  ,___    ,________
         <script>
         let isWide = false;
 
-        if (!isMobile()) {
+        if (typeof(isMobile) === "function" && !isMobile()) {
             document.addEventListener('mousemove', (e) => {
                 const distanceFromRight = window.innerWidth - e.clientX;
-
+                let CurrentAnimationIntervals = [];
                 /**
-                * @param {number} width - The number in pixels
-                */
+                 * Changes the scrollbar width in pixels.
+                 * @param {number} width - The number in pixels
+                 */
                 function setScrollbarWidth(width) {
-                    document.documentElement.style.setProperty('--scrollbar-width', `${width}px`);
+                    let ScrollbarAnimateWidth = 0;
+                    let LastChangeBool = isWide.valueOf();
+                    //
+                    if (width !== null && typeof(width) === "number") {
+                        for (let AnimationTickScale = 0; AnimationTickScale < Math.abs(width); AnimationTickScale++) {
+                            //
+                            if (LastChangeBool !== isWide) {
+                                if (CurrentAnimationIntervals !== null && CurrentAnimationIntervals.length > 0) {
+                                    CurrentAnimationIntervals.forEach(AnimationInterval => {
+                                        if (AnimationInterval !== null) {
+                                            clearInterval(AnimationInterval);
+                                        }
+                                    });
+                                }
+                                //
+                                break;
+                            }
+                            CurrentAnimationIntervals.push(setTimeout(() => {
+                                requestAnimationFrame(() => {
+                                    ScrollbarAnimateWidth = AnimationTickScale;
+                                    document.documentElement.style.setProperty('--scrollbar-width', `${ScrollbarAnimateWidth}px`);
+                                    console.log(ScrollbarAnimateWidth.toString());
+                                });
+                            }, Math.ceil(Math.abs(100 + Math.floor(AnimationTickScale * 50)))));
+                        }
+                    }
                 }
-
+                //
                 if (distanceFromRight <= 20 && !isWide) {
                     isWide = true;
                     setScrollbarWidth(12); // 12px
