@@ -15,7 +15,7 @@ const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');
 const ErrorReportUtility = require("./backend/error_report_system/reporter_utility");
 const ChatSystemMain = require("./backend/chat_system/chat_system_main");
-const ClientSearchHandler = require("./backend/server_search_system/client_search_handler");
+// const ClientSearchHandler = require("./backend/server_search_system/client_search_handler");
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
 //
@@ -204,6 +204,8 @@ io.on("ClientErrorReport", async (msg, feedback) => {
 
 // Attach socket handlers for APIs' lifecycle
 UserManagmentModule.attachSocketHandlers(io);
+// 
+// ClientSearchHandler.attachSocketHandlers(io);
 
 // Start the server
 server.listen(PORT, '0.0.0.0', () => {

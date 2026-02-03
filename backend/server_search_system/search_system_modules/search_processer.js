@@ -37,15 +37,21 @@ class DatabaseFetcher {
         }
     }
     /**
-     * Fetches the `SearchEngineDatabase`; to be indexed in search process.
+     * Fetches the `SearchEngineDatabase`; to be indexed in search process.  
      * @returns {Promise<{
      *   DatabaseDirectory: string,
      *   FetchedFileData: JSON,
      * }?>}
+     * @public
      * `DatabaseDirectory` : `String`  
      * `FetchedFileData` : `JSON`
-     * #### Asynchronous Function Usage  
+     * #### >>> Asynchronous Function Usage <<<  
+     * ```javascript
+     * // 
+     * var FetchOutput = DatabaseFetcher.FetchDatabase();
      * 
+     * ```
+     * @version 0.1.0
      */
     static FetchDatabase = async function() {
         const FunctionName = DatabaseFetcher.FetchDatabase.name.toString();
@@ -143,6 +149,16 @@ class DatabaseFetcher {
             return null;
         }
     }
+}
+
+/**
+ * @class SearchProcesser
+ */
+class SearchProcesser {
+    /**
+     * @readonly
+     */
+    static SearchEngineDatabase = this.SetupDatabaseInitial();
     /**
      * 
      * @returns {void}
@@ -150,35 +166,53 @@ class DatabaseFetcher {
     static FindSearchRequestInDatabase = function() {
         
     }
-}
-/**
- * @class SearchProcesser
- */
-class SearchProcesser {
     /**
      * #### Processes the requested `SearchQuery` & returns an object constructor.
      * - ...
      * - ...
      * @param {string} SearchString 
-     * @returns {object?}
+     * @returns {Array?}
      */
     static ProcessSearchRequestQuery = async function(SearchString) {
+        var SearchProccessResults = [];
+        var SearchStringWordSplit = SearchString.split(" ");
         if (!(SearchString instanceof String)) {
             var SearchQuery = {
-                WordIndivuals: SearchString.split(" "),
-                WordCount: Math.floor(SearchString.split(" ").length)
+                WordIndivuals: SearchStringWordSplit,
+                WordCount: Math.ceil(SearchStringWordSplit.length)
             };
-            //
             if (SearchQuery !== null && (SearchQuery instanceof Object)) {
                 
             }
         }
-        //
+        return SearchProccessResults;
+    }
+    /**
+     * 
+     * @private
+     * @returns {fs.Dir}
+     */
+    static async SetupDatabaseInitial() {
+        let FetchedDatabaseStringName, DatabaseMapperJSON = await DatabaseFetcher.FetchDatabase();
+        /**
+         * The mapper `JSON` file from the Database that was fetched for the SearchEngine
+         * @type {object?}
+         */
+        var DatabaseMapperData = DatabaseMapperJSON !== null ? JSON.parse(DatabaseMapperJSON) : null;
+        /**
+         * @type {object?}
+         */
+        var MapperBlueprintTemplate = null;
+        if (FetchedDatabaseStringName !== null && (FetchedDatabaseStringName instanceof String)) {
+            if (DatabaseMapperData.MapperBlueprint !== null) {
+
+            }
+        }
         return;
     }
 }
-//
+
 module.exports = {
     DatabaseFetcher,
-    SearchProcesser,
+    SearchProcesser
 };
