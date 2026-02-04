@@ -332,51 +332,47 @@ ___        ___        ___  ,________,  ,___    ,________
     </script>
         <!---->
         <script>
-        let isWide = false;
-
         if (typeof(isMobile) === "function" && !isMobile()) {
+            let isWide = false;
+            let currentWidth = 8;
+            let targetWidth = 8;
+            let animating = false;
+
+            function animate() {
+                if (animating) return;
+                animating = true;
+
+                function step() {
+                    if (currentWidth === targetWidth) {
+                        animating = false;
+                        return;
+                    }
+
+                    // Move 1px per frame
+                    currentWidth += (currentWidth < targetWidth ? 1 : -1);
+
+                    document.documentElement.style.setProperty(
+                        '--scrollbar-width',
+                        `${currentWidth}px`
+                    );
+
+                    requestAnimationFrame(step);
+                }
+
+                requestAnimationFrame(step);
+            }
+
             document.addEventListener('mousemove', (e) => {
                 const distanceFromRight = window.innerWidth - e.clientX;
-                let CurrentAnimationIntervals = [];
-                /**
-                 * Changes the scrollbar width in pixels.
-                 * @param {number} width - The number in pixels
-                 */
-                function setScrollbarWidth(width) {
-                    let ScrollbarAnimateWidth = 0;
-                    let LastChangeBool = isWide.valueOf();
-                    //
-                    if (width !== null && typeof(width) === "number") {
-                        for (let AnimationTickScale = 0; AnimationTickScale < Math.abs(width); AnimationTickScale++) {
-                            //
-                            if (LastChangeBool !== isWide) {
-                                if (CurrentAnimationIntervals !== null && CurrentAnimationIntervals.length > 0) {
-                                    CurrentAnimationIntervals.forEach(AnimationInterval => {
-                                        if (AnimationInterval !== null) {
-                                            clearInterval(AnimationInterval);
-                                        }
-                                    });
-                                }
-                                //
-                                break;
-                            }
-                            CurrentAnimationIntervals.push(setTimeout(() => {
-                                requestAnimationFrame(() => {
-                                    ScrollbarAnimateWidth = AnimationTickScale;
-                                    document.documentElement.style.setProperty('--scrollbar-width', `${ScrollbarAnimateWidth}px`);
-                                    // console.log(ScrollbarAnimateWidth.toString());
-                                });
-                            }, Math.ceil(Math.abs(100 + Math.floor(AnimationTickScale * 50)))));
-                        }
-                    }
-                }
-                //
+
                 if (distanceFromRight <= 20 && !isWide) {
                     isWide = true;
-                    setScrollbarWidth(12); // 12px
+                    targetWidth = 12;
+                    animate();
                 } else if (distanceFromRight > 30 && isWide) {
                     isWide = false;
-                    setScrollbarWidth(8); // 8px
+                    targetWidth = 8;
+                    animate();
                 }
             });
         }
