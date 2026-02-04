@@ -242,8 +242,6 @@ process.on('SIGINT', async () => {
   if (shuttingDown) return;
   shuttingDown = true;
   
-  await updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
-
   let invalidShown = false;
   let confirmed = false;
   let CanceledConfirm = false;
@@ -290,7 +288,7 @@ process.on('SIGINT', async () => {
       // Enter just resets cycle
       return;
     } else {
-      console.log(picocolors.red("\nInvalid Key! Press Y to confirm shutdown or N to cancel."));
+      console.log(picocolors.red("\nInvalid Key! Press Y to confirm shutdown, or N to cancel.\n"));
       stdout._write("CHOOSE: ");
       return;
     }
@@ -304,6 +302,7 @@ process.on('SIGINT', async () => {
           shuttingDown = false;
           console.log(`\nServer closed.`);
           console.log("===================\n");
+          updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
           process.exit(0);
         });
       } else {
