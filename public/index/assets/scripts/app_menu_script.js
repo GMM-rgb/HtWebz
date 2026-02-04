@@ -5,6 +5,8 @@ const appMenu = document.getElementById("appMenu");
 const appMenuOpen = document.getElementById("appMenuOpen");
 const HtWebzEditor = document.getElementById("textEditorAppButton");
 
+var isAppMenuOpen = false;
+
 function awaitAnimation(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -14,6 +16,7 @@ function TriggerCloseAppMenu() {
     appMenu.style.display = "none";
     notify("App Menu Closed...");
     // document.title = "HtWebz Homepage";
+    isAppMenuOpen = false;
   } else {
     return;
   }
@@ -28,6 +31,7 @@ appMenuOpen.onclick = () => {
     appMenu.style.display = "flex";
     notify("App Menu Opened...");
     // document.title = "Apps Menu";
+    isAppMenuOpen = true;
     appMenu.classList.add("dragAppMenuIn");
     awaitAnimation(650).then(() => {
       appMenu.classList.remove("dragAppMenuIn");
@@ -49,7 +53,7 @@ document.addEventListener("click", (e) => {
   }
 
   // If menu is open and click is outside it → close
-  if (appMenuOpen && !clickedInsideMenu) {
+  if (appMenuOpen && !clickedInsideMenu && isAppMenuOpen === true) {
     TriggerCloseAppMenu();
   }
 });
