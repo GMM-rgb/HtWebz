@@ -217,11 +217,13 @@ const server = http.createServer(app, async (req, res) => {
   } catch (ServerError) {
     console.log(picocolors.redBright("The Server Encountered a FATAL Error!\nShutting down...\n"));
     console.error(`${picocolors.red("Error Info:").toString()}\n${ServerError.toString()}`);
+    process.emit("SIGINT", "Failsafe Error");
+    console.log(picocolors.greenBright(`Server was shutdown on failsafe.`).toString());
   }
 });
 // Attatches the SocketIO to Server
 const io = socketIO(server);
-
+//
 const updater = new AutoUpdater({
   checkInterval: 300000, // Check every 5 minutes for updates
   branch: 'Stable_Main_1', // Main production git branch

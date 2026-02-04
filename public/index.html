@@ -287,9 +287,7 @@ ___        ___        ___  ,________,  ,___    ,________
         overflow: hidden !important;
     }
 </style>
-
-    <i>
-        <script>
+    <script>
         /**
          * Returns true if the device is in the acceptable category.
          * @return {boolean}
@@ -300,35 +298,33 @@ ___        ___        ___  ,________,  ,___    ,________
 
         console.log("Desktop device -> [Bool]:\t", !isMobile());
     </script>
-        <!---->
-        <script>
+    <!---->
+    <script type="text/javascript">
         if (typeof(isMobile) === "function" && !isMobile()) {
             let isWide = false;
             let currentWidth = 8;
             let targetWidth = 8;
             let animating = false;
-
+            /**
+             * Animates the scrollbar from client `Cursor` position.
+             * @returns {void} 
+             */
             function animate() {
                 if (animating) return;
                 animating = true;
-
                 function step() {
                     if (currentWidth === targetWidth) {
                         animating = false;
                         return;
                     }
-
                     // Move 1px per frame
                     currentWidth += (currentWidth < targetWidth ? 1 : -1);
-
                     document.documentElement.style.setProperty(
                         '--scrollbar-width',
                         `${currentWidth}px`
                     );
-
                     requestAnimationFrame(step);
                 }
-
                 requestAnimationFrame(step);
             }
 
@@ -345,6 +341,12 @@ ___        ___        ___  ,________,  ,___    ,________
                     animate();
                 }
             });
+            
+            class ScrollbarAnimator {
+                static AttatchScrollbarListener() {
+                    
+                }
+            }
         }
     </script>
     <!---->
@@ -362,8 +364,6 @@ ___        ___        ___  ,________,  ,___    ,________
             });
         }
     </script> -->
-    </i>
-
     <body>
 
     <span id="notification" class="notification"></span>
