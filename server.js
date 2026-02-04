@@ -190,7 +190,36 @@ app.use((err, req, res, next) => {
 });
 
 // ===== SERVER CREATION =====
-const server = http.createServer(app);
+const server = http.createServer(app, async (req, res) => {
+  try {
+    if (req !== null && (req instanceof http.IncomingMessage)) {
+      if (req.method === "GET") {
+        
+      } else if (req.method === "POST") {
+        var ClientRequestData = "".normalize("NFC");
+        // Chunks together the data, that is actively being recieved through the DataStream.
+        req.on("data", (RequestDataByte) => {
+          if (ClientRequestData && (ClientRequestData instanceof String)) {
+            ClientRequestData += RequestDataByte;
+          }
+        })
+        // Finalize the RequestData
+        req.on("end", () => {
+          
+        });
+      } else {
+        res.writeHead(405, { 'Content-Type': 'text/plain' });
+        res.end('Method Not Allowed\n');
+      }
+    } else {
+      console.warn(picocolors.yellowBright().toString().trimStart());
+    }
+  } catch (ServerError) {
+    console.log(picocolors.redBright("The Server Encountered a FATAL Error!\nShutting down...\n"));
+    console.error(`${picocolors.red("Error Info:").toString()}\n${ServerError.toString()}`);
+  }
+});
+// Attatches the SocketIO to Server
 const io = socketIO(server);
 
 const updater = new AutoUpdater({

@@ -4,12 +4,15 @@
 let JSON_wiki_data = null;
 
 /**
- * @returns {JSON | Object ?}
+ * @returns {Object?}
  */
-function LoadJSON() {
-
+function LoadWikiDataJSON() {
+    
 }
 
-JSON_wiki_data = LoadJSON?.() ?? console.error("LoadJSON function unknown.");
+JSON_wiki_data = LoadWikiDataJSON?.() ?? console.error("LoadJSON function unknown.");
 
-export { JSON_wiki_data, LoadJSON };
+export {
+    JSON_wiki_data as WikiData,
+    LoadWikiDataJSON,
+};
