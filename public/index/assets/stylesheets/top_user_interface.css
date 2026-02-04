@@ -55,7 +55,7 @@ head {
     #mainLogo {
         /* margin: auto 10px auto 25px !important; */
         transform: scale(0.825) !important;
-        left: 50% !important;
+        /* left: 50% !important; */
     }
 
     #mainLogo:hover>img {

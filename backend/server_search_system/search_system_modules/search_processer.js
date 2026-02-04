@@ -1,13 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 /**
- * @class DatabaseFetcher
- * @classdesc
- * #### Contains Function Methods such as:
- * ```javascript
- * // method types
- * FetchDatabase();
- * ```
+ * @GMM-rgb
+ * `DatabaseFetcher`
+ * #### Contains Function Methods For the Database Fetching Protocol.
  */
 class DatabaseFetcher {
     /**
@@ -32,7 +28,9 @@ class DatabaseFetcher {
              * @returns {string[]?}
              */
             function ScanDatabase() {
-                var DirToScan = fs.opendirSync("");
+                if (DatabaseFetcher.LocalizedDatabaseDirectoryVariable !== null) {
+                    var DirToScan = fs.opendirSync(path.join(DatabaseFetcher.LocalizedDatabaseDirectoryVariable.toString(), RequestedFileName.toString()));
+                }
             }
         }
     }

@@ -156,6 +156,7 @@
     padding-block-start: 15px !important;
     padding-block-end: calc(57.5px * 2);
     padding-inline: 10px;
+    min-height: calc(100vh - var(--app-menu-top, var(--top-ui-height, 95px)) - var(--app-menu-bottom, 16px));
     height: 100% !important;
     min-height: var(--DOM-viewport-min-height);
     object-fit: cover;

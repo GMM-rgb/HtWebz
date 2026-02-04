@@ -23,7 +23,19 @@
     gap: 8px;
 }
 
+.SearchInputContainer {
+    display: flex;
+    flex-direction: row;
+    min-width: 60px !important;
+    border: 3px solid #ccc;
+    background: rgb(25, 164, 250);
+    border-radius: calc(15px * 2);
+    padding: 5px;
+    gap: 4px;
+}
+
 #SearchUserChat {
+    color: #ccc;
     border-radius: 15px;
     border: 3px solid #ccc;
     outline-color: rgba(5, 134, 227, 0.75);
@@ -32,10 +44,47 @@
     outline-offset: 1px;
     padding-inline: 5px;
     padding-block: 2.5px;
+    min-width: 0;
+}
+
+#SearchUserChat::placeholder {
+    color: lightskyblue;
+    text-overflow: ellipsis;
+    text-align: start;
 }
 
 #SearchUserChat:focus-within {
     outline-style: solid !important;
+}
+
+.InputCancelSearch {
+    display: grid;
+    padding: 0;
+    place-content: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 15px;
+    border: 3px solid #ccc;
+    background-clip: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    color: rgb(243, 83, 83);
+    min-width: 25px !important;
+    flex-shrink: 1 !important;
+}
+
+.InputCancelSearch>img {
+    position: relative;
+    pointer-events: none !important;
+    box-sizing: border-box;
+    height: calc(25px / 2);
+    width: calc(25px / 2);
+    flex-shrink: 1;
+}
+
+.FindChatSearchResults {
+    
 }
 
 .chats-list-container {
@@ -50,4 +99,5 @@
     width: 100%;
     min-height: 65px;
     min-width: 2vw;
+    /* flex-grow: 1; */
 }
