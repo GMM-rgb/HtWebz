@@ -267,7 +267,8 @@ process.on('SIGINT', async () => {
     socket.disconnect(true); // force disconnect
   });
 
-  console.log("\nShut Down?\t Y/N");
+  console.log("Awaiting for user input...\n");
+  console.log("Shut Down?\t Y/N");
   stdout._write("CHOOSE: ");
 
   process.stdin.on("data", function (key) {
@@ -278,7 +279,7 @@ process.on('SIGINT', async () => {
     }
 
     // Normalize to lowercase
-    const keyName = key.trim().toLowerCase();
+    const keyName = key.toString().trim().toLowerCase().normalize("NFC");
 
     if (keyName === "y") {
       confirmed = true;
@@ -298,11 +299,14 @@ process.on('SIGINT', async () => {
 
     try {
       if (confirmed) {
+        console.log(picocolors.redBright("\nConfirmed shut down."));
         server.close(() => {
           shuttingDown = false;
           console.log(`\nServer closed.`);
           console.log("===================\n");
-          updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
+          (() => {
+            updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
+          })();
           process.exit(0);
         });
       } else {
