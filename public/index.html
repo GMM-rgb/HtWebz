@@ -364,7 +364,7 @@ ___        ___        ___  ,________,  ,___    ,________
                                 requestAnimationFrame(() => {
                                     ScrollbarAnimateWidth = AnimationTickScale;
                                     document.documentElement.style.setProperty('--scrollbar-width', `${ScrollbarAnimateWidth}px`);
-                                    console.log(ScrollbarAnimateWidth.toString());
+                                    // console.log(ScrollbarAnimateWidth.toString());
                                 });
                             }, Math.ceil(Math.abs(100 + Math.floor(AnimationTickScale * 50)))));
                         }
@@ -472,7 +472,7 @@ ___        ___        ___  ,________,  ,___    ,________
                     <!-- Navigation control -->
                     <script>
                         const ChatBtn = document.getElementById("searcherAppButton");
-                        
+
 
                         ChatBtn.onclick = () => {
                             (async () => {
