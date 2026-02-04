@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
+        <base href="/" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:title" content="FlowChat" />
@@ -13,16 +14,9 @@
         <link rel="stylesheet" href="index/assets/stylesheets/chat_ui_styles/chat.css" />
         <link rel="stylesheet" href="index/assets/stylesheets/chat_ui_styles/chat_menu.css" />
         <link rel="stylesheet" href="index/assets/stylesheets/chat_ui_styles/chat_box.css" />
+        <!-- Base Stylesheet -->
+        <link rel="stylesheet" href="index/assets/stylesheets/style_defaults/base_style_reference.css" />
     </head>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: aquamarine;
-            overflow-y: auto;
-            overflow-x: hidden;
-            margin: 0;
-        }
-    </style>
     <body>
         <section id="topUserInterfaceBar">
             <button id="accountExpandInfo"
@@ -53,14 +47,25 @@
         <section id="rootPageSection">
             <div id="ChatFlexContainer">
                 <div class="user-chat-menu">
-                    <input type="search" id="SearchUserChat" />
+                    <div class="SearchInputContainer">
+                        <input type="text" id="SearchUserChat" placeholder="Search..." contextmenu />
+                        <button class="InputCancelSearch" id="ChatCancelSearch"><img src="index/assets/images/x-png-35400.png" /></button>
+                        <div class="FindChatSearchResults">
+
+                        </div>
+                    </div>
                     <div class="chats-list-container">
                         
                     </div>
                 </div>
                 <!---->
                 <div id="ChatBoxContentOverlayArea">
-                    
+                    <div class="ChatDisplay">
+
+                    </div>
+                    <div>
+                        <input id="ChatMessageInput" type="text" />
+                    </div>
                 </div>
             </div>
 
