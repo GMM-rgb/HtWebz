@@ -203,9 +203,16 @@ const server = http.createServer(app, async (req, res) => {
             ClientRequestData += RequestDataByte;
           }
         })
+        req.on("error", (DataRequestError) => {
+          if (DataRequestError && (DataRequestError instanceof Error)) {
+            console.error(`Server Encountered an Error when recieving data stream; from client.\n\tRequest Error:\t${DataRequestError.message.toString()}`);
+          }
+        });
         // Finalize the RequestData
         req.on("end", () => {
-          
+          if (ClientRequestData !== null && ClientRequestData instanceof String && ClientRequestData.length.valueOf() > 0) {
+            
+          }
         });
       } else {
         res.writeHead(405, { 'Content-Type': 'text/plain' });
