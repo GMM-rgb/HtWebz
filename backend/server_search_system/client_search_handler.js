@@ -27,9 +27,9 @@ async function AttatchSearchEngineSocket(ioSocket) {
 function RequestSearch(SearchQuery) {
     if (SearchQuery !== null && (SearchQuery instanceof String)) {
         var Results = [];
-
-
-
+        //
+        
+        //
         return Results;
     } else {
         console.warn(`Search Query Input was NULL for Server proccessing; or it was invalid.\nFalling back to fail page...`);

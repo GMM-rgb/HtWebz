@@ -135,6 +135,10 @@ app.get('/block-editor', (req, res) => {
   res.sendFile(path.join(serveDirectory, "CodeEditor_Block", "block_editor.html"));
 });
 
+app.get('/e-doc', (req, res) => {
+  res.sendFile(path.join(serveDirectory, "index", "file_list.html"));
+});
+
 /*
  - API Endpoints for User Management
 */

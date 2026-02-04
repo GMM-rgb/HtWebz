@@ -5,13 +5,11 @@ const appMenu = document.getElementById("appMenu");
 const appMenuOpen = document.getElementById("appMenuOpen");
 const HtWebzEditor = document.getElementById("textEditorAppButton");
 
-let computeStyle = getComputedStyle;
-
 function awaitAnimation(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-closeAppMenu.onclick = () => {
+function TriggerCloseAppMenu() {
   if (appMenu.style.display === "flex" || appMenu.style.display === "") {
     appMenu.style.display = "none";
     notify("App Menu Closed...");
@@ -19,7 +17,11 @@ closeAppMenu.onclick = () => {
   } else {
     return;
   }
-};
+}
+
+closeAppMenu.onclick = () => {
+  TriggerCloseAppMenu();
+}
 
 appMenuOpen.onclick = () => {
   if (appMenu.style.display === "none" || appMenu.style.display === "") {
@@ -27,18 +29,35 @@ appMenuOpen.onclick = () => {
     notify("App Menu Opened...");
     // document.title = "Apps Menu";
     appMenu.classList.add("dragAppMenuIn");
-    wait(650).then(() => {
+    awaitAnimation(650).then(() => {
       appMenu.classList.remove("dragAppMenuIn");
     });
   } else {
     return;
   }
-};
+}
+
+document.addEventListener("click", (e) => {
+  const clicked = e.target;
+
+  const clickedInsideMenu = appMenu.contains(clicked);
+  const clickedOpenButton = appMenuOpen.contains(clicked);
+
+  // If click is on the open button, toggle or ignore
+  if (clickedOpenButton) {
+    return;
+  }
+
+  // If menu is open and click is outside it → close
+  if (appMenuOpen && !clickedInsideMenu) {
+    TriggerCloseAppMenu();
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (HtWebzEditor) {
+  if (HtWebzEditor !== null) {
     HtWebzEditor.onclick = () => {
-      window.open('index/file_list.html', '_blank');
+      window.open('/e-doc', '_blank');
     };
   }
 });
