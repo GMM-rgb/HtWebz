@@ -241,6 +241,8 @@ let shuttingDown = false;
 process.on('SIGINT', async () => {
   if (shuttingDown) return;
   shuttingDown = true;
+
+  const OutputShutdownLogDivider = "=".repeat(25).toString();
   
   let invalidShown = false;
   let confirmed = false;
@@ -248,7 +250,7 @@ process.on('SIGINT', async () => {
   const CurrentConnections = UserManagmentModule.CurrentNumberOfUsersOnline();
   let HasWarnings = false;
 
-  console.log(`\n===================\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && ConsoleWarnShutdown?.("WARNING: Connection Integer was null or undefined."))}\n`);
+  console.log(`\n${OutputShutdownLogDivider}\nShutting down...\n\nProcessPort:\t${process.debugPort}\nConnections:\t${CurrentConnections !== null && CurrentConnections !== undefined ? CurrentConnections : (0 && ConsoleWarnShutdown?.("WARNING: Connection Integer was null or undefined."))}\n`);
 
   function ConsoleWarnShutdown(warn_message) {
     if (!HasWarnings) {
@@ -303,7 +305,7 @@ process.on('SIGINT', async () => {
         server.close(() => {
           shuttingDown = false;
           console.log(`\nServer closed.`);
-          console.log("===================\n");
+          console.log(`${OutputShutdownLogDivider}\n`);
           (() => {
             updater.stopAutoUpdate(); // Makes sure the auto updater doesn't continue running on it's own independent thread; when the server is shut down.
           })();
@@ -312,6 +314,7 @@ process.on('SIGINT', async () => {
       } else {
         if (!CanceledConfirm) {
           console.log("\nShutdown Canceled!\n");
+          console.log(`${OutputShutdownLogDivider}\n`);
           CanceledConfirm = true;
         }
         shuttingDown = false;
