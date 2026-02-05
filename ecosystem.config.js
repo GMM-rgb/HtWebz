@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'htwebz',
+    name: 'HtWebz',
     script: './server.js',
     watch: true,
     max_memory_restart: '500M',
