@@ -11,20 +11,16 @@ body {
     /* default width */
     --scrollbar-width: 8px;
 }
-
+ 
 body::-webkit-scrollbar {
     width: var(--scrollbar-width);
-    background: transparent;
 }
 
 body::-webkit-scrollbar-track {
     background: lightseagreen;
     border-radius: 7.5px;
     border: 2px solid #ccc;
-    margin-right: 4px;
-    background-clip: padding-box;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -33,7 +29,6 @@ body::-webkit-scrollbar-thumb {
     border: 2px solid rgba(204, 204, 204, 0.6);
     cursor: ns-resize !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
-    background-clip: padding-box;
 }
 
 ::selection {
