@@ -16,17 +16,21 @@ ___        ___        ___  ,________,  ,___    ,________
 
     -->
 <html lang="en-US">
-<!-- <base href="/public" /> -->
-<!-- Primary JavaScript Modules -->
-<script type="module" src="./index/assets/scripts/modules/logging/logger.js"></script>
-<script type="module" src="./index/assets/scripts/modules/cookie_store_manager.js"></script>
-<script type="module" src="./index/assets/scripts/modules/fetch_user_cookies.js"></script>
-<script type="module"
-    src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
-<script type="module" src="./index/assets/scripts/recent_logic/user_recents_loader.js"></script>
-<!-- Browser JavaScript disabled -->
-<noscript>
-    <style>
+    <!-- <base href="/public" /> -->
+    <!-- Primary JavaScript Modules -->
+    <script type="module"
+        src="./index/assets/scripts/modules/logging/logger.js"></script>
+    <script type="module"
+        src="./index/assets/scripts/modules/cookie_store_manager.js"></script>
+    <script type="module"
+        src="./index/assets/scripts/modules/fetch_user_cookies.js"></script>
+    <script type="module"
+        src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
+    <script type="module"
+        src="./index/assets/scripts/recent_logic/user_recents_loader.js"></script>
+    <!-- Browser JavaScript disabled -->
+    <noscript>
+        <style>
         .no-script-background {
             display: flex;
             flex-direction: column;
@@ -49,78 +53,108 @@ ___        ___        ___  ,________,  ,___    ,________
             font-weight: bold;
         }
     </style>
-    <div class="no-script-background">
-        <h2 style="text-align:center;color:red;font-weight:bold;">Javascript not enabled, please consult to enabling it
-            for the
-            page to function properly</h2>
-        <p class="no-script-text">Thank you!</p>
-        <h3 class="no-script-text">HtWebz</h3>
-    </div>
-</noscript>
+        <div class="no-script-background">
+            <h2 style="text-align:center;color:red;font-weight:bold;">Javascript
+                not enabled, please consult to enabling it
+                for the
+                page to function properly</h2>
+            <p class="no-script-text">Thank you!</p>
+            <h3 class="no-script-text">HtWebz</h3>
+        </div>
+    </noscript>
 
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<meta name="google-site-verification" content="3lU1k4q6DVlNdjAUUD6zt4HAKueWjf2rMbgiRmn1Yic" />
+    <meta name="google-site-verification"
+        content="3lU1k4q6DVlNdjAUUD6zt4HAKueWjf2rMbgiRmn1Yic" />
 
-<!-- Primary Meta Tags for search & social media -->
-<meta property="og:image:type" content="image/svg+xml" />
-<meta property="og:image" content="/index/assets/images/Tab_Icons/Main_Logo_Favicon.png" />
-<meta property="og:image:alt" content="HtWebz Logo" />
-<meta property="og:title" content="HtWebz" />
-<meta property="og:site_name" content="HtWebz" />
-<meta property="og:description"
-    content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://masked-rifely-bernarda.ngrok-free.dev/" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="HtWebz" />
-<meta name="twitter:description"
-    content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
-<meta name="twitter:image" content="/index/assets/images/Tab_Icons/Main_Logo_Favicon.png" />
+    <!-- Primary Meta Tags for search & social media -->
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image"
+        content="/index/assets/images/Tab_Icons/Main_Logo_Favicon.png" />
+    <meta property="og:image:alt" content="HtWebz Logo" />
+    <meta property="og:title" content="HtWebz" />
+    <meta property="og:site_name" content="HtWebz" />
+    <meta property="og:description"
+        content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url"
+        content="https://masked-rifely-bernarda.ngrok-free.dev/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HtWebz" />
+    <meta name="twitter:description"
+        content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
+    <meta name="twitter:image"
+        content="/index/assets/images/Tab_Icons/Main_Logo_Favicon.png" />
 
-<head>
-    <!-- Service Workers -->
-    <script async src="index/assets/scripts/service_worker_sys/sw_registration.js" defer></script>
+    <head>
+        <!-- Service Workers -->
+        <script async
+            src="index/assets/scripts/service_worker_sys/sw_registration.js"
+            defer></script>
 
-    <link rel="manifest" href="mainifest.json" />
+        <link rel="manifest" href="mainifest.json" />
 
-    <link rel="icon" href="/index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" type="image/svg+xml">
-    <title name="DocumentTitle">HtWebz &ndash; Homepage</title>
-    <!-- Base Styles -->
-    <link rel="stylesheet" href="/index/assets/stylesheets/style_defaults/base_style_reference.css" />
-    <!-- Linked Stylesheets -->
-    <link rel="stylesheet" href="/index/assets/stylesheets/app_list_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/top_user_interface.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/notification_system.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/content_arrangment.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/content_pin.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/about_content.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/games_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/search_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/settings_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/top_apps_arrangment.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/toolbar_extension.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/search_bar/search_bar.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/decoration_svg/background_decor.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/homepage_body_content.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/featured_styles/featured_element_styles.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/settings_styles/UI_interactable_styles.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/user_arrangment_interface.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/input_type_base_styles/input_base.css" />
-    <i>
-        <link rel="apple-touch-icon" href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
-        <link rel="apple-touch-icon" sizes="76x76"
-            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
-        <link rel="apple-touch-icon" sizes="120x120"
-            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
-        <link rel="apple-touch-icon" sizes="152x152"
-            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
-        <link rel="apple-touch-icon" sizes="180x180"
-            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
-    </i>
-    <style>
+        <link rel="icon"
+            href="/index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
+            type="image/svg+xml">
+        <title name="DocumentTitle">HtWebz &ndash; Homepage</title>
+        <!-- Base Styles -->
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/style_defaults/base_style_reference.css" />
+        <!-- Linked Stylesheets -->
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/app_list_menu.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/top_user_interface.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/notification_system.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/content_arrangment.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/content_pin.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/about_content.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/games_menu.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/search_menu.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/settings_menu.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/top_apps_arrangment.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/toolbar_extension.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/search_bar/search_bar.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/decoration_svg/background_decor.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/homepage_body_content.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/featured_styles/featured_element_styles.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/settings_styles/UI_interactable_styles.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/user_arrangment_interface.css" />
+        <link rel="stylesheet"
+            href="/index/assets/stylesheets/input_type_base_styles/input_base.css" />
+        <i>
+            <link rel="apple-touch-icon"
+                href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            <link rel="apple-touch-icon" sizes="76x76"
+                href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            <link rel="apple-touch-icon" sizes="120x120"
+                href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            <link rel="apple-touch-icon" sizes="152x152"
+                href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            <link rel="apple-touch-icon" sizes="180x180"
+                href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+        </i>
+        <style>
         :root {
             --theme-background: skyblue;
             --theme-primary: #479dda;
@@ -212,9 +246,9 @@ ___        ___        ___  ,________,  ,___    ,________
             background: var(--theme-appCardBackground);
         }
     </style>
-    <script src="index/assets/scripts/theme_managment.js"></script>
-</head>
-<style>
+        <script src="index/assets/scripts/theme_managment.js"></script>
+    </head>
+    <style>
     body {
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
@@ -261,7 +295,7 @@ ___        ___        ___  ,________,  ,___    ,________
         overflow: hidden !important;
     }
 </style>
-<script>
+    <script>
     /**
      * Returns true if the device is in the acceptable category.
      * @return {boolean}
@@ -272,92 +306,105 @@ ___        ___        ___  ,________,  ,___    ,________
 
     console.log("Desktop device -> [Bool]:\t", !isMobile());
 </script>
-<!-- Scrollbar Managment -->
-<script type="text/javascript">
-    let isWide = false;
-    let currentWidth = 8;
-    let targetWidth = 8;
-    let animating = false;
-    /**
-     * Animates the scrollbar from client `Cursor` position.
-     * @returns {void} 
-     */
-    function animate() {
-        if (animating) return;
-        animating = true;
-        async function step() {
-            if (currentWidth === targetWidth) {
-                animating = false;
+    <!-- Scrollbar Managment -->
+    <script type="text/javascript">
+        let isWide = false;
+        let currentWidth = 8;
+        let targetWidth = 8;
+        let animating = false;
+
+        /**
+         * Animates the scrollbar width change.
+         * @param {number} RequestedWidth - Target width in pixels
+         * @returns {void} 
+         */
+        function animate(RequestedWidth) {
+            if (RequestedWidth === null || RequestedWidth === currentWidth) return;
+            if (animating) {
+                // Update target if already animating
+                targetWidth = RequestedWidth;
                 return;
             }
-            // Move 1px per frame
-            currentWidth += (currentWidth < targetWidth ? 1 : -1);
-            document.documentElement.style.setProperty(
-                '--scrollbar-width',
-                `${currentWidth}px`
-            );
+            
+            animating = true;
+            targetWidth = RequestedWidth;
+            
+            function step() {
+                if (currentWidth === targetWidth) {
+                    animating = false;
+                    return;
+                }
+                
+                // Move 1px per frame toward target
+                currentWidth += (currentWidth < targetWidth ? 1 : -1);
+                document.documentElement.style.setProperty(
+                    '--scrollbar-width',
+                    `${currentWidth}px`
+                );
+                requestAnimationFrame(step);
+            }
+            
             requestAnimationFrame(step);
         }
-        requestAnimationFrame(step);
-    }
-    //
-    class ScrollbarAnimator {
-        /**
-         * 
-         * @public
-         */
-        static ScrollbarAnimatorAttatched = false;
-        /**
-         * Creates the `ScrollbarEventListener` for animating.
-         * @returns {void}
-         */
-        static AttatchScrollbarListener() {
-            document.documentElement.style.setProperty('--scrollbar-width', `8px`);
-            document.body.addEventListener("mousemove", (e) => {
-                (() => {
+
+        class ScrollbarAnimator {
+            static ScrollbarAnimatorAttached = false;
+            
+            /**
+             * Creates the ScrollbarEventListener for animating.
+             * @returns {void}
+             */
+            static AttachScrollbarListener() {
+                if (this.ScrollbarAnimatorAttached) return;
+                this.ScrollbarAnimatorAttached = true;
+                
+                // Initialize scrollbar width
+                document.documentElement.style.setProperty('--scrollbar-width', '8px');
+                
+                // Debounce helper to prevent excessive calls
+                let mouseMoveTimer = null;
+                
+                document.body.addEventListener("mousemove", (e) => {
+                    // Clear previous timer
+                    if (mouseMoveTimer) return;
+                    
+                    mouseMoveTimer = setTimeout(() => {
+                        mouseMoveTimer = null;
+                    }, Math.abs(1 / 60)); // ~60fps
+                    
                     const distanceFromRight = window.innerWidth - e.clientX;
-                    const FetchedScrollbarWidth = document.documentElement.style.getPropertyValue("--scrollbar-width")
-                    .valueOf()
-                    .toString()
-                    .trim() || null;
-                    const FetchedScrollbarWidthIncrementTypeIndex = FetchedScrollbarWidth.indexOf("px");
-                    let FormatedScrollbarWidthProperty;
-                    let CurrentScrollbarWidth = 0;
-                    if (FetchedScrollbarWidth !== null && FetchedScrollbarWidth.includes("px", FetchedScrollbarWidthIncrementTypeIndex)) {
-                        FormatedScrollbarWidthProperty = FetchedScrollbarWidth.slice(0, FetchedScrollbarWidthIncrementTypeIndex);
-                        FormatedScrollbarWidthProperty = FormatedScrollbarWidthProperty !== null && typeof(FormatedScrollbarWidthProperty) === "string"
-                        ? parseFloat(FormatedScrollbarWidthProperty).valueOf()
-                        : 0;
-                    } else {
-                        FormatedScrollbarWidthProperty = FetchedScrollbarWidth !== null
-                        && FetchedScrollbarWidth instanceof String
-                        ? FetchedScrollbarWidth
-                        : null;
-                    }
-                    //
-                    if (FormatedScrollbarWidthProperty !== null && (typeof(FormatedScrollbarWidthProperty) === "number")) {
-                        CurrentScrollbarWidth = FormatedScrollbarWidthProperty;
-                        console.log(CurrentScrollbarWidth.toString());
-                    }
-                    // 
-                    if (distanceFromRight <= Number(CurrentScrollbarWidth.valueOf()) * self.innerWidth.valueOf() * 0.001 && !isWide) {
+                    const threshold = isWide ? 12 : 8; // Use current state's width as threshold
+                    
+                    if (distanceFromRight <= threshold + 4 && !isWide) {
                         isWide = true;
-                        targetWidth = 12;
-                        animate();
-                    } else if (distanceFromRight > Number(CurrentScrollbarWidth.valueOf()) * self.innerWidth.valueOf() * 0.001 && isWide) {
+                        animate(12);
+                    } else if (distanceFromRight > threshold + 4 && isWide) {
                         isWide = false;
-                        targetWidth = 8;
-                        animate();
+                        animate(8);
                     }
-                })();
-            });
+                });
+                
+                // Reset state on window resize
+                let resizeTimer = null;
+                window.addEventListener("resize", () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        // Force recalculation on resize
+                        isWide = false;
+                        currentWidth = 8;
+                        targetWidth = 8;
+                        animating = false;
+                        document.documentElement.style.setProperty('--scrollbar-width', '8px');
+                    }, 150);
+                });
+            }
         }
-    }
-    // Attatches the ScrollbarMouseMovmentListener to the client DOM
-    ScrollbarAnimator.AttatchScrollbarListener();
-</script>
-<!---->
-<!-- <script>
+
+        // Attach the ScrollbarMouseMovementListener to the client DOM
+        ScrollbarAnimator.AttachScrollbarListener();
+    </script>
+    <!---->
+    <!-- <script>
         const pageTitle = document.getElementById("pageTitle");
 
         function waitLoads(timeMS) {
@@ -372,18 +419,19 @@ ___        ___        ___  ,________,  ,___    ,________
         }
     </script> -->
 
-<body>
+    <body>
 
-    <span id="notification" class="notification"></span>
+        <span id="notification" class="notification"></span>
 
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" defer>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" defer>
         const socket = io();
     </script>
-    <script async="true" src="index/assets/scripts/account_profiler_client/profiler.js"></script>
+        <script async="true"
+            src="index/assets/scripts/account_profiler_client/profiler.js"></script>
 
-    <!-- Data Store API Client -->
-    <script type="text/javascript">
+        <!-- Data Store API Client -->
+        <script type="text/javascript">
         let connected = false;
 
         socket.on('connect', () => {
@@ -420,24 +468,25 @@ ___        ___        ___  ,________,  ,___    ,________
         if (connected) SendDataToServer(true, TestDataDefintion);
     </script>
 
-    <section class="staticStickyUiFlex">
-        <div id="appMenu">
-            <div class="top-app-menu-section">
-                <div class="app-menu-title-container">
-                    <h2 id="appMenuTitle">Apps</h2>
+        <section class="staticStickyUiFlex">
+            <div id="appMenu">
+                <div class="top-app-menu-section">
+                    <div class="app-menu-title-container">
+                        <h2 id="appMenuTitle">Apps</h2>
+                    </div>
+                    <!-- Close Button for App Menu -->
+                    <button id="closeAppMenu">X</button>
                 </div>
-                <!-- Close Button for App Menu -->
-                <button id="closeAppMenu">X</button>
-            </div>
-            <!-- The App Menu Contents -->
-            <div class="appsContainer">
-                <!-- <p id="appsTextTag">Apps</p> -->
-                <div id="appList">
-                    <div id="appListContainer">
-                        <button class="appButton" id="searcherAppButton"
-                            onclick="notify('Redirecting...');">Chat</button>
-                        <button class="appButton" id="textEditorAppButton" onclick="notify('Redirecting...');">Text
-                            Editor</button>
+                <!-- The App Menu Contents -->
+                <div class="appsContainer">
+                    <!-- <p id="appsTextTag">Apps</p> -->
+                    <div id="appList">
+                        <div id="appListContainer">
+                            <button class="appButton" id="searcherAppButton"
+                                onclick="notify('Redirecting...');">Chat</button>
+                            <button class="appButton" id="textEditorAppButton"
+                                onclick="notify('Redirecting...');">Text
+                                Editor</button>
                         </button>
                     </div>
                     <div id="appListFooter">
@@ -469,17 +518,24 @@ ___        ___        ___  ,________,  ,___    ,________
                 <button aria-label="Account Options" id="accountExpandInfo"
                     onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')"
                     onclick="notify('Under Construction');">
-                    <img id="accountExpandIcon" src="index/assets/images/load_icon_5649.gif" alt="Error" preload="auto"
+                    <img id="accountExpandIcon"
+                        src="index/assets/images/load_icon_5649.gif" alt="Error"
+                        preload="auto"
                         height="25" width="25" />
                 </button>
 
                 <button aria-label="Apps" id="appMenuOpen"
-                    onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img id="appMenuIcon"
-                        src="index/assets/images/app_button_icon.png" preload="auto" aria-busy="false" height="25"
-                        width="25" /><span class="apps-menu-text">Apps</span></button>
+                    onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')"><img
+                        id="appMenuIcon"
+                        src="index/assets/images/app_button_icon.png"
+                        preload="auto" aria-busy="false" height="25"
+                        width="25" /><span
+                        class="apps-menu-text">Apps</span></button>
                 <button aria-label="Settings" id="settingsQuick"
                     onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
-                    <img id="settingsIcon" src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg" preload="auto"
+                    <img id="settingsIcon"
+                        src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg"
+                        preload="auto"
                         aria-busy="false" height="25" width="25" />
                     <span class="settings-quick-text">Settings</span></button>
             </div>
@@ -487,9 +543,13 @@ ___        ___        ___  ,________,  ,___    ,________
             <h1 id="pageTitle">HtWebz &ndash; Homepage</h1>
 
             <a href="/homepage">
-                <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
-                    <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60"
-                        height="60" style="image-rendering: pixelated !important; user-select: none !important;" />
+                <div id="mainLogo"
+                    onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
+                    <img
+                        src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg"
+                        alt="HtWebz Logo" width="60"
+                        height="60"
+                        style="image-rendering: pixelated !important; user-select: none !important;" />
                 </div>
             </a>
 
@@ -507,26 +567,36 @@ ___        ___        ___  ,________,  ,___    ,________
                 titleRo.observe(document.getElementById('pageTitle'));
             </script>
 
-            <div aria-label="Games" class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-                <button id="gamesMenuOpen" onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
+            <div aria-label="Games" class="moreFromHtWebzContainer"
+                id="moreFromHtWebzContainer">
+                <button id="gamesMenuOpen"
+                    onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
                     <div id="gamesIconWrapper" aria-sort="other">
-                        <img id="gamesMenuIcon" src="index/assets/images/console_remote_controller.png" alt="Games Icon"
+                        <img id="gamesMenuIcon"
+                            src="index/assets/images/console_remote_controller.png"
+                            alt="Games Icon"
                             preload="auto" height="27.5" width="27.5" />
                     </div>
                     <span class="games-menu-text">Games</span>
                 </button>
-                <button aria-label="Search" id="resourcesMenuOpen" class="ResourcesInteractable"
+                <button aria-label="Search" id="resourcesMenuOpen"
+                    class="ResourcesInteractable"
                     onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
-                    <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
+                    <input autocomplete="off" class="search-bar-input"
+                        id="SearchBarInput" type="text"
                         placeholder="Type here to search..." />
-                    <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
-                        <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
-                            alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
+                    <div id="resourcesIconWrapper"
+                        class="Resources-Icon-Wrapper-Div" aria-sort="other">
+                        <img id="resourcesMenuIcon"
+                            src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
+                            alt="Resources Icon" preload="auto" height="27.5"
+                            width="27.5" />
                     </div>
                     <span class="resources-menu-text">Search</span>
                 </button>
             </div>
-            <div id="search-results" aria-label="Search Results List"><!-- [Search Results Elements] --></div>
+            <div id="search-results"
+                aria-label="Search Results List"><!-- [Search Results Elements] --></div>
         </section>
     </section>
 
@@ -616,35 +686,49 @@ ___        ___        ___  ,________,  ,___    ,________
     </script>
 
     <div id="bottom-background-decoration">
-        <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg" class="wave-background-decoration-SVG"
+        <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg"
+            class="wave-background-decoration-SVG"
             viewBox="0 0 400 120" preserveAspectRatio="none">
             <defs>
-                <lineargradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <lineargradient id="waveGradient1" x1="0%" y1="0%" x2="100%"
+                    y2="0%">
                     <stop offset="0%" stop-color="skyblue" stop-opacity="0.8" />
-                    <stop offset="50%" stop-color="lightblue" stop-opacity="0.6" />
-                    <stop offset="100%" stop-color="aquamarine" stop-opacity="0.7" />
+                    <stop offset="50%" stop-color="lightblue"
+                        stop-opacity="0.6" />
+                    <stop offset="100%" stop-color="aquamarine"
+                        stop-opacity="0.7" />
                 </lineargradient>
 
-                <lineargradient id="waveGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="aquamarine" stop-opacity="0.6" />
-                    <stop offset="100%" stop-color="deepskyblue" stop-opacity="0.8" />
+                <lineargradient id="waveGradient2" x1="0%" y1="0%" x2="0%"
+                    y2="100%">
+                    <stop offset="0%" stop-color="aquamarine"
+                        stop-opacity="0.6" />
+                    <stop offset="100%" stop-color="deepskyblue"
+                        stop-opacity="0.8" />
                 </lineargradient>
             </defs>
 
             <g>
-                <path id="wave-one" d="M -1 15 Q 60 8, 120 22 T 400 18 L 400 100 L -1 100 Z" fill="url(#waveGradient1)"
-                    stroke="url(#waveGradient2)" stroke-width="2" stroke-linejoin="round" opacity="0.9">
-                    <animate attributeName="d" dur="8s" repeatCount="indefinite" values="M -1 25 Q 80 75, 160 10 T 400 65 L 400 100 L -1 100 Z;
+                <path id="wave-one"
+                    d="M -1 15 Q 60 8, 120 22 T 400 18 L 400 100 L -1 100 Z"
+                    fill="url(#waveGradient1)"
+                    stroke="url(#waveGradient2)" stroke-width="2"
+                    stroke-linejoin="round" opacity="0.9">
+                    <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                        values="M -1 25 Q 80 75, 160 10 T 400 65 L 400 100 L -1 100 Z;
                        M -1 60 Q 120 5, 200 80 T 400 15 L 400 100 L -1 100 Z;
                        M -1 15 Q 60 90, 140 25 T 400 70 L 400 100 L -1 100 Z;
                        M -1 70 Q 100 20, 180 85 T 400 10 L 400 100 L -1 100 Z;
                        M -1 25 Q 80 75, 160 10 T 400 65 L 400 100 L -1 100 Z" />
                 </path>
 
-                <path id="wave-two" d="M -1 35 Q 180 20, 280 45 T 400 30 L 400 100 L -1 100 Z"
-                    fill="url(#waveGradient2)" stroke="url(#waveGradient1)" stroke-width="2" stroke-linejoin="round"
+                <path id="wave-two"
+                    d="M -1 35 Q 180 20, 280 45 T 400 30 L 400 100 L -1 100 Z"
+                    fill="url(#waveGradient2)" stroke="url(#waveGradient1)"
+                    stroke-width="2" stroke-linejoin="round"
                     opacity="0.7">
-                    <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M -1 45 Q 200 95, 300 15 T 400 80 L 400 100 L -1 100 Z;
+                    <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                        values="M -1 45 Q 200 95, 300 15 T 400 80 L 400 100 L -1 100 Z;
                        M -1 85 Q 150 10, 250 100 T 400 25 L 400 100 L -1 100 Z;
                        M -1 20 Q 240 85, 340 30 T 400 90 L 400 100 L -1 100 Z;
                        M -1 45 Q 200 95, 300 15 T 400 80 L 400 100 L -1 100 Z" />
@@ -658,7 +742,8 @@ ___        ___        ___  ,________,  ,___    ,________
 
         <section class="main-content-section" name="content">
             <span class="pinned-content-title">
-                <h3 id="pinnedContentTitle" style="position:static;">Welcome</h3>
+                <h3 id="pinnedContentTitle"
+                    style="position:static;">Welcome</h3>
             </span>
             <div id="pinnedContentTop">
                 <!---->
@@ -706,12 +791,14 @@ ___        ___        ___  ,________,  ,___    ,________
         <section id="settingsMenu">
             <div class="settings-menu-hotbar">
                 <button id="closeSettingsMenuBtn">X</button>
-                <button id="themeSettingsMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
+                <button id="themeSettingsMenuBtn"
+                    onclick="notify('Currently Unavailable...')">Theme</button>
             </div>
             <div id="settingsContainerDisplay">
                 <hr class="top-settings-divider" style="width: 100%;">
                 <div id="displayS">
-                    <iframe src="settings_menu.html" id="settingsMenuPageLinkage"></iframe>
+                    <iframe src="settings_menu.html"
+                        id="settingsMenuPageLinkage"></iframe>
                 </div>
                 <hr class="bottom-settings-divider" style="width: 100%;">
             </div>
@@ -721,7 +808,8 @@ ___        ___        ___  ,________,  ,___    ,________
         <section id="gameMenu">
             <div class="game-menu-hotbar">
                 <button id="closeGameMenuButton">X</button>
-                <button id="themeGameMenuBtn" onclick="notify('Currently Unavailable...')">Theme</button>
+                <button id="themeGameMenuBtn"
+                    onclick="notify('Currently Unavailable...')">Theme</button>
             </div>
             <div id="gameContainerDisplay">
                 <hr class="top-game-divider" style="width: 100%;">
@@ -744,16 +832,19 @@ ___        ___        ___  ,________,  ,___    ,________
                             }
                         }
                     </script>
-                    <div id="chromeClickerGame" class="game" onclick="notify('Redirecting...')">
+                    <div id="chromeClickerGame" class="game"
+                        onclick="notify('Redirecting...')">
                         <h3 class="game-title
                         ">Chrome Clicker</h3>
                         <p class="game-description">A simple clicker game that
                             is based on the browser Google Chrome.
-                            <hr class="dividerGame"><br><text class="furthermoreDescription">This is
+                            <hr class="dividerGame"><br><text
+                                class="furthermoreDescription">This is
                                 currently a work in
                                 progress.</text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryButtonGame"
+                        <button onclick="notify('Redirecting...')"
+                            id="tryButtonGame"
                             class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryGame = document.getElementById('tryButtonGame');
@@ -768,16 +859,19 @@ ___        ___        ___  ,________,  ,___    ,________
                             });
                         </script>
                     </div>
-                    <div id="dinoJumpingGame" class="game" onclick="notify('Redirecting...')">
+                    <div id="dinoJumpingGame" class="game"
+                        onclick="notify('Redirecting...')">
                         <h3 class="game-title">Dino Jumping Game</h3>
                         <p class="game-description">
                             A Recreation of the Dino Game from Chrome, but a
                             better appealing version!
-                            <hr class="dividerGame"><br><text class="furthermoreDescription">
+                            <hr class="dividerGame"><br><text
+                                class="furthermoreDescription">
                                 Version 1.0.0
                             </text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton"
+                        <button onclick="notify('Redirecting...')"
+                            id="tryDinoGameButton"
                             class="tryButtonGameStyle">Play</button>
                         <script>
                             let tryDinoGame = document.getElementById('tryDinoGameButton');
@@ -828,34 +922,43 @@ ___        ___        ___  ,________,  ,___    ,________
         <section class="content-section featured" id="featured-section-A">
             <div class="content-section-header-container">
                 <div class="drag-content-section-container">
-                    <button class="grab-move-button featured-section"><img style="pointer-events:none !important;"
-                            src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
+                    <button class="grab-move-button featured-section"><img
+                            style="pointer-events:none !important;"
+                            src="./index/assets/svg/grab_icon.svg" height="50"
+                            width="50" /></button>
                 </div>
                 <div class="content-section-text-title">
                     <h1 aria-label="Featured Section">Featured</h1>
                 </div>
-                <div class="y-column-content-section-controls featured-section controls">
-                    <button class="hide-content-section-button featured-section">&ndash;</button>
+                <div
+                    class="y-column-content-section-controls featured-section controls">
+                    <button
+                        class="hide-content-section-button featured-section">&ndash;</button>
                 </div>
             </div>
             <div class="inner-frame-container featured" aria-label="Featured">
                 <!-- Featured Objects get created & organized by the following script: ... create_featured_results.js -->
             </div>
-            <script type="text/javascript" src="./index/assets/scripts/featured_logic/create_featured_results.js"
+            <script type="text/javascript"
+                src="./index/assets/scripts/featured_logic/create_featured_results.js"
                 defer></script>
         </section>
 
         <section class="content-section recent" id="recent-section-A">
             <div class="content-section-header-container">
                 <div class="drag-content-section-container">
-                    <button class="grab-move-button recent-section"><img style="pointer-events:none !important;"
-                            src="./index/assets/svg/grab_icon.svg" height="50" width="50" /></button>
+                    <button class="grab-move-button recent-section"><img
+                            style="pointer-events:none !important;"
+                            src="./index/assets/svg/grab_icon.svg" height="50"
+                            width="50" /></button>
                 </div>
                 <div class="content-section-text-title">
                     <h1 aria-label="Recent Section">Recents</h1>
                 </div>
-                <div class="y-column-content-section-controls recent-section controls">
-                    <button class="hide-content-section-button recent-section">&ndash;</button>
+                <div
+                    class="y-column-content-section-controls recent-section controls">
+                    <button
+                        class="hide-content-section-button recent-section">&ndash;</button>
                 </div>
             </div>
             <div class="inner-frame-container recent" aria-label="Recent">
@@ -973,7 +1076,8 @@ ___        ___        ___  ,________,  ,___    ,________
 
         <div id="footerContainer">
             <div id="developer" class="developer updated">
-                <span class="developerText" aria-label="Last Updated Year">&copy; 2026</span>
+                <span class="developerText"
+                    aria-label="Last Updated Year">&copy; 2026</span>
             </div>
             <div class="middle-footer-column">
                 <div id="developer" class="developer name">
@@ -1068,21 +1172,33 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <!-- End External Scripts ./index/assets/scripts/* -->
     <i>
-        <script type="text/javascript" src="index/assets/scripts/tooltip_system.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/letter_effects.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/main_user_interface.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/app_menu_script.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/info_managment.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/button_splash_effect.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/search_interface.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/search_process.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/window_resize_manager.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/tooltip_system.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/letter_effects.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/main_user_interface.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/app_menu_script.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/info_managment.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/button_splash_effect.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/search_interface.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/search_process.js" defer></script>
+        <script type="text/javascript"
+            src="index/assets/scripts/window_resize_manager.js" defer></script>
     </i>
     <!-- Modules -->
     <!-- DOM Viewport Handler -->
-    <script type="module" src="index/assets/scripts/DOM_viewport_manager/dom_manager.js"></script>
+    <script type="module"
+        src="index/assets/scripts/DOM_viewport_manager/dom_manager.js"></script>
     <!-- Settings Functionality -->
-    <script type="module" src="index/assets/scripts/settings/modules/UI_interactables.js" defer></script>
+    <script type="module"
+        src="index/assets/scripts/settings/modules/UI_interactables.js"
+        defer></script>
     <!---->
     <script>
         /*
@@ -1096,13 +1212,21 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <!-- <script async src="index/assets/scripts/context_menu.js"
         defer></script> -->
-    <script type="text/javascript" src="index/assets/scripts/toolbar_extension_manager.js" defer></script>
-    <script type="text/javascript" src="index/assets/scripts/project_file_validation.js" defer preload="auto"></script>
-    <script type="text/javascript" src="index/assets/scripts/content_section_logic/hide_content.js" defer></script>
-    <script type="text/javascript" src="index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
+    <script type="text/javascript"
+        src="index/assets/scripts/toolbar_extension_manager.js" defer></script>
+    <script type="text/javascript"
+        src="index/assets/scripts/project_file_validation.js" defer
+        preload="auto"></script>
+    <script type="text/javascript"
+        src="index/assets/scripts/content_section_logic/hide_content.js"
+        defer></script>
+    <script type="text/javascript"
+        src="index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
         defer></script>
 
-    <script type="module" src="./index/assets/scripts/recent_logic/create_recent_results.js" defer></script>
+    <script type="module"
+        src="./index/assets/scripts/recent_logic/create_recent_results.js"
+        defer></script>
 
     <script type="text/javascript" defer>
         let UserSavesScrollPosition = localStorage.getItem("Save_Scroll_Position_Policy");
@@ -1129,7 +1253,8 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <audio src="notification.mp3" preload="auto" id="notifySound"></audio>
     <audio src="button_click.mp3" preload="auto" id="GlobalClick"></audio>
-    <audio src="index/assets/audio/menu-command.mp3" preload="auto" id="PrimaryClick"></audio>
+    <audio src="index/assets/audio/menu-command.mp3" preload="auto"
+        id="PrimaryClick"></audio>
 
 </html>
 <!-- Index End -->

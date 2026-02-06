@@ -14,27 +14,27 @@ body {
 
 body::-webkit-scrollbar {
     width: var(--scrollbar-width);
-    scrollbar-gutter: stable;
+    background: transparent;
 }
 
 body::-webkit-scrollbar-track {
-    position: relative;
-    background-clip: padding-box;
     background: lightseagreen;
     border-radius: 7.5px;
-    border: 4px solid transparent;
-    outline: 2px solid #ccc;
-    outline-offset: -2px;
-    margin: 5px;
-    scroll-margin-inline-end: 5px;
+    border: 2px solid #ccc;
+    /* This creates the 4px gap from the right */
+    margin-right: 4px;
+    background-clip: padding-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 body::-webkit-scrollbar-thumb {
     background: darkcyan;
     border-radius: 7.5px;
-    border: 2px solid rgb(204, 204, 204, 0.6);
+    border: 2px solid rgba(204, 204, 204, 0.6);
     cursor: ns-resize !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
+    background-clip: padding-box;
 }
 
 ::selection {
