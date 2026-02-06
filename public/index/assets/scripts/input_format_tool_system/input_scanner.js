@@ -111,5 +111,5 @@ if (self && ScanForInputsInDocument && typeof(ScanForInputsInDocument) === "func
     self.addEventListener("change", ScanForInputsInDocument);
 
 export {
-    InputScanData,
+    InputFormaterData,
 };
