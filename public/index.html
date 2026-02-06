@@ -16,6 +16,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
     -->
 <html lang="en-US">
+<base href="/" />
 <!-- <base href="/public" /> -->
 <!-- Primary JavaScript Modules -->
 <script type="module" src="./index/assets/scripts/modules/logging/logger.js"></script>
@@ -24,6 +25,8 @@ ___        ___        ___  ,________,  ,___    ,________
 <script type="module"
     src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
 <script type="module" src="./index/assets/scripts/recent_logic/user_recents_loader.js"></script>
+<!-- Onboarding -->
+<script type="text/javascript" src="./index/assets/scripts/welcome_services/page_load_onboard.js"></script>
 <!-- Browser JavaScript disabled -->
 <noscript>
     <style>
@@ -275,56 +278,56 @@ ___        ___        ___  ,________,  ,___    ,________
 </script>
 <!-- Scrollbar Managment -->
 <script>
-let isWide = false;
-let currentWidth = 8;
-let targetWidth = 8;
-let animating = false;
+    let isWide = false;
+    let currentWidth = 8;
+    let targetWidth = 8;
+    let animating = false;
 
-function animate() {
-    if (animating) return;
-    animating = true;
-    async function step() {
-        if (currentWidth === targetWidth) {
-            animating = false;
-            return;
+    function animate() {
+        if (animating) return;
+        animating = true;
+        async function step() {
+            if (currentWidth === targetWidth) {
+                animating = false;
+                return;
+            }
+            currentWidth += (currentWidth < targetWidth ? 1 : -1);
+            document.documentElement.style.setProperty(
+                '--scrollbar-width',
+                `${currentWidth}px`
+            );
+            requestAnimationFrame(step);
         }
-        currentWidth += (currentWidth < targetWidth ? 1 : -1);
-        document.documentElement.style.setProperty(
-            '--scrollbar-width',
-            `${currentWidth}px`
-        );
         requestAnimationFrame(step);
     }
-    requestAnimationFrame(step);
-}
 
-class ScrollbarAnimator {
-    static ScrollbarAnimatorAttatched = false;
+    class ScrollbarAnimator {
+        static ScrollbarAnimatorAttatched = false;
 
-    static AttatchScrollbarListener() {
-        document.documentElement.style.setProperty('--scrollbar-width', `8px`);
-        document.body.addEventListener("mousemove", (e) => {
-            const distanceFromRight = window.innerWidth - e.clientX;
-            
-            // Use TARGET width with scaling AND minimum threshold
-            const thresholdWidth = isWide ? 12 : 8;
-            const scaledThreshold = thresholdWidth * self.innerWidth * 0.001;
-            const threshold = Math.max(scaledThreshold, 12); // NEVER less than 12px!
+        static AttatchScrollbarListener() {
+            document.documentElement.style.setProperty('--scrollbar-width', `8px`);
+            document.body.addEventListener("mousemove", (e) => {
+                const distanceFromRight = window.innerWidth - e.clientX;
 
-            if (distanceFromRight <= threshold && !isWide) {
-                isWide = true;
-                targetWidth = 12;
-                animate();
-            } else if (distanceFromRight > threshold && isWide) {
-                isWide = false;
-                targetWidth = 8;
-                animate();
-            }
-        });
+                // Use TARGET width with scaling AND minimum threshold
+                const thresholdWidth = isWide ? 12 : 8;
+                const scaledThreshold = thresholdWidth * self.innerWidth * 0.001;
+                const threshold = Math.max(scaledThreshold, 12); // NEVER less than 12px!
+
+                if (distanceFromRight <= threshold && !isWide) {
+                    isWide = true;
+                    targetWidth = 12;
+                    animate();
+                } else if (distanceFromRight > threshold && isWide) {
+                    isWide = false;
+                    targetWidth = 8;
+                    animate();
+                }
+            });
+        }
     }
-}
 
-ScrollbarAnimator.AttatchScrollbarListener();
+    ScrollbarAnimator.AttatchScrollbarListener();
 </script>
 <!-- <script type="text/javascript">
     let isWide = false;
