@@ -2,12 +2,27 @@ const body = document !== null ? document.body : null;
 const FetchedInputs = body.querySelectorAll("input");
 const EventListenerInputTypes = ["focus", "blur"];
 /**
- * 
+ * #### Data Objects
+ * Data for the `FormaterToolbar`; underneath the `topUserInterface` Element.
  */
-let InputElementData = {
-    InputElementAmount: 0,
-    ScannedInputElements: []
-};
+class InputFormaterData {
+    /**
+     * #### Input Editor Format Status Data.
+     */
+    static FormaterStatus = {
+        Enabled: false,
+        Displaying: false,
+        Interactable: true,
+        AvailableFormatTools: new Array(0)
+    };
+    /**
+     * 
+     */
+    static InputScanElementData = {
+        InputElementAmount: 0,
+        ScannedInputElements: new Array(0)
+    };
+}
 /**
  * 
  * @param {boolean} FormatToolsEnabledState
@@ -55,13 +70,27 @@ function ScanForInputsInDocument() {
          * @returns {EventListener[]?}
          */
         function ApplyInputListeners(TargetInputElement) {
-            let AppliedListeners = new Array();
+            let AppliedListeners = new Array(0);
+            let WarningMessage = new String();
             if (TargetInputElement !== null && TargetInputElement instanceof HTMLInputElement) {
+                console.debug(`Applying Event Listener Objects; to Scanned Inputs`);
                 for (let EventListenerTypeIndex = 0; EventListenerTypeIndex < EventListenerInputTypes.length.valueOf(); EventListenerTypeIndex++) {
-                    TargetInputElement.addEventListener(
-                    new String(EventListenerInputTypes.at(EventListenerTypeIndex.valueOf())),
+                    TargetInputElement.addEventListener(new String(EventListenerInputTypes.at(EventListenerTypeIndex.valueOf())),
                     (ListenerEventData) => {
-                            
+                        if (ToggleFormatTools !== null && typeof(ToggleFormatTools) === "function") {
+                            ToggleFormatTools();
+                        } else {
+                            if (WarningMessage !== null && typeof(WarningMessage) === "string") {
+                                if (ToggleFormatTools === null) {
+                                    WarningMessage += `ToggleFormatTools was NULL!` + '\n';
+                                }
+                                if (typeof(ToggleFormatTools) !== "function") {
+                                    WarningMessage += `Expected function for ToggleFormatTools; but got:\t${new String(typeof(ToggleFormatTools))}`;
+                                }
+                                console.warn(WarningMessage ? WarningMessage.trimStart() : new String(null).toString());
+                            }
+                            return null;
+                        }
                     });
                     AppliedListeners.push(EventListenerInputTypes.at(parseFloat(EventListenerTypeIndex.valueOf())).toString());
                 }
@@ -78,5 +107,9 @@ function ScanForInputsInDocument() {
     }
 }
 //
-if (self && ScanForInputsInDocument && typeof(ScannedInputElements) === "function")
+if (self && ScanForInputsInDocument && typeof(ScanForInputsInDocument) === "function")
     self.addEventListener("change", ScanForInputsInDocument);
+
+export {
+    InputScanData,
+};
