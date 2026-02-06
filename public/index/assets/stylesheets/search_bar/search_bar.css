@@ -1,4 +1,5 @@
 .search-bar-input {
+    color: #333;
     position: relative;
     right: 0 !important;
     /* lock right edge */
@@ -39,6 +40,7 @@
     white-space: nowrap; /* Inherit from parent */
     text-overflow: ellipsis !important;
     max-width: 100%;
+    color: #8b8b8b;
 }
 
 .search-bar-input:focus-within {

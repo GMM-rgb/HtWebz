@@ -36,3 +36,11 @@ body::-webkit-scrollbar-thumb {
     cursor: ns-resize !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.325);
 }
+
+::selection {
+    color: #0072ff;
+    background-color: rgba(5, 134, 227, 0.65);
+    stroke-linejoin: round !important;
+    stroke-width: 2px;
+    stroke: rgb(53, 171, 255);
+}
