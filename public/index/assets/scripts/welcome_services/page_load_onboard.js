@@ -57,5 +57,7 @@ async function PlayAudio(AudioName) {
 }
 
 self.addEventListener("DOMContentLoaded", () => {
-    PlayAudio("interface_startup");
+    if (PlayAudio !== null && typeof(PlayAudio) === "function") {
+        PlayAudio("interface_startup");
+    }
 }, { once: true });
