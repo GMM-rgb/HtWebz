@@ -1,6 +1,7 @@
 const body = document !== null ? document.body : null;
 const FetchedInputs = body.querySelectorAll("input");
 const EventListenerInputTypes = ["focus", "blur"];
+
 /**
  * #### Data Objects
  * Data for the `FormaterToolbar`; underneath the `topUserInterface` Element.
@@ -23,6 +24,67 @@ class InputFormaterData {
         ScannedInputElements: new Array(0)
     };
 }
+
+/**
+ * 
+ */
+class InputEditFormaterEvents {
+    /**
+     * 
+     * @private
+     */
+    static EditFormaterEnabledStateChanged = new CustomEvent("formatertoolschanged", {
+        detail: InputFormaterData.FormaterStatus
+    });
+    /**
+     * 
+     * @public
+     * @param {boolean} EnabledState
+     * @param {boolean} DisplayingState
+     * @param {boolean} InteractableState
+     * @returns {void}
+     */
+    static TriggerFormaterEnabledChanged(EnabledState, DisplayingState, InteractableState) {
+        const FormaterChangEvent = this.EditFormaterEnabledStateChanged;
+        let TriggeredEvent = false;
+
+        /**
+         * 
+         * @returns {void}
+         */
+        function ChangEventStatus() {
+            if (FormaterChangEvent !== null && FormaterChangEvent instanceof CustomEvent) {
+                
+            }
+        }
+
+        /**
+         * 
+         * @returns {boolean}
+         */
+        async function FireChangeEvent() {
+            
+        }
+        
+        if (FiredEnabledState !== null && typeof(FiredEnabledState) === 'boolean') {
+            try {
+
+            } catch (TriggerEventError) {
+                console.error(`Formater Trigger Event Listener Function; experience an error & failed.\nError Details:\n${new String(TriggerEventError).toString()}`);
+                return void null;
+            } finally {
+                if (TriggeredEvent) {
+                    console.info("");
+                } else {
+                    console.warn("");
+                }
+            }
+        }
+
+        return void null;
+    }
+}
+
 /**
  * 
  * @param {boolean} FormatToolsEnabledState
@@ -58,6 +120,7 @@ async function ToggleFormatTools(FormatToolsEnabledState) {
         }
     }
 }
+
 /**
  * #### Scans for `<input/>` elements within the HTML document; the function is executed in.
  * @returns {void}
@@ -106,6 +169,7 @@ function ScanForInputsInDocument() {
         });
     }
 }
+
 //
 if (self && ScanForInputsInDocument && typeof(ScanForInputsInDocument) === "function")
     self.addEventListener("change", ScanForInputsInDocument);
