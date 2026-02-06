@@ -285,7 +285,7 @@ ___        ___        ___  ,________,  ,___    ,________
     function animate() {
         if (animating) return;
         animating = true;
-        function step() {
+        async function step() {
             if (currentWidth === targetWidth) {
                 animating = false;
                 return;
@@ -314,38 +314,38 @@ ___        ___        ___  ,________,  ,___    ,________
         static AttatchScrollbarListener() {
             document.documentElement.style.setProperty('--scrollbar-width', `8px`);
             document.body.addEventListener("mousemove", (e) => {
-                const distanceFromRight = window.innerWidth - e.clientX;
-                const FetchedScrollbarWidth = document.documentElement.style.getPropertyValue("--scrollbar-width")
-                .valueOf()
-                .toString()
-                .trim() || null;
-                const FetchedScrollbarWidthIncrementTypeIndex = FetchedScrollbarWidth.indexOf("px");
-                let FormatedScrollbarWidthProperty;
-                let CurrentScrollbarWidth = 0;
-                if (FetchedScrollbarWidth !== null && FetchedScrollbarWidth.includes("px", FetchedScrollbarWidthIncrementTypeIndex)) {
-                    FormatedScrollbarWidthProperty = FetchedScrollbarWidth.slice(0, FetchedScrollbarWidthIncrementTypeIndex);
-                    FormatedScrollbarWidthProperty = FormatedScrollbarWidthProperty !== null && typeof(FormatedScrollbarWidthProperty) === "string"
-                    ? parseFloat(FormatedScrollbarWidthProperty).valueOf()
-                    : 0;
-                } else {
-                    FormatedScrollbarWidthProperty = FetchedScrollbarWidth !== null
-                    && FetchedScrollbarWidth instanceof String
-                    ? FetchedScrollbarWidth
-                    : null;
-                }
-                //
-                if (FormatedScrollbarWidthProperty !== null && (typeof(FormatedScrollbarWidthProperty) === "number")) {
-                    CurrentScrollbarWidth = FormatedScrollbarWidthProperty;
-                    // console.log(CurrentScrollbarWidth.toString());
-                }
-                // 
-                (async () => {
-                    if (distanceFromRight <= Number(CurrentScrollbarWidth.valueOf()) && !isWide) {
-                        isWide = !isWide;
+                (() => {
+                    const distanceFromRight = window.innerWidth - e.clientX;
+                    const FetchedScrollbarWidth = document.documentElement.style.getPropertyValue("--scrollbar-width")
+                    .valueOf()
+                    .toString()
+                    .trim() || null;
+                    const FetchedScrollbarWidthIncrementTypeIndex = FetchedScrollbarWidth.indexOf("px");
+                    let FormatedScrollbarWidthProperty;
+                    let CurrentScrollbarWidth = 0;
+                    if (FetchedScrollbarWidth !== null && FetchedScrollbarWidth.includes("px", FetchedScrollbarWidthIncrementTypeIndex)) {
+                        FormatedScrollbarWidthProperty = FetchedScrollbarWidth.slice(0, FetchedScrollbarWidthIncrementTypeIndex);
+                        FormatedScrollbarWidthProperty = FormatedScrollbarWidthProperty !== null && typeof(FormatedScrollbarWidthProperty) === "string"
+                        ? parseFloat(FormatedScrollbarWidthProperty).valueOf()
+                        : 0;
+                    } else {
+                        FormatedScrollbarWidthProperty = FetchedScrollbarWidth !== null
+                        && FetchedScrollbarWidth instanceof String
+                        ? FetchedScrollbarWidth
+                        : null;
+                    }
+                    //
+                    if (FormatedScrollbarWidthProperty !== null && (typeof(FormatedScrollbarWidthProperty) === "number")) {
+                        CurrentScrollbarWidth = FormatedScrollbarWidthProperty;
+                        console.log(CurrentScrollbarWidth.toString());
+                    }
+                    // 
+                    if (distanceFromRight <= Number(CurrentScrollbarWidth.valueOf()) * self.innerWidth.valueOf() * 0.001 && !isWide) {
+                        isWide = true;
                         targetWidth = 12;
                         animate();
-                    } else if (distanceFromRight > Number(CurrentScrollbarWidth.valueOf()) && isWide) {
-                        isWide = !isWide;
+                    } else if (distanceFromRight > Number(CurrentScrollbarWidth.valueOf()) * self.innerWidth.valueOf() * 0.001 && isWide) {
+                        isWide = false;
                         targetWidth = 8;
                         animate();
                     }
