@@ -1,4 +1,0 @@
-TODO List:
-------------------------------------------------------------------------
-- Create the new account system for the backend & frontend resolver.
-- 
