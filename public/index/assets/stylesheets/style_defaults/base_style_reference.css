@@ -21,7 +21,6 @@ body::-webkit-scrollbar-track {
     background: lightseagreen;
     border-radius: 7.5px;
     border: 2px solid #ccc;
-    /* This creates the 4px gap from the right */
     margin-right: 4px;
     background-clip: padding-box;
     margin-top: 5px;
