@@ -150,7 +150,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: top;
-    background: radial-gradient(at center, aquamarine, rgb(53, 171, 255) 90%);
+    background: radial-gradient(at center, #7fffd4, #35abff 90%);
     position: relative !important;
     /* Sizing Configuration */
     padding-block-start: 15px !important;
