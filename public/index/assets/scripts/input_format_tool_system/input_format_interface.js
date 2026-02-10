@@ -1,6 +1,6 @@
 // Import JavaScript Modules; for the Input Formater.
-import * as InputScannerUtility from "./input_scanner";
-import * as InputInstancer from "./input_formater_instancer";
+import * as InputScannerUtility from "./input_scanner.js";
+import * as InputInstancer from "./input_formater_instancer.js";
 // 
 const InputMutationObserverConfiguration = { attributes: true, subtree: true };
 let ScannedInputElementData = InputScannerUtility !== null ? InputScannerUtility.InputFormatingData.InputScanElementData.ScannedInputElements : null;
