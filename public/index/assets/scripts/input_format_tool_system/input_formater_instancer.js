@@ -53,7 +53,7 @@ class InputFormaterInstancerUtility {
         } else {
             try {
                 /**
-                 * 
+                 * Builds a new Formater Toolbar; for future use on the Page for the User.
                  * @param {HTMLElement} FormaterParentElement
                  */
                 function ConstructFormaterToolbar(FormaterParentElement) {

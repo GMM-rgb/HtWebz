@@ -2,6 +2,7 @@
 import * as InputScannerUtility from "./input_scanner.js";
 import * as InputInstancer from "./input_formater_instancer.js";
 // 
+const TopUserInterface = window instanceof Window ? window.document.querySelector("#topUserInterfaceBar") : null;
 const InputMutationObserverConfiguration = { attributes: true, subtree: true };
 let ScannedInputElementData = InputScannerUtility !== null ? InputScannerUtility.InputFormatingData.InputScanElementData.ScannedInputElements : null;
 /**
@@ -55,6 +56,11 @@ self.onloadstart = async () => {
                     console.error(`${new String(InputMutationError).toString()}`);
                 }
             });
+        }
+
+        if (InputInstancer !== null && InputInstancer.InputFormaterInstancerUtility !== null) {
+            const Instancer = new InputInstancer.InputFormaterInstancerUtility(TopUserInterface);
+            const FormaterToolbar = Instancer.CreateNewFormaterInstance();
         }
     }, { once: true, passive: true });
 }

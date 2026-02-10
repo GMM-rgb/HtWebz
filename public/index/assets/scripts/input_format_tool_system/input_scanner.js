@@ -1,5 +1,6 @@
 const body = document !== null ? document.body : null;
-const FetchedInputs = body.querySelectorAll("input");
+const FetchedInputs = body ? body.querySelectorAll("input"): [] || null;
+const FetchTextAreaInputs = body ? body.querySelectorAll("textarea") : [] || null;
 const EventListenerInputTypes = ["focus", "blur"];
 
 /**
@@ -24,6 +25,9 @@ class InputFormaterData {
         InputElementAmount: 0,
         ScannedInputElements: {
             InputElementIDs: new Array(0),
+            /**
+             * @type {HTMLInputElement[]}
+             */
             InputElements: new Array(0)
         }
     };
@@ -71,7 +75,7 @@ class InputEditFormaterEvents {
 
             }
         }
-        
+        // 
         if (TriggeredEvent !== null && typeof(TriggeredEvent) === 'boolean') {
             try {
 
@@ -86,7 +90,7 @@ class InputEditFormaterEvents {
                 }
             }
         }
-
+        // 
         return null;
     }
 }
@@ -132,7 +136,7 @@ async function ToggleFormatTools(FormatToolsEnabledState) {
  * @returns {void}
  */
 function ScanForInputsInDocument() {
-    if (body !== null && (body instanceof HTMLElement)) {            //if (ScannedElement !== null && (ScannedElement instanceof HTMLElement) && (ScannedElement instanceof HTMLInputElement)) {
+    if (body !== null && (body instanceof HTMLElement)) {
         /**
          * 
          * @param {HTMLInputElement} TargetInputElement
@@ -163,22 +167,37 @@ function ScanForInputsInDocument() {
                     });
                     AppliedListeners.push(EventListenerInputTypes.at(parseFloat(EventListenerTypeIndex.valueOf())).toString());
                 }
+                
+                if (AppliedListeners !== null && AppliedListeners instanceof Array) {
+                    return AppliedListeners;
+                }
             }
         }
-        // 
+
+        // Attatches "focus" & "blur" listeners for every possible input in the HTML document
         FetchedInputs.forEach((FetchedInput) => {
             if (FetchedInput !== null && FetchedInput instanceof HTMLInputElement) {
+                // Update Data Variables
+                InputFormaterData.InputScanElementData.InputElementAmount += 1;
+                InputFormaterData.InputScanElementData.ScannedInputElements.InputElements.push(FetchedInput);
                 if (ApplyInputListeners && typeof(ApplyInputListeners) === "function") {
                     ApplyInputListeners();
                 }
             }
         });
+
+        // Debugging
+        console.info(`Scanned Inputs in Document.\nInput Amount within Document:\t${InputFormaterData.InputScanElementData.InputElementAmount.valueOf().toString()}`);
+        InputFormaterData.InputScanElementData.ScannedInputElements.InputElements.forEach((input) => {
+            console.info(`${new String(input.nodeName).trim()}`);
+        });
     }
 }
 
-//
-if (self && ScanForInputsInDocument && typeof(ScanForInputsInDocument) === "function")
-    self.addEventListener("change", ScanForInputsInDocument);
+if (self && ScanForInputsInDocument !== null && typeof(ScanForInputsInDocument) === "function") {
+    self.addEventListener("DOMContentLoaded", ScanForInputsInDocument, { once: true });
+    self.addEventListener("change", ScanForInputsInDocument); // Whenever the document changes in the DOM Tree; Re-runs the scan.
+}
 
 export {
     InputFormaterData as InputFormatingData,
