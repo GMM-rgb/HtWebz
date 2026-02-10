@@ -1,8 +1,23 @@
 /**
- * 
- * @
+ * Author: @GMM-rgb
  */
 class InputFormaterInstancerUtility {
+    /**
+     * @readonly
+     */
+    static TemplateInteractables = `
+        <button class="format-button bold">
+            <img src="/index/assets/images/" height="50" width="50" />
+        </button>
+    `;
+    /**
+     * @readonly
+     */
+    static FormaterTemplateInterface = `
+        <div class="formater-toolbar-interactables">
+
+        </div>
+    `;
     /**
      * @type {HTMLElement?}
      */
@@ -33,11 +48,30 @@ class InputFormaterInstancerUtility {
                  */
                 function ConstructFormaterToolbar(FormaterParentElement) {
                     if (FormaterParentElement !== null && FormaterParentElement instanceof HTMLElement) {
-                        const NewFormaterInstance = document.createElement("div", { is: "div" });
+                        const NewFormaterInstance = document.createElement("div");
+                        /**
+                         * Fetches new Formater Interface Content; from this Template:
+                         * 
+                         * ```html
+                         * 
+                         * ```
+                         * 
+                         * @returns {Promise<string>}
+                         */
+                        async function GetInitialFormaterContent () {
+                            
+                        }
+                        /**
+                         * 
+                         * @returns {void}
+                         */
+                        function ApplyInitialFormaterContent() {
+                            (async () => {
+                                const FormaterInterface = await GetInitialFormaterContent();
+                            })();
+                        }
                         // 
-                        while (
-                            NewFormaterInstance.parentElement === null
-                        ) {
+                        while (NewFormaterInstance.parentElement === null) {
                             if (FormaterParentElement !== null) {
                                 FormaterParentElement.appendChild(NewFormaterInstance);
                             }
@@ -65,5 +99,3 @@ class InputFormaterInstancerUtility {
 export {
     InputFormaterInstancerUtility,
 };
-
-new InputFormaterInstancerUtility().CreateNewFormaterInstance();
