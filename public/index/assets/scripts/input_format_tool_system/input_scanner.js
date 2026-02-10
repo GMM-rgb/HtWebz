@@ -17,13 +17,13 @@ class InputFormaterData {
         AvailableFormatToolOptions: []
     };
     /**
-     * 
+     * #### Scanned User Editable Inputs in the DOM Content.
      */
     static InputScanElementData = {
         InputElementAmount: 0,
         ScannedInputElements: {
-            InputElementIDs: [],
-            InputElements: []
+            InputElementIDs: new Array(0),
+            InputElements: new Array(0)
         }
     };
 }
@@ -180,5 +180,6 @@ if (self && ScanForInputsInDocument && typeof(ScanForInputsInDocument) === "func
     self.addEventListener("change", ScanForInputsInDocument);
 
 export {
-    InputFormaterData,
+    InputFormaterData as InputFormatingData,
+    ScanForInputsInDocument as ScanInputsInDocument
 };
