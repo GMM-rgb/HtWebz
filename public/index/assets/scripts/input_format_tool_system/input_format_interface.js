@@ -27,7 +27,7 @@ async function ApplyMutationChangeListening() {
                     }
                 });
             });
-
+            // 
             if (InputMutationObserver !== null && InputMutationObserver instanceof MutationObserver) {
                 InputMutationObserver.observe(
                     InputElement,
@@ -48,8 +48,7 @@ async function ApplyMutationChangeListening() {
 self.onloadstart = async () => {
     self.addEventListener("DOMContentLoaded", (LoadEvent) => {
         if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
-            ApplyMutationChangeListening()
-            .then(() => {
+            ApplyMutationChangeListening().then(() => {
                 console.debug("Applied Mutation Listener Change; to DOM Input Elements.");
             }).catch((InputMutationError) => {
                 if (InputMutationError !== null) {

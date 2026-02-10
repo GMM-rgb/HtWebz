@@ -1,0 +1,6 @@
+<svg style="background: transparent;" height="50" width="50" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="125" y="125" height="250" width="250" rx="12.5" fill="#ccc" stroke="#fff" stroke-width="7.5" />
+        <text style="user-select: none;" x="175" y="325" fill="#333" font-weight="bolder" font-size="15em" font-family="Arial" stroke="#fff" stroke-width="4" stroke-miterlimit="1.25">B</text>
+    </g>
+</svg>

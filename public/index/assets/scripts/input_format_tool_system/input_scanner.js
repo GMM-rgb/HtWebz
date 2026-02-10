@@ -14,6 +14,7 @@ class InputFormaterData {
         Enabled: false,
         Displaying: false,
         Interactable: true,
+        InputFormaterToolbar: null,
         AvailableFormatToolOptions: []
     };
     /**
@@ -86,7 +87,7 @@ class InputEditFormaterEvents {
             }
         }
 
-        return void null;
+        return null;
     }
 }
 
@@ -110,7 +111,7 @@ async function ToggleFormatTools(FormatToolsEnabledState) {
                 console.error(`Formating Tools encountered an error while setting up`);
             if (FormatToolsEnabledState !== true)
                 console.error();
-            return void null;
+            return null;
         }
     }
     // 
