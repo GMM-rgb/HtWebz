@@ -14,14 +14,17 @@ class InputFormaterData {
         Enabled: false,
         Displaying: false,
         Interactable: true,
-        AvailableFormatTools: new Array(0)
+        AvailableFormatToolOptions: []
     };
     /**
      * 
      */
     static InputScanElementData = {
         InputElementAmount: 0,
-        ScannedInputElements: new Array(0)
+        ScannedInputElements: {
+            InputElementIDs: [],
+            InputElements: []
+        }
     };
 }
 
@@ -45,7 +48,7 @@ class InputEditFormaterEvents {
      * @returns {void}
      */
     static TriggerFormaterEnabledChanged(EnabledState, DisplayingState, InteractableState) {
-        const FormaterChangEvent = this.EditFormaterEnabledStateChanged;
+        const FormaterChangeEvent = this.EditFormaterEnabledStateChanged;
         let TriggeredEvent = false;
 
         /**
@@ -53,7 +56,7 @@ class InputEditFormaterEvents {
          * @returns {void}
          */
         function ChangEventStatus() {
-            if (FormaterChangEvent !== null && FormaterChangEvent instanceof CustomEvent) {
+            if (FormaterChangeEvent !== null && FormaterChangeEvent instanceof CustomEvent) {
                 
             }
         }
@@ -63,10 +66,12 @@ class InputEditFormaterEvents {
          * @returns {boolean}
          */
         async function FireChangeEvent() {
-            
+            if (FormaterChangeEvent !== null && FormaterChangeEvent instanceof CustomEvent) {
+
+            }
         }
         
-        if (FiredEnabledState !== null && typeof(FiredEnabledState) === 'boolean') {
+        if (TriggeredEvent !== null && typeof(TriggeredEvent) === 'boolean') {
             try {
 
             } catch (TriggerEventError) {
