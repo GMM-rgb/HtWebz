@@ -20,7 +20,7 @@ head {
     border-radius: inherit;
 } */
 
-#topUserInterfaceBar::after {
+.staticStickyUiFlex:has(#UserInputFormaterToolbar) #topUserInterfaceBar::after {
     content: "";
     position: absolute;
     padding-block-end: 7.5px;
