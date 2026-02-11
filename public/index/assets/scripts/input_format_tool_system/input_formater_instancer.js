@@ -102,6 +102,7 @@ class InputFormaterInstancerUtility {
                      * @returns {Promise<void>}
                      */
                     async function ApplyInitialFormaterContent() {
+                        console.debug("Porting Initial Formater Content Interactables...");
                         const FormaterInterface = await GetInitialFormaterContent(); // Fetch Interface
                         NewFormaterInstance.innerHTML = FormaterInterface !== null && typeof (FormaterInterface) === "string" ? FormaterInterface : null;
                         console.log(new String(NewFormaterInstance.innerHTML.valueOf()).toString());
@@ -110,7 +111,7 @@ class InputFormaterInstancerUtility {
                     const PrototypeParent = InputFormaterInstancerUtility.FormaterToolbarParent;
                     // 
                     if (PrototypeParent !== null && PrototypeParent instanceof HTMLElement) {
-                        console.debug("Appending Formater Toolbar...");
+                        console.debug("%cAppending Formater Toolbar...", 'color: magenta;');
                         PrototypeParent.appendChild(NewFormaterInstance);
                         NewFormaterInstance.parentElement === PrototypeParent ? console.debug("%cSuccessfully Appended!", "color: lime;") : void null;
                     }

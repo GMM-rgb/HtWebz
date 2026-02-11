@@ -49,16 +49,6 @@ async function ApplyMutationChangeListening() {
 self.addEventListener("DOMContentLoaded", async (LoadEvent) => {
     LoadEvent.stopPropagation();
 
-    if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
-        ApplyMutationChangeListening().then(() => {
-            console.debug("%cApplied Mutation Listener Change; to DOM Input Elements.", "color: orange;");
-        }).catch((InputMutationError) => {
-            if (InputMutationError !== null) {
-                console.error(`${new String(InputMutationError).toString()}`);
-            }
-        });
-    }
-
     if (InputInstancer !== null && InputInstancer.InputFormaterInstancerUtility !== null) {
         const Instancer = new InputInstancer.InputFormaterInstancerUtility();
         Instancer.SetFormaterParent(TopInterfaceUiFlexContainer);
@@ -71,7 +61,17 @@ self.addEventListener("DOMContentLoaded", async (LoadEvent) => {
         });
         // Logs the Formater Toolbar ID Attribute.
         if (FormaterToolbar !== null && FormaterToolbar instanceof HTMLElement) {
-            console.log(`Formater Toolbar Name:\t${new String(FormaterToolbar.getAttribute("id")).trim()}`);
+            console.log(`Formater Name:\t${new String(FormaterToolbar.getAttribute("id")).trim()}`);
         }
+    }
+
+    if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
+        ApplyMutationChangeListening().then(() => {
+            console.debug("%cApplied Mutation Listener Change; to DOM Input Elements.", "color: orange;");
+        }).catch((InputMutationError) => {
+            if (InputMutationError !== null) {
+                console.error(`${new String(InputMutationError).toString()}`);
+            }
+        });
     }
 }, { once: true, passive: true });

@@ -5,6 +5,7 @@ body {
     background: rgb(53, 171, 255);
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 :root {

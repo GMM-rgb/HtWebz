@@ -7,31 +7,18 @@ head {
     scroll-snap-type: mandatory;
 }
 
-/* #topUserInterfaceBar::before {
+/* #formatterToolbar::before {
     content: "";
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 60px;
-    box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
-    border-radius: 0 0 15px 15px;
-    z-index: 9994;
-    pointer-events: none;
-} */
-
-#formatterToolbar::before {
-    content: "";
-    position: absolute;
-    top: 0; /* Same position as formatter, not below it */
+    top: 0;
     left: -10px;
     right: -10px;
     bottom: 0;
     box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
-    z-index: -1; /* Behind formatter content */
+    z-index: -1;
     pointer-events: none;
-    border-radius: inherit; /* Match formatter's border radius */
-}
+    border-radius: inherit;
+} */
 
 #topUserInterfaceBar::after {
     content: "";
@@ -1134,18 +1121,21 @@ head {
     Formater Toolbar Styles
 */
 #UserInputFormaterToolbar {
+    scroll-behavior: smooth;
     display: flex; /* needs to be changed to "none"; when the Format Tools Manager is completed. */
     cursor: default;
-    position: relative;
+    position: sticky;
     padding: 10px;
     border: 3px solid #ccc;
     border-top: 2px solid transparent;
     border-radius: 0 0 15px 15px;
+    -webkit-backdrop-filter: blur(0.75px);
+    backdrop-filter: blur(0.75px);
     background: rgb(71, 157, 218, 0.875);
-    margin-inline: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 10px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
     height: var(--formater-toolbar-height, initial);
+    margin-inline: 20px;
     min-height: 50px;
     z-index: 9997;
     box-shadow: 

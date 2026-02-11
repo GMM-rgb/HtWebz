@@ -12,23 +12,3 @@
     object-fit: contain;
     margin-bottom: 5px;
 }
-
-/* .staticStickyUiFlex::before {
-    content: "";
-    position: absolute;
-    top: var(--top-ui-height, 95px);
-    left: 5px;
-    right: 5px;
-    height: 15px;
-    width: auto;
-    box-sizing: border-box;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.375), transparent);
-    z-index: 9996;
-    pointer-events: none;
-}
-
-@media (max-width: 812px) {
-    .staticStickyUiFlex::before {
-        top: calc(var(--top-ui-height, 95px) - 36px) !important;
-    }
-} */
