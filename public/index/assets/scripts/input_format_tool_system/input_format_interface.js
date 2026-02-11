@@ -2,7 +2,7 @@
 import * as InputScannerUtility from "./input_scanner.js";
 import * as InputInstancer from "./input_formater_instancer.js";
 // 
-const TopUserInterface = window instanceof Window ? window.document.querySelector("#topUserInterfaceBar") : null;
+const TopInterfaceUiFlexContainer = window instanceof Window ? window.document.querySelector(".staticStickyUiFlex") : null;
 const InputMutationObserverConfiguration = { attributes: true, subtree: true };
 let ScannedInputElementData = InputScannerUtility !== null ? InputScannerUtility.InputFormatingData.InputScanElementData.ScannedInputElements : null;
 /**
@@ -11,7 +11,7 @@ let ScannedInputElementData = InputScannerUtility !== null ? InputScannerUtility
  * @returns {void}
  */
 async function ApplyMutationChangeListening() {
-    ScannedInputElementData.InputElements.forEach((InputElement) => {
+    ScannedInputElementData.InputElements.forEach(async (InputElement) => {
         if (InputElement !== null && InputElement instanceof HTMLInputElement) {
             // MutationObserver for actively listening in the change of `focusactive` attribute.
             const InputMutationObserver = new MutationObserver((InputElementMutations) => {
@@ -47,9 +47,11 @@ async function ApplyMutationChangeListening() {
 }
 
 self.addEventListener("DOMContentLoaded", async (LoadEvent) => {
+    LoadEvent.stopPropagation();
+
     if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
         ApplyMutationChangeListening().then(() => {
-            console.debug("Applied Mutation Listener Change; to DOM Input Elements.");
+            console.debug("%cApplied Mutation Listener Change; to DOM Input Elements.", "color: orange;");
         }).catch((InputMutationError) => {
             if (InputMutationError !== null) {
                 console.error(`${new String(InputMutationError).toString()}`);
@@ -58,18 +60,18 @@ self.addEventListener("DOMContentLoaded", async (LoadEvent) => {
     }
 
     if (InputInstancer !== null && InputInstancer.InputFormaterInstancerUtility !== null) {
-        const Instancer = new InputInstancer.InputFormaterInstancerUtility(TopUserInterface);
-        const FormaterToolbar = await Instancer.CreateNewFormaterInstance()
-        .then((NewCreatedFormater) => {
-            console.log("Successfully Created new Formater.");
+        const Instancer = new InputInstancer.InputFormaterInstancerUtility();
+        Instancer.SetFormaterParent(TopInterfaceUiFlexContainer);
+        const FormaterToolbar = await Instancer.CreateNewFormaterInstance().then((NewCreatedFormater) => {
+            console.log("%cSuccessfully Created new Formater.", "color: lime;");
             return NewCreatedFormater;
         }).catch((InstancerError) => {
             console.error(`${new String(InstancerError).valueOf()}`);
             return null;
         });
-
+        // Logs the Formater Toolbar ID Attribute.
         if (FormaterToolbar !== null && FormaterToolbar instanceof HTMLElement) {
-            console.log(`Formater Toolbar Name:\t${FormaterToolbar.id.toString().trim()}`);
+            console.log(`Formater Toolbar Name:\t${new String(FormaterToolbar.getAttribute("id")).trim()}`);
         }
     }
 }, { once: true, passive: true });

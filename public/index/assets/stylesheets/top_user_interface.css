@@ -1083,3 +1083,19 @@ head {
     display: none;
     flex-direction: column;
 }
+/*
+    Formater Toolbar Styles
+*/
+#UserInputFormaterToolbar {
+    display: flex; /* needs to be changed to "none"; when the Format Tools Manager is completed. */
+    cursor: default;
+    position: sticky;
+    padding: 10px;
+    border: 3px solid #ccc;
+    border-radius: 0 0 15px 15px;
+    background: #479dda;
+    margin-inline: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 10px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box;
+    min-height: 50px;
+}

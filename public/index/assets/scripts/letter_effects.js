@@ -38,7 +38,7 @@ class LetterEffect {
                 }
             }
             
-            console.log('Animating:', element.tagName, 'Color:', originalColor, 'Display:', originalDisplay);
+            // console.log('Animating:', element.tagName, 'Color:', originalColor, 'Display:', originalDisplay);
             
             // Don't change display properties - preserve layout
             const preservedStyles = {
@@ -90,9 +90,9 @@ class LetterEffect {
             // Create observer for EACH element individually
             const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
-                    console.log('Observer fired for:', entry.target.tagName, 'isIntersecting:', entry.isIntersecting, 'ratio:', entry.intersectionRatio);
+                    // console.log('Observer fired for:', entry.target.tagName, 'isIntersecting:', entry.isIntersecting, 'ratio:', entry.intersectionRatio);
                     if (entry.isIntersecting) {
-                        console.log('✓ Triggering animation for:', entry.target.tagName);
+                        // console.log('✓ Triggering animation for:', entry.target.tagName);
                         const spans = entry.target.querySelectorAll('.letter-drop');
                         console.log('Found spans:', spans.length);
                         spans.forEach(span => {
@@ -108,7 +108,7 @@ class LetterEffect {
             });
             
             observer.observe(element);
-            console.log('Observer set up for:', element.tagName, element.textContent.substring(0, 20));
+            // console.log('Observer set up for:', element.tagName, element.textContent.substring(0, 20));
             
             // Also check if element is already in view immediately
             setTimeout(() => {

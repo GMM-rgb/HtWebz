@@ -29,20 +29,33 @@ class InputFormaterInstancerUtility {
         </div>
     `;
     /**
+     * 
      * @type {HTMLElement?}
      */
     static PageInputFormater = null;
+    /**
+     * 
+     * @type {HTMLElement?}
+     */
+    static FormaterToolbarParent = null;
 
     /**
      * 
      * @param {HTMLElement | undefined} FormaterToolbarParent 
      */
-    constructor(TargetFormaterToolbarParent) {
+    constructor() {
         /**
          * @type {HTMLElement?}
          */
-        this.FormaterToolbarParent = null;
         this.CreateNewFormaterInstance = InputFormaterInstancerUtility.CreateNewFormaterInstance;
+        this.SetFormaterParent = function(RequestedFormaterParent) {
+            if (RequestedFormaterParent !== null && RequestedFormaterParent instanceof HTMLElement) {
+                InputFormaterInstancerUtility.FormaterToolbarParent = RequestedFormaterParent;
+                this.FormaterParent = RequestedFormaterParent;
+            } else {
+                console.warn("Requested Parent Element was not a valid type.");
+            }
+        }
     }
 
     /**
@@ -92,13 +105,16 @@ class InputFormaterInstancerUtility {
                         (async () => {
                             const FormaterInterface = await GetInitialFormaterContent(); // Fetch Interface
                             NewFormaterInstance.innerHTML = FormaterInterface !== null && typeof (FormaterInterface) === "string" ? FormaterInterface : null;
+                            console.log(new String(NewFormaterInstance.innerHTML.valueOf()).toString());
                         })();
                     }
                     // 
-                    const PrototypeParent = InputFormaterInstancerUtility.prototype.FormaterToolbarParent;
+                    const PrototypeParent = InputFormaterInstancerUtility.FormaterToolbarParent;
                     // 
                     if (PrototypeParent !== null && PrototypeParent instanceof HTMLElement) {
+                        console.debug("Appending Formater Toolbar...");
                         PrototypeParent.appendChild(NewFormaterInstance);
+                        NewFormaterInstance.parentElement === PrototypeParent ? console.debug("%cSuccessfully Appended!", "color: lime;") : void null;
                     }
                     // 
                     if (NewFormaterInstance !== null && NewFormaterInstance instanceof HTMLDivElement) {
@@ -110,7 +126,7 @@ class InputFormaterInstancerUtility {
                 // 
 
                 // 
-                console.info("Constructing new User Input Formater Toolbar...");
+                console.info("%cConstructing new User Input Formater Toolbar...", "color: yellow;");
                 // Constructs the Formater Toolbar
                 ConstructFormaterToolbar();
             } catch (FormaterCreationError) {
@@ -123,5 +139,3 @@ class InputFormaterInstancerUtility {
 export {
     InputFormaterInstancerUtility,
 };
-
-// new InputFormaterInstancerUtility().CreateNewFormaterInstance();
