@@ -46,21 +46,28 @@ async function ApplyMutationChangeListening() {
     });
 }
 
-self.onloadstart = async () => {
-    self.addEventListener("DOMContentLoaded", (LoadEvent) => {
-        if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
-            ApplyMutationChangeListening().then(() => {
-                console.debug("Applied Mutation Listener Change; to DOM Input Elements.");
-            }).catch((InputMutationError) => {
-                if (InputMutationError !== null) {
-                    console.error(`${new String(InputMutationError).toString()}`);
-                }
-            });
-        }
+self.addEventListener("DOMContentLoaded", (LoadEvent) => {
+    if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
+        ApplyMutationChangeListening().then(() => {
+            console.debug("Applied Mutation Listener Change; to DOM Input Elements.");
+        }).catch((InputMutationError) => {
+            if (InputMutationError !== null) {
+                console.error(`${new String(InputMutationError).toString()}`);
+            }
+        });
+    }
 
-        if (InputInstancer !== null && InputInstancer.InputFormaterInstancerUtility !== null) {
-            const Instancer = new InputInstancer.InputFormaterInstancerUtility(TopUserInterface);
-            const FormaterToolbar = Instancer.CreateNewFormaterInstance();
+    if (InputInstancer !== null && InputInstancer.InputFormaterInstancerUtility !== null) {
+        const Instancer = new InputInstancer.InputFormaterInstancerUtility(TopUserInterface);
+        const FormaterToolbar = Instancer.CreateNewFormaterInstance()
+        .then(() => {
+            console.log("Successfully Created new Formater.");
+        }).catch((InstancerError) => {
+            console.error(`${new String(InstancerError).valueOf()}`);
+        });
+
+        if (FormaterToolbar !== null && FormaterToolbar instanceof HTMLElement) {
+            console.log(`Formater Toolbar Name:\t${FormaterToolbar.id.toString().trim()}`);
         }
-    }, { once: true, passive: true });
-}
+    }
+}, { once: true, passive: true });

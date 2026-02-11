@@ -38,13 +38,16 @@ class InputFormaterInstancerUtility {
      * @param {HTMLElement | undefined} FormaterToolbarParent 
      */
     constructor(TargetFormaterToolbarParent) {
+        /**
+         * @type {HTMLElement?}
+         */
         this.FormaterToolbarParent = null;
         this.CreateNewFormaterInstance = InputFormaterInstancerUtility.CreateNewFormaterInstance;
     }
 
     /**
      * 
-     * @returns {HTMLElement?}
+     * @returns {Promise<HTMLElement>}
      */
     static async CreateNewFormaterInstance() {
         // Checks that the Formater exists currently; otherwise allows the creation of a new one.
@@ -57,64 +60,63 @@ class InputFormaterInstancerUtility {
                  * @param {HTMLElement} FormaterParentElement
                  */
                 function ConstructFormaterToolbar(FormaterParentElement) {
-                    if (FormaterParentElement !== null && FormaterParentElement instanceof HTMLElement) {
-                        const NewFormaterInstance = new HTMLDivElement();
-                        NewFormaterInstance.setAttribute("id", "UserInputFormaterToolbar");
-                        /**
-                         * Fetches new Formater Interface Content; from this Template:
-                         * ```html
-                         * <div class="formater-toolbar-interactables">
-                         *      <!-- The Controled Interactable Formater Interface -->
-                         * </div>
-                         * ```
-                         * 
-                         * @returns {Promise<string>}
-                         */
-                        async function GetInitialFormaterContent () {
-                            if (InputFormaterInstancerUtility.FormaterTemplateInterface !== null) {
-                                if (typeof(InputFormaterInstancerUtility.FormaterTemplateInterface) === "string") {
-                                    return InputFormaterInstancerUtility.FormaterTemplateInterface;
-                                }
-                            }
-                            // 
-                            console.error("FormaterContent could not be fetched.");
-                            // 
-                            return "<span>Interface ERROR</span>";
-                        }
-                        /**
-                         * 
-                         * @returns {void}
-                         */
-                        function ApplyInitialFormaterContent() {
-                            (async () => {
-                                const FormaterInterface = await GetInitialFormaterContent(); // Fetch Interface
-
-                            })();
-                        }
-                        // 
-                        while (NewFormaterInstance.parentElement === null) {
-                            if (FormaterParentElement !== null && FormaterParentElement instanceof HTMLElement) {
-                                FormaterParentElement.appendChild(NewFormaterInstance);
+                    // if (FormaterParentElement !== null && FormaterParentElement instanceof HTMLElement) {
+                    const NewFormaterInstance = document.createElement("div");
+                    NewFormaterInstance.setAttribute("id", "UserInputFormaterToolbar");
+                    /**
+                     * Fetches new Formater Interface Content; from this Template:
+                     * ```html
+                     * <div class="formater-toolbar-interactables">
+                     *      <!-- The Controled Interactable Formater Interface -->
+                     * </div>
+                     * ```
+                     * 
+                     * @returns {Promise<string>}
+                     */
+                    async function GetInitialFormaterContent() {
+                        if (InputFormaterInstancerUtility.FormaterTemplateInterface !== null) {
+                            if (typeof (InputFormaterInstancerUtility.FormaterTemplateInterface) === "string") {
+                                return InputFormaterInstancerUtility.FormaterTemplateInterface;
                             }
                         }
                         // 
-                        if (NewFormaterInstance !== null && NewFormaterInstance instanceof HTMLDivElement) {
-                            InputScanner.InputFormatingData.FormaterStatus.InputFormaterToolbar = NewFormaterInstance;
-                            InputFormaterInstancerUtility.PageInputFormater = NewFormaterInstance;
-                            return NewFormaterInstance !== null ? NewFormaterInstance : null;
-                        }
+                        console.error("FormaterContent could not be fetched.");
+                        // 
+                        return "<span>Interface ERROR</span>";
+                    }
+                    /**
+                     * 
+                     * @returns {void}
+                     */
+                    function ApplyInitialFormaterContent() {
+                        (async () => {
+                            const FormaterInterface = await GetInitialFormaterContent(); // Fetch Interface
+                            NewFormaterInstance.innerHTML = FormaterInterface !== null && typeof (FormaterInterface) === "string" ? FormaterInterface : null;
+                        })();
+                    }
+                    // 
+                    const PrototypeParent = InputFormaterInstancerUtility.prototype.FormaterToolbarParent;
+                    // 
+                    if (PrototypeParent !== null && PrototypeParent instanceof HTMLElement) {
+                        PrototypeParent.appendChild(NewFormaterInstance);
+                    }
+                    // 
+                    if (NewFormaterInstance !== null && NewFormaterInstance instanceof HTMLDivElement) {
+                        InputScanner.InputFormatingData.FormaterStatus.InputFormaterToolbar = NewFormaterInstance;
+                        InputFormaterInstancerUtility.PageInputFormater = NewFormaterInstance;
+                        return NewFormaterInstance !== null ? NewFormaterInstance : null;
                     }
                 }
                 // 
+
+                // 
                 console.info("Constructing new User Input Formater Toolbar...");
                 // Constructs the Formater Toolbar
-                ConstructFormaterToolbar && typeof(ConstructFormaterToolbar) === "function" ? ConstructFormaterToolbar() : void null;
+                ConstructFormaterToolbar();
             } catch (FormaterCreationError) {
                 throw new Error(`Whilist creating a new Formater Toolbar Instance; an Error occured:\t${new String(FormaterCreationError).toString()}`);
             }
         }
-        // 
-        return null;
     }
 }
 
