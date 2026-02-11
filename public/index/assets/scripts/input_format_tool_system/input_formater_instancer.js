@@ -25,7 +25,7 @@ class InputFormaterInstancerUtility {
      */
     static FormaterTemplateInterface = `
         <div class="formater-toolbar-interactables">
-        \t${new String(this.TemplateInteractables).valueOf()}
+            ${new String(this.TemplateInteractables).toString()}
         </div>
     `;
     /**
@@ -99,14 +99,12 @@ class InputFormaterInstancerUtility {
                     }
                     /**
                      * 
-                     * @returns {void}
+                     * @returns {Promise<void>}
                      */
-                    function ApplyInitialFormaterContent() {
-                        (async () => {
-                            const FormaterInterface = await GetInitialFormaterContent(); // Fetch Interface
-                            NewFormaterInstance.innerHTML = FormaterInterface !== null && typeof (FormaterInterface) === "string" ? FormaterInterface : null;
-                            console.log(new String(NewFormaterInstance.innerHTML.valueOf()).toString());
-                        })();
+                    async function ApplyInitialFormaterContent() {
+                        const FormaterInterface = await GetInitialFormaterContent(); // Fetch Interface
+                        NewFormaterInstance.innerHTML = FormaterInterface !== null && typeof (FormaterInterface) === "string" ? FormaterInterface : null;
+                        console.log(new String(NewFormaterInstance.innerHTML.valueOf()).toString());
                     }
                     // 
                     const PrototypeParent = InputFormaterInstancerUtility.FormaterToolbarParent;
@@ -122,13 +120,20 @@ class InputFormaterInstancerUtility {
                         InputFormaterInstancerUtility.PageInputFormater = NewFormaterInstance;
                         return NewFormaterInstance !== null ? NewFormaterInstance : null;
                     }
+                    //
+                    ApplyInitialFormaterContent?.().then(() => {
+                        console.debug("Ported Formater Interface Interactable Content; successfully.");
+                    }).catch((ApplyingContentError) => {
+                        if (ApplyingContentError !== null) {
+                            console.error(`An Error occured; when applying the User Formater Toolbar Interface Content:\n${new String(ApplyingContentError)}`);
+                        }
+                    }) ?? console.error(`Could not Execute Function:\t${ApplyInitialFormaterContent.name.toString()}`);
                 }
                 // 
-
-                // 
-                console.info("%cConstructing new User Input Formater Toolbar...", "color: yellow;");
+                console.info("%cConstructing new User Input Formater Toolbar...", 'color: yellow;');
                 // Constructs the Formater Toolbar
-                ConstructFormaterToolbar();
+                const ConstructedFormater = ConstructFormaterToolbar();
+                return ConstructedFormater !== null ? ConstructedFormater : null;
             } catch (FormaterCreationError) {
                 throw new Error(`Whilist creating a new Formater Toolbar Instance; an Error occured:\t${new String(FormaterCreationError).toString()}`);
             }

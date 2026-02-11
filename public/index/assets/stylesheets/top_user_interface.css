@@ -1,6 +1,53 @@
+:root {
+    --formater-toolbar-height: 0px;
+}
+
 head {
     background: rgba(5, 134, 227, 0.65) !important;
     scroll-snap-type: mandatory;
+}
+
+/* #topUserInterfaceBar::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 60px;
+    box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
+    border-radius: 0 0 15px 15px;
+    z-index: 9994;
+    pointer-events: none;
+} */
+
+#formatterToolbar::before {
+    content: "";
+    position: absolute;
+    top: 0; /* Same position as formatter, not below it */
+    left: -10px;
+    right: -10px;
+    bottom: 0;
+    box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
+    z-index: -1; /* Behind formatter content */
+    pointer-events: none;
+    border-radius: inherit; /* Match formatter's border radius */
+}
+
+#topUserInterfaceBar::after {
+    content: "";
+    position: absolute;
+    padding-block-end: 7.5px;
+    top: 100%;
+    left: 0; /* Full width */
+    right: 0;
+    height: 50px; /* Height of formatter */
+    border: 3px solid #8b8b8b;
+    border-top: none;
+    background: rgba(128, 128, 128, 0.25);
+    box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
+    border-radius: 0 0 20px 20px;
+    pointer-events: none;
+    z-index: 9994;
 }
 
 /* Top UI bar that holds main user navigation */
@@ -20,7 +67,7 @@ head {
     border-radius: 10px;
     background: rgba(5, 134, 227, 0.65) !important;
     box-sizing: border-box !important;
-    box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375), inset 0 1px 19.85px rgba(0, 0, 0, 0.45);
+    box-shadow: inset 0 1px 19.85px rgba(0, 0, 0, 0.45);
     will-change: transform, opacity, background;
     max-height: calc(100px - 10px);
     width: calc(100% - 10px);
@@ -1089,13 +1136,25 @@ head {
 #UserInputFormaterToolbar {
     display: flex; /* needs to be changed to "none"; when the Format Tools Manager is completed. */
     cursor: default;
-    position: sticky;
+    position: relative;
     padding: 10px;
     border: 3px solid #ccc;
+    border-top: 2px solid transparent;
     border-radius: 0 0 15px 15px;
-    background: #479dda;
+    background: rgb(71, 157, 218, 0.875);
     margin-inline: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 10px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
+    height: var(--formater-toolbar-height, initial);
     min-height: 50px;
+    z-index: 9997;
+    box-shadow: 
+        -3px 0 5px -3px rgba(0, 0, 0, 0.3) inset, /* Left edge shadow */
+        3px 0 5px -3px rgba(0, 0, 0, 0.3) inset,   /* Right edge shadow */
+        0 -3px 3px rgba(0, 0, 0, 0.3) inset; /* Bottom edge shadow */
+}
+
+.format-button {
+    border: 2px solid #333;
+    border-radius: 10px;
 }
