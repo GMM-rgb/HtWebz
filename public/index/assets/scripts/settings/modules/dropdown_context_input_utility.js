@@ -8,19 +8,36 @@ class DropdownContextLogistics {
          * @type {string?}
          */
         this.ContextLabel = DropdownLabel || null;
+        /**
+         * 
+         * @type {DropdownContext}
+         * @protected
+         */
+        this.NewDropdownContext = null;
     }
 }
 
 class DropdownContext extends DropdownContextLogistics {
     /**
      * 
-     * @param {string?} DropdownLabel 
+     * @param {string?} DropdownLabel
+     * @param {string} DropdownSelectionContent
      */
     constructor(DropdownLabel) {
-        super(DropdownLabel);
-        let NewDropdownContext = null;
+        super(DropdownLabel, DropdownSelectionContent);
+        /**
+         * Determines the Active state of the `DropdownContext` Element.
+         * @type {boolean}
+         */
+        this.active = false;
     }
 
+    /**
+     * #### Event for when the `DropdownContext` is triggered; and toggles the displayed content.  
+     * @version `0.1`
+     * @since `2.4.0`
+     * @public
+     */
     static DropdownContextEvent = new CustomEvent("dropdown", {
         detail: {
             DropdownActive: false,
@@ -29,11 +46,15 @@ class DropdownContext extends DropdownContextLogistics {
 
     /**
      * 
+     * @private
      * @returns {void}
      */
-    static DispatchDropdown() {
+    static async DispatchDropdown() {
         if (this.DropdownContextEvent !== null && this.DropdownContextEvent instanceof CustomEvent) {
+            const TargetDropdownContext = this.prototype.NewDropdownContext;
+            if (TargetDropdownContext !== null && TargetDropdownContext instanceof DropdownContext) {
 
+            }
         }
     }
 
@@ -44,11 +65,13 @@ class DropdownContext extends DropdownContextLogistics {
      */
     TriggerDropdownEvent(RequestedDropdownToggleState) {
         if (RequestedDropdownToggleState !== null && typeof(RequestedDropdownToggleState) === "boolean") {
-
+            
         }
     }
 }
 
 export {
-    DropdownContext,
+    DropdownContext
 };
+
+new DropdownContext().NewDropdownContext;
