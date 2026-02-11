@@ -1,7 +1,3 @@
-let DataDropdownContexts = {
-    Labels: {}
-};
-
 class DropdownContextLogistics {
     /**
      * 
@@ -16,8 +12,13 @@ class DropdownContextLogistics {
 }
 
 class DropdownContext extends DropdownContextLogistics {
+    /**
+     * 
+     * @param {string?} DropdownLabel 
+     */
     constructor(DropdownLabel) {
         super(DropdownLabel);
+        let NewDropdownContext = null;
     }
 
     static DropdownContextEvent = new CustomEvent("dropdown", {
@@ -32,7 +33,7 @@ class DropdownContext extends DropdownContextLogistics {
      */
     static DispatchDropdown() {
         if (this.DropdownContextEvent !== null && this.DropdownContextEvent instanceof CustomEvent) {
-            
+
         }
     }
 
