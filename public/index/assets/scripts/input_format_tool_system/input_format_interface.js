@@ -46,7 +46,7 @@ async function ApplyMutationChangeListening() {
     });
 }
 
-self.addEventListener("DOMContentLoaded", (LoadEvent) => {
+self.addEventListener("DOMContentLoaded", async (LoadEvent) => {
     if (ApplyMutationChangeListening && typeof(ApplyMutationChangeListening) === "function") {
         ApplyMutationChangeListening().then(() => {
             console.debug("Applied Mutation Listener Change; to DOM Input Elements.");
@@ -59,11 +59,13 @@ self.addEventListener("DOMContentLoaded", (LoadEvent) => {
 
     if (InputInstancer !== null && InputInstancer.InputFormaterInstancerUtility !== null) {
         const Instancer = new InputInstancer.InputFormaterInstancerUtility(TopUserInterface);
-        const FormaterToolbar = Instancer.CreateNewFormaterInstance()
-        .then(() => {
+        const FormaterToolbar = await Instancer.CreateNewFormaterInstance()
+        .then((NewCreatedFormater) => {
             console.log("Successfully Created new Formater.");
+            return NewCreatedFormater;
         }).catch((InstancerError) => {
             console.error(`${new String(InstancerError).valueOf()}`);
+            return null;
         });
 
         if (FormaterToolbar !== null && FormaterToolbar instanceof HTMLElement) {
