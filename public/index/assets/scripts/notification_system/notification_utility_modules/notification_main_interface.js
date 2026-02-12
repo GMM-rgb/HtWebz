@@ -1,3 +1,5 @@
+import  "../../scope_definitions";
+
 /**
  * Container for fixed user interface on the screen; to be appended.
  */

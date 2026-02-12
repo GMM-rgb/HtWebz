@@ -9,21 +9,25 @@ import * as NotificationUtility from "./notification_utility_modules/notificatio
 //  */
 
 /**
- * @typedef {window} ModifiedWindow
- * @property {ModifiedWindow & DeployNewNotification}
+ * @typedef {Parameters} DeployNewNotificationParameters
+ * @extends {DeployNewNotificationParameters & {(RequestedNotificationMessage: string)}}
  */
 
 /**
  * 
- * @param {string} RequestedNotificationMessage
- * @param {number|undefined} RemoveAfter Interval in __`Seconds`__
- * @returns {void}
  */
-function DeployNewNotification(RequestedNotificationMessage, RemoveAfter) {
-    const NotificationInstanceConstructor = new NotificationUtility.ActionNotification();
+class NotificationClient {
+    /**
+     * 
+     * @param {string} RequestedNotificationMessage
+     * @param {number|undefined} RemoveAfter Interval in __`Seconds`__
+     * @returns {void}
+     */
+    static DeployNewNotification(RequestedNotificationMessage, RemoveAfter) {
+        const NotificationInstanceConstructor = new NotificationUtility.ActionNotification();
 
-    return void null;
+        return void null;
+    }
 }
 
-// Append function `DeployNewNotification` to window
-Object.assign(window, DeployNewNotification);
+Object.assign(window, NotificationClient);
