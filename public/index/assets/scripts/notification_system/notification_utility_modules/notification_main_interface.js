@@ -1,5 +1,5 @@
 /**
- * 
+ * Container for fixed user interface on the screen; to be appended.
  */
 const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
 
@@ -163,11 +163,12 @@ class UserNotification {
 
 /**
  * 
+ * @readonly
  * @typedef {InstanceNotification} ActionNotification
  */
-const InstanceNotification = UserNotification;
+let InstanceNotification = UserNotification;
 
 // Export Module Classes
 export {
-    InstanceNotification as ActionNotification,
+    InstanceNotification as ActionNotification
 };
