@@ -20,21 +20,22 @@ head {
     border-radius: inherit;
 } */
 
-.staticStickyUiFlex:has(#UserInputFormaterToolbar) #topUserInterfaceBar::after {
+
+.staticStickyUiFlex:has(#UserInputFormaterToolbar) #topUserInterfaceBar::before {
     content: "";
     position: absolute;
-    padding-block-end: 7.5px;
     top: 100%;
-    left: 0; /* Full width */
+    left: 0;
     right: 0;
-    height: 50px; /* Height of formatter */
+    height: 57.5px;
+    box-sizing: border-box;
+    background-clip: border-box;
     border: 3px solid #8b8b8b;
     border-top: none;
-    background: rgba(128, 128, 128, 0.25);
     box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
     border-radius: 0 0 20px 20px;
     pointer-events: none;
-    z-index: 9994;
+    z-index: 9000;
 }
 
 /* Top UI bar that holds main user navigation */
@@ -70,12 +71,13 @@ head {
     -webkit-backdrop-filter: saturate(4px);
     backdrop-filter: blur(2px);
     backdrop-filter: saturate(4px);
+    overflow-clip-margin: unset;
     text-wrap-mode: wrap;
     text-wrap-style: pretty;
     flex-flow: nowrap !important;
     flex-basis: 1 content 1;
     flex-shrink: 1 !important;
-    /* provides a CSS var for the app menu to reference; adjust if the bar changes size */
+    /* provides a CSS var for the app menu to reference; and adjusts if the bar changes size */
     --top-ui-height: calc(100px - 5px);
     --toolbar-width: calc(100% - 10px);
 }
@@ -608,34 +610,44 @@ head {
 /* Right side interface menu buttons (More from HtWebz) */
 .moreFromHtWebzContainer {
     display: flex !important;
+    position: relative;
     flex-direction: row;
     justify-content: flex-end !important;
-    align-items: center, auto !important;
-    position: relative;
+    justify-self: flex-end;
+    align-items: center !important;
     box-sizing: border-box !important;
     background: rgba(210, 210, 210, 0.65);
     border: 3px solid #ccc;
     border-radius: 1cm;
     padding-inline: 2.5px;
     padding-block: 2.5px;
+
     height: auto;
-    width: auto;
-    will-change: scroll-position, flex, padding, height, width, background !important;
-    object-fit: contain !important;
-    margin-right: 10px;
+    width: min-content, auto;
+
+    min-width: 0;
+
+    will-change: scroll-position, flex, padding !important;
+    object-fit: cover !important;
+
+    margin-right: 0;
     margin-left: auto;
+
     transition: all 0.3s ease;
+    
     /* smoother than 0.1s */
     box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
-    flex-shrink: auto 0 auto !important;
+    
     flex-flow: row;
-    flex: content 1 auto;
+    flex: 0 1 auto; /* Don't grow, can shrink a bit, auto basis */
     gap: 9.5px;
-    /* prevent overflow off-screen */
-    overflow: hidden;
+    
+    overflow-x: visible;
+    overflow-y: visible;
+
     /* hides any accidental overflow */
     max-height: 85.5px;
-    max-width: 87.5%;
+    max-width: unset;
 }
 
 #gamesMenuOpen {
@@ -658,7 +670,7 @@ head {
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
     flex-shrink: 0 1 auto !important;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
 }
 
 #gamesMenuOpen.hoveringGamesMenuDefault {
@@ -712,6 +724,7 @@ head {
     -webkit-user-drag: none !important;
     letter-spacing: 1.25px;
     transform: scaleY(1.25);
+    flex-shrink: 1 !important;
 }
 
 @keyframes FocusSpinAnimation {
@@ -730,14 +743,12 @@ head {
 #resourcesMenuOpen {
     display: flex !important;
     flex-flow: nowrap;
-    flex-direction: row;
+    flex-direction: column;
     flex-shrink: 1 !important;
     /* Allow it to shrink */
     justify-content: center;
+    align-items: flex-end;
     align-self: flex-start;
-    align-items: start;
-    overflow-y: hidden;
-    overflow-x: auto;
 
     color: #333 !important;
     cursor: pointer !important;
@@ -751,15 +762,12 @@ head {
     padding: 10px;
 
     transform: scale(1);
-    transform-origin: center top center;
+    transform-origin: center center;
     transition: all 0.3s, padding-left 0.65s ease, border 1.125s ease-out, border-width 0.675s ease-out !important;
     will-change: border, background !important;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
-    width: 100%;
     gap: 9.5px;
-
-    object-fit: cover;
 }
 
 #resourcesMenuOpen:hover {

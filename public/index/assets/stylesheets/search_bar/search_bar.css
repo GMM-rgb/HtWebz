@@ -1,6 +1,5 @@
 .search-bar-input {
     color: #333;
-    position: relative;
     right: 0 !important;
     /* lock right edge */
     left: auto !important;
@@ -8,6 +7,7 @@
     margin: 0 !important;
     /* kill any auto margins */
     width: 0;
+    min-width: 0;
     /* collapsed */
     height: 32px;
     min-width: 12.5px; /* Initial Minimum width */
@@ -20,7 +20,7 @@
     border-radius: 15px;
     background: rgb(235, 235, 235);
     background-origin: border-box;
-    background-clip: padding-box, border-box;
+    /* background-clip: padding-box, border-box; */
     text-indent: 5px;
     text-size-adjust: auto;
     box-sizing: border-box;
@@ -48,16 +48,10 @@
     outline-offset: 1.5px !important;
 }
 
-@media (max-width: 762px) {
-    #search-results {
-        right: 12.5px !important;
-    }
-}
-
 #resourcesMenuOpen:has(.search-bar-input.open) {
-    position: sticky !important;
-    justify-self: center;
-    align-self: center;
+    justify-self: center !important;
+    align-self: flex-start !important;
+    outline-style: none !important;
 }
 
 #resourcesMenuOpen:has(.search-bar-input.open) .search-bar-interface {
@@ -81,6 +75,7 @@
     display: flex;
     align-items: center;
     transition: gap 0.4s ease-out;
+    flex-shrink: 1;
 }
 
 .search-bar-wrapper {
@@ -101,15 +96,9 @@
     gap: 8px;
 }
 
-#search-results::before {
-    content: '';
-    inset: 0;
-    transform: scale(1);
-}
-
 @keyframes appear {
     0% {
-        transform: translateY(calc(-100px + 5px)) scale(calc(1 / 2)) perspective(17.5px);
+        transform: translateX(-100px) translateY(calc(-100px + 5px)) scale(calc(1 / 2)) perspective(17.5px);
     }
 
     45% {
@@ -117,49 +106,8 @@
     }
 
     100% {
-        transform: translateY(0) scale(1) perspective(125px);
+        transform: translateX(0) translateY(0) scale(1) perspective(125px);
     }
-}
-
-#search-results {
-    display: none;
-    flex-direction: column;
-    position: relative;
-    /* top: calc(85.5px + 3.5px); */
-    /* sits below the input */
-    /* right: 25px; */
-    width: 100%;
-    max-width: 400px;
-    height: min-content;
-    z-index: 10001 !important;
-    text-align: center !important;
-    background: rgba(255, 255, 255, 0.65);
-    border: 2px solid #ddd;
-    border-radius: calc(15px / 2) / 5px;
-    /* Divide the border radius integer 15px by 2 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-height: 300px;
-    overflow-y: auto;
-    /* scrolls internally */
-    overflow-x: hidden !important;
-    gap: 4.5px !important;
-    padding: 5px;
-    animation: appear 1s ease forwards !important;
-}
-
-#search-results::-webkit-scrollbar {
-    width: 8px;
-}
-
-#search-results::-webkit-scrollbar-track {
-    background: gray;
-    border-radius: 4px;
-}
-
-#search-results::-webkit-scrollbar-thumb {
-    background: lightgray;
-    border-radius: 4px;
-    cursor: pointer !important;
 }
 
 @keyframes flipInwardResult {
@@ -184,12 +132,59 @@
     }
 }
 
+#search-results::before {
+    content: '';
+    inset: 0;
+    transform: scale(1);
+}
+
+#search-results {
+    display: none;
+    flex-direction: column;
+    position: relative;
+    /* top: calc(85.5px + 3.5px); */
+    /* sits below the input */
+    /* right: 25px; */
+    width: calc(100% - 20px);
+    max-width: 400px;
+    height: min-content;
+    max-height: 100px;
+    z-index: 10001 !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.65);
+    border: 2px solid #ddd;
+    border-radius: calc(15px * 2);
+    /* Divide the border radius integer 15px by 2 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: appear 1s ease forwards !important;
+    margin: auto;
+    max-height: 300px;
+    /* scrolls internally */
+    overflow-y: auto;
+    overflow-x: hidden !important;
+    gap: 4.5px !important;
+    padding: 5px;
+}
+
+#search-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+#search-results::-webkit-scrollbar-track {
+    background: gray;
+    border-radius: 4px;
+}
+
+#search-results::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 4px;
+    cursor: pointer !important;
+}
+
 .search-result-item {
     position: relative;
-    border-left-width: 2px !important;
-    border-top-width: 2px !important;
-    border: 1px solid #ccc;
-    border-radius: var(--radius-medium);
+    border: 2px solid #ccc;
+    border-radius: 30px;
     background: rgba(235, 235, 235, 0.65);
     text-overflow: ellipsis;
     text-rendering: optimizeSpeed !important;
