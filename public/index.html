@@ -549,16 +549,22 @@ ___        ___        ___  ,________,  ,___    ,________
                 </button>
                 <button aria-label="Search" id="resourcesMenuOpen" class="ResourcesInteractable"
                     onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
-                    <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
-                        placeholder="Type here to search..." />
-                    <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
-                        <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
-                            alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
+                    <div class="search-bar-wrapper">
+                        <div class="search-bar-interface">
+                            <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
+                                placeholder="Type here to search..." />
+                            <div class="search-bar-contents">
+                                <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
+                                    <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
+                                        alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
+                                </div>
+                                <span class="resources-menu-text">Search</span>
+                            </div>
+                        </div>
                     </div>
-                    <span class="resources-menu-text">Search</span>
+                    <div id="search-results" aria-label="Search Results List"><!-- [Search Results Elements] --></div>
                 </button>
             </div>
-            <div id="search-results" aria-label="Search Results List"><!-- [Search Results Elements] --></div>
         </section>
     </section>
 

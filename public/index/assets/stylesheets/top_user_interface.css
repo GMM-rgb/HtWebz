@@ -734,7 +734,8 @@ head {
     flex-shrink: 1 !important;
     /* Allow it to shrink */
     justify-content: center;
-    align-items: center;
+    align-self: flex-start;
+    align-items: start;
     overflow-y: hidden;
     overflow-x: auto;
 
@@ -758,7 +759,7 @@ head {
     width: 100%;
     gap: 9.5px;
 
-    object-fit: fill;
+    object-fit: cover;
 }
 
 #resourcesMenuOpen:hover {
