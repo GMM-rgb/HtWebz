@@ -177,7 +177,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
             );
             SearchBarInput.setAttribute("placeholder", "");
             SearchBarInput.style.width = "0px";
-            SearchBarInput.style.textIndent = "8.5px";
             SearchLabelText.style.display = "block";
             SearchBarInput.classList.remove("open");
             
@@ -307,22 +306,23 @@ window.addEventListener("DOMContentLoaded", (e) => {
         }, 100);
         PlayedFocusAnimationSpin = false;
     });
-    
-    // Listen for keyboard input
-    SearchBarInput.addEventListener("keypress", (e) => {
-        e.stopPropagation();
-        const inputValue = SearchBarInput.value;
-        if (inputValue && inputValue.length > 0) {
-            let output = ProcessSearchRequest(inputValue);
-            DisplaySearchResults(output, "search-results", inputValue);
+        
+    SearchBarInput.addEventListener("input", (e) => {
+        const inputValue = SearchBarInput.value.trim(); // Trim for cleaner queries—optional riff
+
+        if (inputValue.length > 0) {
+            let results = ProcessSearchRequest(inputValue);
+            DisplaySearchResults(results, "search-results", inputValue);
+            if (ResultsDisplay) ResultsDisplay.style.display = "flex";
+        } else {
+            clearResultsContainer();
+            if (ResultsDisplay) ResultsDisplay.style.display = "none";
         }
     });
 
     // Listen for search action keybind
     SearchBarInput.addEventListener("keydown", (e) => {
         if (isSearching) {
-            e.stopPropagation();
-
             function ResetClickSound() {
                 ClickSound.currentTime = 0;
                 return true;
@@ -431,7 +431,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
             // IMMEDIATE classList change
             ToggleBlueBorderGradient(true);
         }
-        ensureOutputUpdate?.();
         e.stopPropagation();
     });
 
@@ -453,26 +452,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
             SearchBarInput.focus();
         }
     });
-
-    let EnsureUpdateTimeout = null;
-    function ensureOutputUpdate() {
-        if (EnsureUpdateTimeout) return;
-        if (!isSearching) return;
-        let SearchIV = SearchBarInput.value;
-
-        let Results = ProcessSearchRequest(SearchIV);
-        DisplaySearchResults(Results, "search-results", SearchIV);
-
-        if (isSearching) {
-            EnsureUpdateTimeout = setInterval(() => {
-                ensureOutputUpdate();
-                clearTimeout(EnsureUpdateTimeout);
-                EnsureUpdateTimeout = null;
-            }, 100);
-        } else {
-            return false;
-        }
-    }
 }, { once: true });
 
-console.log("✓ Search Interface Loaded & Operational.");
+console.log("%cSearch Interface Loaded & Operational.", 'color: lime;');

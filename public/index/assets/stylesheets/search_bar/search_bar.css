@@ -7,12 +7,13 @@
     margin: 0 !important;
     /* kill any auto margins */
     width: 0;
-    min-width: 0;
     /* collapsed */
     height: 32px;
     min-width: 12.5px; /* Initial Minimum width */
     max-width: 100% !important; /* Never exceed container */
     flex-shrink: 1 !important; /* Allow shrinking */
+    flex-grow: 0;
+    flex-basis: auto;
     padding-block: 7.5px;
     padding-inline: 2.5px;
     pointer-events: none;
@@ -21,24 +22,40 @@
     background: rgb(235, 235, 235);
     background-origin: border-box;
     /* background-clip: padding-box, border-box; */
-    text-indent: 5px;
-    text-size-adjust: auto;
+    /* text-indent: 5px; */
+    text-size-adjust: fit-content;
+    text-align: left !important;
+    direction: ltr !important;
     box-sizing: border-box;
     box-shadow: none;
+    overflow: auto;
     outline: none;
+    opacity: 0;
     outline-offset: -2px;
-    will-change: width, opacity, border-radius, text !important;
-    transition: all 0.3s ease-in-out, width 0.65s ease, border-radius 0.65s ease, box-shadow 0.3s ease;
+    will-change: width, opacity, border-radius;
+    transition: all 0.3s ease-in-out;
     font-size: 16.15px;
     flex-wrap: nowrap;
+}
+
+.search-bar-input.open {
+    /* width: 100px;
+    final width */
+    opacity: 1;
+    pointer-events: auto !important;
+    transition: inherit, opacity 0.4s ease !important;
+    box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
+    background: rgba(235, 235, 235, 0.65);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    min-width: 12.5px !important;
     flex: 0 1 auto;
-    opacity: 0;
 }
 
 .search-bar-input::placeholder {
     /* Remove ALL overflow/text-overflow properties */
     white-space: nowrap; /* Inherit from parent */
-    text-overflow: ellipsis !important;
+    text-overflow: clip !important;
     max-width: 100%;
     color: #8b8b8b;
 }
@@ -56,19 +73,6 @@
 
 #resourcesMenuOpen:has(.search-bar-input.open) .search-bar-interface {
     gap: 4px !important;
-}
-
-.search-bar-input.open {
-    /* width: 100px;
-    final width */
-    opacity: 1;
-    pointer-events: auto !important;
-    transition: inherit, opacity 0.4s ease !important;
-    box-shadow: inset 0 0 10px rgba(149, 189, 201, 0.45);
-    background: rgba(235, 235, 235, 0.65);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-    flex: 0 1 auto;
 }
 
 .search-bar-interface {
@@ -98,7 +102,7 @@
 
 @keyframes appear {
     0% {
-        transform: translateX(-100px) translateY(calc(-100px + 5px)) scale(calc(1 / 2)) perspective(17.5px);
+        transform: translateX(-20px) translateY(calc(-100px + 5px)) scale(calc(1 / 2)) perspective(17.5px);
     }
 
     45% {
@@ -183,6 +187,9 @@
 
 .search-result-item {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 2px solid #ccc;
     border-radius: 30px;
     background: rgba(235, 235, 235, 0.65);
@@ -191,11 +198,9 @@
     transform-style: preserve-3d;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding-inline: calc(4.5px + 0.25px);
-    padding-block-start: 5px;
-    padding-block-end: 7.5px;
     min-height: calc(50px + 7.5px);
     margin-bottom: 4.5px;
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     /* Element Creation Entrance Appearence */
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
