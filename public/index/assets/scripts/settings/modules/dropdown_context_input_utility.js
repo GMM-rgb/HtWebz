@@ -1,77 +1,105 @@
-class DropdownContextLogistics {
-    /**
-     * 
-     * @param {string} DropdownLabel 
-     */
-    constructor(DropdownLabel) {
-        /**
-         * @type {string?}
-         */
-        this.ContextLabel = DropdownLabel || null;
-        /**
-         * 
-         * @type {DropdownContext}
-         * @protected
-         */
-        this.NewDropdownContext = null;
+/**
+ * @typedef {InstanceNotification} ActionNotification
+ */
+let InstanceNotification = ActionNotification;
+
+/**
+ * 
+ */
+class NotificationElementHolder {
+
+}
+
+/**
+ * 
+ */
+class NotificationProcessInstancer {
+    static newNotificationObject() {
+
     }
 }
 
-class DropdownContext extends DropdownContextLogistics {
+/**
+ * 
+ */
+class ActionNotification {
     /**
      * 
-     * @param {string?} DropdownLabel
-     * @param {string} DropdownSelectionContent
+     * @param {String} NotificationMessage 
+     * @param {Boolean} AutoRemove 
+     * @param {Number} WillAutoRemoveAfter
      */
-    constructor(DropdownLabel) {
-        super(DropdownLabel, DropdownSelectionContent);
+    constructor(NotificationMessage, AutoRemove, WillAutoRemoveAfter) {
         /**
-         * Determines the Active state of the `DropdownContext` Element.
-         * @type {boolean}
+         * 
+         * @type {String}
          */
-        this.active = false;
+        this.removingAutomatically = AutoRemove && new Boolean(AutoRemove).valueOf() || false;
+        this.duration = new Number(WillAutoRemoveAfter).valueOf() || 0;
+        this.message = new String(NotificationMessage).toString();
+        this.notification = null;
     }
 
     /**
-     * #### Event for when the `DropdownContext` is triggered; and toggles the displayed content.  
-     * @version `0.1`
-     * @since `2.4.0`
+     * @private
+     */
+    static NotificationInnerContentsTemplate = `
+        <button class="cancel-notification">X</button>
+        <span class="notification-message">...</span>
+    `;
+
+    /**
+     * @returns {Promise<void>}
      * @public
      */
-    static DropdownContextEvent = new CustomEvent("dropdown", {
-        detail: {
-            DropdownActive: false,
-        },
-    });
+    async trigger() {
+        try {
+            console.debug(`%cBuilding Notification Object...`, 'color: yellow;');
+            this.notification = document.createElement("div");
 
-    /**
-     * 
-     * @private
-     * @returns {void}
-     */
-    static async DispatchDropdown() {
-        if (this.DropdownContextEvent !== null && this.DropdownContextEvent instanceof CustomEvent) {
-            const TargetDropdownContext = this.prototype.NewDropdownContext;
-            if (TargetDropdownContext !== null && TargetDropdownContext instanceof DropdownContext) {
-
+            if (this.notification !== null && this.notification instanceof HTMLDivElement) {
+                // TODO: apply classes, innerHTML, etc.
             }
+
+            // Apply Notification Message
+            if (this.message !== null && typeof this.message === "string") {
+                // TODO: insert message into template
+            } else {
+                console.warn(
+                    `Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`
+                );
+            }
+        } catch (NotificationFailure) {
+            if (NotificationFailure !== null) {
+                const NotificationFailureMessage = new String(NotificationFailure)
+                    .trimStart()
+                    .valueOf();
+                throw new Error(`${NotificationFailureMessage}`);
+            }
+        } finally {
+            return void null;
         }
     }
+}
 
-    /**
-     * 
-     * @param {boolean} RequestedDropdownToggleState 
-     * @returns {void}
-     */
-    TriggerDropdownEvent(RequestedDropdownToggleState) {
-        if (RequestedDropdownToggleState !== null && typeof(RequestedDropdownToggleState) === "boolean") {
-            
-        }
+/**
+ * 
+ * @param {string} Message
+ * @param {number} ShowDurationAmount 
+ * @returns {ActionNotification?}
+ */
+function DeployNotification(Message, ShowDurationAmount) {
+    if (ActionNotification !== (null || undefined)) {
+        // TODO: instantiate and return a notification
+        (async () => {
+            const NewNotificationInstancer = new ActionNotification(new String(Message).valueOf());
+            const Notification = await NewNotificationInstancer.trigger();
+            console.info(`%cDisplaying Notification:\t${NewNotificationInstancer.message}`, 'color: lime;');
+        })();
     }
 }
 
 export {
-    DropdownContext
+    InstanceNotification as ActionNotification,
+    DeployNotification,
 };
-
-new DropdownContext().NewDropdownContext;
