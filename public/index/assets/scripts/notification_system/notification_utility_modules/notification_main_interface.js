@@ -4,11 +4,6 @@
 const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
 
 /**
- * @typedef {InstanceNotification} ActionNotification
- */
-let InstanceNotification = ActionNotification
-
-/**
  * 
  */
 class NotificationElementHolder {
@@ -61,15 +56,15 @@ class NotificationInstancerData {
      * @public
      */
     static NotificationInnerContentsTemplate = `
-        <button class="cancel-notification">X</button>
         <span class="notification-message"></span>
+        <button class="cancel-notification">X</button>
     `;
 }
 
 /**
  * 
  */
-class ActionNotification extends NotificationProcessInstancer {
+class ActionNotification {
     /**
      * 
      * @param {string} NotificationMessage
@@ -96,16 +91,22 @@ class ActionNotification extends NotificationProcessInstancer {
                 console.debug(`%cBuilding Notification Object...`, 'color: yellow;');
                 this.notification = document.createElement("div");
 
+                // The text element for the notification message; to display towards the user
+                let NotificationTextSpan = null;
+
                 // Port over base initial Notification Interface
                 if (this.notification !== null && this.notification instanceof HTMLDivElement) {
                     if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
                         this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
+                        NotificationTextSpan = this.notification.firstChild;
                     }
                 }
 
                 // Apply Notification Message
-                if (this.message !== null && typeof(this.message) === "string") {
-
+                if (this.notification !== null && this.notification instanceof HTMLDivElement && this.message !== null && typeof(this.message) === "string") {
+                    if (NotificationTextSpan !== null && NotificationTextSpan instanceof HTMLSpanElement) {
+                        
+                    }
                 } else if (this.message === null || typeof(this.message) !== "string") {
                     console.warn(`Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`);
                 }
@@ -133,6 +134,11 @@ function DeployNotification() {
         
     }
 }
+
+/**
+ * @typedef {InstanceNotification} ActionNotification
+ */
+let InstanceNotification = ActionNotification
 
 export {
     InstanceNotification as ActionNotification,
