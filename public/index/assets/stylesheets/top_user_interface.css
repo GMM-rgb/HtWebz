@@ -598,8 +598,7 @@ head {
     display: flex !important;
     position: relative;
     flex-direction: row;
-    justify-content: baseline !important;
-    justify-self: flex-end;
+    justify-content: center !important;
     align-items: center !important;
     box-sizing: border-box !important;
     background: rgba(210, 210, 210, 0.65);
@@ -608,10 +607,13 @@ head {
     padding-inline: 2.5px;
     padding-block: 2.5px;
 
-    height: auto;
     width: min-content, auto;
+    height: auto;
 
+    min-height: 70px;
     min-width: 0;
+
+    max-height: 75.5px;
 
     will-change: scroll-position, flex, padding !important;
     object-fit: cover !important;
@@ -1095,7 +1097,7 @@ head {
 */
 #UserInputFormaterToolbar {
     scroll-behavior: smooth;
-    display: flex; /* needs to be changed to "none"; when the Format Tools Manager is completed. */
+    display: flex; /* needs to be changed to "none"; when the Format Tools Manager logistics are fully completed. */
     cursor: default;
     position: sticky;
     padding: 10px;
