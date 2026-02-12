@@ -7,21 +7,7 @@ head {
     scroll-snap-type: mandatory;
 }
 
-/* #formatterToolbar::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -10px;
-    right: -10px;
-    bottom: 0;
-    box-shadow: 0 5px 7.85px rgba(0, 0, 0, 0.375);
-    z-index: -1;
-    pointer-events: none;
-    border-radius: inherit;
-} */
-
-
-.staticStickyUiFlex:has(#UserInputFormaterToolbar) #topUserInterfaceBar::before {
+/* .staticStickyUiFlex:has(#UserInputFormaterToolbar) #topUserInterfaceBar::before {
     content: "";
     position: absolute;
     top: 100%;
@@ -36,7 +22,7 @@ head {
     border-radius: 0 0 20px 20px;
     pointer-events: none;
     z-index: 9000;
-}
+} */
 
 /* Top UI bar that holds main user navigation */
 #topUserInterfaceBar {
