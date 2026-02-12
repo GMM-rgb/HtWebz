@@ -1,4 +1,9 @@
 /**
+ * 
+ */
+const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
+
+/**
  * @typedef {InstanceNotification} ActionNotification
  */
 let InstanceNotification = ActionNotification
@@ -7,22 +12,64 @@ let InstanceNotification = ActionNotification
  * 
  */
 class NotificationElementHolder {
+    /**
+     * 
+     * @type {HTMLElement?}
+     */
+    NotificationList = null;
 
-}
+    /**
+     * 
+     * @param {Boolean} CheckForNotificationListOnChange 
+     */
+    constructor(CheckForNotificationListOnChange) {
+        this.ChecksDocumentVerify = new Boolean(CheckForNotificationListOnChange).valueOf() || false;
+    }
 
-/**
- * 
- */
-class NotificationProcessInstancer {
-    static newNotificationObject() {
-
+    /**
+     * #### Constructs a new `NotificationList`; for notifications to be appended when needed.
+     * 
+     * --- 
+     * _****NOTE:****_ This should only be called **ONCE!**
+     * 
+     * --- 
+     * **Example Usage:**
+     * ```javascript
+     * 
+     * ```
+     * @returns {void}
+     */
+    ConstructNotificationList() {
+        if (this.NotificationList === null || !(this.NotificationList instanceof HTMLElement)) {
+            const NewNotifyList = document.createElement("section");
+            // Update `NotificationList` variable to the new created list.
+            this.NotificationList = NewNotifyList !== null && NewNotifyList instanceof HTMLElement ? NewNotifyList : null;
+        } else {
+            console.warn(`Tried to call ${this.ConstructNotificationList.name.toString()}, when there's already a NotificationList present in the DOM Tree.`);
+        }
     }
 }
 
+// 
+
 /**
  * 
  */
-class ActionNotification {
+class NotificationInstancerData {
+    /**
+     * 
+     * @public
+     */
+    static NotificationInnerContentsTemplate = `
+        <button class="cancel-notification">X</button>
+        <span class="notification-message"></span>
+    `;
+}
+
+/**
+ * 
+ */
+class ActionNotification extends NotificationProcessInstancer {
     /**
      * 
      * @param {string} NotificationMessage
@@ -40,30 +87,30 @@ class ActionNotification {
 
     /**
      * 
-     * @private
-     */
-    static NotificationInnerContentsTemplate = `
-        <button class="cancel-notification">X</button>
-        <span class="notification-message"></span>
-    `;
-
-    /**
-     * 
-     * @returns {void}
+     * @returns {Promise<void>}
      * @public
      */
-    async ClientNotify() {
+    async BuildNotification() {
         try {
-            console.debug(`%cBuilding Notification Object...`, 'color: yellow;');
-            this.notification = document.createElement("div");
-            if (this.notification !== null && this.notification instanceof HTMLDivElement) {
+            if (NotificationElementHolder.NotificationList !== null && NotificationElementHolder.NotificationList instanceof HTMLElement) {
+                console.debug(`%cBuilding Notification Object...`, 'color: yellow;');
+                this.notification = document.createElement("div");
 
-            }
-            // Apply Notification Message
-            if (this.message !== null && typeof(this.message) === "string") {
+                // Port over base initial Notification Interface
+                if (this.notification !== null && this.notification instanceof HTMLDivElement) {
+                    if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
+                        this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
+                    }
+                }
 
-            } else if (this.message === null || typeof(this.message) !== "string") {
-                console.warn(`Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`);
+                // Apply Notification Message
+                if (this.message !== null && typeof(this.message) === "string") {
+
+                } else if (this.message === null || typeof(this.message) !== "string") {
+                    console.warn(`Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`);
+                }
+            } else {
+                throw new Error("NotificationList was not found within the DOM Element Hierarchy.\nConsider running the function needed; to construct it automatically.");
             }
         } catch (NotificationFailure) {
             if (NotificationFailure !== null) {
