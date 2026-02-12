@@ -45,8 +45,6 @@ class NotificationElementHolder {
     }
 }
 
-// 
-
 /**
  * 
  */
@@ -64,7 +62,7 @@ class NotificationInstancerData {
 /**
  * 
  */
-class ActionNotification {
+class UserNotification {
     /**
      * 
      * @param {string} NotificationMessage
@@ -78,6 +76,17 @@ class ActionNotification {
         this.removingAutomatically = AutoRemove && new Boolean(AutoRemove).valueOf() || false;
         this.message = new String(NotificationMessage).toString();
         this.notification = null;
+    }
+
+    /**
+     * 
+     * @returns {boolean}
+     * @public
+     */
+    isNotificationValid() {
+        if (this.notification !== null) {
+            return this.notification instanceof HTMLDivElement ? true : false;
+        }
     }
 
     /**
@@ -115,32 +124,50 @@ class ActionNotification {
             }
         } catch (NotificationFailure) {
             if (NotificationFailure !== null) {
-                const NotificationFailureMessage = new String(NotificationFailure).trimStart().valueOf();
+                const NotificationFailureMessage = new String(NotificationFailure).valueOf();
                 throw new Error(`${NotificationFailureMessage}`);
             }
         } finally {
             return void null;
         }
     }
-}
 
-/**
- * 
- * @param 
- * @returns {ActionNotification?}
- */
-function DeployNotification() {
-    if (ActionNotification !== (null || undefined)) {
-        
+    /**
+     * 
+     * @returns {boolean}
+     */
+    DeployNotification() {
+        /**
+         * 
+         * ---
+         * Determines if the **`Notification`** was deployed successfully or not.
+         * 
+         * ---
+         * _`@type {boolean}`_
+         */
+        let NotificationDeploymentSuccessful = false;
+
+        if (UserNotification !== (null || undefined)) {
+            try {
+                if (this.isNotificationValid() && UserInterfaceFlexBar !== null && UserInterfaceFlexBar instanceof HTMLElement) {
+                    UserInterfaceFlexBar.appendChild(this.notification !== null ? this.notification : undefined);
+                }
+            } catch (NotificationDeploymentError) {
+                console.error(`Deploying Notification "${this.message}", resulted in an Error.\n${new String(NotificationDeploymentError).valueOf()}`);
+            }
+        }
+
+        return NotificationDeploymentSuccessful !== null ? NotificationDeploymentSuccessful : false;
     }
 }
 
 /**
+ * 
  * @typedef {InstanceNotification} ActionNotification
  */
-let InstanceNotification = ActionNotification
+const InstanceNotification = UserNotification;
 
+// Export Module Classes
 export {
     InstanceNotification as ActionNotification,
-    DeployNotification,
 };
