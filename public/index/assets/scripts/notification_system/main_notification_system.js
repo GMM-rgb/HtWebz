@@ -1,30 +1,30 @@
 import * as NotificationUtility from "./notification_utility_modules/notification_main_interface.js";
 
-// /**
-//  * 
-//  * @typedef {Window & {
-//  *  DeployNewNotification: typedof DeployNewNotification
-//  * }} ModifiedWindow
-//  * 
-//  */
-
-/**
- * @typedef {Parameters} DeployNewNotificationParameters
- * @extends {DeployNewNotificationParameters & {(RequestedNotificationMessage: string)}}
- */
-
 /**
  * 
  */
 class NotificationClient {
     /**
-     * 
      * @param {string} RequestedNotificationMessage
      * @param {number|undefined} RemoveAfter Interval in __`Seconds`__
      * @returns {void}
      */
     static DeployNewNotification(RequestedNotificationMessage, RemoveAfter) {
-        const NotificationInstanceConstructor = new NotificationUtility.ActionNotification();
+        let isRemovingAutomatically = new Boolean(false).valueOf();
+        let WillBeRemovingAfter = new Number(0).valueOf();
+
+        if (RemoveAfter !== (null || undefined) && typeof(RemoveAfter) === "number" && RemoveAfter.valueOf() > 0) {
+            WillBeRemovingAfter = RemoveAfter.valueOf();
+            isRemovingAutomatically = true;
+        } else {
+            if (isRemovingAutomatically === true) {
+                isRemovingAutomatically = false;
+            }
+        }
+
+        if (RequestedNotificationMessage !== (null || undefined) && typeof(RequestedNotificationMessage) === "string") {
+            const NotificationInstanceConstructor = new NotificationUtility.ActionNotification(RequestedNotificationMessage, isRemovingAutomatically);
+        }
 
         return void null;
     }
