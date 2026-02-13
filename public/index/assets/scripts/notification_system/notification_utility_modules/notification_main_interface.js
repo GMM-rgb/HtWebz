@@ -83,11 +83,14 @@ class UserNotification {
      * and verifies that the *Notification* is not undefined / null. 
      *   
      * ---
+     * ---
      *   
-     * ____Example Usage____
+     * ### ____Example Usage____
      * ```javascript
      * const NewClientNotificationInstancer = new UserNotification("hello world! :D", false);
-     * 
+     * NewClientNotificationInstancer.PreBuildNotification();
+     * // This will log that "Notification" is valid format
+     * console.log(`${NewClientNotificationInstancer.isNotificationValid().valueOf()}`);
      * ```
      *   
      * ---
@@ -113,19 +116,22 @@ class UserNotification {
         const MessageDataWhenChecking = this.message;
         // 
         if (MessageDataWhenChecking !== null && typeof(MessageDataWhenChecking) === "string") {
-            console.info()
+            console.info(`%cNotification has message data.`, 'color: lime;');
             return true;
+        } else {
+            console.warn(`Notification doesn't have any sort of message data!`);
+            return false;
         }
-
-        return false;
     }
 
     /**
      * 
      * @returns {void}
      */
-    DemolishNotification() {
-        
+    DeconstructNotification() {
+        if (this.notification !== null && this.isNotificationValid()) {
+
+        }
     }
 
     /**

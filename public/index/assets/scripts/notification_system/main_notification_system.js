@@ -1,7 +1,6 @@
 import * as NotifyUtility from "./notification_utility_modules/notification_main_interface.js";
-
 /**
- * 
+ * Function class for the __`Window`__ interface __Object__.
  */
 class NotificationClient {
     /**
@@ -49,6 +48,6 @@ class NotificationClient {
 
 if (window.DeployNewNotification !== null) {
     if (NotificationClient !== undefined && typeof(NotificationClient.DeployNewNotification) === "function") {
-        Object.assign(window, NotificationClient.DeployNewNotification);
+        window.DeployNewNotification = NotificationClient.DeployNewNotification || null;
     }
 }
