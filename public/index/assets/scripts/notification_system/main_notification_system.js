@@ -30,4 +30,8 @@ class NotificationClient {
     }
 }
 
-Object.assign(window, NotificationClient);
+if (window.DeployNewNotification !== null) {
+    if (NotificationClient && typeof(NotificationClient.DeployNewNotification) === "function") {
+        Object.assign(window, NotificationClient.DeployNewNotification);
+    }
+}
