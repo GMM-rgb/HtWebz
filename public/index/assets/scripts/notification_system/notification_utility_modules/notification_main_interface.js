@@ -1,5 +1,3 @@
-import  "../../window_scope_definitions";
-
 /**
  * Container for fixed user interface on the screen; to be appended.
  */
@@ -68,16 +66,40 @@ class UserNotification {
     /**
      * 
      * @param {string} NotificationMessage
-     * @param {boolean} AutoRemove 
      */
-    constructor(NotificationMessage, AutoRemove) {
+    constructor(NotificationMessage) {
         /**
          * 
          * @type {String}
          */
-        this.removingAutomatically = AutoRemove && new Boolean(AutoRemove).valueOf() || false;
         this.message = new String(NotificationMessage).toString();
         this.notification = null;
+    }
+
+    /**
+     * ---
+     *   
+     * Checks that the *Notification* was created as the correct __`HTMLElement`__,
+     * and verifies that the *Notification* is not undefined / null. 
+     *   
+     * ---
+     *   
+     * ____Example Usage____
+     * ```javascript
+     * const NewClientNotificationInstancer = new UserNotification("hello world! :D", false);
+     * 
+     * ```
+     *   
+     * ---
+     * @returns {boolean}
+     * @public
+     */
+    isNotificationValid() {
+        if (this.notification !== (null || undefined)) {
+            return this.notification instanceof HTMLDivElement ? true : false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -85,10 +107,25 @@ class UserNotification {
      * @returns {boolean}
      * @public
      */
-    isNotificationValid() {
-        if (this.notification !== null) {
-            return this.notification instanceof HTMLDivElement ? true : false;
+    hasMessageData() {
+        console.debug("%cChecking if Notification has message data...", 'color: magenta;');
+        // Fetch the Notification message in its current state
+        const MessageDataWhenChecking = this.message;
+        // 
+        if (MessageDataWhenChecking !== null && typeof(MessageDataWhenChecking) === "string") {
+            console.info()
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * 
+     * @returns {void}
+     */
+    DemolishNotification() {
+        
     }
 
     /**
@@ -164,11 +201,10 @@ class UserNotification {
 }
 
 /**
- * 
  * @readonly
  * @typedef {InstanceNotification} ActionNotification
  */
-let InstanceNotification = UserNotification;
+let InstanceNotification = UserNotification || undefined;
 
 // Export Module Classes
 export {

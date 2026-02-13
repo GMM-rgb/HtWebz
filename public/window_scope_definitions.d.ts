@@ -1,7 +1,6 @@
 // scope_definitions.d.ts
-// Use Notification Main Interface exports; for function declaration types.
-import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
-
+// Import Notification Main Interface file exports; for the Notification System function declaration types.
+import * as NotifyUtility from "./index/assets/scripts/notification_system/notification_utility_modules/notification_main_interface";
 // Notification System Definitions
 declare global {
     interface Window {

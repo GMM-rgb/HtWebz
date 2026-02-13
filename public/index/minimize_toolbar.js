@@ -4,8 +4,6 @@ const mb = document.getElementById('minimize-toolbar-button');
 // Toolbar Container
 const tb = document.getElementById('toolbar-container');
 // Calculator
-
-
 mb.addEventListener('click', function() {
 if(mb.style.color === 'black' || mb.style.color === '') {
   mb.style.borderTop = '2px solid darkgray';

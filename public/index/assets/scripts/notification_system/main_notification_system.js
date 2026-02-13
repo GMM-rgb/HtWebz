@@ -24,7 +24,7 @@ class NotificationClient {
         }
 
         if (RequestedNotificationMessage !== (null || undefined) && typeof(RequestedNotificationMessage) === "string") {
-            const NotificationInstanceConstructor = new NotifyUtility.ActionNotification(RequestedNotificationMessage, isRemovingAutomatically);
+            const NotificationInstanceConstructor = new NotifyUtility.ActionNotification(RequestedNotificationMessage.valueOf());
             NotificationInstanceConstructor.PreBuildNotification().then(() => {
                 console.log(`
                     Successfully pre-built an new Notification.\n
