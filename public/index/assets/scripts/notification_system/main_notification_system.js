@@ -8,7 +8,7 @@ class NotificationClient {
      * @param {string} RequestedNotificationMessage 
      * @param {number|undefined} RemoveAfter Interval in __`Seconds`__ 
      * @param {boolean|undefined} OptionallyReturnsNotification 
-     * @returns {void}
+     * @returns {NotifyUtility.ActionNotification?}
      */
     static DeployNewNotification(RequestedNotificationMessage, RemoveAfter, OptionallyReturnsNotification) {
         let isRemovingAutomatically = new Boolean(false).valueOf();
@@ -36,9 +36,14 @@ class NotificationClient {
                 }
             });
 
+            if (OptionallyReturnsNotification !== (null || undefined) && typeof(OptionallyReturnsNotification) === "boolean") {
+                if (new Boolean(OptionallyReturnsNotification).valueOf() === true) {
+                    return NotificationInstanceConstructor !== null ? NotificationInstanceConstructor : null;
+                }
+            }
         }
 
-        return void null;
+        return null;
     }
 }
 
