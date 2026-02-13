@@ -30,6 +30,10 @@ class NotificationClient {
                     Successfully pre-built an new Notification.\n
                     Message:\t${NotificationInstanceConstructor.message.toString()}
                 `);
+            }).catch((PreBuildError) => {
+                if (PreBuildError !== (null || undefined)) {
+                    console.error(`Pre-Building new notification "${NotificationInstanceConstructor.message.toString()}" failed:\n${new String(PreBuildError)}`);
+                }
             });
 
         }

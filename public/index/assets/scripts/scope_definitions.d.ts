@@ -18,8 +18,10 @@ declare global {
          * #### **`RemoveAfter`** Inputted in as __``Seconds``.__
          * ***
          */
-        DeployNewNotification: (RequestedNotificationMessage: string, RemoveAfter?: number) => void;
+        DeployNewNotification: (RequestedNotificationMessage: string, RemoveAfter?: number|undefined, OptionallyReturnsNotification?: boolean|undefined) => void;
     }
 }
+
+
 
 export {};
