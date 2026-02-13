@@ -1,4 +1,4 @@
-import  "../../scope_definitions";
+import  "../../window_scope_definitions";
 
 /**
  * Container for fixed user interface on the screen; to be appended.
