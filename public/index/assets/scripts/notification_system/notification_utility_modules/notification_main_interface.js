@@ -96,7 +96,7 @@ class UserNotification {
      * @returns {Promise<void>}
      * @public
      */
-    async BuildNotification() {
+    async PreBuildNotification() {
         try {
             if (NotificationElementHolder.NotificationList !== null && NotificationElementHolder.NotificationList instanceof HTMLElement) {
                 console.debug(`%cBuilding Notification Object...`, 'color: yellow;');
