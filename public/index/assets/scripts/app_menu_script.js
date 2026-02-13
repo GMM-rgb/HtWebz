@@ -5,7 +5,7 @@ const appMenu = document.getElementById("appMenu");
 const appMenuOpen = document.getElementById("appMenuOpen");
 const HtWebzEditor = document.getElementById("textEditorAppButton");
 
-var isAppMenuOpen = false;
+let isAppMenuOpen = false;
 
 function awaitAnimation(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
