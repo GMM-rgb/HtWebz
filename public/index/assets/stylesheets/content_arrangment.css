@@ -161,6 +161,7 @@
     min-height: var(--DOM-viewport-min-height);
     object-fit: cover;
     margin: auto;
+    margin-top: -4px;
 }
 
 .main-content-section {
