@@ -19,6 +19,7 @@ async function LoadAudio(AudioPath) {
         if (AudioFile !== null && AudioFile instanceof Response) {
             const Buffer = await AudioFile.arrayBuffer();
             ConstructedAudio = await OnboardingAudioContext.decodeAudioData(Buffer);
+            await Promise.resolve();
         }
     } catch (error) {
         console.error(`Failed to load audio:\n${String(error).toString()}`);
@@ -53,9 +54,8 @@ async function PlayAudio(AudioName) {
 
         if (OnboardingAudioContext.state === "suspended" || OnboardingAudioContext.state === "interrupted") {
             await OnboardingAudioContext.resume();
+            await Promise.resolve();
         }
-
-        await Promise.resolve();
     } catch (AudioPlaybackError) {
         console.error(`Unsuccessful audio playback:\n${AudioPlaybackError}`);
     }
