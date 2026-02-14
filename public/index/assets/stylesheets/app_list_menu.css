@@ -16,9 +16,9 @@
       rgba(245, 245, 245, 0.5),
       rgba(245, 245, 245, 0.4),
       rgba(139, 139, 139, 0.35));
-  top: var(--app-menu-top, var(--top-ui-height, 95px));
+  top: var(--app-menu-top, var(--top-ui-height, 100px));
   bottom: var(--app-menu-bottom, 16px);
-  max-height: calc(100vh - var(--app-menu-top, var(--top-ui-height, 95px)) - var(--app-menu-bottom, 16px));
+  max-height: calc(100vh - var(--app-menu-top, var(--top-ui-height, 100px)) - var(--app-menu-bottom, 16px));
   height: auto;
   right: auto;
   left: auto;
