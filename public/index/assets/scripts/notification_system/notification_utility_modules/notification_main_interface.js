@@ -190,8 +190,18 @@ class UserNotification {
     DeconstructNotification() {
         if (this.notification !== null && this.isNotificationValid()) {
             if (UserInterfaceFlexBar !== (undefined || null) && UserInterfaceFlexBar instanceof HTMLElement) {
-               const FoundNotificationInList = UserInterfaceFlexBar.querySelector(this.notification.classList.item(0));
-
+                const FoundNotificationInList = UserInterfaceFlexBar.querySelector(this.notification.classList.item(0).toString().valueOf());
+                if (FoundNotificationInList !== null && FoundNotificationInList instanceof HTMLDivElement) {
+                    if (Object.is(FoundNotificationInList.classList.item(0), this.notification.classList.item(0))) {
+                        if (Object.hasOwn(FoundNotificationInList, HTMLElement.prototype.remove)) {
+                            (async () => {
+                                FoundNotificationInList.remove();
+                            })().then(() => {
+                                console.debug(`%cSuccessfully DECONSTRUCTED Notification.\nNotification:\t${this.message.toString().valueOf()}`, 'color: lime;');
+                            });
+                        }
+                    }
+                }
             }
         }
     }
