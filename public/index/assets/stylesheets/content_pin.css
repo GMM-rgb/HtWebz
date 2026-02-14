@@ -56,8 +56,8 @@
   overflow-y: hidden;
 
   text-wrap-mode: wrap;
-  text-wrap-style: pretty;
-  word-wrap: break-word;
+  text-wrap-style: stable;
+  word-wrap: normal;
 }
 
 .pinned-content-title.sticky-active {

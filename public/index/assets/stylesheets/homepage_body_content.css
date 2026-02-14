@@ -55,15 +55,13 @@
     .drag-content-section-container{
         padding-block: 25px !important;
     }
-    #gamesMenuOpen {
-        display: none !important;
-    }
 }
 
 @media (max-width: 812px) {
-    /* #settingsQuick {
+    #settingsQuick,
+    #gamesMenuOpen {
         display: none !important;
-    } */
+    }
 }
 
 .content-section {

@@ -298,6 +298,10 @@ head {
         gap: 6px !important;
     }
 
+    .appMenuOpenButtons.right-section {
+        gap: 4px !important;
+    }
+
     .moreFromHtWebzContainer {
         transform: scale(0.7) !important;
         background: rgba(210, 210, 210, 0.875) !important;
@@ -347,7 +351,7 @@ head {
     justify-content: last baseline;
     alignment-baseline: mathematical;
     vertical-align: top;
-    gap: 4px !important;
+    gap: 8px !important;
 }
 
 #accountExpandInfo {
@@ -742,6 +746,10 @@ head {
 
 #resourcesMenuOpen:hover {
     transform: scale(1.0125);
+}
+
+#resourcesMenuOpen:has(.ResourcesInteractable.Focused) {
+    transform: scale(1) !important;
 }
 
 .ResourcesInteractable.Focused:hover {
