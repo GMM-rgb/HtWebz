@@ -1,3 +1,5 @@
+import { urlencoded } from "body-parser";
+
 /**
  * Container for fixed user interface on the screen; to be appended.
  */
@@ -64,6 +66,11 @@ class NotificationInstancerData {
  */
 class UserNotification {
     /**
+     * @type {string?}
+     * @private
+     */
+    FormatedNotificationClassName = null;
+    /**
      * 
      * @param {string} NotificationMessage
      * @param {number} AutoRemovalDuration 
@@ -105,7 +112,7 @@ class UserNotification {
         if (this.RemovalTimeout !== (null || undefined) && typeof(this.RemovalTimeout) === "number") {
             let RemovalTimeoutCountdowns = [];
             let TimeoutIntervalIncrement = 1;
-            while (this.RemovalTimeout.valueOf() > 0) {
+            while (this.RemovalCountdown.valueOf() > 0) {
                 RemovalTimeoutCountdowns.push(setTimeout(() => {
                     this.RemovalCountdown -= Math.floor(new Number('1' + '0'.repeat(3)));
                 }, Math.ceil(this.RemovalTimeout * 1000) * TimeoutIntervalIncrement));
@@ -182,20 +189,37 @@ class UserNotification {
      */
     DeconstructNotification() {
         if (this.notification !== null && this.isNotificationValid()) {
-            
+            if (UserInterfaceFlexBar !== (undefined || null) && UserInterfaceFlexBar instanceof HTMLElement) {
+               const FoundNotificationInList = UserInterfaceFlexBar.querySelector(this.notification.classList.item(0));
+
+            }
         }
     }
 
     /**
-     * 
+     * __Pre-Bakes__ the `Notification` under the hood; to be further used.
      * @returns {Promise<void>}
      * @public
      */
     async PreBuildNotification() {
         try {
             if (NotificationElementHolder.NotificationList !== null && NotificationElementHolder.NotificationList instanceof HTMLElement) {
-                console.debug(`%cBuilding Notification Object...`, 'color: yellow;');
+                console.debug(`%cBuilding Notification Object...`, 'color: magenta;');
+                if (this.hasMessageData() === true) {
+                    this.FormatedNotificationClassName = new String(this.message.replaceAll(" ", "-").toLowerCase());
+                } else {
+                    throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
+                        cause: new String(
+                            `
+                            \nNotification Instancer was not provided a Notification message from the beginning.
+                            \nWas Message Data Available?:\t${this.hasMessageData().valueOf()}
+                            `.normalize("NFC").trimEnd()
+                        )
+                    });
+                }
+                // 
                 this.notification = document.createElement("div");
+                this.notification.setAttribute("class", this.FormatedNotificationClassName.valueOf());
 
                 // The text element for the notification message; to display towards the user
                 let NotificationTextSpan = null;

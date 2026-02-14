@@ -1,4 +1,5 @@
 import * as NotifyUtility from "./notification_utility_modules/notification_main_interface.js";
+
 /**
  * Function class for the __`Window`__ interface __Object__.
  */
