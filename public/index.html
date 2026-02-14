@@ -516,14 +516,16 @@ ___        ___        ___  ,________,  ,___    ,________
                     <span class="settings-quick-text">Settings</span></button>
             </div>
 
-            <h1 id="pageTitle">HtWebz &ndash; Homepage</h1>
-
-            <a href="/homepage">
-                <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
-                    <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60"
-                        height="60" style="image-rendering: pixelated !important; user-select: none !important;" />
-                </div>
-            </a>
+            <div class="appMenuOpenButtons central-content">
+                <h1 id="pageTitle">HtWebz &ndash; Homepage</h1>
+                <!---->
+                <a href="/homepage">
+                    <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
+                        <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60"
+                            height="60" style="image-rendering: pixelated !important; user-select: none !important;" />
+                    </div>
+                </a>
+            </div>
 
             <script name="TruncateTextScript"
                 src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
@@ -539,8 +541,9 @@ ___        ___        ___  ,________,  ,___    ,________
                 titleRo.observe(document.getElementById('pageTitle'));
             </script>
 
-            <div aria-label="Games" class="moreFromHtWebzContainer" id="moreFromHtWebzContainer">
-                <button id="gamesMenuOpen" onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
+            <!-- <div class="moreFromHtWebzContainer" id="moreFromHtWebzContainer"> -->
+            <div class="appMenuOpenButtons right-section">
+                <button aria-label="Games" id="gamesMenuOpen" onmouseenter="setupTooltip('#gamesMenuOpen', 'Click to open Game Menu.')">
                     <div id="gamesIconWrapper" aria-sort="other">
                         <img id="gamesMenuIcon" src="index/assets/images/console_remote_controller.png" alt="Games Icon"
                             preload="auto" height="27.5" width="27.5" />
@@ -564,6 +567,7 @@ ___        ___        ___  ,________,  ,___    ,________
                     </div>
                     <div id="search-results" aria-label="Search Results List"><!-- [Search Results Elements] --></div>
                 </button>
+            <!-- </div> -->
             </div>
         </section>
     </section>

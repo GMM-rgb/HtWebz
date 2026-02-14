@@ -29,7 +29,7 @@ head {
     display: flex !important;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center !important;
+    align-items: safe !important;
     position: relative !important;
     border: 3px solid #8b8b8b;
     /* border-top: none !important; */
@@ -43,7 +43,7 @@ head {
     box-sizing: border-box !important;
     box-shadow: inset 0 1px 19.85px rgba(0, 0, 0, 0.45);
     will-change: transform, opacity, background;
-    max-height: calc(100px - 10px);
+    max-height: var(--top-ui-height);
     width: calc(100% - 10px);
     padding: 9.5px;
     top: 5px !important;
@@ -61,7 +61,6 @@ head {
     text-wrap-mode: wrap;
     text-wrap-style: pretty;
     flex-flow: nowrap !important;
-    flex-basis: 1 content 1;
     flex-shrink: 1 !important;
     /* provides a CSS var for the app menu to reference; and adjusts if the bar changes size */
     --top-ui-height: calc(100px - 5px);
@@ -328,8 +327,21 @@ head {
     align-items: center;
     align-content: center;
     user-select: none !important;
-    flex: 0 2 auto;
+    flex: 0 1 auto;
     gap: 12px;
+}
+
+.appMenuOpenButtons.central-content {
+    display: flexbox;
+    min-width: 0;
+    width: 100%;
+}
+
+.appMenuOpenButtons.right-section {
+    justify-content: last baseline;
+    alignment-baseline: mathematical;
+    vertical-align: top;
+    gap: 12px !important;
 }
 
 #accountExpandInfo {
@@ -593,51 +605,6 @@ head {
     transition: all random(0.15s, 0.3s, 0.01s) ease-out !important;
 }
 
-/* Right side interface menu buttons (More from HtWebz) */
-.moreFromHtWebzContainer {
-    display: flex !important;
-    position: relative;
-    flex-direction: row;
-    justify-content: center !important;
-    align-items: center !important;
-    box-sizing: border-box !important;
-    background: rgba(210, 210, 210, 0.65);
-    border: 3px solid #ccc;
-    border-radius: 1cm;
-    padding-inline: 2.5px;
-    padding-block: 2.5px;
-
-    width: min-content, auto;
-    height: auto;
-
-    min-height: 70px;
-    min-width: 0;
-
-    max-height: 75.5px;
-
-    will-change: scroll-position, flex, padding !important;
-    object-fit: cover !important;
-
-    margin-right: 0;
-    margin-left: auto;
-
-    transition: all 0.3s ease;
-    
-    /* smoother than 0.1s */
-    box-shadow: inset 0 0 12.5px rgba(0, 0, 0, 0.45);
-    
-    flex-flow: row;
-    flex: 0 1 auto; /* Don't grow, can shrink a bit, auto basis */
-    gap: 9.5px;
-    
-    overflow-x: visible;
-    overflow-y: visible;
-
-    /* hides any accidental overflow */
-    max-height: 85.5px;
-    max-width: unset;
-}
-
 /* #gamesMenuOpen,
 #resourcesMenuOpen {
     white-space: nowrap !important;
@@ -645,6 +612,7 @@ head {
 
 #gamesMenuOpen {
     display: flex;
+    flex-wrap: nowrap;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -656,13 +624,12 @@ head {
     box-sizing: border-box;
     font-weight: bold;
     padding: 10px;
-    padding-inline-start: calc(10px + 20px);
-    gap: 9.5px;
     transition: all 0.3s !important;
     transform-origin: center top center;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
-    flex: 1 1 auto;
+    flex: 0 1 auto;
+    gap: 9.5px;
 }
 
 #gamesMenuOpen.hoveringGamesMenuDefault {
@@ -734,15 +701,13 @@ head {
 /* Search Bar Interactable */
 #resourcesMenuOpen {
     display: flex !important;
-    flex-flow: nowrap;
-    flex-direction: column;
-    flex: 0 1 auto !important;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex: 1 1 auto !important;
     flex-shrink: 1 !important;
     /* Allow it to shrink */
     justify-content: flex-start;
-    justify-self: flex-end;
-    align-items: flex-end;
-    align-self: flex-start;
+    align-items: last baseline;
 
     color: #333 !important;
     cursor: pointer !important;
@@ -754,8 +719,6 @@ head {
     box-sizing: border-box;
     font-weight: initial;
     padding: 10px;
-
-    overflow: visible !important;
 
     transform: scale(1);
     transform-origin: center center;
@@ -783,10 +746,6 @@ head {
         linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)) padding-box,
         conic-gradient(from var(--angle), #0072ff 0deg, #00c6ff 90deg, #00f2ff 180deg, #00c6ff 270deg, #0072ff 360deg) border-box !important;
     animation: rotateGradient 3s linear infinite;
-}
-
-.moreFromHtWebzContainer:has(.ResourcesInteractable.Focused) {
-    padding-inline: calc(2.5px + 1.5px) !important;
 }
 
 @keyframes rotateGradient {
@@ -830,9 +789,22 @@ head {
     animation: FocusSpinAnimation 0.475s ease-out forwards !important;
 }
 
+/* @keyframes posDelay {
+    0%, 99% { position: absolute; }
+    100% { position: relative; }
+} */
+
+*:has(.ResourcesInteractable.Focused) #resourcesMenuOpen input {
+    position: relative !important;
+    min-inline-size: auto !important;
+    transition: all 0.3s ease-in-out, position 0s 0.3s;
+}
+
 #resourcesMenuOpen input {
     /* padding-left: 15px !important; */
+    position: absolute;
     white-space: nowrap;
+    min-inline-size: 0;
 }
 
 #resourcesMenuOpen.hoveringResourcesDefault {
@@ -864,7 +836,7 @@ head {
     -webkit-user-drag: none !important;
     letter-spacing: 1.25px;
     transform: scaleY(1.25);
-    line-break: strict;
+    line-break: auto;
 }
 
 @keyframes expandWidth {
@@ -901,20 +873,23 @@ head {
 }
 
 #pageTitle {
-    flex: 1 3 auto;
-    min-width: 0;
+    /* margin-top: auto; */
+    flex: 0 1 auto;
     /* max-width: 50%; */
+    white-space: nowrap;
+    width: 100%;
+    height: calc(100% / var(--top-ui-height));
     margin-left: 15px;
     margin-right: 15px;
+    min-width: 0;
     /* Reserves space for absolute buttons */
     line-height: 1.2;
     display: flex;
-    align-items: center;
     justify-content: center;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    align-items: center;
+    align-self: center;
     text-align: center;
-    white-space: nowrap;
+    text-overflow: clip !important;
     letter-spacing: 1.5px;
     font-family: sans-serif !important;
     font-weight: bolder !important;
@@ -931,8 +906,9 @@ head {
     border-radius: 1cm;
     padding: 8px 15px;
     padding-inline: 10px;
-    max-height: 55px;
+    position: relative;
     transition: all 0.3s, margin-right 0.1s ease !important;
+    overflow: hidden !important;
     cursor: default !important;
     color: black;
 }
@@ -999,11 +975,11 @@ head {
 }
 
 /* Update liquid fill pseudo-elements with shadow */
-#appMenuOpen::after,
-#settingsQuick::after,
-#expandMenuToolbar::after,
-#gamesMenuOpen::after,
-#resourcesMenuOpen::after {
+#appMenuOpen::before,
+#settingsQuick::before,
+#expandMenuToolbar::before,
+#gamesMenuOpen::before,
+#resourcesMenuOpen::before {
     content: '';
     position: absolute;
     top: var(--liquid-y);
@@ -1019,11 +995,11 @@ head {
 }
 
 /* Pseudo hover effect */
-#appMenuOpen:hover::after,
-#settingsQuick:hover::after,
-#expandMenuToolbar:hover::after,
-#gamesMenuOpen:hover::after,
-#resourcesMenuOpen:hover::after {
+#appMenuOpen:hover::before,
+#settingsQuick:hover::before,
+#expandMenuToolbar:hover::before,
+#gamesMenuOpen:hover::before,
+#resourcesMenuOpen:hover::before {
     width: 200%;
     height: 200%;
     box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.45),
@@ -1041,11 +1017,11 @@ head {
 }
 
 /* Enhanced click effect with deeper shadow */
-#appMenuOpen.clicked::after,
-#settingsQuick.clicked::after,
-#expandMenuToolbar.clicked::after,
-#gamesMenuOpen.clicked::after,
-#resourcesMenuOpen.clicked::after {
+#appMenuOpen.clicked::before,
+#settingsQuick.clicked::before,
+#expandMenuToolbar.clicked::before,
+#gamesMenuOpen.clicked::before,
+#resourcesMenuOpen.clicked::before {
     background: rgb(180, 180, 180);
     width: 350%;
     height: 350%;

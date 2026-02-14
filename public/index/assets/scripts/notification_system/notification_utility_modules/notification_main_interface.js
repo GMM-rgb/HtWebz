@@ -66,14 +66,54 @@ class UserNotification {
     /**
      * 
      * @param {string} NotificationMessage
+     * @param {number} AutoRemovalDuration 
      */
-    constructor(NotificationMessage) {
+    constructor(NotificationMessage, AutoRemovalDuration) {
         /**
          * 
          * @type {String}
          */
         this.message = new String(NotificationMessage).toString();
+        /**
+         * 
+         * @type {Number}
+         */
+        this.RemovalTimeout = AutoRemovalDuration.valueOf() > 0 ? Math.abs(new Number(AutoRemovalDuration)) : 0;
+        /**
+         * 
+         * @type {Number}
+         */
+        this.RemovalCountdown = Math.ceil(new Number(Math.abs(AutoRemovalDuration) * 1000) || 0);
         this.notification = null;
+    }
+
+    /**
+     * 
+     * ---
+     * 
+     * 
+     * 
+     * ---
+     * 
+     * @returns {void}
+     * @public
+     * 
+     * ---
+     * 
+     */
+    TryAttatchAutoRemove() {
+        if (this.RemovalTimeout !== (null || undefined) && typeof(this.RemovalTimeout) === "number") {
+            let RemovalTimeoutCountdowns = [];
+            let TimeoutIntervalIncrement = 1;
+            while (this.RemovalTimeout.valueOf() > 0) {
+                RemovalTimeoutCountdowns.push(setTimeout(() => {
+                    this.RemovalCountdown -= Math.floor(new Number('1' + '0'.repeat(3)));
+                }, Math.ceil(this.RemovalTimeout * 1000) * TimeoutIntervalIncrement));
+                TimeoutIntervalIncrement += 1;
+            }
+        }
+
+        return;
     }
 
     /**
@@ -125,12 +165,24 @@ class UserNotification {
     }
 
     /**
+     * Fetches the Notification List Object; to find the Notification requested.
+     * @private
+     */
+    async FetchNotificationListElement() {
+        const NotificationList = UserInterfaceFlexBar.querySelector("#NotificationsList");
+        if (NotificationList !== null && NotificationList instanceof HTMLElement) {
+            
+        }
+    }
+
+    /**
      * 
      * @returns {void}
+     * @public
      */
     DeconstructNotification() {
         if (this.notification !== null && this.isNotificationValid()) {
-
+            
         }
     }
 
@@ -152,7 +204,10 @@ class UserNotification {
                 if (this.notification !== null && this.notification instanceof HTMLDivElement) {
                     if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
                         this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
-                        NotificationTextSpan = this.notification.firstChild;
+                        NotificationTextSpan = this.notification.querySelector("span");
+                        if (!(NotificationTextSpan.innerHTML.length > 0)) {
+                            NotificationTextSpan.innerHTML = this.message.toString();
+                        }
                     }
                 }
 
@@ -179,7 +234,15 @@ class UserNotification {
 
     /**
      * 
+     * ---
+     * 
+     * Deploys the __Notification__ to the __NotificationsList__ `Object`,  
+     * to then be displayed to the user.
+     * 
+     * ---
+     * 
      * @returns {boolean}
+     * 
      */
     DeployNotification() {
         /**
@@ -194,11 +257,14 @@ class UserNotification {
 
         if (UserNotification !== (null || undefined)) {
             try {
-                if (this.isNotificationValid() && UserInterfaceFlexBar !== null && UserInterfaceFlexBar instanceof HTMLElement) {
+                if (this.isNotificationValid() && UserInterfaceFlexBar !== (null || undefined) && UserInterfaceFlexBar instanceof HTMLElement) {
+                    this.notification.classList.add("NotificationDeployed");
                     UserInterfaceFlexBar.appendChild(this.notification !== null ? this.notification : undefined);
                 }
             } catch (NotificationDeploymentError) {
-                console.error(`Deploying Notification "${this.message}", resulted in an Error.\n${new String(NotificationDeploymentError).valueOf()}`);
+                if (NotificationDeploymentError !== null) {
+                    console.error(`Deploying Notification "${this.message}", resulted in an Error.\n${new String(NotificationDeploymentError).valueOf().toString()}`);
+                }
             }
         }
 
