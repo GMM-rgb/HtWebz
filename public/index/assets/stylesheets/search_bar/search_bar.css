@@ -21,8 +21,8 @@
     border-radius: 15px;
     background: rgb(235, 235, 235);
     background-origin: border-box;
-    /* background-clip: padding-box, border-box; */
-    /* text-indent: 5px; */
+    background-clip: padding-box, border-box;
+    text-indent: 5px;
     text-size-adjust: fit-content;
     text-align: left !important;
     direction: ltr !important;

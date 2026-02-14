@@ -343,10 +343,6 @@
     margin-top: -20px;
 }
 
-counter-increment {
-    --counter: var(--counter)
-}
-
 #footerContainer {
     display: flex;
     flex-direction: row !important;

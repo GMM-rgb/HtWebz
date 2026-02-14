@@ -61,9 +61,9 @@
 }
 
 @media (max-width: 812px) {
-    #settingsQuick {
+    /* #settingsQuick {
         display: none !important;
-    }
+    } */
 }
 
 .content-section {

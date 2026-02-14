@@ -7,6 +7,56 @@ head {
     scroll-snap-type: mandatory;
 }
 
+@keyframes switchRotationAndScaleBounce {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    25% {
+        transform: rotate(15deg) scale(1.15);
+    }
+
+    50% {
+        transform: rotate(-10deg) scale(0.9);
+    }
+
+    75% {
+        transform: rotate(5deg) scale(1.05);
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+@keyframes SwitchRotationAndScaleBounceAccountIconAndFadeIn {
+    0% {
+        transform: rotate(0deg) scale(1.25);
+        opacity: 0.15;
+    }
+
+    25% {
+        transform: rotate(180deg) scale(1.15);
+        opacity: 0.5;
+    }
+
+    50%,
+    100% {
+        transform: rotate(270deg) scale(0.9);
+        opacity: 0.35;
+    }
+
+    75% {
+        transform: rotate(360deg) scale(1.05);
+        opacity: 0.75;
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1.25);
+        opacity: 1;
+    }
+}
+
 /* .staticStickyUiFlex:has(#UserInputFormaterToolbar) #topUserInterfaceBar::before {
     content: "";
     position: absolute;
@@ -171,56 +221,6 @@ head {
     transform: scale(0.95);
 }
 
-@keyframes switchRotationAndScaleBounce {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-
-    25% {
-        transform: rotate(15deg) scale(1.15);
-    }
-
-    50% {
-        transform: rotate(-10deg) scale(0.9);
-    }
-
-    75% {
-        transform: rotate(5deg) scale(1.05);
-    }
-
-    100% {
-        transform: rotate(0deg) scale(1);
-    }
-}
-
-@keyframes SwitchRotationAndScaleBounceAccountIconAndFadeIn {
-    0% {
-        transform: rotate(0deg) scale(1.25);
-        opacity: 0.15;
-    }
-
-    25% {
-        transform: rotate(180deg) scale(1.15);
-        opacity: 0.5;
-    }
-
-    50%,
-    100% {
-        transform: rotate(270deg) scale(0.9);
-        opacity: 0.35;
-    }
-
-    75% {
-        transform: rotate(360deg) scale(1.05);
-        opacity: 0.75;
-    }
-
-    100% {
-        transform: rotate(0deg) scale(1.25);
-        opacity: 1;
-    }
-}
-
 /* @keyframes prev {
     0% {
         transform: rotateY(180deg);
@@ -260,17 +260,23 @@ head {
     }
 
     #appMenuOpen,
-    #settingsQuick {
+    #settingsQuick,
+    #resourcesMenuOpen,
+    #gamesMenuOpen {
         transform: scale(0.825) !important;
     }
 
     #appMenuOpen:hover,
-    #settingsQuick:hover {
+    #settingsQuick:hover,
+    #resourcesMenuOpen:hover,
+    #gamesMenuOpen:hover {
         transform: scale(0.85) !important;
     }
 
     #appMenuOpen:active,
-    #settingsQuick:active {
+    #settingsQuick:active,
+    #resourcesMenuOpen:active,
+    #gamesMenuOpen:active {
         transform: scale(0.775) !important;
     }
 
@@ -289,7 +295,7 @@ head {
     }
 
     .appMenuOpenButtons {
-        gap: 0 !important;
+        gap: 6px !important;
     }
 
     .moreFromHtWebzContainer {
@@ -332,7 +338,7 @@ head {
 }
 
 .appMenuOpenButtons.central-content {
-    display: flexbox;
+    display: inline-flexbox;
     min-width: 0;
     width: 100%;
 }
@@ -341,7 +347,7 @@ head {
     justify-content: last baseline;
     alignment-baseline: mathematical;
     vertical-align: top;
-    gap: 12px !important;
+    gap: 4px !important;
 }
 
 #accountExpandInfo {
@@ -683,6 +689,7 @@ head {
     -webkit-user-drag: none !important;
     letter-spacing: 1.25px;
     transform: scaleY(1.25);
+    text-size-adjust: flex;
     flex-shrink: 1 !important;
 }
 
@@ -700,30 +707,34 @@ head {
 
 /* Search Bar Interactable */
 #resourcesMenuOpen {
+    margin-top: 0 !important;
     display: flex !important;
     flex-wrap: wrap;
     flex-direction: row;
-    flex: 1 1 auto !important;
+    flex: 0 1 auto !important;
+    /* Allow shrinking */
     flex-shrink: 1 !important;
-    /* Allow it to shrink */
+    /* DOM Element Arrangment */
     justify-content: flex-start;
-    align-items: last baseline;
+    align-items: safe;
 
     color: #333 !important;
     cursor: pointer !important;
     position: relative;
     border: 3px solid #ccc;
     border-radius: 1cm;
-    background: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.85) !important;
     box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
     font-weight: initial;
     padding: 10px;
 
+    width: initial;
+
     transform: scale(1);
-    transform-origin: center center;
+    transform-origin: center;
     transition: all 0.3s, padding-left 0.65s ease, border 1.125s ease-out, border-width 0.675s ease-out !important;
-    will-change: border, background !important;
+    will-change: border !important;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
     gap: 9.5px;
@@ -761,7 +772,7 @@ head {
 @property --angle {
     syntax: '<angle>';
     initial-value: 0deg;
-    inherits: false;
+    inherits: true;
 }
 
 #resourcesMenuOpen:hover #resourcesIconWrapper {
@@ -772,6 +783,8 @@ head {
     width: min-content;
     height: min-content;
     object-fit: cover;
+    margin: auto;
+    max-width: min-content;
     pointer-events: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
@@ -780,9 +793,7 @@ head {
     border: 2px solid #ccc;
     border-radius: 1cm;
     padding: 2.5px 5px;
-    max-width: min-content;
     animation: none;
-    margin: auto;
 }
 
 .Resources-Icon-Wrapper-Div.FocusSpin {
@@ -797,7 +808,6 @@ head {
 *:has(.ResourcesInteractable.Focused) #resourcesMenuOpen input {
     position: relative !important;
     min-inline-size: auto !important;
-    transition: all 0.3s ease-in-out, position 0s 0.3s;
 }
 
 #resourcesMenuOpen input {
@@ -986,12 +996,13 @@ head {
     left: var(--liquid-x);
     width: 0;
     height: 0;
-    background: radial-gradient(85% rgb(170, 170, 170), 75% rgb(220, 220, 220));
+    opacity: 0;
+    background: radial-gradient(85% rgb(145, 145, 145), 75% rgb(220, 220, 220));
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease-out, height 0.3s ease-out, box-shadow 0.5s ease-out;
+    transition: width 0.3s ease-out, height 0.3s ease-out, box-shadow 0.5s ease-out, opacity 0.2s linear;
     box-shadow: inset 0 0 17.5px rgba(0, 0, 0, 0.45);
-    background-blend-mode: overlay;
+    background-blend-mode: color;
 }
 
 /* Pseudo hover effect */
@@ -1000,10 +1011,11 @@ head {
 #expandMenuToolbar:hover::before,
 #gamesMenuOpen:hover::before,
 #resourcesMenuOpen:hover::before {
-    width: 200%;
-    height: 200%;
-    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.45),
-        inset 0 0 15px rgba(0, 0, 0, 0.35);
+    opacity: 1;
+    width: 150%;
+    height: 150%;
+    box-shadow: inset 0 0 27.5px rgba(0, 0, 0, 0.45),
+        inset 0 0 42.5px rgba(0, 0, 0, 0.35);
 }
 
 /* Kill glow when the same element ALSO has .Focused */
