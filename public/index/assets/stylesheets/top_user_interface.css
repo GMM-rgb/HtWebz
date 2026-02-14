@@ -1088,6 +1088,21 @@ head {
 /*
     Formater Toolbar Styles
 */
+@keyframes dropDownFromNaBar {
+    0% {
+        transform: translateY(-100px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    50%, 45% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
 #UserInputFormaterToolbar {
     scroll-behavior: smooth;
     display: flex; /* needs to be changed to "none"; when the Format Tools Manager logistics are fully completed. */
@@ -1110,6 +1125,8 @@ head {
         -3px 0 5px -3px rgba(0, 0, 0, 0.3) inset, /* Left edge shadow */
         3px 0 5px -3px rgba(0, 0, 0, 0.3) inset,   /* Right edge shadow */
         0 -3px 3px rgba(0, 0, 0, 0.3) inset; /* Bottom edge shadow */
+    /* This will be temporary; until the logistics script can handle this by itself */
+    animation: dropDownFromNaBar 0.45s ease-out;
 }
 
 .format-button {
