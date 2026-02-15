@@ -95,13 +95,14 @@ head {
     will-change: transform, opacity, background;
     max-height: var(--top-ui-height);
     width: calc(100% - 10px);
+    contain: style;
     padding: 9.5px;
     top: 5px !important;
     left: 0 !important;
     right: 0 !important;
     margin-inline: 5px;
     z-index: 9998 !important;
-    transform-origin: top center;
+    transform-origin: center;
     -webkit-background-composite: padding;
     -webkit-backdrop-filter: blur(2px);
     -webkit-backdrop-filter: saturate(4px);
