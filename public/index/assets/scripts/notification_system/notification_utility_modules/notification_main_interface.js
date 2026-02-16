@@ -260,8 +260,9 @@ class UserNotification {
     DeployNotification() {
         /**
          * #### Current notifications located within the interface list.
+         * @type {HTMLElement[]?}
          */
-        const CurrentNotifications = this.ScanListNotifications();
+        let CurrentNotifications = null;
         /**
          * 
          * ---
@@ -279,13 +280,21 @@ class UserNotification {
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
                     NotificationList.appendChild(this.notification !== null ? this.notification : undefined);
                     // 
-                    CurrentNotifications.forEach((CurrentNotification) => {
-                        if (CurrentNotification.getRootNode().textContent === this.message) {
-                            NotificationDeploymentSuccessful = true;
-                        } else {
-                            NotificationDeploymentSuccessful = false;
-                        }
-                    });
+                    CurrentNotifications = this.ScanListNotifications();
+                    // 
+                    if (CurrentNotifications !== null) {
+                        CurrentNotifications.forEach((CurrentNotification) => {
+                            if (CurrentNotification.textContent === this.message) {
+                                console.log("e");
+                                NotificationDeploymentSuccessful = true;
+                            } else {
+                                NotificationDeploymentSuccessful = false;
+                                console.log("a");
+                            }
+                        });
+                    } else {
+                        console.warn("CurrentNotifications could not be fetched.");
+                    }
                 } else {
                     if (UserInterfaceFlexBar === (null || undefined) || !(UserInterfaceFlexBar instanceof HTMLElement)) {
                         throw new Error(`Could not append Notification.\nReason:\n`, { cause: "UserInterfaceFlexbar was not in acceptable range.".normalize("NFC") });

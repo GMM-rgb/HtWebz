@@ -1,4 +1,5 @@
 const UserArrangmentFlexbox = document.querySelector(".staticStickyUiFlex");
+let DocumentHasNotificationListConstructed = false;
 
 /**
  * 
@@ -31,11 +32,15 @@ class NotificationElementHolder {
      */
     ConstructNotificationList() {
         if (this.NotificationListElement === null || !(this.NotificationListElement instanceof HTMLElement)) {
-            const NewNotifyList = document.createElement("section");
-            NewNotifyList.setAttribute("id", "UserNotificationListInterface");
-            // Update `NotificationList` variable to the new created list.
-            this.NotificationListElement = NewNotifyList !== null && NewNotifyList instanceof HTMLElement ? NewNotifyList : null;
-            this.NotificationListElement = NewNotifyList || null;
+            if (DocumentHasNotificationListConstructed !== true) {
+                const NewNotifyList = document.createElement("section");
+                NewNotifyList.setAttribute("id", "UserNotificationListInterface");
+                // Update `NotificationList` variable to the new created list.
+                this.NotificationListElement = NewNotifyList !== null && NewNotifyList instanceof HTMLElement ? NewNotifyList : null;
+                this.NotificationListElement = NewNotifyList || null;
+                // Turn the Boolean over to opposite of current
+                DocumentHasNotificationListConstructed = new Boolean(!!DocumentHasNotificationListConstructed).valueOf();
+            }
         } else {
             console.warn(`Tried to call ${this.ConstructNotificationList.name.toString()}, when there's already a NotificationList present in the DOM Tree.`);
         }
@@ -58,7 +63,7 @@ class NotificationElementHolder {
      */
     async AppendNotificationList(TargetElementToAppend, WillAppend) {
         if (this.NotificationListElement !== (null || undefined) && this.NotificationListElement instanceof HTMLElement) {
-            console.debug(`%cTrying to append NotificationList...`, 'color: magenta;');
+            console.debug(`%cTrying to append %cNotificationList%c...`, 'color: magenta;', 'font-weight: bold; color: magenta;', 'color: magenta;');
             try {
                 if (typeof (WillAppend) === "boolean" && WillAppend === true) {
                     if (TargetElementToAppend !== (null || undefined)) {
@@ -66,7 +71,7 @@ class NotificationElementHolder {
                     } else {
                         if (UserArrangmentFlexbox !== null && UserArrangmentFlexbox instanceof HTMLElement) {
                             (async () => {
-                                console.info("No specieifed Target HTMLElement to append; was inputted, falling back to default destination.");
+                                console.info("%cNo specieifed Target HTMLElement to append; was inputted, falling back to default destination.", 'color: orange;');
                             })().then(() => {
                                 UserArrangmentFlexbox.appendChild(this.NotificationListElement);
                             });

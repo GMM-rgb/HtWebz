@@ -1,0 +1,18 @@
+UserNotificationListInterface:has(div.NotificationDeployed) {
+    
+}
+
+#UserNotificationListInterface {
+    display: flexbox;
+    flex-flow: nowrap;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: safe;
+    margin-inline: 5px;
+    position: fixed;
+    padding: 10px;
+    height: 150px;
+    /* Positioning Styles */
+    top: var(--app-menu-top, var(--top-ui-height, 112.5px));
+    left: 0;
+}

@@ -95,26 +95,27 @@ ___        ___        ___  ,________,  ,___    ,________
     <title id="WebsiteDocumentTitle">HtWebz &ndash; Homepage</title>
     <link rel="manifest" href="./mainifest.json" />
     <!-- Base Styles -->
-    <link rel="stylesheet" href="/index/assets/stylesheets/style_defaults/base_style_reference.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/style_defaults/base_style_reference.css" />
     <!-- Linked Stylesheets -->
-    <link rel="stylesheet" href="/index/assets/stylesheets/app_list_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/top_user_interface.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/notification_system.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/content_arrangment.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/content_pin.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/about_content.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/games_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/search_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/settings_menu.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/top_apps_arrangment.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/toolbar_extension.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/search_bar/search_bar.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/decoration_svg/background_decor.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/homepage_body_content.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/featured_styles/featured_element_styles.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/settings_styles/UI_interactable_styles.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/user_arrangment_interface.css" />
-    <link rel="stylesheet" href="/index/assets/stylesheets/input_type_base_styles/input_base.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/app_list_menu.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/top_user_interface.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/notification_system.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/content_arrangment.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/content_pin.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/about_content.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/games_menu.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/search_menu.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/settings_menu.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/top_apps_arrangment.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/toolbar_extension.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/search_bar/search_bar.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/decoration_svg/background_decor.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/homepage_body_content.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/featured_styles/featured_element_styles.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/settings_styles/UI_interactable_styles.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/user_arrangment_interface.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/input_type_base_styles/input_base.css" />
+    <link rel="stylesheet" href="./index/assets/stylesheets/notification_interface_styling/notify_list.css" />
     <i>
         <link rel="apple-touch-icon" href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
         <link rel="apple-touch-icon" sizes="76x76"
@@ -331,79 +332,6 @@ ___        ___        ___  ,________,  ,___    ,________
 
     ScrollbarAnimator.AttatchScrollbarListener();
 </script>
-<!-- <script type="text/javascript">
-    let isWide = false;
-    let currentWidth = 8;
-    let targetWidth = 8;
-    let animating = false;
-
-    function animate() {
-        if (animating) return;
-        animating = true;
-        async function step() {
-            if (currentWidth === targetWidth) {
-                animating = false;
-                return;
-            }
-            currentWidth += (currentWidth < targetWidth ? 1 : -1);
-            document.documentElement.style.setProperty(
-                '--scrollbar-width',
-                `${currentWidth}px`
-            );
-            requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-    }
-
-    class ScrollbarAnimator {
-        static ScrollbarAnimatorAttatched = false;
-
-        static AttatchScrollbarListener() {
-            document.documentElement.style.setProperty('--scrollbar-width', `8px`);
-            document.body.addEventListener("mousemove", (e) => {
-                (() => {
-                    const distanceFromRight = window.innerWidth - e.clientX;
-                    // ONLY CHANGE: getComputedStyle instead of .style
-                    const FetchedScrollbarWidth = getComputedStyle(document.documentElement).getPropertyValue("--scrollbar-width")
-                        .valueOf()
-                        .toString()
-                        .trim() || null;
-                    const FetchedScrollbarWidthIncrementTypeIndex = FetchedScrollbarWidth.indexOf("px");
-                    let FormatedScrollbarWidthProperty;
-                    let CurrentScrollbarWidth = 0;
-                    if (FetchedScrollbarWidth !== null && FetchedScrollbarWidth.includes("px", FetchedScrollbarWidthIncrementTypeIndex)) {
-                        FormatedScrollbarWidthProperty = FetchedScrollbarWidth.slice(0, FetchedScrollbarWidthIncrementTypeIndex);
-                        FormatedScrollbarWidthProperty = FormatedScrollbarWidthProperty !== null && typeof (FormatedScrollbarWidthProperty) === "string"
-                            ? parseFloat(FormatedScrollbarWidthProperty).valueOf()
-                            : 0;
-                    } else {
-                        FormatedScrollbarWidthProperty = FetchedScrollbarWidth !== null
-                            && FetchedScrollbarWidth instanceof String
-                            ? FetchedScrollbarWidth
-                            : null;
-                    }
-                    if (FormatedScrollbarWidthProperty !== null && (typeof (FormatedScrollbarWidthProperty) === "number")) {
-                        CurrentScrollbarWidth = FormatedScrollbarWidthProperty;
-                        console.log(CurrentScrollbarWidth.toString());
-                    }
-
-                    if (distanceFromRight <= Number(CurrentScrollbarWidth.valueOf()) * self.innerWidth.valueOf() * 0.01 && !isWide) {
-                        isWide = true;
-                        targetWidth = 12;
-                        animate();
-                    } else if (distanceFromRight > Number(CurrentScrollbarWidth.valueOf()) * self.innerWidth.valueOf() * 0.01 && isWide) {
-                        isWide = false;
-                        targetWidth = 8;
-                        animate();
-                    }
-                })();
-            });
-        }
-    }
-
-    ScrollbarAnimator.AttatchScrollbarListener();
-</script> -->
-
 <body>
 
     <span id="notification" class="notification"></span>
