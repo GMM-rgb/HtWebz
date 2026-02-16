@@ -80,6 +80,29 @@ class UserNotification {
     }
 
     /**
+     * 
+     * ---
+     * 
+     * # idk lol
+     * 
+     * ---
+     * 
+     * @returns {HTMLElement[]?}
+     * 
+     * ---
+     * 
+     */
+    ScanListNotifications() {
+        const FetchedNotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
+        if (FetchedNotificationList !== (null || undefined) && FetchedNotificationList instanceof HTMLElement) {
+            const CurrentNotificationsWithinList = FetchedNotificationList.querySelectorAll("div");
+            return CurrentNotificationsWithinList !== null && CurrentNotificationsWithinList instanceof NodeList ? CurrentNotificationsWithinList : null;
+        } else {
+            console.warn("NotificationList could not be accessed from the UserInterface!");
+        }
+    }
+
+    /**
      * ---
      *   
      * Checks that the *Notification* was created as the correct __`HTMLElement`__,
@@ -236,6 +259,10 @@ class UserNotification {
      */
     DeployNotification() {
         /**
+         * #### Current notifications located within the interface list.
+         */
+        const CurrentNotifications = this.ScanListNotifications();
+        /**
          * 
          * ---
          * Determines if the **`Notification`** was deployed successfully or not.
@@ -248,8 +275,21 @@ class UserNotification {
         if (UserNotification !== (null || undefined)) {
             try {
                 if (this.isNotificationValid() && UserInterfaceFlexBar !== (null || undefined) && UserInterfaceFlexBar instanceof HTMLElement) {
-                    this.notification.classList.add("NotificationDeployed");
-                    UserInterfaceFlexBar.appendChild(this.notification !== null ? this.notification : undefined);
+                    const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
+                    this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
+                    NotificationList.appendChild(this.notification !== null ? this.notification : undefined);
+                    // 
+                    CurrentNotifications.forEach((CurrentNotification) => {
+                        if (CurrentNotification.getRootNode().textContent === this.message) {
+                            NotificationDeploymentSuccessful = true;
+                        } else {
+                            NotificationDeploymentSuccessful = false;
+                        }
+                    });
+                } else {
+                    if (UserInterfaceFlexBar === (null || undefined) || !(UserInterfaceFlexBar instanceof HTMLElement)) {
+                        throw new Error(`Could not append Notification.\nReason:\n`, { cause: "UserInterfaceFlexbar was not in acceptable range.".normalize("NFC") });
+                    }
                 }
             } catch (NotificationDeploymentError) {
                 if (NotificationDeploymentError !== null) {
@@ -266,9 +306,9 @@ class UserNotification {
  * @readonly
  * @typedef {InstanceNotification} ActionNotification
  */
-let InstanceNotification = UserNotification;
+let InstanceNotification = UserNotification ? UserNotification : undefined;
 
 // Export Module Classes
 export {
-    InstanceNotification as ActionNotification
+    InstanceNotification as ActionNotification,
 };

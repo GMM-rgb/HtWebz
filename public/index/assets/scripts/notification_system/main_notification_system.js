@@ -1,4 +1,5 @@
 import * as NotifyUtility from "./notification_utility_modules/notification_main_interface.js";
+import * as NotificationListUtility from "./notification_utility_modules/notifications_list_manager.js";
 
 /**
  * Function class for the __`Window`__ interface __Object__.
@@ -27,10 +28,17 @@ class NotificationClient {
         if (RequestedNotificationMessage !== (null || undefined) && typeof(RequestedNotificationMessage) === "string") {
             const NotificationInstanceConstructor = new NotifyUtility.ActionNotification(RequestedNotificationMessage.valueOf());
             NotificationInstanceConstructor.PreBuildNotification().then(() => {
-                console.log(`
-                    Successfully pre-built an new Notification.\n
-                    Message:\t${NotificationInstanceConstructor.message.toString()}
-                `);
+                console.log(`Successfully pre-built an new Notification.\nMessage:\t${NotificationInstanceConstructor.message.toString()}`);
+                NotificationInstanceConstructor.TryAttatchAutoRemove();
+                const DeploymentSuccess = NotificationInstanceConstructor.DeployNotification();
+                const NotificationMessageData = new String(NotificationInstanceConstructor.message.trimStart()).valueOf();
+                if (DeploymentSuccess !== null) {
+                    if (DeploymentSuccess === true) {
+                        console.info("Deployed a NEW notification with message:\t" + NotificationMessageData.toString());
+                    } else if (DeploymentSuccess !== true) {
+                        console.warn("Notification deployment failed, for message:\t" + NotificationMessageData.toString());
+                    }
+                }
             }).catch((PreBuildError) => {
                 if (PreBuildError !== (null || undefined)) {
                     console.error(`Pre-Building new notification "${NotificationInstanceConstructor.message.toString()}" failed:\n${new String(PreBuildError)}`);
@@ -48,7 +56,11 @@ class NotificationClient {
     }
 }
 
-// if (NotificationClient.DeployNewNotification !== (null || undefined) && typeof(NotificationClient.DeployNewNotification) === "function") {
-    window.DeployNewNotification = NotificationClient.DeployNewNotification;
-    Object.assign(window, NotificationClient.DeployNewNotification);
-// }
+window.DeployNewNotification = NotificationClient ? NotificationClient.DeployNewNotification : null;
+Object.assign(window, NotificationClient.DeployNewNotification);
+
+window.onload = async () => {
+    const ListInstancer = new NotificationListUtility.NotificationsListInstancer();
+    ListInstancer.ConstructNotificationList();
+    ListInstancer.AppendNotificationList(undefined, true);
+}

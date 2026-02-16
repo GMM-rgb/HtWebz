@@ -1130,7 +1130,19 @@ head {
     animation: dropDownFromNaBar 0.45s ease-out;
 }
 
+#formaterCloseBtn {
+    background: rgb(255, 75, 75);
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 0 2px 6.5px rgba(0, 0, 0, 0.35), inset 0 0 12.5px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box;
+}
+
 .format-button {
+    contain: paint;
+    display: flow-root;
+    box-sizing: border-box;
+    background-clip: border-box;
     border: 2px solid #333;
     border-radius: 10px;
 }
