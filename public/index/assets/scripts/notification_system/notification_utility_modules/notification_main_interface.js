@@ -79,27 +79,37 @@ class UserNotification {
         return;
     }
 
+
+    /**
+     * Fetches the Notification List Object; to find the Notification requested.
+     * 
+     * ---
+     * 
+     * @returns {HTMLElement?}
+     * @private
+     */
+    FetchNotificationListElement() {
+        const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
+        if (NotificationList !== null && NotificationList instanceof HTMLElement) {
+            return NotificationList || null;
+        }
+    }
+
     /**
      * 
      * ---
      * 
-     * # idk lol
+     * Fetches all __SUPPOSED__ _Notification Elements_; from the _Notification List_ interface.
      * 
      * ---
      * 
      * @returns {HTMLElement[]?}
-     * 
-     * ---
-     * 
+     * @public
      */
     ScanListNotifications() {
-        const FetchedNotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
-        if (FetchedNotificationList !== (null || undefined) && FetchedNotificationList instanceof HTMLElement) {
-            const CurrentNotificationsWithinList = FetchedNotificationList.querySelectorAll("div");
-            return CurrentNotificationsWithinList !== null && CurrentNotificationsWithinList instanceof NodeList ? CurrentNotificationsWithinList : null;
-        } else {
-            console.warn("NotificationList could not be accessed from the UserInterface!");
-        }
+        const FetchedNotificationList = this.FetchNotificationListElement();
+        const CurrentNotificationsWithinList = FetchedNotificationList.querySelectorAll("div");
+        return CurrentNotificationsWithinList !== null && CurrentNotificationsWithinList instanceof NodeList ? CurrentNotificationsWithinList : null;
     }
 
     /**
@@ -151,17 +161,6 @@ class UserNotification {
     }
 
     /**
-     * Fetches the Notification List Object; to find the Notification requested.
-     * @private
-     */
-    async FetchNotificationListElement() {
-        const NotificationList = UserInterfaceFlexBar.querySelector("#NotificationsList");
-        if (NotificationList !== null && NotificationList instanceof HTMLElement) {
-            
-        }
-    }
-
-    /**
      * 
      * @returns {void}
      * @public
@@ -187,33 +186,33 @@ class UserNotification {
 
     /**
      * __Pre-Bakes__ the `Notification` under the hood; to be further used.
-     * @returns {Promise<void>}
+     * @returns {void}
      * @public
      */
-    async PreBuildNotification() {
+    PreBuildNotification() {
         try {
-            if (NotificationElementHolder.NotificationList !== null && NotificationElementHolder.NotificationList instanceof HTMLElement) {
-                console.debug(`%cBuilding Notification Object...`, 'color: magenta;');
-                if (this.hasMessageData() === true) {
-                    this.FormatedNotificationClassName = new String(this.message.replaceAll(" ", "-").toLowerCase());
-                } else {
-                    throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
-                        cause: new String(
-                            `
-                            \nNotification Instancer was not provided a Notification message from the beginning.
-                            \nWas Message Data Available?:\t${this.hasMessageData().valueOf()}
-                            `.normalize("NFC").trimEnd()
-                        )
-                    });
-                }
-                // 
-                this.notification = document.createElement("div");
-                this.notification.setAttribute("class", this.FormatedNotificationClassName.valueOf());
+            console.debug(`%cBuilding Notification Object...`, 'color: magenta;');
+            if (this.hasMessageData() === true) {
+                this.FormatedNotificationClassName = new String(this.message.replaceAll(" ", "-").toLowerCase());
+            } else {
+                throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
+                    cause: new String(
+                        `
+                        \nNotification Instancer was not provided a Notification message from the beginning.
+                        \nWas Message Data Available?:\t${this.hasMessageData().valueOf()}
+                        `.normalize("NFC").trimEnd()
+                    )
+                });
+            }
+            // 
+            this.notification = document.createElement("div");
+            this.notification.setAttribute("class", this.FormatedNotificationClassName.valueOf());
 
-                // The text element for the notification message; to display towards the user
-                let NotificationTextSpan = null;
+            // The text element for the notification message; to display towards the user
+            let NotificationTextSpan = null;
 
-                // Port over base initial Notification Interface
+            // Port over base initial Notification Interface
+            (async () => {
                 if (this.notification !== null && this.notification instanceof HTMLDivElement) {
                     if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
                         this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
@@ -223,17 +222,17 @@ class UserNotification {
                         }
                     }
                 }
+            })().then(() => {
+                console.debug(`%cSuccessfully ported notifcation interface content.`, 'color: magenta;');
+            });
 
-                // Apply Notification Message
-                if (this.notification !== null && this.notification instanceof HTMLDivElement && this.message !== null && typeof(this.message) === "string") {
-                    if (NotificationTextSpan !== null && NotificationTextSpan instanceof HTMLSpanElement) {
-                        
-                    }
-                } else if (this.message === null || typeof(this.message) !== "string") {
-                    console.warn(`Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`);
+            // Apply Notification Message
+            if (this.notification !== null && this.notification instanceof HTMLDivElement && this.message !== null && typeof(this.message) === "string") {
+                if (NotificationTextSpan !== null && NotificationTextSpan instanceof HTMLSpanElement) {
+                    
                 }
-            } else {
-                throw new Error("NotificationList was not found within the DOM Element Hierarchy.\nConsider running the function needed; to construct it automatically.");
+            } else if (this.message === null || typeof(this.message) !== "string") {
+                console.warn(`Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`);
             }
         } catch (NotificationFailure) {
             if (NotificationFailure !== null) {
@@ -241,7 +240,7 @@ class UserNotification {
                 throw new Error(`${NotificationFailureMessage}`);
             }
         } finally {
-            return void null;
+            return;
         }
     }
 
@@ -278,19 +277,16 @@ class UserNotification {
                 if (this.isNotificationValid() && UserInterfaceFlexBar !== (null || undefined) && UserInterfaceFlexBar instanceof HTMLElement) {
                     const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
+
                     NotificationList.appendChild(this.notification !== null ? this.notification : undefined);
-                    // 
                     CurrentNotifications = this.ScanListNotifications();
-                    // 
+
                     if (CurrentNotifications !== null) {
                         CurrentNotifications.forEach((CurrentNotification) => {
-                            if (CurrentNotification.textContent === this.message) {
-                                console.log("e");
-                                NotificationDeploymentSuccessful = true;
-                            } else {
-                                NotificationDeploymentSuccessful = false;
-                                console.log("a");
-                            }
+                            // console.debug(`${CurrentNotification.className}`);
+                            NotificationDeploymentSuccessful = CurrentNotification.classList.item(0) === this.message.valueOf()
+                            ? true
+                            : false;
                         });
                     } else {
                         console.warn("CurrentNotifications could not be fetched.");

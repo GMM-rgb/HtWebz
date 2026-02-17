@@ -5,6 +5,7 @@ let DocumentHasNotificationListConstructed = false;
  * 
  */
 class NotificationElementHolder {
+    static NotificationsActiveStateChanged = new CustomEvent("NotificationsToggle", undefined);
     /**
      * 
      * @param {Boolean} CheckForNotificationListOnChange 
@@ -15,6 +16,7 @@ class NotificationElementHolder {
          * @type {HTMLElement?}
          */
         this.NotificationListElement = null;
+        this.NotificationsActive = true;
     }
 
     /**
@@ -67,7 +69,7 @@ class NotificationElementHolder {
             try {
                 if (typeof (WillAppend) === "boolean" && WillAppend === true) {
                     if (TargetElementToAppend !== (null || undefined)) {
-                        
+                        TargetElementToAppend ? TargetElementToAppend.appendChild(this.NotificationListElement) : void null;
                     } else {
                         if (UserArrangmentFlexbox !== null && UserArrangmentFlexbox instanceof HTMLElement) {
                             (async () => {
@@ -85,6 +87,29 @@ class NotificationElementHolder {
             }
         } else {
             console.warn(`NotificationList constructor variable is not available / invalid.\nNotificationList Data:\t${this.NotificationListElement}`);
+        }
+    }
+
+    /**
+     * ---
+     * 
+     * ...
+     * 
+     * ---
+     * 
+     * @param {boolean} RequestedNotificationsActive
+     * @returns {void}
+     */
+    SetNotificationEnabledState(RequestedNotificationsActive) {
+        if (NotificationsActive !== (null || undefined) && typeof(NotificationsActive) === "boolean") {
+            (async () => {
+                this.NotificationsActive = new Boolean(RequestedNotificationsActive).valueOf();
+                this.NotificationListElement.dispatchEvent(NotificationElementHolder.NotificationsActiveStateChanged);
+            })().then(() => {
+                console.debug(`%cNotification enabled state has been successfully set!`, 'color: magenta;');
+            }).finally(() => {
+                return;
+            });
         }
     }
 }

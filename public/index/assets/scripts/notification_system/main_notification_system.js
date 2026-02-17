@@ -27,22 +27,29 @@ class NotificationClient {
 
         if (RequestedNotificationMessage !== (null || undefined) && typeof(RequestedNotificationMessage) === "string") {
             const NotificationInstanceConstructor = new NotifyUtility.ActionNotification(RequestedNotificationMessage.valueOf());
-            NotificationInstanceConstructor.PreBuildNotification().then(() => {
-                console.log(`Successfully pre-built an new Notification.\nMessage:\t${NotificationInstanceConstructor.message.toString()}`);
-                NotificationInstanceConstructor.TryAttatchAutoRemove();
-                const DeploymentSuccess = NotificationInstanceConstructor.DeployNotification();
-                const NotificationMessageData = new String(NotificationInstanceConstructor.message.trimStart()).valueOf();
-                if (DeploymentSuccess !== null) {
-                    if (DeploymentSuccess === true) {
-                        console.info("Deployed a NEW notification with message:\t" + NotificationMessageData.toString());
-                    } else if (DeploymentSuccess !== true) {
-                        console.warn("Notification deployment failed, for message:\t" + NotificationMessageData.toString());
-                    }
+
+            function FormatedNotificationMessage() {
+                let FormatedNotificationMessage = new String(NotificationInstanceConstructor.message).valueOf();
+                let NotificationMessageEnd = NotificationInstanceConstructor.message.charAt(NotificationInstanceConstructor.message.length).valueOf();
+                if (NotificationMessageEnd.includes(".")) {
+                    return FormatedNotificationMessage.trimEnd();
+                } else {
+                    return FormatedNotificationMessage.trimEnd() + ".";
                 }
-            }).catch((PreBuildError) => {
-                if (PreBuildError !== (null || undefined)) {
-                    console.error(`Pre-Building new notification "${NotificationInstanceConstructor.message.toString()}" failed:\n${new String(PreBuildError)}`);
+            }
+
+            // Call Instancer logistics
+            (async () => {
+                NotificationInstanceConstructor.PreBuildNotification();
+            })().then(() => {
+                let NotificationDeployed = NotificationInstanceConstructor.DeployNotification();
+                if (NotificationDeployed === true) {
+                    console.debug(`Notification:\n\t${FormatedNotificationMessage()}\nWas deployed to interface.`);
+                } else {
+                    console.warn(`Notification:\n\t${FormatedNotificationMessage()}\nCouldn't be deployed to interface.`);
                 }
+            }).finally(() => {
+                return;
             });
 
             if (OptionallyReturnsNotification !== (null || undefined) && typeof(OptionallyReturnsNotification) === "boolean") {
@@ -51,8 +58,6 @@ class NotificationClient {
                 }
             }
         }
-
-        return null;
     }
 }
 
