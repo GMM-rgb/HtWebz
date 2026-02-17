@@ -24,12 +24,13 @@
     flex-flow: nowrap;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: safe;
+    justify-content: flex-start;
     margin-inline: 5px;
     position: fixed;
     padding: 10px;
     height: 150px;
     width: auto;
+    min-width: 250px;
     z-index: 10000 !important;
     /* Visuals */
     background: rgba(5, 134, 227, 0.75);
@@ -46,4 +47,8 @@
 #UserNotificationListInterface:has(div) {
     display: flex !important;
     animation: NotificationListAppearence 0.5875s ease-out forwards !important;
+}
+
+#UserNotificationListInterface::-webkit-scrollbar {
+    display: none !important;
 }

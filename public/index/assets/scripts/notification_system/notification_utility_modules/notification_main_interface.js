@@ -216,24 +216,22 @@ class UserNotification {
             if (UserInterfaceFlexBar !== (undefined || null) && UserInterfaceFlexBar instanceof HTMLElement) {
                 console.debug(`%cDeconstructing Notification:\t${this.message.valueOf()}`, 'color: magenta;');
 
-                let NotiifcationClass = new String();
+                let NotificationClass = new String();
 
-                this.notification.classList.forEach((ClassName) => {
-                    if (ClassName !== null && typeof(ClassName) === "string") {
-                        NotiifcationClass += "." + new String(ClassName).valueOf();
+                this.notification.classList.forEach((ClassName, ClassIndex) => {
+                    if (ClassName !== null && typeof(ClassName) === "string" && ClassIndex !== null && typeof(ClassIndex) === "number") {
+                        NotificationClass += "." + new String(ClassName).valueOf().trim();
                     }
                 });
 
-                const FoundNotificationInList = UserInterfaceFlexBar.querySelector(NotiifcationClass.length > 0 ? NotiifcationClass.valueOf() : undefined);
+                const FoundNotificationInList = UserInterfaceFlexBar.querySelector(NotificationClass.length > 0 ? NotificationClass.valueOf() : undefined);
 
                 if (FoundNotificationInList !== null && FoundNotificationInList instanceof HTMLDivElement) {
-                    if (Object.hasOwn(FoundNotificationInList, HTMLElement.prototype.remove)) {
-                        (async () => {
-                            FoundNotificationInList.remove();
-                        })().then(() => {
-                            console.debug(`%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification:\t${this.message.toString().valueOf()}`, 'color: lime;', 'color: lime; font-weight: bold;', 'color: lime;');
-                        });
-                    }
+                    (async () => {
+                        FoundNotificationInList.remove();
+                    })().then(() => {
+                        console.debug(`%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification:\t${this.message.toString().valueOf()}`, 'color: lime;', 'color: lime; font-weight: bold;', 'color: lime;');
+                    });
                 }
             }
         }

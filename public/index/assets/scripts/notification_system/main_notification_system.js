@@ -62,7 +62,7 @@ class NotificationClient {
     }
 }
 
-window.DeployNewNotification = NotificationClient ? NotificationClient.DeployNewNotification : null;
+window.DeployNewNotification = NotificationClient.DeployNewNotification;
 Object.assign(window, NotificationClient.DeployNewNotification);
 
 window.onload = async () => {
