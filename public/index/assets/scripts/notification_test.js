@@ -5,6 +5,6 @@ const TestMessages = ["test", "hello world", "hi world"];
 const NotifyTestBtn = document.querySelector(".notification-test-btn");
 // 
 NotifyTestBtn.addEventListener("click", () => {
-    console.log(TestMessages.length);
+    // console.log(TestMessages.length);
     self.DeployNewNotification(TestMessages[Math.ceil(Math.random() * Math.floor(TestMessages.length)) - 1]);
 });
