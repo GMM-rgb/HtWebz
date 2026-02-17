@@ -22,11 +22,6 @@ class NotificationInstancerData {
  */
 class UserNotification {
     /**
-     * @type {string?}
-     * @private
-     */
-    FormatedNotificationClassName = null;
-    /**
      * 
      * @param {string} NotificationMessage
      * @param {number} AutoRemovalDuration 
@@ -49,6 +44,13 @@ class UserNotification {
         this.RemovalCountdown = Math.ceil(new Number(Math.abs(AutoRemovalDuration) * 1000) || 0);
         this.notification = null;
     }
+
+    // Private local variables; only accessible by the process
+    /**
+     * @type {string?}
+     * @private
+     */
+    FormatedNotificationClassName = null;
 
     /**
      * 
@@ -79,6 +81,46 @@ class UserNotification {
         return;
     }
 
+    /**
+     * 
+     * @param {HTMLElement} TargetNotification 
+     * @returns {Promise<void>}
+     * @public
+     */
+    async SetNotificationCloseTrigger(TargetNotification) {
+        /**
+         * 
+         * ---
+         * 
+         * 
+         * 
+         * ---
+         * 
+         * @param {number|undefined} AnimateDuration 
+         * @returns {Promise<void>}
+         * 
+         */
+        async function AnimateOutNotification(AnimateDuration) {
+            if (AnimateDuration !== (null || undefined)) {
+
+            } else {
+
+            }
+        }
+        
+        // Fetch the cancel notification button
+        const TargetNotificationCloseButton = TargetNotification.querySelector(".cancel-notification");
+        // Append the click event listener & functionality
+        if (TargetNotificationCloseButton !== null && TargetNotificationCloseButton instanceof HTMLButtonElement) {
+            if (this.DeconstructNotification !== undefined && typeof(this.DeconstructNotification) === "function") {
+                TargetNotificationCloseButton.addEventListener("click", async () => {
+                    await AnimateOutNotification().then(() => {
+                        this.DeconstructNotification();
+                    });
+                });
+            }
+        }
+    }
 
     /**
      * Fetches the Notification List Object; to find the Notification requested.
@@ -104,7 +146,7 @@ class UserNotification {
      * ---
      * 
      * @returns {HTMLElement[]?}
-     * @public
+     * @private
      */
     ScanListNotifications() {
         const FetchedNotificationList = this.FetchNotificationListElement();
@@ -168,16 +210,23 @@ class UserNotification {
     DeconstructNotification() {
         if (this.notification !== null && this.isNotificationValid()) {
             if (UserInterfaceFlexBar !== (undefined || null) && UserInterfaceFlexBar instanceof HTMLElement) {
-                const FoundNotificationInList = UserInterfaceFlexBar.querySelector(this.notification.classList.item(0).toString().valueOf());
+                let NotiifcationClass = new String();
+
+                this.notification.classList.forEach((ClassName) => {
+                    if (ClassName !== null && typeof(ClassName) === "string") {
+                        NotiifcationClass += "." + new String(ClassName).valueOf();
+                    }
+                });
+
+                const FoundNotificationInList = UserInterfaceFlexBar.querySelector(NotiifcationClass.length > 0 ? NotiifcationClass.valueOf() : undefined);
+
                 if (FoundNotificationInList !== null && FoundNotificationInList instanceof HTMLDivElement) {
-                    if (Object.is(FoundNotificationInList.classList.item(0), this.notification.classList.item(0))) {
-                        if (Object.hasOwn(FoundNotificationInList, HTMLElement.prototype.remove)) {
-                            (async () => {
-                                FoundNotificationInList.remove();
-                            })().then(() => {
-                                console.debug(`%cSuccessfully DECONSTRUCTED Notification.\nNotification:\t${this.message.toString().valueOf()}`, 'color: lime;');
-                            });
-                        }
+                    if (Object.hasOwn(FoundNotificationInList, HTMLElement.prototype.remove)) {
+                        (async () => {
+                            FoundNotificationInList.remove();
+                        })().then(() => {
+                            console.debug(`%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification:\t${this.message.toString().valueOf()}`, 'color: lime;', 'color: lime; font-weight: bold;', 'color: lime;');
+                        });
                     }
                 }
             }

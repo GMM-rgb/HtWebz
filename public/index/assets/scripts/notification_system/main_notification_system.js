@@ -41,6 +41,7 @@ class NotificationClient {
             // Call Instancer logistics
             (async () => {
                 NotificationInstanceConstructor.PreBuildNotification();
+                NotificationInstanceConstructor.SetNotificationCloseTrigger(NotificationInstanceConstructor.notification);
             })().then(() => {
                 let NotificationDeployed = NotificationInstanceConstructor.DeployNotification();
                 if (NotificationDeployed === true) {

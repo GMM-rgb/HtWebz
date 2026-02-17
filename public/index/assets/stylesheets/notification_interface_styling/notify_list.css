@@ -12,7 +12,12 @@ UserNotificationListInterface:has(div.NotificationDeployed) {
     position: fixed;
     padding: 10px;
     height: 150px;
+    z-index: 9998;
+    /* Visuals */
+    background: rgba(5, 134, 227, 0.75);
+    border: 3px solid #ccc;
+    border-radius: 15px;
     /* Positioning Styles */
     top: var(--app-menu-top, var(--top-ui-height, 112.5px));
-    left: 0;
+    right: 0;
 }

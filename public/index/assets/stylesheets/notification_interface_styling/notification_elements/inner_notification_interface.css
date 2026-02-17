@@ -1,0 +1,18 @@
+.notification-message,
+.cancel-notification  {
+    position: relative;
+    border-radius: 15px;
+    border: 3px solid #ccc;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35), inset 0 0 10px rgba(0, 0, 0, 0.45);
+    margin: auto;
+    min-width: 0;
+}
+
+.notification-message {
+    background: #479dda !important;
+}
+
+.cancel-notification {
+    background: rgb(255, 75, 75) !important;
+}
