@@ -12,8 +12,12 @@ class NotificationInstancerData {
      * @public
      */
     static NotificationInnerContentsTemplate = `
+        <div class="notification-header">
+            <label class="notification-label">...</label>
+            <button class="cancel-notification"><img width="25" height="25" src="./index/assets/images/x-png-35400.png" /></button>
+        </div>
+        <!-- Notification Message Text -->
         <span class="notification-message"></span>
-        <button class="cancel-notification">X</button>
     `;
 }
 
@@ -210,6 +214,8 @@ class UserNotification {
     DeconstructNotification() {
         if (this.notification !== null && this.isNotificationValid()) {
             if (UserInterfaceFlexBar !== (undefined || null) && UserInterfaceFlexBar instanceof HTMLElement) {
+                console.debug(`%cDeconstructing Notification:\t${this.message.valueOf()}`, 'color: magenta;');
+
                 let NotiifcationClass = new String();
 
                 this.notification.classList.forEach((ClassName) => {

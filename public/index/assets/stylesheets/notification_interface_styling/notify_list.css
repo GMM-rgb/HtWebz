@@ -1,9 +1,26 @@
-UserNotificationListInterface:has(div.NotificationDeployed) {
-    
+@keyframes NotificationListAppearence {
+    0% {
+        transform: scale(0.35) translateY(-25px);
+    }
+    42.5% {
+        transform: scale(0.65) translateY(-2px);
+    }
+    65%, 40% {
+        transform: scale(1.05) translateY(5px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
+@media (max-width: 812px) {
+    #UserNotificationListInterface {
+        top: calc(var(--app-menu-top-mobile, var(--top-ui-height, 75px) + 5px)) !important;
+    }
 }
 
 #UserNotificationListInterface {
-    display: flexbox;
+    display: none;
     flex-flow: nowrap;
     flex-direction: column;
     align-items: flex-start;
@@ -12,12 +29,21 @@ UserNotificationListInterface:has(div.NotificationDeployed) {
     position: fixed;
     padding: 10px;
     height: 150px;
-    z-index: 9998;
+    width: auto;
+    z-index: 10000 !important;
     /* Visuals */
     background: rgba(5, 134, 227, 0.75);
     border: 3px solid #ccc;
     border-radius: 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
     /* Positioning Styles */
-    top: var(--app-menu-top, var(--top-ui-height, 112.5px));
-    right: 0;
+    top: var(--app-menu-top, var(--top-ui-height, 155px));
+    right: 15px;
+    gap: 6px;
+}
+
+#UserNotificationListInterface:has(div) {
+    display: flex !important;
+    animation: NotificationListAppearence 0.5875s ease-out forwards !important;
 }

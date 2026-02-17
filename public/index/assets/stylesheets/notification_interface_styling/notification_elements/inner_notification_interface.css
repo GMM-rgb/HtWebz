@@ -1,6 +1,28 @@
+#UserNotificationListInterface>div {
+    contain: paint;
+    position: relative;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 191, 255, 0.75);
+    border: 3px solid #ccc;
+    border-radius: 15px;
+}
+
+#UserNotificationListInterface .notification-header {
+    display: flex;
+    flex-direction: row;
+}
+
+#UserNotificationListInterface .notification-label {
+    position: relative;
+    margin-inline: 4px;
+}
+
 .notification-message,
 .cancel-notification  {
     position: relative;
+    padding: 5px;
     border-radius: 15px;
     border: 3px solid #ccc;
     box-sizing: border-box;
@@ -14,5 +36,13 @@
 }
 
 .cancel-notification {
+    display: flex;
+    justify-content: safe;
     background: rgb(255, 75, 75) !important;
+}
+
+.cancel-notification>img {
+    pointer-events: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
 }
