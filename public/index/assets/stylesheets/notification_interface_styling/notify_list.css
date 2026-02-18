@@ -29,8 +29,8 @@
     position: fixed;
     padding: 10px;
     height: 150px;
-    width: auto;
-    min-width: 250px;
+    /* width: 250px; */
+    /* min-width: 250px; */
     z-index: 10000 !important;
     /* Visuals */
     background: rgba(5, 134, 227, 0.75);

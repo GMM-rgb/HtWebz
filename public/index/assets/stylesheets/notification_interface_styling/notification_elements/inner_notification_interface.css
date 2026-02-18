@@ -25,7 +25,7 @@
 .notification-label   {
     position: relative;
     padding: 5px;
-    border-radius: 15px;
+    border-radius: 10px;
     border: 3px solid #ccc;
     box-sizing: border-box;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35), inset 0 0 10px rgba(0, 0, 0, 0.45);
@@ -36,11 +36,14 @@
 .notification-label {
     width: auto;
     flex: 1 1 auto;
+    contain: style;
     background: radial-gradient(aqua, aquamarine);
     background-clip: padding-box;
     font-weight: bolder;
+    text-overflow: clip;
     text-justify: inter-ideograph;
     text-align: center;
+    color: #f7f7f7;
 }
 
 .notification-message {

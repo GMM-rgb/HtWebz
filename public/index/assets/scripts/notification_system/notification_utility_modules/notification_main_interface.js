@@ -14,7 +14,7 @@ class NotificationInstancerData {
     static NotificationInnerContentsTemplate = `
         <div class="notification-header">
             <label class="notification-label">...</label>
-            <button class="cancel-notification"><img width="25" height="25" src="./index/assets/images/x-png-35400.png" /></button>
+            <button class="cancel-notification"><img width="20" height="20" src="./index/assets/images/x-png-35400.png" /></button>
         </div>
         <!-- Notification Message Text -->
         <span class="notification-message"></span>
@@ -240,6 +240,12 @@ class UserNotification {
      * 
      */
     async PlayNotificationSound() {
+        /**
+         * 
+         * ---
+         * 
+         * @type {boolean}
+         */
         let AduioContextCreationSuccess = true;
 
         if (this.NotificationAudioContext === null) {
@@ -249,18 +255,39 @@ class UserNotification {
         }
 
         if (this.NotificationAudioContext !== null && AduioContextCreationSuccess !== null && typeof(AduioContextCreationSuccess) === "boolean" && AduioContextCreationSuccess === true) {
+            /**
+             * 
+             * ---
+             * 
+             * @type {AudioBuffer?}
+             */
+            let SoundBuffer = null;
 
             const SoundFile = await fetch("index/assets/audio/page-forward.wav", /*new Request()*/);
             const SoundArrayBuffer = await SoundFile.arrayBuffer();
 
             this.NotificationAudioContext.decodeAudioData(SoundArrayBuffer, (Buffering) => {
                 if (Buffering !== null && Buffering instanceof AudioBuffer) {
-
+                    SoundBuffer = Buffering;
                 }
             });
 
-            let SoundBuffer = this.NotificationAudioContext.createBufferSource();
-            SoundBuffer.buffer;
+            if (SoundBuffer !== (null || undefined) && Object.hasOwn(this.NotificationAudioContext, AudioContext.prototype.destination)) {
+                let SoundBufferSource = this.NotificationAudioContext.createBufferSource();
+                SoundBufferSource.buffer = SoundBuffer;
+                SoundBufferSource.connect(this.NotificationAudioContext.destination);
+                SoundBufferSource.start(0);
+                if (this.NotificationAudioContext.state === ("interrupted" || "suspended")) {
+                    await this.NotificationAudioContext.resume()
+                    .catch((ResumeNotificationEffectError) => {
+                        if (ResumeNotificationEffectError !== null) {
+                            console.error(`There was an %cError trying to play notification sound; uh-ohs!\n${new String(ResumeNotificationEffectError).toString()}`, 'font-weight: bolder;');
+                        }
+                    }).finally(() => {
+                        return void null;
+                    });
+                }
+            }
         }
     }
 
