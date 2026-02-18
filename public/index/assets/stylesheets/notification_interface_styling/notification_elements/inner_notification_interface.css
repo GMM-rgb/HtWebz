@@ -7,7 +7,7 @@
     background: rgba(0, 191, 255, 0.75);
     border: 3px solid #ccc;
     border-radius: 15px;
-    width: calc(100% - 15px);
+    width: calc(100% - 10px);
     min-width: 0;
     margin: 0;
     gap: 6px;
@@ -42,10 +42,14 @@
 
 .notification-message {
     background: #479dda !important;
+    text-align: start;
+    text-justify: newspaper;
+    width: 100%;
 }
 
 .cancel-notification {
     display: flex;
+    cursor: pointer !important;
     justify-content: safe;
     background: rgb(255, 75, 75) !important;
 }
