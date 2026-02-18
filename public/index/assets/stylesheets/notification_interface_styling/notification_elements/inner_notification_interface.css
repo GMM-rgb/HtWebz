@@ -38,6 +38,9 @@
     flex: 1 1 auto;
     background: radial-gradient(aqua, aquamarine);
     background-clip: padding-box;
+    font-weight: bolder;
+    text-justify: inter-ideograph;
+    text-align: center;
 }
 
 .notification-message {

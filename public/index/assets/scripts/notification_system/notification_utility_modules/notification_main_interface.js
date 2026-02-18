@@ -28,14 +28,26 @@ class UserNotification {
     /**
      * 
      * @param {string} NotificationMessage
-     * @param {number} AutoRemovalDuration 
+     * @param {string} NotificationLabelText 
+     * @param {number} AutoRemovalDuration
      */
-    constructor(NotificationMessage, AutoRemovalDuration) {
+    constructor(NotificationMessage, NotificationLabelText, AutoRemovalDuration) {
+        /**
+         * 
+         * @type {HTMLElement?}
+         */
+        this.notification = null;
         /**
          * 
          * @type {String}
          */
         this.message = new String(NotificationMessage).toString();
+        this.label = new String(NotificationLabelText).toString();
+        /**
+         * 
+         * @type {AudioContext?}
+         */
+        this.NotificationAudioContext = null;
         /**
          * 
          * @type {Number}
@@ -46,7 +58,6 @@ class UserNotification {
          * @type {Number}
          */
         this.RemovalCountdown = Math.ceil(new Number(Math.abs(AutoRemovalDuration) * 1000) || 0);
-        this.notification = null;
     }
 
     // Private local variables; only accessible by the process
@@ -208,6 +219,53 @@ class UserNotification {
 
     /**
      * 
+     * ---
+     * 
+     * @returns {Promise<boolean>}
+     */
+    async NewAduioContext() {
+        this.NotificationAudioContext = new (self.AudioContext || self.webkitAudioContext)();
+        if (this.NotificationAudioContext !== (null || undefined) && this.NotificationAudioContext instanceof AudioContext) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * Plays a(n) sound from the `AudioContext` for the __Notification__.
+     * 
+     * ---
+     * 
+     */
+    async PlayNotificationSound() {
+        let AduioContextCreationSuccess = true;
+
+        if (this.NotificationAudioContext === null) {
+            AduioContextCreationSuccess = await this.NewAduioContext();
+        } else {
+            console.debug(`%cAlready has AudioContext within the class constructor.`, 'color: magenta;');
+        }
+
+        if (this.NotificationAudioContext !== null && AduioContextCreationSuccess !== null && typeof(AduioContextCreationSuccess) === "boolean" && AduioContextCreationSuccess === true) {
+
+            const SoundFile = await fetch("index/assets/audio/page-forward.wav", /*new Request()*/);
+            const SoundArrayBuffer = await SoundFile.arrayBuffer();
+
+            this.NotificationAudioContext.decodeAudioData(SoundArrayBuffer, (Buffering) => {
+                if (Buffering !== null && Buffering instanceof AudioBuffer) {
+
+                }
+            });
+
+            let SoundBuffer = this.NotificationAudioContext.createBufferSource();
+            SoundBuffer.buffer;
+        }
+    }
+
+    /**
+     * 
      * @returns {void}
      * @public
      */
@@ -230,7 +288,7 @@ class UserNotification {
                     (async () => {
                         FoundNotificationInList.remove();
                     })().then(() => {
-                        console.debug(`%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification:\t${this.message.toString().valueOf()}`, 'color: lime;', 'color: lime; font-weight: bold;', 'color: lime;');
+                        console.debug(`%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification's Message:\t${this.message.toString().valueOf()}`, 'color: lime;', 'color: lime; font-weight: bold;', 'color: lime;');
                     });
                 }
             }
@@ -279,14 +337,33 @@ class UserNotification {
                 console.debug(`%cSuccessfully ported notifcation interface content.`, 'color: magenta;');
             });
 
-            // Apply Notification Message
-            if (this.notification !== null && this.notification instanceof HTMLDivElement && this.message !== null && typeof(this.message) === "string") {
-                if (NotificationTextSpan !== null && NotificationTextSpan instanceof HTMLSpanElement) {
-                    
+            // Notification Header Label
+            const NotificationLabel = this.notification.querySelector(".notification-label");
+
+            /**
+             * 
+             * 
+             * 
+             * ---
+             * 
+             * @returns {void}
+             * 
+             */
+            function ApplyNotificationHeaderLabel(LabelRequest) {
+                if (NotificationLabel !== null && NotificationLabel instanceof HTMLLabelElement) {
+                    (async () => {
+                        NotificationLabel.textContent = new String(LabelRequest).trim();
+                    })().then(() => {
+                        if (!Object.isSealed(NotificationLabel)) {
+                            Object.seal(NotificationLabel);
+                        }
+                    }).finally(() => {
+                        return void null;
+                    });
                 }
-            } else if (this.message === null || typeof(this.message) !== "string") {
-                console.warn(`Notification message was NULL, or invalid.\nExpected type literal:\t${String.name.toString()}`);
             }
+            
+            ApplyNotificationHeaderLabel(this.label);
         } catch (NotificationFailure) {
             if (NotificationFailure !== null) {
                 const NotificationFailureMessage = new String(NotificationFailure).valueOf();

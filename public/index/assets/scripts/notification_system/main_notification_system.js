@@ -7,12 +7,13 @@ import * as NotificationListUtility from "./notification_utility_modules/notific
 class NotificationClient {
     /**
      * @param {string} RequestedNotificationMessage 
+     * @param {string} NotificationHeaderLabel 
      * @param {number|undefined} RemoveAfter Interval in __`Seconds`__ 
      * @param {boolean|undefined} OptionallyReturnsNotification 
      * @returns {NotifyUtility.ActionNotification?}
      * @type {Function}
      */
-    static DeployNewNotification(RequestedNotificationMessage, RemoveAfter, OptionallyReturnsNotification) {
+    static DeployNewNotification(RequestedNotificationMessage, NotificationHeaderLabel, RemoveAfter, OptionallyReturnsNotification) {
         let isRemovingAutomatically = new Boolean(false).valueOf();
         let WillBeRemovingAfter = new Number(0).valueOf();
 
@@ -25,8 +26,8 @@ class NotificationClient {
             }
         }
 
-        if (RequestedNotificationMessage !== (null || undefined) && typeof(RequestedNotificationMessage) === "string") {
-            const NotificationInstanceConstructor = new NotifyUtility.ActionNotification(RequestedNotificationMessage.valueOf());
+        if (RequestedNotificationMessage !== (null || undefined) && typeof(RequestedNotificationMessage) === "string" && NotificationHeaderLabel !== (null || undefined) && typeof(NotificationHeaderLabel) === "string") {
+            const NotificationInstanceConstructor = new NotifyUtility.ActionNotification(new String(RequestedNotificationMessage).valueOf(), new String(NotificationHeaderLabel).trim().valueOf());
 
             function FormatedNotificationMessage() {
                 let FormatedNotificationMessage = new String(NotificationInstanceConstructor.message).valueOf();
