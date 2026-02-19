@@ -1,4 +1,8 @@
 const UserArrangmentFlexbox = document.querySelector(".staticStickyUiFlex");
+/**
+ * Determines that if the `NotificiationList` is constructed; or not in the ___current___ Window Document.
+ * @type {boolean}
+ */
 let DocumentHasNotificationListConstructed = false;
 
 /**
