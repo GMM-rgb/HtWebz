@@ -342,7 +342,7 @@ class UserNotification {
                     )
                 });
             }
-            // 
+
             this.notification = document.createElement("div");
             this.notification.setAttribute("class", this.FormatedNotificationClassName.valueOf());
 
@@ -425,25 +425,40 @@ class UserNotification {
          * Determines if the **`Notification`** was deployed successfully or not.
          * 
          * ---
-         * _`@type {boolean}`_
+         * 
+         * @type {boolean}
          */
         let NotificationDeploymentSuccessful = false;
+        /**
+         * 
+         * ---
+         * 
+         * @type {boolean}
+         */
+        let NotificationHeaderContentsExist = false;
 
         if (UserNotification !== (null || undefined)) {
             try {
                 if (this.isNotificationValid() && UserInterfaceFlexBar !== (null || undefined) && UserInterfaceFlexBar instanceof HTMLElement) {
                     const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
-
                     NotificationList.appendChild(this.notification !== null ? this.notification : undefined);
+
+                    NotificationDeploymentSuccessful = new String(this.notification.classList.item(0)).replaceAll("-", " ").valueOf() === this.message.valueOf() ? true : false;
                     CurrentNotifications = this.ScanListNotifications();
 
                     if (CurrentNotifications !== null) {
                         CurrentNotifications.forEach((CurrentNotification) => {
-                            // console.debug(`${CurrentNotification.className}`);
-                            NotificationDeploymentSuccessful = CurrentNotification.classList.item(0) === this.message.valueOf()
-                            ? true
-                            : false;
+                            if (CurrentNotification !== null && CurrentNotification instanceof HTMLDivElement) {
+                                if (Object.hasOwn(CurrentNotification, HTMLDivElement.prototype.hasChildNodes) && CurrentNotification.hasChildNodes() === true) {
+                                    let HeaderElementData = CurrentNotification.childNodes.entries();
+                                    for (let CurrentElementIndex = 0; CurrentElementIndex < CurrentNotification.children.length; CurrentElementIndex++) {
+                                        console.debug(`%cHeaderElementData:\n\t${new String(HeaderElementData[0]).valueOf()}\n\t${new String(HeaderElementData[1]).valueOf()}`, 'color: magenta; font-weight: normal;');
+                                        
+                                        HeaderElementData = HeaderElementData.next();
+                                    }
+                                }
+                            }
                         });
                     } else {
                         console.warn("CurrentNotifications could not be fetched.");
