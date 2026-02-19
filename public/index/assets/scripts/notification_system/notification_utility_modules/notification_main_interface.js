@@ -451,11 +451,32 @@ class UserNotification {
                         CurrentNotifications.forEach((CurrentNotification) => {
                             if (CurrentNotification !== null && CurrentNotification instanceof HTMLDivElement) {
                                 if (Object.hasOwn(CurrentNotification, HTMLDivElement.prototype.hasChildNodes) && CurrentNotification.hasChildNodes() === true) {
+                                    // Fetch the CurrentNotification node element children
                                     let HeaderElementData = CurrentNotification.childNodes.entries();
+                                    let isHeaderElementsValid = new Boolean(false).valueOf();
+
+                                    // Verify the node children are the actaul corresponding elements
                                     for (let CurrentElementIndex = 0; CurrentElementIndex < CurrentNotification.children.length; CurrentElementIndex++) {
+                                        const IndexProperFormat = new Number(Math.floor(CurrentElementIndex - 1)).valueOf();
                                         console.debug(`%cHeaderElementData:\n\t${new String(HeaderElementData[0]).valueOf()}\n\t${new String(HeaderElementData[1]).valueOf()}`, 'color: magenta; font-weight: normal;');
-                                        
-                                        HeaderElementData = HeaderElementData.next();
+
+                                        try {
+                                            if (CurrentNotification.children.item(IndexProperFormat) instanceof HTMLDivElement) {
+                                                const OriginalChildElementRoot = CurrentNotification.children.item(IndexProperFormat).getRootNode();
+                                                if (HeaderElementData !== (null || undefined) && new Number(HeaderElementData[0]).valueOf() === IndexProperFormat) {
+                                                    if (OriginalChildElementRoot !== null && OriginalChildElementRoot instanceof Node && OriginalChildElementRoot === HeaderElementData[IndexProperFormat]) {
+                                                        isHeaderElementsValid = true;
+                                                    } else {
+                                                        isHeaderElementsValid = false;
+                                                    }
+                                                }
+                                            }
+                                        } catch (HeaderElementDataScanError) {
+                                            console.error(`${new String(HeaderElementDataScanError).toString()}`);
+                                        }
+
+                                        // Update Array to the next __Iterator__
+                                        HeaderElementData = HeaderElementData.next().value || null;
                                     }
                                 }
                             }
