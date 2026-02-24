@@ -9,7 +9,7 @@ declare global {
          * #### **`RemoveAfter`** Inputted in as __``Seconds``.__
          * ***
          */
-        DeployNewNotification: (RequestedNotificationMessage: string, NotificationHeaderLabel: string, RemoveAfter?: number|undefined, OptionallyReturnsNotification?: boolean|undefined) => NotifyUtility.ActionNotification?;
+        DeployNewNotification: (RequestedNotificationMessage: string, NotificationHeaderLabel: string, RemoveAfter?: number|undefined, OptionallyReturnsNotification?: boolean|undefined) => typeof NotifyUtility.ActionNotification;
     }
 }
 

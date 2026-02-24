@@ -1,0 +1,21 @@
+{
+    "buildOptions": {
+        "verbose": true,
+        "traceResolution": true,
+    },
+    "compilerOptions": {
+        "diagnostics": true,
+        "alwaysStrict": true,
+        "listFiles": true,
+        "pretty": true,
+        "allowJs": true,
+        "rootDir": "./TypeScript",
+        "outDir": "./build",
+        // External Type Definitions
+        "typeRoots": [
+            "../../window_scope_definitions.d.ts"
+        ],
+        // Inline Type Definitions
+        "types": [],
+    }
+}
