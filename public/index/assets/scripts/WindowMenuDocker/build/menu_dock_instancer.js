@@ -23,12 +23,7 @@ var FloatingDockWindowConstructor;
      *
      */
     var FloatingDockCustomizer = /** @class */ (function () {
-        // Construct the Customizer for the `FloatingDockWindow`
-        function FloatingDockCustomizer(WindowDock) {
-            /**
-             * @private
-             */
-            this.targetCustomizingDock = WindowDock || null;
+        function FloatingDockCustomizer() {
         }
         /**
          * Sets the `FloatingDock`'s height; the specified amount.
@@ -70,20 +65,41 @@ var FloatingDockWindowConstructor;
     /**
      *
      */
-    var Customizer = /** @class */ (function () {
-        function Customizer() {
-        }
-        return Customizer;
-    }());
-    /**
-     *
-     */
     var InstanceFloatingDockMenu = /** @class */ (function (_super) {
         __extends(InstanceFloatingDockMenu, _super);
-        function InstanceFloatingDockMenu() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function InstanceFloatingDockMenu(FloatingDockWindowName, DockMoveable) {
+            var _a;
+            var _this = _super.call(this) || this;
+            // Customizer Constructor Variables
+            _this.targetCustomizingDock = null;
+            // 
+            _this.newInstancedFloatingWindowDock = null;
+            _this.moveable = false;
+            // 
+            (_a = InstanceFloatingDock === null || InstanceFloatingDock === void 0 ? void 0 : InstanceFloatingDock()) !== null && _a !== void 0 ? _a : console.error("Uh oh! The nain utility failed to Initalize the new FloatingDockWindow!");
+            function InstanceFloatingDock() {
+                try {
+                    if ((FloatingDockWindowName !== null && typeof (FloatingDockWindowName) === "string")) {
+                    }
+                    else {
+                        throw new TypeError("\n                            (Floating Dock Window)'s name is NULL, or incorrect value type;\n                            \nEXPECTED:\t\n                            ".concat(new String(String)
+                            .toLowerCase()
+                            .valueOf()
+                            .trim(), "\n                        "));
+                    }
+                }
+                catch (DockWindowInstancingErr) {
+                    if (DockWindowInstancingErr != null) {
+                        var Stringified = new String(DockWindowInstancingErr).valueOf();
+                        console.error(String(Stringified.toString()));
+                    }
+                }
+            }
+            return _this;
         }
+        InstanceFloatingDockMenu.prototype.InstanceDock = function () {
+        };
         return InstanceFloatingDockMenu;
-    }(Customizer));
+    }(FloatingDockCustomizer));
     FloatingDockWindowConstructor.InstanceFloatingDockMenu = InstanceFloatingDockMenu;
 })(FloatingDockWindowConstructor || (exports.FloatingDockWindowConstructor = FloatingDockWindowConstructor = {}));

@@ -1,5 +1,7 @@
 // / <reference path="../../window_scope_definitions.d.ts" />
-import * as DockerTools from "./TypeScript_Modules/menu_docker_tools";
+import {
+    WindowDockerUtilitys
+} from "./TypeScript_Modules/menu_docker_tools";
 // Argument Types
 declare type SetSizeDimensionAxisTypes = "width" | "height";
 // Sub-Object Type Definitions
@@ -17,14 +19,6 @@ export namespace FloatingDockWindowConstructor {
      */
     class FloatingDockCustomizer {
         targetCustomizingDock: FloatingDockWindow | null;
-
-        // Construct the Customizer for the `FloatingDockWindow`
-        constructor(WindowDock: FloatingDockWindow) {
-            /**
-             * @private
-             */
-            this.targetCustomizingDock = WindowDock || null;
-        }
 
         /**
          * Sets the `FloatingDock`'s height; the specified amount.
@@ -66,14 +60,46 @@ export namespace FloatingDockWindowConstructor {
     /**
      * 
      */
-    abstract class Customizer {
+    export class InstanceFloatingDockMenu extends FloatingDockCustomizer {
+        newInstancedFloatingWindowDock: FloatingDockWindow | null;
+        targetCustomizingDock: FloatingDockWindow | null;
+        moveable: boolean;
 
-    }
+        constructor(FloatingDockWindowName: string, DockMoveable?: boolean | undefined) {
+            super();
+            // Customizer Constructor Variables
+            this.targetCustomizingDock = null;
+            // 
+            this.newInstancedFloatingWindowDock = null;
+            this.moveable = false;
+            // 
+            (InstanceFloatingDock as Function)?.() ?? console.error(`Uh oh! The nain utility failed to Initalize the new FloatingDockWindow!`);
+            function InstanceFloatingDock(): void {
+                try {
+                    if ((FloatingDockWindowName !== null && typeof(FloatingDockWindowName) === "string")) {
 
-    /**
-     * 
-     */
-    export class InstanceFloatingDockMenu extends Customizer {
-        
+                    } else {
+                        throw new TypeError(`
+                            (Floating Dock Window)'s name is NULL, or incorrect value type;
+                            \nEXPECTED:\t
+                            ${new String(String)
+                                .toLowerCase()
+                                .valueOf()
+                                .trim()
+                            }
+                        `);
+                    } 
+                } catch (DockWindowInstancingErr: unknown) {
+                    if (DockWindowInstancingErr != null) {
+                        var Stringified: Readonly<string> = new String(DockWindowInstancingErr).valueOf();
+                        console.error(String(Stringified.toString()));
+                    }
+                }  
+            }
+        }
+
+        private InstanceDock() {
+
+        }
     }
 }
