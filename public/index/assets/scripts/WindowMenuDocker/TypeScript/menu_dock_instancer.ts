@@ -1,6 +1,5 @@
-// / <reference path="../../window_scope_definitions.d.ts" />
 import {
-    WindowDockerUtilitys
+    WindowDockerUtilitys,
 } from "./TypeScript_Modules/menu_docker_tools";
 // Argument Types
 declare type SetSizeDimensionAxisTypes = "width" | "height";
@@ -94,12 +93,21 @@ export namespace FloatingDockWindowConstructor {
                         var Stringified: Readonly<string> = new String(DockWindowInstancingErr).valueOf();
                         console.error(String(Stringified.toString()));
                     }
-                }  
+                }
             }
         }
 
-        private InstanceDock() {
+        private valueTypeMatch(value: any): boolean {
+            const matches = false;
+            // 
 
+            return matches.valueOf();
+        }
+
+        public setDockName(RequestedDockName?: string | undefined): void {
+            if (RequestedDockName != null) {
+
+            }
         }
     }
 }
