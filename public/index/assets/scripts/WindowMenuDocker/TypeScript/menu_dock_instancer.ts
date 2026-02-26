@@ -75,7 +75,7 @@ export namespace FloatingDockWindowConstructor {
             (InstanceFloatingDock as Function)?.() ?? console.error(`Uh oh! The nain utility failed to Initalize the new FloatingDockWindow!`);
             function InstanceFloatingDock(): void {
                 try {
-                    if ((FloatingDockWindowName !== null && typeof(FloatingDockWindowName) === "string")) {
+                   if ((FloatingDockWindowName !== null && typeof(FloatingDockWindowName) === "string")) {
 
                     } else {
                         throw new TypeError(`
@@ -97,16 +97,39 @@ export namespace FloatingDockWindowConstructor {
             }
         }
 
-        private valueTypeMatch(value: any): boolean {
-            const matches = false;
-            // 
+        private valueTypeMatch(value: any, requestedType?: "string" | "number" | "boolean" | "object"): boolean {
+            let typeMatches = false;
+            const ValueType = typeof(value);
+            const StringedRequestType = new String(requestedType).valueOf();
 
-            return matches.valueOf();
+            function setTypeMatch(matchValue: boolean): void {
+                try {
+                    if (typeof(matchValue) === "boolean") {
+                        typeMatches = matchValue;
+                    } else {
+                        throw new TypeError();
+                    }
+                } catch (SetValueErr) {
+                    if (SetValueErr != null)
+                        console.error();
+                }
+            }
+            
+            if (ValueType === StringedRequestType.trim()) {
+                setTypeMatch(true);
+            } else {
+                setTypeMatch(false);
+                console.warn('Value does not match requested, or does not exist.');
+            }
+
+            return typeMatches.valueOf();
         }
 
-        public setDockName(RequestedDockName?: string | undefined): void {
-            if (RequestedDockName != null) {
+        public setDockName(RequestedDockName: string | undefined): void {
+            if (RequestedDockName !== null) {
+                if (this.valueTypeMatch(RequestedDockName, "string")) {
 
+                }
             }
         }
     }
