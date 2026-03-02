@@ -15,9 +15,19 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FloatingDockWindowConstructor = void 0;
+exports.FloatingDockWindowConstructor = exports.InstanceFloatingDockWindow = void 0;
+var InstanceFloatingDockWindow = /** @class */ (function () {
+    function InstanceFloatingDockWindow() {
+    }
+    return InstanceFloatingDockWindow;
+}());
+exports.InstanceFloatingDockWindow = InstanceFloatingDockWindow;
+/**
+ *
+ */
 var FloatingDockWindowConstructor;
 (function (FloatingDockWindowConstructor) {
+    var DefaultName = "NewDockWindow";
     var CurrentDockMenus = new Array(0);
     /**
      *
@@ -65,18 +75,21 @@ var FloatingDockWindowConstructor;
     /**
      *
      */
-    var InstanceFloatingDockMenu = /** @class */ (function (_super) {
-        __extends(InstanceFloatingDockMenu, _super);
-        function InstanceFloatingDockMenu(FloatingDockWindowName, DockMoveable) {
-            var _a;
+    var Instance = /** @class */ (function (_super) {
+        __extends(Instance, _super);
+        function Instance(FloatingDockWindowName, DockMoveable) {
+            var _a, _b;
             var _this = _super.call(this) || this;
             // Customizer Constructor Variables
             _this.targetCustomizingDock = null;
-            // 
+            // Main Property Variables
             _this.newInstancedFloatingWindowDock = null;
             _this.moveable = false;
-            // 
+            // Miscellaneous Variables
+            _this.dockName = undefined;
+            // Object Inital Function(s) Runtime
             (_a = InstanceFloatingDock === null || InstanceFloatingDock === void 0 ? void 0 : InstanceFloatingDock()) !== null && _a !== void 0 ? _a : console.error("Uh oh! The nain utility failed to Initalize the new FloatingDockWindow!");
+            (_b = _this.SetDefaultDockName) === null || _b === void 0 ? void 0 : _b.call(_this);
             function InstanceFloatingDock() {
                 try {
                     if ((FloatingDockWindowName !== null && typeof (FloatingDockWindowName) === "string")) {
@@ -97,9 +110,91 @@ var FloatingDockWindowConstructor;
             }
             return _this;
         }
-        InstanceFloatingDockMenu.prototype.InstanceDock = function () {
+        /**
+         *
+         * ---
+         *
+         * Sets the default name to `NewDockWindow` incase of **NO** *Custom Name*.
+         *
+         * ---
+         *
+         * @returns
+         *
+         */
+        Instance.prototype.SetDefaultDockName = function (ReturnsName) {
+            if (ReturnsName === undefined)
+                ReturnsName = false;
+            if (DefaultName !== null
+                && typeof (DefaultName) === "string"
+                && this.dockName !== DefaultName) {
+                if (!ReturnsName) {
+                    this.dockName = DefaultName !== null && DefaultName !== void 0 ? DefaultName : "NewUnknown";
+                }
+                else
+                    return DefaultName !== null && DefaultName !== void 0 ? DefaultName : "NewUnknown";
+            }
+            else {
+                console.error("\n", new Error());
+            }
         };
-        return InstanceFloatingDockMenu;
+        /**
+         *
+         * @param value
+         * @param requestedType
+         * @returns
+         */
+        Instance.prototype.valueTypeMatch = function (value, requestedType) {
+            var typeMatches = false;
+            var ValueType = typeof (value);
+            var StringedRequestType = new String(requestedType).valueOf();
+            function setTypeMatch(matchValue) {
+                try {
+                    if (typeof (matchValue) === "boolean") {
+                        typeMatches = matchValue;
+                    }
+                    else {
+                        throw new TypeError();
+                    }
+                }
+                catch (SetValueErr) {
+                    if (SetValueErr != null)
+                        console.error();
+                }
+            }
+            if (ValueType === StringedRequestType.trim()) {
+                setTypeMatch(true);
+            }
+            else {
+                setTypeMatch(false);
+                console.warn('Value does not match requested, or does not exist.');
+            }
+            return typeMatches.valueOf();
+        };
+        Instance.prototype.setDockName = function (RequestedDockName) {
+            if (RequestedDockName != null) {
+                if (this.valueTypeMatch(RequestedDockName, "string")) {
+                    this.dockName = RequestedDockName !== undefined ? RequestedDockName : this.SetDefaultDockName(true);
+                }
+            }
+        };
+        Instance.prototype.getDockName = function () {
+            var SequenceFetchedDockName = "";
+            if (this.dockName != null && typeof (this.dockName) === "string") {
+                SequenceFetchedDockName = this.dockName !== null ? this.dockName : null;
+            }
+            else {
+                console.warn("Dock Name was null, or invalid to fetch.");
+            }
+            return SequenceFetchedDockName !== null && SequenceFetchedDockName !== void 0 ? SequenceFetchedDockName : null;
+        };
+        Instance.prototype.getDockerSize = function (GetAxis) {
+            var DockerSizeRect = this.newInstancedFloatingWindowDock;
+            if (this.newInstancedFloatingWindowDock !== null
+                && this.newInstancedFloatingWindowDock instanceof InstanceFloatingDockWindow) {
+            }
+            return;
+        };
+        return Instance;
     }(FloatingDockCustomizer));
-    FloatingDockWindowConstructor.InstanceFloatingDockMenu = InstanceFloatingDockMenu;
+    FloatingDockWindowConstructor.Instance = Instance;
 })(FloatingDockWindowConstructor || (exports.FloatingDockWindowConstructor = FloatingDockWindowConstructor = {}));

@@ -1,18 +1,47 @@
-import {
-    WindowDockerUtilitys,
-} from "./TypeScript_Modules/menu_docker_tools";
+import { WindowDockerUtilitys } from "./TypeScript_Modules/menu_docker_tools";
+
 // Argument Types
 declare type SetSizeDimensionAxisTypes = "width" | "height";
+
 // Sub-Object Type Definitions
 declare type DockerContent = string;
+
 // Object Type Definitions
-declare type FloatingDockWindow = {
-    DockWindowName: string | undefined;
+/**
+ * ---
+ * 
+ * 
+ * 
+ */
+export declare type FloatingDockWindow = {
+    DockWindowRoot: HTMLElement;
     DockWindowContent: DockerContent;
+    DockWindowName: string | undefined;
+    DockWindowCustomizationProperties: DockCustomizationPropeties;
+    DockHeight: Number;
+    DockWidth: Number;
 };
 
+// Abstract Class(es); Reference; Declaration
+export declare abstract class FloatingDockWindowInstanceType {
+
+}
+
+export class InstanceFloatingDockWindow implements FloatingDockWindowInstanceType {
+    constructor () {
+        
+    }
+}
+
+/**
+ * 
+ */
 export namespace FloatingDockWindowConstructor {
+    declare type TypeAvailableMatch = "string" | "number" | "boolean" | "object";
+
+    const DefaultName = "NewDockWindow";
     var CurrentDockMenus: FloatingDockWindow[] = new Array(0);
+
     /**
      * 
      */
@@ -59,24 +88,28 @@ export namespace FloatingDockWindowConstructor {
     /**
      * 
      */
-    export class InstanceFloatingDockMenu extends FloatingDockCustomizer {
+    export class Instance extends FloatingDockCustomizer {
         newInstancedFloatingWindowDock: FloatingDockWindow | null;
         targetCustomizingDock: FloatingDockWindow | null;
         moveable: boolean;
+        dockName: string | null;
 
         constructor(FloatingDockWindowName: string, DockMoveable?: boolean | undefined) {
             super();
             // Customizer Constructor Variables
             this.targetCustomizingDock = null;
-            // 
+            // Main Property Variables
             this.newInstancedFloatingWindowDock = null;
             this.moveable = false;
-            // 
+            // Miscellaneous Variables
+            this.dockName = undefined;
+            // Object Inital Function(s) Runtime
             (InstanceFloatingDock as Function)?.() ?? console.error(`Uh oh! The nain utility failed to Initalize the new FloatingDockWindow!`);
+            (this.SetDefaultDockName as Function)?.();
             function InstanceFloatingDock(): void {
                 try {
-                   if ((FloatingDockWindowName !== null && typeof(FloatingDockWindowName) === "string")) {
-
+                    if ((FloatingDockWindowName !== null && typeof(FloatingDockWindowName) === "string")) {
+                        
                     } else {
                         throw new TypeError(`
                             (Floating Dock Window)'s name is NULL, or incorrect value type;
@@ -97,7 +130,37 @@ export namespace FloatingDockWindowConstructor {
             }
         }
 
-        private valueTypeMatch(value: any, requestedType?: "string" | "number" | "boolean" | "object"): boolean {
+        /**
+         * 
+         * ---
+         * 
+         * Sets the default name to `NewDockWindow` incase of **NO** *Custom Name*. 
+         * 
+         * ---
+         * 
+         * @returns 
+         * 
+         */
+        private SetDefaultDockName(ReturnsName?: boolean): string | undefined {
+            if (ReturnsName === undefined) ReturnsName = false;
+            if (DefaultName !== null 
+            && typeof(DefaultName) === "string" 
+            && this.dockName !== DefaultName) {
+                if (!ReturnsName) {
+                    this.dockName = DefaultName ?? "NewUnknown";
+                } else return DefaultName ?? "NewUnknown";
+            } else {
+                console.error(`\n`, new Error());
+            }
+        }
+
+        /**
+         * 
+         * @param value
+         * @param requestedType 
+         * @returns 
+         */
+        private valueTypeMatch(value: any, requestedType?: TypeAvailableMatch): boolean {
             let typeMatches = false;
             const ValueType = typeof(value);
             const StringedRequestType = new String(requestedType).valueOf();
@@ -126,11 +189,34 @@ export namespace FloatingDockWindowConstructor {
         }
 
         public setDockName(RequestedDockName: string | undefined): void {
-            if (RequestedDockName !== null) {
+            if (RequestedDockName != null) {
                 if (this.valueTypeMatch(RequestedDockName, "string")) {
-
+                    this.dockName = RequestedDockName !== undefined ? RequestedDockName : this.SetDefaultDockName(true);
                 }
             }
+        }
+
+        public getDockName(): string | null {
+            let SequenceFetchedDockName: string = "";
+
+            if (this.dockName != null && typeof(this.dockName) === "string") {
+                SequenceFetchedDockName = this.dockName !== null ? this.dockName : null;
+            } else {
+                console.warn(`Dock Name was null, or invalid to fetch.`);
+            }
+
+            return SequenceFetchedDockName ?? null;
+        }
+
+        public getDockerSize(GetAxis: "X" | "Y"): DOMRect | null {
+            let DockerSizeRect = this.newInstancedFloatingWindowDock;
+
+            if (this.newInstancedFloatingWindowDock !== null
+            && this.newInstancedFloatingWindowDock instanceof InstanceFloatingDockWindow) {
+                 
+            }
+
+            return;
         }
     }
 }
