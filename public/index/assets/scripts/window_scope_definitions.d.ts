@@ -13,4 +13,8 @@ declare global {
     }
 }
 
+declare interface SettingsConstructorObject {
+    
+}
+
 export {};
