@@ -1,3 +1,21 @@
+type DockPositionX = typeof DOMRect.prototype.x;
+type DockPositionY = typeof DOMRect.prototype.y;
+
+interface DockWindowOverviewConstraintObject {
+    PositionConstraints?: {
+        PosX?: DockPositionX;
+        PosY?: DockPositionY;
+    };
+    SizeConstraints?: {
+        SizeX?: number;
+        SizeY?: number;
+    };
+}
+
+/**
+ * 
+ */
+declare type DockWindowConstraints = DockWindowOverviewConstraintObject;
 /**
  * ---
  * 

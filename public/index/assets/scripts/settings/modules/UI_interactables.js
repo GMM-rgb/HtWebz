@@ -267,9 +267,13 @@ class SettingMenuInstancer {
         ROOT: null,
       };
 
+      async function CreateShadowRoot() {
+        
+      }
+
       const AnimationFrameLifetime = requestAnimationFrame(() => {
         if (DropdownContextShadowRoot.ROOT !== null && DropdownContextShadowRoot.ROOT instanceof HTMLElement) {
-
+           
         }
       }).valueOf();
     } catch (DropdownContextInstanceErr) {

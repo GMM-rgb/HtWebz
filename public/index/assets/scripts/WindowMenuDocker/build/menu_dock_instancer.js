@@ -18,7 +18,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FloatingDockWindowConstructor = exports.InstanceFloatingDockWindow = void 0;
 var InstanceFloatingDockWindow = /** @class */ (function () {
     function InstanceFloatingDockWindow() {
+        this.DockWindow = null;
     }
+    InstanceFloatingDockWindow.prototype.NewDockWindowElement = function () {
+        var DockWindow = document.createElement("dockwindow");
+        return;
+    };
     return InstanceFloatingDockWindow;
 }());
 exports.InstanceFloatingDockWindow = InstanceFloatingDockWindow;
@@ -170,6 +175,23 @@ var FloatingDockWindowConstructor;
             }
             return typeMatches.valueOf();
         };
+        Instance.prototype.getDockerSize = function (GetAxis) {
+            var FetchedDockerSize = 0;
+            if (this.newInstancedFloatingWindowDock !== null
+                && this.newInstancedFloatingWindowDock instanceof InstanceFloatingDockWindow) {
+                var DockerSizeRect = {
+                    SizeConstraints: {
+                        SizeY: this.newInstancedFloatingWindowDock.DockHeight.valueOf(),
+                        SizeX: this.newInstancedFloatingWindowDock.DockWidth.valueOf(),
+                    },
+                    PositionConstraints: {
+                        PosY: parseFloat(this.newInstancedFloatingWindowDock.PositionValues.y),
+                        PosX: parseFloat(this.newInstancedFloatingWindowDock.PositionValues.x),
+                    },
+                };
+            }
+            return FetchedDockerSize !== null && FetchedDockerSize !== void 0 ? FetchedDockerSize : 0;
+        };
         Instance.prototype.setDockName = function (RequestedDockName) {
             if (RequestedDockName != null) {
                 if (this.valueTypeMatch(RequestedDockName, "string")) {
@@ -186,13 +208,6 @@ var FloatingDockWindowConstructor;
                 console.warn("Dock Name was null, or invalid to fetch.");
             }
             return SequenceFetchedDockName !== null && SequenceFetchedDockName !== void 0 ? SequenceFetchedDockName : null;
-        };
-        Instance.prototype.getDockerSize = function (GetAxis) {
-            var DockerSizeRect = this.newInstancedFloatingWindowDock;
-            if (this.newInstancedFloatingWindowDock !== null
-                && this.newInstancedFloatingWindowDock instanceof InstanceFloatingDockWindow) {
-            }
-            return;
         };
         return Instance;
     }(FloatingDockCustomizer));

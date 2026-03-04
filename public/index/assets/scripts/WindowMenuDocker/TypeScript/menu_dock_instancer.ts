@@ -5,6 +5,10 @@ declare type SetSizeDimensionAxisTypes = "width" | "height";
 
 // Sub-Object Type Definitions
 declare type DockerContent = string;
+declare type DockerPositionTypes = {
+    y: string;
+    x: string;
+};
 
 // Object Type Definitions
 /**
@@ -14,22 +18,32 @@ declare type DockerContent = string;
  * 
  */
 export declare type FloatingDockWindow = {
-    DockWindowRoot: HTMLElement;
+    DockWindowRoot: typeof HTMLUnknownElement;
+    DockWindowCustomizationProperties: DockCustomizationPropeties;
     DockWindowContent: DockerContent;
     DockWindowName: string | undefined;
-    DockWindowCustomizationProperties: DockCustomizationPropeties;
+    PositionValues: DockerPositionTypes;
     DockHeight: Number;
     DockWidth: Number;
 };
 
 // Abstract Class(es); Reference; Declaration
 export declare abstract class FloatingDockWindowInstanceType {
-
+    
 }
 
 export class InstanceFloatingDockWindow implements FloatingDockWindowInstanceType {
-    constructor () {
+    DockWindow: HTMLUnknownElement | null;
+
+    private NewDockWindowElement(): HTMLUnknownElement {
+        const DockWindow = document.createElement("dockwindow");
         
+        
+        return;
+    }
+
+    constructor () {
+        this.DockWindow = null;
     }
 }
 
@@ -188,6 +202,26 @@ export namespace FloatingDockWindowConstructor {
             return typeMatches.valueOf();
         }
 
+        public getDockerSize(GetAxis: "X" | "Y"): number | null {
+            let FetchedDockerSize: number = 0;
+
+            if (this.newInstancedFloatingWindowDock !== null
+            && this.newInstancedFloatingWindowDock instanceof InstanceFloatingDockWindow) {
+                let DockerSizeRect: DockWindowConstraints = {
+                    SizeConstraints: {
+                        SizeY: this.newInstancedFloatingWindowDock.DockHeight.valueOf(),
+                        SizeX: this.newInstancedFloatingWindowDock.DockWidth.valueOf(),
+                    },
+                    PositionConstraints: {
+                        PosY: parseFloat(this.newInstancedFloatingWindowDock.PositionValues.y),
+                        PosX: parseFloat(this.newInstancedFloatingWindowDock.PositionValues.x),
+                    },
+                };
+            }
+
+            return FetchedDockerSize ?? 0;
+        }
+
         public setDockName(RequestedDockName: string | undefined): void {
             if (RequestedDockName != null) {
                 if (this.valueTypeMatch(RequestedDockName, "string")) {
@@ -206,17 +240,6 @@ export namespace FloatingDockWindowConstructor {
             }
 
             return SequenceFetchedDockName ?? null;
-        }
-
-        public getDockerSize(GetAxis: "X" | "Y"): DOMRect | null {
-            let DockerSizeRect = this.newInstancedFloatingWindowDock;
-
-            if (this.newInstancedFloatingWindowDock !== null
-            && this.newInstancedFloatingWindowDock instanceof InstanceFloatingDockWindow) {
-                 
-            }
-
-            return;
         }
     }
 }
