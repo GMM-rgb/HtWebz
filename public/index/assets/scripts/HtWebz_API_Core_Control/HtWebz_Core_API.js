@@ -17,10 +17,10 @@ import("../window_scope_definitions");
  * ...
  * 
  * ---
- * @type {HtWebzEngine}
+ * @type {HtWebzEngine & typeof globalThis}
  * 
  */
-globalThis.HtWebzEngine = new Object({}).valueOf();
+globalThis.HtWebzEngine = new Object({}).valueOf() && globalThis.global;
 globalThis.HtWebzUtility = new Object({}).valueOf();
 
 class _Registered_HTMLScriptElement {
