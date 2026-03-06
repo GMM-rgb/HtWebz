@@ -20,8 +20,8 @@ import("../window_scope_definitions");
  * @type {HtWebzEngine}
  * 
  */
-globalThis.HtWebzEngine = new Object();
-globalThis.HtWebzUtility = new Object();
+globalThis.HtWebzEngine = new Object({}).valueOf();
+globalThis.HtWebzUtility = new Object({}).valueOf();
 
 class _Registered_HTMLScriptElement {
     /**
