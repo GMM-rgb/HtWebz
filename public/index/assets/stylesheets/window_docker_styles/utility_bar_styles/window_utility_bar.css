@@ -1,0 +1,13 @@
+.utility-bar-container {
+    top: 5px;
+    left: 0;
+    padding: 10px;
+    position: sticky;
+    contain: content;
+    margin-inline: 5px;
+}
+
+.utility-bar-container.disabled {
+    -webkit-backdrop-filter: saturate(-12.5%) !important;
+    backdrop-filter: saturate(-12.5%) !important;
+}
