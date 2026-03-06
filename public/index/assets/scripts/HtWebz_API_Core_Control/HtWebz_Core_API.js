@@ -20,8 +20,12 @@ import("../window_scope_definitions");
  * @type {HtWebzEngine & typeof globalThis}
  * 
  */
-globalThis.HtWebzEngine = new Object({}).valueOf() && globalThis.global;
+const HtWebzEngineLocal = new Object({}).valueOf();
+
+globalThis.HtWebzEngine = HtWebzEngineLocal;
 globalThis.HtWebzUtility = new Object({}).valueOf();
+
+Object.assign(globalThis, HtWebzEngineLocal);
 
 class _Registered_HTMLScriptElement {
     /**
