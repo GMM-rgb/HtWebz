@@ -65,5 +65,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     OnboardingAudioContext = new (window.AudioContext || window.webkitAudioContext) () ?? console.warn("Browser does support AudioContext!");
     if (PlayAudio !== null && typeof(PlayAudio) === "function") {
         PlayAudio("interface_startup");
+        HtWebzEngine.DeployNewNotification("Welcome to HtWebz!", "HtWebz");
     }
 }, { once: true });

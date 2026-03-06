@@ -63,11 +63,10 @@ class NotificationClient {
     }
 }
 
-window.DeployNewNotification = NotificationClient.DeployNewNotification;
-Object.assign(window, NotificationClient.DeployNewNotification);
-
 window.onload = async () => {
     const ListInstancer = new NotificationListUtility.NotificationsListInstancer();
     ListInstancer.ConstructNotificationList();
     ListInstancer.AppendNotificationList(undefined, true);
 }
+
+HtWebzEngine.DeployNewNotification = NotificationClient.DeployNewNotification ?? undefined;
