@@ -437,12 +437,39 @@ class UserNotification {
          */
         let NotificationHeaderContentsExist = false;
 
+        /**
+         * Waits for an element to appear in the DOM.
+         * @param {string} selector
+         * @param {ParentNode} [root=document]
+         * @returns {Promise<HTMLElement>}
+         */
+        function waitForElement(selector, root = document) {
+            return new Promise(resolve => {
+                const el = root.querySelector(selector);
+                if (el) return resolve(el);
+
+                const obs = new MutationObserver(() => {
+                    const el = root.querySelector(selector);
+                    if (el) {
+                        obs.disconnect();
+                        resolve(el);
+                    }
+                });
+
+                obs.observe(root, { childList: true, subtree: true });
+            });
+        }
+
         if (UserNotification !== (null || undefined)) {
             try {
                 if (this.isNotificationValid() && UserInterfaceFlexBar !== (null || undefined) && UserInterfaceFlexBar instanceof HTMLElement) {
                     const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
-                    NotificationList.appendChild(this.notification !== null ? this.notification : undefined);
+
+                    waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
+                            this.notification.classList.add("NotificationDeployed");
+                            NotifyList.appendChild(this.notification);
+                        }).catch(err => console.error("Notification deployment failed:", err));
 
                     NotificationDeploymentSuccessful = new String(this.notification.classList.item(0)).replaceAll("-", " ").valueOf() === this.message.valueOf() ? true : false;
                     CurrentNotifications = this.ScanListNotifications();

@@ -1,14 +1,15 @@
 // Import Priority HtWebzEngine API JavaScript Files
-new Promise(() => importScripts([
-    "node-fetch",
-    "socket",
-])).then(() => {
-    console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
-    console.debug();
-    console.groupEnd();
-});
-
-import("../window_scope_definitions");
+// if (typeof importScripts === "function") {
+//     new Promise(() => importScripts([
+//         "node-fetch",
+//         "socket",
+//     ])).then(() => {
+//         console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
+//         console.debug();
+//         console.groupEnd();
+//     });
+// }
+console.log("hi");
 
 // HtWebz Global Namespace(s) JavaScript Declaration
 /**
@@ -20,12 +21,8 @@ import("../window_scope_definitions");
  * @type {HtWebzEngine & typeof globalThis}
  * 
  */
-const HtWebzEngineLocal = new Object({}).valueOf();
-
-globalThis.HtWebzEngine = HtWebzEngineLocal;
+globalThis.HtWebzEngine = new Object({}).valueOf();
 globalThis.HtWebzUtility = new Object({}).valueOf();
-
-Object.assign(globalThis, HtWebzEngineLocal);
 
 class _Registered_HTMLScriptElement {
     /**
@@ -73,7 +70,6 @@ HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceU
             const NewScriptElement = window.document.createElement("script");
             NewScriptElement.type = ScriptExecutionType !== null ?? "text/javascript";
             NewScriptElement.src = new String(ScriptSourceURL).trim().valueOf();
-            NewScriptElement.parentNode = document.body.getRootNode(undefined);
             // Track Script Execution Errors
             NewScriptElement.onerror((ScriptRuntimeFailureError) => {
                if (ScriptRuntimeFailureError != null) {
@@ -85,6 +81,8 @@ HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceU
                    });
                }
             });
+
+            document.body.appendChild(NewScriptElement);
         } catch (ScriptRegisterError) {
             if (ScriptRegisterError != null) {
                 console.error(`While registering script linkage; process encountered a FATAL Error:\n${String(ScriptRegisterError).trim()}`);
@@ -119,3 +117,4 @@ HtWebzEngine.debug = function(...RequestedDebugMessage) {
         console.groupEnd();
     }
 }
+
