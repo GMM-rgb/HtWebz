@@ -331,13 +331,7 @@ class UserNotification {
 
         console.debug(`%cDeconstructing Notification:\t${this.message}`, 'color: magenta;');
 
-        // Use ONLY the sanitized class
-        const selector = `.${this.safeClass}.NotificationDeployed`;
-
-        const el = UserInterfaceFlexBar.querySelector(selector);
-        if (!el) return;
-
-        el.remove();
+        this.notification.remove();
 
         console.debug(
             `%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification's Message:\t${this.message}`,
