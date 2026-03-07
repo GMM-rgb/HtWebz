@@ -43,12 +43,12 @@ class NotificationClient {
             (async () => {
                 NotificationInstanceConstructor.PreBuildNotification();
                 NotificationInstanceConstructor.SetNotificationCloseTrigger(NotificationInstanceConstructor.notification);
-            })().then(() => {
-                let NotificationDeployed = NotificationInstanceConstructor.DeployNotification();
+            })().then(async () => {
+                let NotificationDeployed = await NotificationInstanceConstructor.DeployNotification();
                 if (NotificationDeployed === true) {
-                    console.debug(`Notification:\n\t${FormatedNotificationMessage()}\nWas deployed to interface.`);
+                    console.debug(`\nNotification:\n\t${FormatedNotificationMessage()}\nWas deployed to interface.`);
                 } else {
-                    console.warn(`Notification:\n\t${FormatedNotificationMessage()}\nCouldn't be deployed to interface.`);
+                    console.warn(`\nNotification:\n\t${FormatedNotificationMessage()}\nCouldn't be deployed to interface.`);
                 }
             }).finally(() => {
                 return;

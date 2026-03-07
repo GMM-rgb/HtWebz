@@ -4,6 +4,35 @@
 const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
 
 /**
+ * Waits for an element to appear in the DOM.
+ * @template {HTMLElement} WaitTemplate
+ * @param {string} selector
+ * @param {ParentNode} [root=document]
+ * @returns {Promise<WaitTemplate>}
+ */
+function waitForElement(selector, root = document) {
+    return new Promise(resolve => {
+        // Check immediately
+        const el = root.querySelector(selector);
+        if (el) {
+            resolve(/** @type {WaitTemplate} */ (el));
+            return;
+        }
+
+        // Otherwise wait for it
+        const obs = new MutationObserver(() => {
+            const el = root.querySelector(selector);
+            if (el) {
+                obs.disconnect();
+                resolve(/** @type {WaitTemplate} */ (el));
+            }
+        });
+
+        obs.observe(root, { childList: true, subtree: true });
+    });
+}
+
+/**
  * 
  */
 class NotificationInstancerData {
@@ -297,29 +326,25 @@ class UserNotification {
      * @public
      */
     DeconstructNotification() {
-        if (this.notification !== null && this.isNotificationValid()) {
-            if (UserInterfaceFlexBar !== (undefined || null) && UserInterfaceFlexBar instanceof HTMLElement) {
-                console.debug(`%cDeconstructing Notification:\t${this.message.valueOf()}`, 'color: magenta;');
+        if (!this.notification || !this.isNotificationValid()) return;
+        if (!(UserInterfaceFlexBar instanceof HTMLElement)) return;
 
-                let NotificationClass = new String();
+        console.debug(`%cDeconstructing Notification:\t${this.message}`, 'color: magenta;');
 
-                this.notification.classList.forEach((ClassName, ClassIndex) => {
-                    if (ClassName !== null && typeof(ClassName) === "string" && ClassIndex !== null && typeof(ClassIndex) === "number") {
-                        NotificationClass += "." + new String(ClassName).valueOf().trim();
-                    }
-                });
+        // Use ONLY the sanitized class
+        const selector = `.${this.safeClass}.NotificationDeployed`;
 
-                const FoundNotificationInList = UserInterfaceFlexBar.querySelector(NotificationClass.length > 0 ? NotificationClass.valueOf() : undefined);
+        const el = UserInterfaceFlexBar.querySelector(selector);
+        if (!el) return;
 
-                if (FoundNotificationInList !== null && FoundNotificationInList instanceof HTMLDivElement) {
-                    (async () => {
-                        FoundNotificationInList.remove();
-                    })().then(() => {
-                        console.debug(`%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification's Message:\t${this.message.toString().valueOf()}`, 'color: lime;', 'color: lime; font-weight: bold;', 'color: lime;');
-                    });
-                }
-            }
-        }
+        el.remove();
+
+        console.debug(
+            `%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification's Message:\t${this.message}`,
+            'color: lime;',
+            'color: lime; font-weight: bold;',
+            'color: lime;'
+        );
     }
 
     /**
@@ -410,10 +435,10 @@ class UserNotification {
      * 
      * ---
      * 
-     * @returns {boolean}
+     * @returns {Promise<boolean>}
      * 
      */
-    DeployNotification() {
+    async DeployNotification() {
         /**
          * #### Current notifications located within the interface list.
          * @type {HTMLElement[]?}
@@ -437,81 +462,76 @@ class UserNotification {
          */
         let NotificationHeaderContentsExist = false;
 
-
-        /**
-         * Waits for an element to appear in the DOM.
-         * @template {HTMLElement} WaitTemplate
-         * @param {string} selector
-         * @param {ParentNode} [root=document]
-         * @returns {Promise<WaitTemplate>}
-         */
-        function waitForElement(selector, root = document) {
-            let el = root.querySelector(selector);
-            if (el) return /** @type {WaitTemplate} */ (el);
-            return new Promise(resolve => {
-                const obs = new MutationObserver(() => {
-                    const el = root.querySelector(selector);
-                    if (el) {
-                        obs.disconnect();
-                        resolve(/** @type {WaitTemplate} */ (el));
-                    }
-                });
-
-                obs.observe(root, { childList: true, subtree: true });
-            });
-        }
-
         if (UserNotification !== (null || undefined)) {
             try {
                 if (this.isNotificationValid() && UserInterfaceFlexBar !== (null || undefined) && UserInterfaceFlexBar instanceof HTMLElement) {
                     const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
 
-                    waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
-                        this.notification.classList.add("NotificationDeployed");
+                    return waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
+                        // Create a safe class ONCE
+                        const safeClass = this.message
+                            .toLowerCase()
+                            .trim()
+                            .replace(/[^a-z0-9_-]/gi, "-");
+
+                        // Add ONLY the safe class
+                        this.notification.classList.add(this.safeClass);
+
+                        // Deploy notification
                         NotifyList.appendChild(this.notification);
 
-                        NotificationDeploymentSuccessful = new String(this.notification.classList.item(0)).replaceAll("-", " ").valueOf() === this.message.valueOf() ? true : false;
-                        CurrentNotifications = this.ScanListNotifications();
+                        // Deployment success check
+                        NotificationDeploymentSuccessful =
+                            this.notification.classList.contains("NotificationDeployed");
 
-                        if (CurrentNotifications !== null) {
-                            CurrentNotifications.forEach((CurrentNotification) => {
-                                if (CurrentNotification !== null && CurrentNotification instanceof HTMLDivElement) {
-                                    if (Object.hasOwn(CurrentNotification, HTMLDivElement.prototype.hasChildNodes) && CurrentNotification.hasChildNodes() === true) {
-                                        // Fetch the CurrentNotification node element children
-                                        let HeaderElementData = CurrentNotification.childNodes.entries();
-                                        let isHeaderElementsValid = new Boolean(false).valueOf();
+                        // Scan notifications (clean version)
+                        CurrentNotifications = Array.from(NotifyList.children)
+                            .filter(node => node instanceof HTMLDivElement);
+                        
+                        // Expierimental removed for now.
+                        // if (CurrentNotifications !== null) {
+                        //     CurrentNotifications.forEach((CurrentNotification) => {
+                        //         if (CurrentNotification !== null && CurrentNotification instanceof HTMLDivElement) {
+                        //             if (Object.hasOwn(CurrentNotification, HTMLDivElement.prototype.hasChildNodes) && CurrentNotification.hasChildNodes() === true) {
+                        //                 // Fetch the CurrentNotification node element children
+                        //                 let HeaderElementData = CurrentNotification.childNodes.entries();
+                        //                 let isHeaderElementsValid = new Boolean(false).valueOf();
 
-                                        // Verify the node children are the actaul corresponding elements
-                                        for (let CurrentElementIndex = 0; CurrentElementIndex < CurrentNotification.children.length; CurrentElementIndex++) {
-                                            const IndexProperFormat = new Number(Math.floor(CurrentElementIndex - 1)).valueOf();
-                                            console.debug(`%cHeaderElementData:\n\t${new String(HeaderElementData[0]).valueOf()}\n\t${new String(HeaderElementData[1]).valueOf()}`, 'color: magenta; font-weight: normal;');
+                        //                 // Verify the node children are the actaul corresponding elements
+                        //                 for (let CurrentElementIndex = 0; CurrentElementIndex < CurrentNotification.children.length; CurrentElementIndex++) {
+                        //                     const IndexProperFormat = new Number(Math.floor(CurrentElementIndex - 1)).valueOf();
+                        //                     console.debug(`%cHeaderElementData:\n\t${new String(HeaderElementData[0]).valueOf()}\n\t${new String(HeaderElementData[1]).valueOf()}`, 'color: magenta; font-weight: normal;');
 
-                                            try {
-                                                if (CurrentNotification.children.item(IndexProperFormat) instanceof HTMLDivElement) {
-                                                    const OriginalChildElementRoot = CurrentNotification.children.item(IndexProperFormat).getRootNode();
-                                                    if (HeaderElementData !== (null || undefined) && new Number(HeaderElementData[0]).valueOf() === IndexProperFormat) {
-                                                        if (OriginalChildElementRoot !== null && OriginalChildElementRoot instanceof Node && OriginalChildElementRoot === HeaderElementData[IndexProperFormat]) {
-                                                            isHeaderElementsValid = true;
-                                                        } else {
-                                                            isHeaderElementsValid = false;
-                                                        }
-                                                    }
-                                                }
-                                            } catch (HeaderElementDataScanError) {
-                                                console.error(`${new String(HeaderElementDataScanError).toString()}`);
-                                            }
+                        //                     try {
+                        //                         if (CurrentNotification.children.item(IndexProperFormat) instanceof HTMLDivElement) {
+                        //                             const OriginalChildElementRoot = CurrentNotification.children.item(IndexProperFormat).getRootNode();
+                        //                             if (HeaderElementData !== (null || undefined) && new Number(HeaderElementData[0]).valueOf() === IndexProperFormat) {
+                        //                                 if (OriginalChildElementRoot !== null && OriginalChildElementRoot instanceof Node && OriginalChildElementRoot === HeaderElementData[IndexProperFormat]) {
+                        //                                     isHeaderElementsValid = true;
+                        //                                 } else {
+                        //                                     isHeaderElementsValid = false;
+                        //                                 }
+                        //                             }
+                        //                         }
+                        //                     } catch (HeaderElementDataScanError) {
+                        //                         console.error(`${new String(HeaderElementDataScanError).toString()}`);
+                        //                     }
 
-                                            // Update Array to the next __Iterator__
-                                            HeaderElementData = HeaderElementData.next().value || null;
-                                        }
-                                    }
-                                }
-                            });
-                        } else {
-                            console.warn("CurrentNotifications could not be fetched.");
-                        }
-                    }).catch(err => console.error("Notification deployment failed:", err));
+                        //                     // Update Array to the next __Iterator__
+                        //                     HeaderElementData = HeaderElementData.next().value || null;
+                        //                 }
+                        //             }
+                        //         }
+                        //     });
+                        // } else {
+                        //     console.warn("CurrentNotifications could not be fetched.");
+                        // }
+                        return true;
+                    }).catch(err => {
+                        console.error("Notification deployment failed:", err);
+                        return false;
+                    });
                 } else {
                     if (UserInterfaceFlexBar === (null || undefined) || !(UserInterfaceFlexBar instanceof HTMLElement)) {
                         throw new Error(`Could not append Notification.\nReason:\n`, { cause: "UserInterfaceFlexbar was not in acceptable range.".normalize("NFC") });
@@ -520,6 +540,7 @@ class UserNotification {
             } catch (NotificationDeploymentError) {
                 if (NotificationDeploymentError !== null) {
                     console.error(`Deploying Notification "${this.message}", resulted in an Error.\n${new String(NotificationDeploymentError).valueOf().toString()}`);
+                    return false;
                 }
             }
         }
