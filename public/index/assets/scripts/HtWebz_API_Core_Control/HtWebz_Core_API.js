@@ -10,7 +10,7 @@ if (typeof importScripts === "function") {
     });
 }
 
-import("../window_scope_definitions");
+if (!URL) import("../window_scope_definitions");
 
 // HtWebz Global Namespace(s) JavaScript Declaration
 /**
@@ -72,20 +72,22 @@ HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceU
              * 
              * @type {HTMLScriptElement}
              */
-            const NewScriptElement = window.document.createElement("script");
-            NewScriptElement.type = ScriptExecutionType !== null ?? "text/javascript";
-            NewScriptElement.src = new String(ScriptSourceURL).trim().valueOf();
+            const NewScriptElement = document.createElement("script");
+            NewScriptElement.type = ScriptExecutionType ?? "text/javascript";
+            NewScriptElement.src = new String(ScriptSourceURL).trim().valueOf() ?? (async () => {
+                throw new Error("No you did it wrong; it's RAW.");
+            })();
             // Track Script Execution Errors
-            NewScriptElement.onerror((ScriptRuntimeFailureError) => {
-               if (ScriptRuntimeFailureError != null) {
-                   throw new Error('Script ', {
-                    cause: String(ScriptRuntimeFailureError)
-                    .normalize("NFC")
-                    .toString()
-                    .trim()
-                   });
-               }
-            });
+            // NewScriptElement.onerror((ScriptRuntimeFailureError) => {
+            //    if (ScriptRuntimeFailureError != null) {
+            //        throw new Error('Script ', {
+            //         cause: String(ScriptRuntimeFailureError)
+            //         .normalize("NFC")
+            //         .toString()
+            //         .trim()
+            //        });
+            //    }
+            // });
 
             document.body.appendChild(NewScriptElement);
         } catch (ScriptRegisterError) {

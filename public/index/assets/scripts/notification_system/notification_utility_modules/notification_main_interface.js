@@ -48,6 +48,14 @@ class NotificationInstancerData {
         <!-- Notification Message Text -->
         <span class="notification-message"></span>
     `;
+    
+    /**
+     * 
+     * @public
+     */
+    static NotificationTimelineDividerContents = `
+    
+    `;
 }
 
 /**
@@ -77,6 +85,11 @@ class UserNotification {
          * @type {AudioContext?}
          */
         this.NotificationAudioContext = null;
+        /**
+         * 
+         * @type {Response?}
+         */
+        this.SoundFile = null;
         /**
          * 
          * @type {Number}
@@ -229,6 +242,36 @@ class UserNotification {
 
     /**
      * 
+     * @param {number} LifetimeAge
+     * @returns {void}
+     */
+    CreateTimelineDivider(LifetimeAge) {
+        /**
+         * 
+         * @param  {(string[])} InstancerWarnings 
+         */
+        function _Generate_TimelineDivider_SummaryWarnings(...InstancerWarnings) {
+            if (InstancerWarnings !== null && typeof(InstancerWarnings) === "object") {
+                console.groupCollapsed("Notification Timeline Divider Warnings");
+                const InstancerWarningEntries = InstancerWarnings.entries() ?? null;
+                (async () => {
+                    for (let WarningIndex = 0; WarningIndex < InstancerWarnings.length; WarningIndex++) {
+                        
+                    }
+                })().finally(() => {
+                    console.groupEnd();
+                });
+            }
+        }
+
+        if (LifetimeAge !== null && typeof(LifetimeAge) === "number") {
+
+        } else {
+        }
+    }
+
+    /**
+     * 
      * @returns {boolean}
      * @public
      */
@@ -292,16 +335,25 @@ class UserNotification {
              */
             let SoundBuffer = null;
 
-            const SoundFile = await fetch("index/assets/audio/page-forward.wav", /*new Request()*/);
-            const SoundArrayBuffer = await SoundFile.arrayBuffer();
+            let SoundArrayBuffer;
+            if (!this.SoundFile || !(this.SoundFile instanceof globalThis.Response)) {
+                this.SoundFile = await fetch("index/assets/audio/page-forward.wav", /*new Request()*/).then((file) => {
+                    console.debug("%cFetched Notification Audio.", 'color: lime;');
+                    return file;
+                }).finally(async () => {
+                    console.debug("Set Sound File Variable.");
+                });
+            }
+
+            SoundArrayBuffer = await this.SoundFile.arrayBuffer();
 
             this.NotificationAudioContext.decodeAudioData(SoundArrayBuffer, (Buffering) => {
                 if (Buffering !== null && Buffering instanceof AudioBuffer) {
-                    SoundBuffer = Buffering;
+                    return SoundBuffer = Buffering;
                 }
-            });
+            }).then(async (AudioBuffer) => {
+                SoundBuffer = AudioBuffer;
 
-            if (SoundBuffer !== (null || undefined) && Object.hasOwn(this.NotificationAudioContext, AudioContext.prototype.destination)) {
                 let SoundBufferSource = this.NotificationAudioContext.createBufferSource();
                 SoundBufferSource.buffer = SoundBuffer;
                 SoundBufferSource.connect(this.NotificationAudioContext.destination);
@@ -316,7 +368,7 @@ class UserNotification {
                         return void null;
                     });
                 }
-            }
+            });
         }
     }
 

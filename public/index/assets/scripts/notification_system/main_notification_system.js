@@ -44,6 +44,8 @@ class NotificationClient {
                 NotificationInstanceConstructor.PreBuildNotification();
                 NotificationInstanceConstructor.SetNotificationCloseTrigger(NotificationInstanceConstructor.notification);
             })().then(async () => {
+                await NotificationInstanceConstructor.NewAduioContext();
+                await NotificationInstanceConstructor.PlayNotificationSound();
                 let NotificationDeployed = await NotificationInstanceConstructor.DeployNotification();
                 if (NotificationDeployed === true) {
                     console.debug(`\nNotification:%c\t${FormatedNotificationMessage()}%c\nWas deployed to interface.`, 'color: yellow;', 'color: default;');
