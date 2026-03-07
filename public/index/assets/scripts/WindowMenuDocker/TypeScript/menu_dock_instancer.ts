@@ -1,4 +1,4 @@
-import { WindowDockerUtilitys } from "./TypeScript_Modules/menu_docker_tools";
+import { WindowDockerUtilitys } from "./modules/menu_docker_tools";
 
 // Argument Types
 declare type SetSizeDimensionAxisTypes = "width" | "height";
@@ -36,9 +36,13 @@ export class InstanceFloatingDockWindow implements FloatingDockWindowInstanceTyp
     DockWindow: HTMLUnknownElement | null;
 
     private NewDockWindowElement(): HTMLUnknownElement {
-        const DockWindow = document.createElement("dockwindow");
-        
-        
+        const DockWindowRegistery = new CustomElementRegistry();
+        let DockWindow = new HTMLUnknownElement();
+
+        async function InstanceWindow(): Promise<void> {
+            DockWindow = document.createElement("div", { customElementRegistry: DockWindowRegistery ?? undefined });
+        }
+
         return;
     }
 

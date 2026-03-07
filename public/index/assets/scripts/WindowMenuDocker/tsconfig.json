@@ -11,6 +11,12 @@
         "allowJs": true,
         "rootDir": "./TypeScript",
         "outDir": "./build",
+        "module": "commonjs",
+        "lib": [
+            "es2015",
+            "DOM",
+            "Decorators"
+        ],
         // External Type Definitions
         "typeRoots": [
             "../../window_scope_definitions.d.ts"

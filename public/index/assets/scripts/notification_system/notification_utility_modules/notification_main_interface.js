@@ -43,7 +43,7 @@ class NotificationInstancerData {
     static NotificationInnerContentsTemplate = `
         <div class="notification-header">
             <label class="notification-label">...</label>
-            <button class="cancel-notification"><img width="20" height="20" src="./index/assets/images/x-png-35400.png" /></button>
+            <button class="cancel-notification" onmouseenter='setupTooltip(".cancel-notification", "Remove Notification?")'><img width="20" height="20" src="./index/assets/images/x-png-35400.png" /></button>
         </div>
         <!-- Notification Message Text -->
         <span class="notification-message"></span>

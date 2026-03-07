@@ -31,7 +31,7 @@
     height: 150px;
     /* width: 250px; */
     /* min-width: 250px; */
-    z-index: 10000 !important;
+    z-index: 9999 !important;
     /* Visuals */
     background: rgba(5, 134, 227, 0.75);
     border: 3px solid #ccc;

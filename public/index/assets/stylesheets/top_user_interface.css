@@ -101,7 +101,7 @@ head {
     left: 0 !important;
     right: 0 !important;
     margin-inline: 5px;
-    z-index: 9998 !important;
+    z-index: calc(9999 + 100) !important;
     transform-origin: center;
     -webkit-background-composite: padding;
     -webkit-backdrop-filter: blur(2px);
@@ -747,6 +747,10 @@ head {
 
 #resourcesMenuOpen:hover {
     transform: scale(1.0125);
+}
+
+#resourcesMenuOpen:has(.search-bar-input.open) {
+    z-index: calc(9999 + 100) !important;
 }
 
 #resourcesMenuOpen:has(.ResourcesInteractable.Focused) {
