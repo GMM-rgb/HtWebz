@@ -46,9 +46,9 @@ class NotificationClient {
             })().then(async () => {
                 let NotificationDeployed = await NotificationInstanceConstructor.DeployNotification();
                 if (NotificationDeployed === true) {
-                    console.debug(`\nNotification:\n\t${FormatedNotificationMessage()}\nWas deployed to interface.`);
+                    console.debug(`\nNotification:%c\t${FormatedNotificationMessage()}%c\nWas deployed to interface.`, 'color: yellow;', 'color: default;');
                 } else {
-                    console.warn(`\nNotification:\n\t${FormatedNotificationMessage()}\nCouldn't be deployed to interface.`);
+                    console.warn(`\nNotification:\t${FormatedNotificationMessage()}\nCouldn't be deployed to interface.`);
                 }
             }).finally(() => {
                 return;
