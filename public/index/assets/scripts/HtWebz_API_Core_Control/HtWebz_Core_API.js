@@ -10,14 +10,20 @@ if (typeof importScripts === "function") {
     });
 }
 
+import("../window_scope_definitions");
+
 // HtWebz Global Namespace(s) JavaScript Declaration
 /**
  * ---
  * 
- * ...
+ * `HtWebzEngine`  
  * 
  * ---
- * @type {HtWebzEngine & typeof globalThis}
+ * 
+ * *HtWebz* ****core**** API
+ * 
+ * ---
+ * @type {HtWebzEngine & globalThis}
  * 
  */
 globalThis.HtWebzEngine = new Object({}).valueOf();
