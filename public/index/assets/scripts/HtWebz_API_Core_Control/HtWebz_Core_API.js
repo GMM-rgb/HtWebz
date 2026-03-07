@@ -1,15 +1,14 @@
 // Import Priority HtWebzEngine API JavaScript Files
-// if (typeof importScripts === "function") {
-//     new Promise(() => importScripts([
-//         "node-fetch",
-//         "socket",
-//     ])).then(() => {
-//         console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
-//         console.debug();
-//         console.groupEnd();
-//     });
-// }
-console.log("hi");
+if (typeof importScripts === "function") {
+    new Promise(() => importScripts([
+        "node-fetch",
+        "socket",
+    ])).then(() => {
+        console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
+        console.debug();
+        console.groupEnd();
+    });
+}
 
 // HtWebz Global Namespace(s) JavaScript Declaration
 /**

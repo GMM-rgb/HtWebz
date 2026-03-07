@@ -437,22 +437,23 @@ class UserNotification {
          */
         let NotificationHeaderContentsExist = false;
 
+
         /**
          * Waits for an element to appear in the DOM.
+         * @template {HTMLElement} WaitTemplate
          * @param {string} selector
          * @param {ParentNode} [root=document]
-         * @returns {Promise<HTMLElement>}
+         * @returns {Promise<WaitTemplate>}
          */
         function waitForElement(selector, root = document) {
+            let el = root.querySelector(selector);
+            if (el) return /** @type {WaitTemplate} */ (el);
             return new Promise(resolve => {
-                const el = root.querySelector(selector);
-                if (el) return resolve(el);
-
                 const obs = new MutationObserver(() => {
                     const el = root.querySelector(selector);
                     if (el) {
                         obs.disconnect();
-                        resolve(el);
+                        resolve(/** @type {WaitTemplate} */ (el));
                     }
                 });
 
@@ -467,50 +468,50 @@ class UserNotification {
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
 
                     waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
-                            this.notification.classList.add("NotificationDeployed");
-                            NotifyList.appendChild(this.notification);
-                        }).catch(err => console.error("Notification deployment failed:", err));
+                        this.notification.classList.add("NotificationDeployed");
+                        NotifyList.appendChild(this.notification);
 
-                    NotificationDeploymentSuccessful = new String(this.notification.classList.item(0)).replaceAll("-", " ").valueOf() === this.message.valueOf() ? true : false;
-                    CurrentNotifications = this.ScanListNotifications();
+                        NotificationDeploymentSuccessful = new String(this.notification.classList.item(0)).replaceAll("-", " ").valueOf() === this.message.valueOf() ? true : false;
+                        CurrentNotifications = this.ScanListNotifications();
 
-                    if (CurrentNotifications !== null) {
-                        CurrentNotifications.forEach((CurrentNotification) => {
-                            if (CurrentNotification !== null && CurrentNotification instanceof HTMLDivElement) {
-                                if (Object.hasOwn(CurrentNotification, HTMLDivElement.prototype.hasChildNodes) && CurrentNotification.hasChildNodes() === true) {
-                                    // Fetch the CurrentNotification node element children
-                                    let HeaderElementData = CurrentNotification.childNodes.entries();
-                                    let isHeaderElementsValid = new Boolean(false).valueOf();
+                        if (CurrentNotifications !== null) {
+                            CurrentNotifications.forEach((CurrentNotification) => {
+                                if (CurrentNotification !== null && CurrentNotification instanceof HTMLDivElement) {
+                                    if (Object.hasOwn(CurrentNotification, HTMLDivElement.prototype.hasChildNodes) && CurrentNotification.hasChildNodes() === true) {
+                                        // Fetch the CurrentNotification node element children
+                                        let HeaderElementData = CurrentNotification.childNodes.entries();
+                                        let isHeaderElementsValid = new Boolean(false).valueOf();
 
-                                    // Verify the node children are the actaul corresponding elements
-                                    for (let CurrentElementIndex = 0; CurrentElementIndex < CurrentNotification.children.length; CurrentElementIndex++) {
-                                        const IndexProperFormat = new Number(Math.floor(CurrentElementIndex - 1)).valueOf();
-                                        console.debug(`%cHeaderElementData:\n\t${new String(HeaderElementData[0]).valueOf()}\n\t${new String(HeaderElementData[1]).valueOf()}`, 'color: magenta; font-weight: normal;');
+                                        // Verify the node children are the actaul corresponding elements
+                                        for (let CurrentElementIndex = 0; CurrentElementIndex < CurrentNotification.children.length; CurrentElementIndex++) {
+                                            const IndexProperFormat = new Number(Math.floor(CurrentElementIndex - 1)).valueOf();
+                                            console.debug(`%cHeaderElementData:\n\t${new String(HeaderElementData[0]).valueOf()}\n\t${new String(HeaderElementData[1]).valueOf()}`, 'color: magenta; font-weight: normal;');
 
-                                        try {
-                                            if (CurrentNotification.children.item(IndexProperFormat) instanceof HTMLDivElement) {
-                                                const OriginalChildElementRoot = CurrentNotification.children.item(IndexProperFormat).getRootNode();
-                                                if (HeaderElementData !== (null || undefined) && new Number(HeaderElementData[0]).valueOf() === IndexProperFormat) {
-                                                    if (OriginalChildElementRoot !== null && OriginalChildElementRoot instanceof Node && OriginalChildElementRoot === HeaderElementData[IndexProperFormat]) {
-                                                        isHeaderElementsValid = true;
-                                                    } else {
-                                                        isHeaderElementsValid = false;
+                                            try {
+                                                if (CurrentNotification.children.item(IndexProperFormat) instanceof HTMLDivElement) {
+                                                    const OriginalChildElementRoot = CurrentNotification.children.item(IndexProperFormat).getRootNode();
+                                                    if (HeaderElementData !== (null || undefined) && new Number(HeaderElementData[0]).valueOf() === IndexProperFormat) {
+                                                        if (OriginalChildElementRoot !== null && OriginalChildElementRoot instanceof Node && OriginalChildElementRoot === HeaderElementData[IndexProperFormat]) {
+                                                            isHeaderElementsValid = true;
+                                                        } else {
+                                                            isHeaderElementsValid = false;
+                                                        }
                                                     }
                                                 }
+                                            } catch (HeaderElementDataScanError) {
+                                                console.error(`${new String(HeaderElementDataScanError).toString()}`);
                                             }
-                                        } catch (HeaderElementDataScanError) {
-                                            console.error(`${new String(HeaderElementDataScanError).toString()}`);
-                                        }
 
-                                        // Update Array to the next __Iterator__
-                                        HeaderElementData = HeaderElementData.next().value || null;
+                                            // Update Array to the next __Iterator__
+                                            HeaderElementData = HeaderElementData.next().value || null;
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    } else {
-                        console.warn("CurrentNotifications could not be fetched.");
-                    }
+                            });
+                        } else {
+                            console.warn("CurrentNotifications could not be fetched.");
+                        }
+                    }).catch(err => console.error("Notification deployment failed:", err));
                 } else {
                     if (UserInterfaceFlexBar === (null || undefined) || !(UserInterfaceFlexBar instanceof HTMLElement)) {
                         throw new Error(`Could not append Notification.\nReason:\n`, { cause: "UserInterfaceFlexbar was not in acceptable range.".normalize("NFC") });
