@@ -6,11 +6,12 @@ const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
 /**
  * Waits for an element to appear in the DOM.
  * @template {HTMLElement} WaitTemplate
+ * @name waitForElement
  * @param {string} selector
  * @param {ParentNode} [root=document]
  * @returns {Promise<WaitTemplate>}
  */
-function waitForElement(selector, root = document) {
+HtWebzUtility.waitForElement = function(selector, root = document) {
     return new Promise(resolve => {
         // Check immediately
         const el = root.querySelector(selector);
@@ -514,7 +515,7 @@ class UserNotification {
                     const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
 
-                    return waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
+                    return HtWebzUtility.waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
                         // Create a safe class ONCE
                         const safeClass = this.message
                             .toLowerCase()

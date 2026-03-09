@@ -27,7 +27,43 @@ if (!URL) import("../window_scope_definitions");
  * 
  */
 globalThis.HtWebzEngine = new Object({}).valueOf();
+/**
+ * 
+ * 
+ * ---
+ * @type {HtWebzUtility & globalThis}
+ */
 globalThis.HtWebzUtility = new Object({}).valueOf();
+globalThis.HtWebzCore = new Object({}).valueOf();
+
+/**
+ * 
+ * 
+ * @name NewAPI_OpCode
+ * @param {HtWebzEngine | HtWebzUtility & globalThis}
+ * @param {FunctionConstructor | Function} API_OP
+ * @returns {void}
+ */
+HtWebzCore.NewAPI_OpCode = function(HtWebzAPI_Library = HtWebzEngine, API_OP) {
+    /**
+     * 
+     * 
+     * @returns {void}
+     */
+    function Check_API_LibraryExists(RequestedAPI) {
+        if (RequestedAPI !== null) {
+
+        } else {
+            console.error("");
+        }
+    }
+
+    if (HtWebzAPI_Library !== undefined && (HtWebzAPI_Library instanceof HtWebzEngine || HtWebzAPI_Library instanceof HtWebzUtility)) {
+
+    } else {
+         
+    }
+}
 
 class _Registered_HTMLScriptElement {
     /**
@@ -124,4 +160,3 @@ HtWebzEngine.debug = function(...RequestedDebugMessage) {
         console.groupEnd();
     }
 }
-
