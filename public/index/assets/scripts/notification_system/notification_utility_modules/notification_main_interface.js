@@ -359,7 +359,7 @@ class UserNotification {
                 }
             }).then(async (AudioBuffer) => {
                 SoundBuffer = AudioBuffer;
-
+                // 
                 let SoundBufferSource = this.NotificationAudioContext.createBufferSource();
                 SoundBufferSource.buffer = SoundBuffer;
                 SoundBufferSource.connect(this.NotificationAudioContext.destination);
@@ -379,7 +379,16 @@ class UserNotification {
     }
 
     /**
+     * ---
+     * Removes the Notification from the client interface.
+     *   
+     * ---
+     * **TODO:**  
+     * Remove notification data from the users **Cloud Protocol Storage**;  
+     * Once the initial cloud data system is created on backend, and the DeployNotification `Function`  
+     * .
      * 
+     * ---
      * @returns {void}
      * @public
      */
@@ -409,14 +418,16 @@ class UserNotification {
             console.debug(`%cBuilding Notification Object...`, 'color: magenta;');
             if (this.hasMessageData() === true) {
                 this.FormatedNotificationClassName = new String(this.message.replaceAll(" ", "-").toLowerCase());
+                // Create a _safe_ class **ONCE**
+                this.safeClass = this.message
+                    .toLowerCase()
+                    .replace(String(new RegExp(/[^a-z0-9_-]/gi).source), "-")
+                    .trim().toString() ?? undefined;
             } else {
                 throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
-                    cause: new String(
-                        `
-                        \nNotification Instancer was not provided a Notification message from the beginning.
-                        \nWas Message Data Available?:\t${this.hasMessageData().valueOf()}
-                        `.normalize("NFC").trimEnd()
-                    )
+                    cause: new String(`
+                    \nNotification Instancer was not provided a Notification message from the beginning.
+                    \nWas Message Data Available?:\t${this.hasMessageData().valueOf()}`).normalize("NFC").trimEnd()
                 });
             }
 
@@ -443,10 +454,9 @@ class UserNotification {
                 // Helper for adding remove notification tooltip
                 //
                 // 
-                await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", document).then(() => {
+                await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", document).then((CancelNotifiationElement) => {
                     // Fetch cancel notification button
-                    const CancelNotificationBtn = this.notification.querySelector(".cancel-notification");
-                    // 
+                    const CancelNotificationBtn = CancelNotifiationElement instanceof HTMLElement ? CancelNotifiationElement : null;
                     if (CancelNotificationBtn !== null && CancelNotificationBtn instanceof HTMLButtonElement) {
                         if (CancelNotificationBtn.getAttribute("onmouseenter") === null) {
                             CancelNotificationBtn.setAttribute("onmouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}.notifiation-header.cancel-notification", "Delete notification?");`);
@@ -455,7 +465,7 @@ class UserNotification {
                             self.console.warn(`\nTooltip for notification already exists!\nNotification Content:\t${this.hasMessageData() ? this.message : "(empty)"}`);
                         }
                     }
-                }).catch(() => {
+                }).finally(() => {
 
                 });
             });
@@ -540,12 +550,6 @@ class UserNotification {
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
 
                     return HtWebzAPIs.HtWebzUtility.waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
-                        // Create a safe class ONCE
-                        const safeClass = this.message
-                            .toLowerCase()
-                            .trim()
-                            .replace(/[^a-z0-9_-]/gi, "-");
-
                         // Add ONLY the safe class
                         this.notification.classList.add(this.safeClass);
 
@@ -556,7 +560,7 @@ class UserNotification {
                         NotificationDeploymentSuccessful =
                             this.notification.classList.contains("NotificationDeployed");
 
-                        // Scan notifications (clean version)
+                        // Scan notifications (simplified version)
                         CurrentNotifications = Array.from(NotifyList.children)
                             .filter(node => node instanceof HTMLDivElement);
                         
