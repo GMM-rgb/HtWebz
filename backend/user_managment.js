@@ -3,56 +3,87 @@ const picocolors = require('picocolors');
 
 let CurrentUsersOnline = {};
 
-function UserManagmentLogger(message) {
+function UserManagementLogger(message, level = 'info') {
   const CurrentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const lower = message.toLowerCase();
 
-  if (lower.includes("disconnected:")) {
-    console.log(
-      `${picocolors.bgRed("[UserManagment]:")}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`
-    );
+  let prefix;
+  if (level === 'error') {
+    prefix = picocolors.bgRed("[UserManagement]:");
+  } else if (level === 'warn') {
+    prefix = picocolors.bgYellow("[UserManagement]:");
+  } else if (lower.includes("disconnected:")) {
+    prefix = picocolors.bgRed("[UserManagement]:");
   } else if (lower.includes("connected:")) {
-    console.log(
-      `${picocolors.bgGreen("[UserManagment]:")}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`
-    );
+    prefix = picocolors.bgGreen("[UserManagement]:");
   } else {
-    console.log(
-      `${picocolors.bgBlue("[UserManagment]:")}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`
-    );
+    prefix = picocolors.bgBlue("[UserManagement]:");
   }
+
+  console.log(`${prefix}\t${picocolors.bgBlack(`[${CurrentTime}] ${message}`)}`);
 }
 
-// Generate Anonymous Guest User with random ID separated by underscore
 function generateGuestUserID() {
   const randomID = Math.random().toString(36).substring(2, 10);
   return `Guest_${randomID}`;
 }
 
-// Hook into socket connections to manage guest lifecycle
 function attachSocketHandlers(io) {
-  io.on('connection', async (socket) => {
-    (socket || io).on('registerGuest', (data) => {
-      let guestID = data.guestID;
+  io.on('connection', (socket) => {
+    UserManagementLogger(`Socket connected: ${socket.id}`);
 
-      if (!guestID || !CurrentUsersOnline[guestID]) {
-        // Generate new guest if none provided
-        guestID = generateGuestUserID();
-      }
-
-      // Default to guest unless they’ve registered
-      const userType = guestID.startsWith('Guest_') ? 'guest' : 'registered';
-
-      CurrentUsersOnline[guestID] = { type: userType, connectedAt: Date.now() };
-      UserManagmentLogger(`${userType} connected: ${guestID}`);
-
-      // Send ID and type back to client
-      (socket || io).emit('welcome', { guestID, type: userType });
-
-      (socket || io).on('disconnect', () => {
-        delete CurrentUsersOnline[guestID];
-        UserManagmentLogger(`${userType} disconnected: ${guestID}`);
-      });
+    // Handle connect_error on the io level
+    socket.on('connect_error', (err) => {
+      UserManagementLogger(`Connection error on socket ${socket.id}: ${err.message}`, 'error');
     });
+
+    socket.on('registerGuest', (data) => {
+      try {
+        // Validate data shape
+        if (!data || typeof data !== 'object') {
+          UserManagementLogger(`Invalid registerGuest payload from ${socket.id}`, 'warn');
+          socket.emit('error', { message: 'Invalid registration payload.' });
+          return;
+        }
+
+        let guestID = data.guestID;
+
+        if (!guestID || !CurrentUsersOnline[guestID]) {
+          guestID = generateGuestUserID();
+        }
+
+        const userType = guestID.startsWith('Guest_') ? 'guest' : 'registered';
+
+        CurrentUsersOnline[guestID] = {
+          type: userType,
+          socketID: socket.id, // useful for debugging who is who
+          connectedAt: Date.now()
+        };
+
+        UserManagementLogger(`${userType} connected: ${guestID}`);
+        socket.emit('welcome', { guestID, type: userType });
+
+        socket.on('disconnect', (reason) => {
+          delete CurrentUsersOnline[guestID];
+          // reason tells us WHY they disconnected — very useful
+          UserManagementLogger(`${userType} disconnected: ${guestID} — reason: ${reason}`);
+        });
+
+      } catch (err) {
+        UserManagementLogger(`Unexpected error during registerGuest: ${err.message}`, 'error');
+        socket.emit('error', { message: 'Internal server error during registration.' });
+      }
+    });
+
+    // Catch any unhandled errors on the socket itself
+    socket.on('error', (err) => {
+      UserManagementLogger(`Socket error on ${socket.id}: ${err.message}`, 'error');
+    });
+  });
+
+  // Top level IO error — server-wide connection issues
+  io.on('connect_error', (err) => {
+    UserManagementLogger(`IO-level connection error: ${err.message}`, 'error');
   });
 }
 
@@ -60,20 +91,38 @@ module.exports = {
   CurrentNumberOfUsersOnline: () => Object.keys(CurrentUsersOnline).length,
 
   getAccountStatus: (req, res) => {
-    res.json({ onlineUsers: Object.keys(CurrentUsersOnline).length });
+    try {
+      res.json({ onlineUsers: Object.keys(CurrentUsersOnline).length });
+    } catch (err) {
+      UserManagementLogger(`getAccountStatus failed: ${err.message}`, 'error');
+      res.status(500).json({ success: false, message: 'Failed to get account status.' });
+    }
   },
 
   usersAccountDataFetch: (req, res) => {
-    res.json({ users: CurrentUsersOnline });
+    try {
+      res.json({ users: CurrentUsersOnline });
+    } catch (err) {
+      UserManagementLogger(`usersAccountDataFetch failed: ${err.message}`, 'error');
+      res.status(500).json({ success: false, message: 'Failed to fetch user data.' });
+    }
   },
 
   registerAccount: (req, res) => {
-    const { username } = req.body;
-    if (username) {
+    try {
+      const { username } = req.body;
+      if (!username || typeof username !== 'string') {
+        UserManagementLogger(`registerAccount called with invalid username`, 'warn');
+        return res.status(400).json({ success: false, message: 'Valid username is required.' });
+      }
+
       CurrentUsersOnline[username] = { type: 'registered', connectedAt: Date.now() };
+      UserManagementLogger(`Account registered: ${username}`);
       res.json({ success: true, message: `User ${username} registered.` });
-    } else {
-      res.json({ success: false, message: 'Username is required.' });
+
+    } catch (err) {
+      UserManagementLogger(`registerAccount failed: ${err.message}`, 'error');
+      res.status(500).json({ success: false, message: 'Internal server error during registration.' });
     }
   },
 
