@@ -34,6 +34,7 @@ globalThis.HtWebzEngine = new Object({}).valueOf();
  * @type {HtWebzUtility & globalThis}
  */
 globalThis.HtWebzUtility = new Object({}).valueOf();
+globalThis.HtWebzAccountUtils = new Object({}).valueOf();
 globalThis.HtWebzCore = new Object({}).valueOf();
 
 /**
