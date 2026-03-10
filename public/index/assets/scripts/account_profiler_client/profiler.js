@@ -17,10 +17,10 @@ for (const src of Object.values(IMAGE_PATHS)) {
 
 window.addEventListener('DOMContentLoaded', () => {
     UserAccountProfilePicture = document.getElementById('accountExpandIcon');
-    WelcomeMainContentTitle    = document.getElementById('pinnedContentTitle');
+    WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
 
-    if (WelcomeMainContentTitle)    WelcomeMainContentTitle.textContent = 'Welcome...';
-    if (UserAccountProfilePicture)  UserAccountProfilePicture.src = IMAGE_PATHS.loading;
+    if (WelcomeMainContentTitle) WelcomeMainContentTitle.textContent = 'Welcome...';
+    if (UserAccountProfilePicture) UserAccountProfilePicture.src = IMAGE_PATHS.loading;
 
     attachSocketClientConnections();
 }, { once: true });
