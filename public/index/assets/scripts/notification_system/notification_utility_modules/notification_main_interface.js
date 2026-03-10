@@ -385,8 +385,8 @@ class UserNotification {
      * ---
      * **TODO:**  
      * Remove notification data from the users **Cloud Protocol Storage**;  
-     * Once the initial cloud data system is created on backend, and the DeployNotification `Function`  
-     * .
+     * Once the initial cloud data system is created on backend, including the DeployNotification `Function`  
+     * which needs to upload the notification to the server cloud.
      * 
      * ---
      * @returns {void}
