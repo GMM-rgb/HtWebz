@@ -5,5 +5,5 @@ const TestMessages = ["test", "hello world", "hi world"];
 const NotifyTestBtn = document.querySelector(".notification-test-btn");
 // 
 NotifyTestBtn.addEventListener("click", () => {
-    HtWebzEngine.DeployNewNotification(TestMessages[Math.ceil(Math.random() * Math.floor(TestMessages.length)) - 1], "Notification Test");
+    HtWebzAPIs.HtWebzEngine.DeployNewNotification(TestMessages[Math.ceil(Math.random() * Math.floor(TestMessages.length)) - 1], "Notification Test");
 });

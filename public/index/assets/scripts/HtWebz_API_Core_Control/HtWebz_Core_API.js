@@ -10,61 +10,71 @@ if (typeof importScripts === "function") {
     });
 }
 
-if (!URL) import("../window_scope_definitions");
+if ((!URL && !this.window)) import("../window_scope_definitions");
 
 // HtWebz Global Namespace(s) JavaScript Declaration
-/**
- * ---
- * 
- * `HtWebzEngine`  
- * 
- * ---
- * 
- * *HtWebz* ****core**** API
- * 
- * ---
- * @type {HtWebzEngine & globalThis}
- * 
- */
-globalThis.HtWebzEngine = new Object({}).valueOf();
-/**
- * 
- * 
- * ---
- * @type {HtWebzUtility & globalThis}
- */
-globalThis.HtWebzUtility = new Object({}).valueOf();
-globalThis.HtWebzAccountClientManagment = new Object({}).valueOf();
-globalThis.HtWebzCore = new Object({}).valueOf();
-
-/**
- * 
- * 
- * @name NewAPI_OpCode
- * @param {HtWebzEngine | HtWebzUtility & globalThis}
- * @param {FunctionConstructor | Function} API_OP
- * @returns {void}
- */
-HtWebzCore.NewAPI_OpCode = function(HtWebzAPI_Library = HtWebzEngine, API_OP) {
+globalThis.HtWebzAPIs = {
+    /**
+     * ---
+     * 
+     * `HtWebzEngine`  
+     * 
+     * ---
+     * 
+     * *HtWebz*'s **core interface** API.
+     * 
+     * ---
+     * @type {HtWebzAPIs.HtWebzEngine & typeof globalThis}
+     * 
+     */
+    HtWebzEngine: new Object({}).valueOf(),
     /**
      * 
      * 
-     * @returns {void}
+     * ---
+     * @type {HtWebzAPIs.HtWebzUtility & typeof globalThis}
      */
-    function Check_API_LibraryExists(RequestedAPI) {
-        if (RequestedAPI !== null) {
+    HtWebzUtility: new Object({}).valueOf(),
+};
 
-        } else {
-            console.error("");
-        }
-    }
+// Extra HtWebz APIs
+// (seperated from the `HtWebzAPIs` namepsace)
+/**
+ * 
+ * 
+ * ---
+ * 
+ */
+globalThis.HtWebzAccountClientManagment = new Object({}).valueOf();
 
-    if (HtWebzAPI_Library !== undefined && (HtWebzAPI_Library instanceof HtWebzEngine || HtWebzAPI_Library instanceof HtWebzUtility)) {
+// /**
+//  * 
+//  * 
+//  * @name NewAPI_OpCode
+//  * @param {HtWebzEngine | HtWebzUtility & globalThis}
+//  * @param {FunctionConstructor | Function} API_OP
+//  * @returns {void}
+//  */
+// HtWebzCore.NewAPI_OpCode = function(HtWebzAPI_Library = HtWebzEngine, API_OP) {
+//     /**
+//      * 
+//      * 
+//      * @returns {void}
+//      */
+//     function Check_API_LibraryExists(RequestedAPI) {
+//         if (RequestedAPI !== null) {
 
-    } else {
+//         } else {
+//             console.error("");
+//         }
+//     }
+
+//     if (HtWebzAPI_Library !== undefined && (HtWebzAPI_Library instanceof HtWebzEngine || HtWebzAPI_Library instanceof HtWebzUtility)) {
+
+//     } else {
          
-    }
-}
+//     }
+// }
 
 class _Registered_HTMLScriptElement {
     /**
@@ -102,7 +112,7 @@ class RegisteredScript extends _Registered_HTMLScriptElement {
  * @returns {void}
  * 
  */
-HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceURL) {
+HtWebzAPIs.HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceURL) {
     if (ScriptSourceURL != null && typeof(ScriptSourceURL) === "string") {
         try {
             /**
@@ -147,7 +157,7 @@ HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceU
  * @returns {void}
  * 
  */
-HtWebzEngine.debug = function(...RequestedDebugMessage) {
+HtWebzAPIs.HtWebzEngine.debug = function(...RequestedDebugMessage) {
     if (RequestedDebugMessage != null) {
         RequestedDebugMessage.concat(["[HtWebz]:\t"]);
         const MessageContent = RequestedDebugMessage.copyWithin(

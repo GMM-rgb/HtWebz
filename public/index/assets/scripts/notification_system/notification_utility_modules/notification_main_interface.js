@@ -4,14 +4,14 @@
 const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
 
 /**
- * Waits for an element to appear in the DOM.
+ * Waits for an element to appear in the DOM hierarchy tree.
  * @template {HTMLElement} WaitTemplate
  * @name waitForElement
  * @param {string} selector
  * @param {ParentNode} [root=document]
  * @returns {Promise<WaitTemplate>}
  */
-HtWebzUtility.waitForElement = function(selector, root = document) {
+HtWebzAPIs.HtWebzUtility.waitForElement = function(selector, root = document) {
     return new Promise(resolve => {
         // Check immediately
         const el = root.querySelector(selector);
@@ -44,7 +44,7 @@ class NotificationInstancerData {
     static NotificationInnerContentsTemplate = `
         <div class="notification-header">
             <label class="notification-label">...</label>
-            <button class="cancel-notification" onmouseenter='setupTooltip(".cancel-notification", "Remove Notification?")'><img width="20" height="20" src="./index/assets/images/x-png-35400.png" /></button>
+            <button class="cancel-notification"><img width="20" height="20" src="./index/assets/images/x-png-35400.png" /></button>
         </div>
         <!-- Notification Message Text -->
         <span class="notification-message"></span>
@@ -432,13 +432,27 @@ class UserNotification {
                     if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
                         this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
                         NotificationTextSpan = this.notification.querySelector("span");
-                        if (!(NotificationTextSpan.innerHTML.length > 0)) {
+                        if (!(Math.ceil(NotificationTextSpan.innerHTML.length) > 0) || NotificationTextSpan.textContent.length <= 0) {
                             NotificationTextSpan.innerHTML = this.message.toString();
                         }
                     }
                 }
             })().then(() => {
                 console.debug(`%cSuccessfully ported notifcation interface content.`, 'color: magenta;');
+            }).finally(async () => {
+                // Helper for adding remove notification tooltip
+                //
+                // 
+                await HtWebzUtility.waitForElement(".cancel-notification", document).then(() => {
+                    // Fetch cancel notification button
+                    const CancelNotificationBtn = this.notification.querySelector(".cancel-notification");
+                    // 
+                    if (CancelNotificationBtn !== null && CancelNotificationBtn instanceof HTMLButtonElement) {
+                        
+                    }
+                }).catch(() => {
+
+                });
             });
 
             // Notification Header Label

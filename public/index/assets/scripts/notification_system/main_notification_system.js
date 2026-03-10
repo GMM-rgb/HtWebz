@@ -71,4 +71,4 @@ window.onload = async () => {
     ListInstancer.AppendNotificationList(undefined, true);
 }
 
-HtWebzEngine.DeployNewNotification = NotificationClient.DeployNewNotification ?? (undefined || null);
+HtWebzAPIs.HtWebzEngine.DeployNewNotification = NotificationClient.DeployNewNotification ?? (undefined || null);
