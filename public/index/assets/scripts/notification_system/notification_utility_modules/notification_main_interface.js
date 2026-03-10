@@ -448,11 +448,11 @@ class UserNotification {
                     const CancelNotificationBtn = this.notification.querySelector(".cancel-notification");
                     // 
                     if (CancelNotificationBtn !== null && CancelNotificationBtn instanceof HTMLButtonElement) {
-                        if (CancelNotificationBtn.getAttribute("mouseenter") === null) {
-                            CancelNotificationBtn.setAttribute("mouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}.notifiation-header.cancel-notification", "Delete notification?");`);
+                        if (CancelNotificationBtn.getAttribute("onmouseenter") === null) {
+                            CancelNotificationBtn.setAttribute("onmouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}.notifiation-header.cancel-notification", "Delete notification?");`);
                         } else {
                             // incase the attribute already exists
-
+                            self.console.warn(`\nTooltip for notification already exists!\nNotification Content:\t${this.hasMessageData() ? this.message : "(empty)"}`);
                         }
                     }
                 }).catch(() => {
