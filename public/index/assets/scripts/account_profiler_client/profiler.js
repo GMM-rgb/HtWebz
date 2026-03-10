@@ -1,120 +1,130 @@
-let AccountCookie = null;
-let UserAccountProfilePicture, WelcomeMainContentTitle;
+let AccountCookies = {};
+/** @type {HTMLImageElement | null} */
+let UserAccountProfilePicture = null;
+/** @type {HTMLHeadingElement | null} */
+let WelcomeMainContentTitle = null;
 
-function UpdateUserGeustBool(isGeust) {
-    if (isGeust === null || !(isGeust instanceof Boolean)) return;
-    
+const IMAGE_PATHS = {
+    loading: 'index/assets/images/load_icon_5649.gif',
+    failure: 'index/assets/images/icon_loading_failure.svg',
+    defaultAvatar: 'index/assets/images/avatardefault_92824.png',
+};
+
+// Preload immediately, parallel, no blocking
+for (const src of Object.values(IMAGE_PATHS)) {
+    new Image().src = src;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     UserAccountProfilePicture = document.getElementById('accountExpandIcon');
-    WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
-    // (async () => {
-    //     AccountCookie = await cookieStore.set("AccountToken");
-    // })();
+    WelcomeMainContentTitle    = document.getElementById('pinnedContentTitle');
+
+    if (WelcomeMainContentTitle)    WelcomeMainContentTitle.textContent = 'Welcome...';
+    if (UserAccountProfilePicture)  UserAccountProfilePicture.src = IMAGE_PATHS.loading;
+
+    attachSocketClientConnections();
 }, { once: true });
 
-async function AtatchSocketClientConnections() {
-    const MaxRetryAttempts = 5;
-    let CurrentRetryAttempt = 0;
-    return new Promise(ResolveAttatch => {
-        if (UserAccountProfilePicture == null || WelcomeMainContentTitle === null) {
-            CurrentRetryAttempt = Math.ceil(Math.abs(CurrentRetryAttempt + 1));
-            (ResolveAttatch && typeof(ResolveAttatch) === "function") ? ResolveAttatch() : null;
-        }
+function attachSocketClientConnections() {
+    if (!UserAccountProfilePicture || !WelcomeMainContentTitle) {
+        console.warn('DOM elements missing, aborting.');
+        return;
+    }
 
-        socket.on('connect', async () => {
-            let storedAccountToken = null;
-            const storedGuestID = localStorage.getItem('guestID');
-            if (storedGuestID || storedGuestID === null || storedAccountToken === null) {
-                console.log("Registering as geust..." + `\tID: ${storedGuestID}`);
-                socket.emit('registerGuest', { guestID: storedGuestID });
-            } else {
-                console.log("Did not register as geust.");
-                return;
-            }
-        });
+    // if socket is already connected, register immediately
+    // instead of waiting for 'connect' to fire (it won't fire again)
+    if (socket.connected) {
+        console.log('Socket already connected, registering immediately.');
+        registerUser();
+    }
 
-        function swapWithLoading(finalURL) {
-            if (!UserAccountProfilePicture) return;
-
-            // show loading gif immediately
-            requestAnimationFrame(() => { UserAccountProfilePicture.src = 'index/assets/images/load_icon_5649.gif'; });
-
-            // preload the final image
-            const img = new Image();
-            (async () => {
-                (() => {
-                    img.onwaiting = () => {
-                        console.log("Loading profile icon...");
-                    }
-                })();
-                await fetch('index/assets/images/load_icon_5649.gif').then(async () => {
-                    await fetch('index/assets/images/icon_loading_failure.svg').then(async () => {
-                        await fetch('index/assets/images/avatardefault_92824.png');
-                    });
-                });
-            })();
-
-            const timeoutId = setTimeout(async () => {
-                console.warn("Image load timed out, falling back to failure icon.");
-                UserAccountProfilePicture.src = (await fetch('index/assets/images/icon_loading_failure.svg')).url;
-            }, 2500); // 2.5s timeout for Loading time set
-
-            img.onload = () => {
-                clearTimeout(timeoutId); // Clear the timeout to prevent fallback from continueing
-                setTimeout(() => {
-                    UserAccountProfilePicture.classList.add('fade-in');
-                    UserAccountProfilePicture.src = finalURL;
-                    UserAccountProfilePicture.addEventListener('animationend', () => {
-                        UserAccountProfilePicture.classList.remove('fade-in');
-                    }, { once: true, passive: true });
-                }, Math.random() * 750 + 500);
-            };
-
-            img.onerror = async () => {
-                clearTimeout(timeoutId);
-                console.warn("Failed to load profile image, falling back to default.");
-                UserAccountProfilePicture.src = (await fetch('index/assets/images/icon_loading_failure.svg')).url;
-            };
-
-            img.src = finalURL;
-        }
-
-        socket.on('welcome', async (data) => {
-            localStorage.setItem('guestID', data.guestID);
-            console.log("User has been registered as a temporary Geust Account.");
-            let FormatedUserName = null;
-            function TrimUserID() {
-                /**
-                 * @type {string?}
-                 */
-                const GeustID = data.guestID;
-                const Normalized = GeustID.replace("_", " ");
-                const SlicedString = Normalized.split(" ");
-                const UserID = SlicedString[SlicedString.length - 1].toString();
-                FormatedUserName = Normalized.replace(" " + UserID, "").toString().trimStart();
-                // console.log(SlicedString);
-                // console.log(UserID);
-                // console.log(FormatedUserName);
-                if (FormatedUserName !== null && (typeof FormatedUserName === "string")) console.log(`%cTrimmed Username ID successfully.`, 'color: lime;');
-            }
-            TrimUserID();
-
-            if (data.type === "guest") {
-                console.log('User is a guest.');
-                if (WelcomeMainContentTitle) {
-                    WelcomeMainContentTitle.textContent = `Welcome ${FormatedUserName || data.guestID}`;
-                }
-                swapWithLoading('index/assets/images/avatardefault_92824.png');
-            } else if (data.type === "registered") {
-                console.log('User is registered.');
-                if (typeof data.profilePictureURL === 'string') {
-                    swapWithLoading(data.profilePictureURL);
-                }
-            }
-        });
-    }).then(() => {
-
+    // Still listen for future connects (page load before socket ready, or reconnects)
+    socket.on('connect', () => {
+        console.log('Socket connected, registering...');
+        registerUser();
     });
+
+    // If the socket drops and comes back, re-register automatically
+    socket.on('reconnect', () => {
+        console.log('Socket reconnected, re-registering...');
+        registerUser();
+    });
+
+    socket.on('disconnect', (reason) => {
+        console.warn(`Socket disconnected: ${reason}`);
+        if (WelcomeMainContentTitle) {
+            WelcomeMainContentTitle.textContent = 'Reconnecting...';
+        }
+    });
+
+    socket.on('connect_error', (err) => {
+        console.error('Connection error:', err.message);
+        if (WelcomeMainContentTitle) {
+            WelcomeMainContentTitle.textContent = 'Connection failed. Retrying...';
+        }
+    });
+
+    socket.on('welcome', (data) => {
+        localStorage.setItem('guestID', data.guestID);
+
+        const formattedName = formatGuestName(data.guestID);
+
+        if (data.type === 'guest') {
+            WelcomeMainContentTitle.textContent = `Welcome ${formattedName || data.guestID}`;
+            swapProfilePicture(IMAGE_PATHS.defaultAvatar);
+        } else if (data.type === 'registered') {
+            WelcomeMainContentTitle.textContent = `Welcome back, ${formattedName || 'User'}`;
+            if (typeof data.profilePictureURL === 'string') {
+                swapProfilePicture(data.profilePictureURL);
+            }
+        }
+    });
+}
+
+function registerUser() {
+    const storedGuestID = localStorage.getItem('guestID');
+    const storedAccountToken = localStorage.getItem('accountToken');
+
+    if (!storedAccountToken) {
+        console.log(`Registering as guest... ID: ${storedGuestID}`);
+        socket.emit('registerGuest', { guestID: storedGuestID });
+    } else {
+        console.log('Registering as account user...');
+        socket.emit('registerAccount', { token: storedAccountToken });
+    }
+}
+
+function formatGuestName(guestID) {
+    if (!guestID || typeof guestID !== 'string') return null;
+    const parts = guestID.replace('_', ' ').split(' ');
+    parts.pop(); // remove trailing numeric ID
+    return parts.join(' ').trim() || null;
+}
+
+function swapProfilePicture(finalURL) {
+    if (!UserAccountProfilePicture) return;
+
+    const img = new Image();
+
+    const timeoutId = setTimeout(() => {
+        console.warn('Image load timed out.');
+        UserAccountProfilePicture.src = IMAGE_PATHS.failure;
+    }, 2500);
+
+    img.onload = () => {
+        clearTimeout(timeoutId);
+        UserAccountProfilePicture.classList.add('fade-in');
+        UserAccountProfilePicture.src = finalURL;
+        UserAccountProfilePicture.addEventListener('animationend', () => {
+            UserAccountProfilePicture.classList.remove('fade-in');
+        }, { once: true, passive: true });
+    };
+
+    img.onerror = () => {
+        clearTimeout(timeoutId);
+        console.warn('Failed to load profile image.');
+        UserAccountProfilePicture.src = IMAGE_PATHS.failure;
+    };
+
+    img.src = finalURL;
 }

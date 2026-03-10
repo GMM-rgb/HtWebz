@@ -335,8 +335,13 @@ class UserNotification {
              * @type {AudioBuffer?}
              */
             let SoundBuffer = null;
+            /**
+             * 
+             * 
+             * @type {ArrayBuffer}
+             */
+            let SoundArrayBuffer = null;
 
-            let SoundArrayBuffer;
             if (!this.SoundFile || !(this.SoundFile instanceof globalThis.Response)) {
                 this.SoundFile = await fetch("index/assets/audio/page-forward.wav", /*new Request()*/).then((file) => {
                     console.debug("%cFetched Notification Audio.", 'color: lime;');
@@ -387,7 +392,7 @@ class UserNotification {
         this.notification.remove();
 
         console.debug(
-            `%cSuccessfully %cDECONSTRUCTED %cNotification.\nNotification's Message:\t${this.message}`,
+            `%cSuccessfully %cDECONSTRUCTED %cNotification.\nMessage:\t${this.message}`,
             'color: lime;',
             'color: lime; font-weight: bold;',
             'color: lime;'
