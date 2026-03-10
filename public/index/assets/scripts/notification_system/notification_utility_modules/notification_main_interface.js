@@ -449,10 +449,10 @@ class UserNotification {
                     // 
                     if (CancelNotificationBtn !== null && CancelNotificationBtn instanceof HTMLButtonElement) {
                         if (CancelNotificationBtn.getAttribute("mouseenter") === null) {
-                            CancelNotificationBtn.setAttribute("mouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}", "Delete notification?");`);
+                            CancelNotificationBtn.setAttribute("mouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}.notifiation-header.cancel-notification", "Delete notification?");`);
                         } else {
                             // incase the attribute already exists
-                            
+
                         }
                     }
                 }).catch(() => {
