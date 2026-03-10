@@ -448,7 +448,12 @@ class UserNotification {
                     const CancelNotificationBtn = this.notification.querySelector(".cancel-notification");
                     // 
                     if (CancelNotificationBtn !== null && CancelNotificationBtn instanceof HTMLButtonElement) {
-                        
+                        if (CancelNotificationBtn.getAttribute("mouseenter") === null) {
+                            CancelNotificationBtn.setAttribute("mouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}", "Delete notification?");`);
+                        } else {
+                            // incase the attribute already exists
+                            
+                        }
                     }
                 }).catch(() => {
 
@@ -534,7 +539,7 @@ class UserNotification {
                     const NotificationList = UserInterfaceFlexBar.querySelector("#UserNotificationListInterface");
                     this.notification.classList.add("NotificationDeployed"); // apply deployed classlist to the notification
 
-                    return HtWebzUtility.waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
+                    return HtWebzAPIs.HtWebzUtility.waitForElement("#UserNotificationListInterface", UserInterfaceFlexBar).then(NotifyList => {
                         // Create a safe class ONCE
                         const safeClass = this.message
                             .toLowerCase()

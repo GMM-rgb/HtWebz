@@ -1,10 +1,14 @@
 declare abstract class ServerCoreDeclarations {
-    static LogServerProcessing(): void;
+    abstract static LogServerProcessing(): void;
 }
 
+declare const CoreLiterals = {
+    LogServerProcessing: ServerCoreDeclarations.LogServerProcessing as Function,
+};
+
 declare const ServerCoreLiteral = new Object({
-    ServerCoreDeclarations,
-}).valueOf() ?? <any>{};
+    CoreLiterals,
+}).valueOf() ?? null;
 
 /**
  * ---
