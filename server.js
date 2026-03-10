@@ -10,6 +10,8 @@ const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
 // Critical Project Modules
 const AutoUpdater = require('./backend/mainifest_server_auto_update');
+// Core Resource Modules
+const ServerCore = require("./backend/core/HtWebz_server_core");
 // External Modules
 const UserManagmentModule = require('./backend/user_managment');
 const DataStoreModle = require('./backend/datastore_backend_system');

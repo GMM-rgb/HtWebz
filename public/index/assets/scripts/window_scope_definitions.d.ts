@@ -1,3 +1,5 @@
+// Author: Maximus F.
+//
 // scope_definitions.d.ts
 //
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
@@ -6,6 +8,10 @@ import * as NotifyUtility from "./notification_system/notification_utility_modul
 declare type WaitTemplate = HTMLElement;
 
 export declare global {
+    /**
+     * ---
+     * 
+     */
     export interface HtWebzEngine {
         /**
          * 
@@ -24,6 +30,10 @@ export declare global {
         debug: (RequestedDebugMessage?: string[]) => {};
     }
     
+    /**
+     * ---
+     * 
+     */
     export interface HtWebzUtility {
         /**
          * 
@@ -32,6 +42,14 @@ export declare global {
          * @returns 
          */
         waitForElement: (selector: string, root:ParentNode=Document) => Promise<WaitTemplate>;
+    }
+
+    /**
+     * ---
+     * 
+     */
+    export interface HtWebzCore {
+        
     }
 }
 
