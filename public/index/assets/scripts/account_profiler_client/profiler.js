@@ -97,7 +97,7 @@ function registerUser() {
 function formatGuestName(guestID) {
     if (!guestID || typeof guestID !== 'string') return null;
     const parts = guestID.replace('_', ' ').split(' ');
-    parts.pop(); // remove trailing numeric ID
+    parts.pop(); // remove *trailing* numeric ID
     return parts.join(' ').trim() || null;
 }
 
