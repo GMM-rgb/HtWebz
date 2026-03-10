@@ -1,10 +1,10 @@
-abstract class ServerCoreDeclarations {
-    
+declare abstract class ServerCoreDeclarations {
+    static LogServerProcessing(): void;
 }
 
-const ServerCoreLiteral = new Object({
+declare const ServerCoreLiteral = new Object({
     ServerCoreDeclarations,
-}).valueOf();
+}).valueOf() ?? <any>{};
 
 /**
  * ---
