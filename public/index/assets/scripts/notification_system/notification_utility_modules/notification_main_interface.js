@@ -443,7 +443,7 @@ class UserNotification {
                 // Helper for adding remove notification tooltip
                 //
                 // 
-                await HtWebzUtility.waitForElement(".cancel-notification", document).then(() => {
+                await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", document).then(() => {
                     // Fetch cancel notification button
                     const CancelNotificationBtn = this.notification.querySelector(".cancel-notification");
                     // 
