@@ -12,7 +12,7 @@ if (typeof importScripts === "function") {
 
 if ((!URL && !this.window)) import("../window_scope_definitions");
 
-// HtWebz Global Namespace(s) JavaScript Declaration
+// HtWebz Gl uhobal Namespace(s) JavaScript Declaration
 globalThis.HtWebzAPIs = {
     /**
      * ---
@@ -24,7 +24,7 @@ globalThis.HtWebzAPIs = {
      * *HtWebz*'s **core interface** API.
      * 
      * ---
-     * @type {HtWebzAPIs.HtWebzEngine & typeof globalThis}
+     * @type {(HtWebzAPIs.HtWebzEngine | symbol) & typeof globalThis}
      * 
      */
     HtWebzEngine: new Object({}).valueOf(),
@@ -32,20 +32,55 @@ globalThis.HtWebzAPIs = {
      * 
      * 
      * ---
-     * @type {HtWebzAPIs.HtWebzUtility & typeof globalThis}
+     * @type {(HtWebzAPIs.HtWebzUtility | symbol) & typeof globalThis}
      */
     HtWebzUtility: new Object({}).valueOf(),
 };
 
-// Extra HtWebz APIs
-// (seperated from the `HtWebzAPIs` namepsace)
+// Extra; Type Reference Definitions
+//
 /**
- * 
+ * @typedef {typeof Function.prototype} BandwidthAccountCommunication
+ */
+//
+// Extra HtWebz APIs
+/**
+ * ---
+ * __HtWebzAPI:__ *HtWebzAccountManager*
  * 
  * ---
+ * The AccountManagment `HtWebzAPI` is used in the codebase feild for
+ * *controlling/maintaining* connection & stability to the server.  
+ * Following `HtWebzAPI` includes:  
  * 
+ * ---
+ * @public
+ * @global
+ * @type {HtWebzAccountManager}
  */
-globalThis.HtWebzAccountClientManagment = new Object({}).valueOf();
+globalThis.HtWebzAccountManager = {
+   AccountServerCommunication: new Object({
+        /**
+         * ---
+         * ...
+         * 
+         * ---
+         * @public
+         * @param {any} NewProtocolData
+         * @returns {void}
+         */
+        UpdateAccountProtocolDataWith: (NewProtocolData) => {
+            return new Promise(() => {
+                if (NewProtocolData !== null && NewProtocolData instanceof Object) {
+                    const NewTargetData = (NewProtocolData ?? undefined) ?? null;
+                    socket.emitWithAck("account_protocol_data_update");
+                } else {
+
+                }
+            });
+        }
+   }).valueOf(),
+};
 
 // /**
 //  * 
