@@ -421,7 +421,7 @@ class UserNotification {
                 // Create a _safe_ class **ONCE**
                 this.safeClass = this.message
                     .toLowerCase()
-                    .replace(/[^a-z0-9_-]/gi, "-")
+                    .replace(new RegExp(/[^a-z0-9_-]/gi), "-")
                     .trim().toString() ?? undefined;
             } else {
                 throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
