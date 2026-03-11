@@ -72,6 +72,11 @@ class UserNotification {
     constructor(NotificationMessage, NotificationLabelText, AutoRemovalDuration) {
         /**
          * 
+         * @type {boolean}
+         */
+        this.ListeningForTooltip = false;
+        /**
+         * 
          * @type {HTMLElement?}
          */
         this.notification = null;
@@ -101,6 +106,11 @@ class UserNotification {
          * @type {Number}
          */
         this.RemovalCountdown = Math.ceil(new Number(Math.abs(AutoRemovalDuration) * 1000) || 0);
+        /**
+         * 
+         * @type {HTMLButtonElement?}
+         */
+        this.CancelNotificationBtn = null;
     }
 
     // Private local variables; only accessible by the process
@@ -421,8 +431,9 @@ class UserNotification {
                 // Create a _safe_ class **ONCE**
                 this.safeClass = this.message
                     .toLowerCase()
-                    .replace(new RegExp(/[^a-z0-9_-]/gi), "-")
-                    .trim().toString() ?? undefined;
+                    .replace(/[^a-z0-9_-]/gi, "-")   // sanitize
+                    .replace(/^-+|-+$/g, "")         // trim hyphens at start/end
+                    .trim();
             } else {
                 throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
                     cause: new String(`
@@ -432,7 +443,7 @@ class UserNotification {
             }
 
             this.notification = document.createElement("div");
-            this.notification.setAttribute("class", this.FormatedNotificationClassName.valueOf());
+            this.notification.setAttribute("class", this.safeClass.valueOf());
 
             // The text element for the notification message; to display towards the user
             let NotificationTextSpan = null;
@@ -451,22 +462,34 @@ class UserNotification {
             })().then(() => {
                 console.debug(`%cSuccessfully ported notifcation interface content.`, 'color: magenta;');
             }).finally(async () => {
-                // Helper for adding remove notification tooltip
+                // Helper for adding a "remove notification" tooltip
                 //
-                // 
                 await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", document).then((CancelNotifiationElement) => {
                     // Fetch cancel notification button
-                    const CancelNotificationBtn = CancelNotifiationElement instanceof HTMLElement ? CancelNotifiationElement : null;
-                    if (CancelNotificationBtn !== null && CancelNotificationBtn instanceof HTMLButtonElement) {
-                        if (CancelNotificationBtn.getAttribute("onmouseenter") === null) {
-                            CancelNotificationBtn.setAttribute("onmouseenter", `setupTooltip(".${this.FormatedNotificationClassName.valueOf()}.notifiation-header.cancel-notification", "Delete notification?");`);
+                    this.CancelNotificationBtn = CancelNotifiationElement instanceof HTMLElement ? CancelNotifiationElement : null;
+                    if (this.CancelNotificationBtn !== null && this.CancelNotificationBtn instanceof HTMLButtonElement) {
+                        if (this.ListeningForTooltip !== true) {
+                            console.debug(this.safeClass.toString());
+
+                            this.CancelNotificationBtn.addEventListener("mouseenter", () => {
+                                setupTooltip(
+                                    `.${this.safeClass.trim()} .notification-header .cancel-notification`,
+                                    "Delete notification?"
+                                ).then(() => {
+                                    console.debug("Notification Cancel Tooltip Triggered.");
+                                });
+                            });
+
+                            if (!this.ListeningForTooltip) {
+                                this.ListeningForTooltip = true;
+                            }
                         } else {
                             // incase the attribute already exists
                             self.console.warn(`\nTooltip for notification already exists!\nNotification Content:\t${this.hasMessageData() ? this.message : "(empty)"}`);
                         }
                     }
                 }).finally(() => {
-
+                    console.debug("Added Tooltip to pre-constructed notification.");
                 });
             });
 

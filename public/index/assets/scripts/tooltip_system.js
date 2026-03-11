@@ -19,8 +19,16 @@ tooltip.style.cssText = `
 `;
 document.body.appendChild(tooltip);
 
-// Main tooltip setup function
-function setupTooltip(element, message) {
+/**
+ * ---
+ * Main tooltip setup function.
+ * 
+ * ---
+ * @param {HTMLElement | string} element 
+ * @param {string | null | undefined} message 
+ * @returns {Promise<void>}
+ */
+async function setupTooltip(element, message) {
     // Accept either element or selector
     const target = typeof element === 'string' ? 
         document.querySelector(element) : element;
@@ -59,15 +67,23 @@ function setupTooltip(element, message) {
         }, 200);
     };
 
-    target.addEventListener('mouseover', showTooltip);
-    target.addEventListener('mousemove', showTooltip);
-    target.addEventListener('mouseout', hideTooltip);
-    target.addEventListener('click', hideTooltip);
+    return new Promise(async function() {
+        target.addEventListener('mouseover', showTooltip);
+        target.addEventListener('mousemove', showTooltip);
+        target.addEventListener('mouseout', hideTooltip);
+        target.addEventListener('click', hideTooltip);
+    }).catch((TooltipSetupError) => {
+        if (TooltipSetupError !== null) {
+            console.error(`${new String(TooltipSetupError).valueOf()}`);
+        }
+    });
 }
 
 // Helper function for multiple elements
 function setupTooltips(selector, message) {
-    document.querySelectorAll(selector).forEach(element => {
-        setupTooltip(element, message);
+    document.querySelectorAll(selector).forEach(async element => {
+        await setupTooltip(element, message).then(() => {
+            
+        });
     });
 }
