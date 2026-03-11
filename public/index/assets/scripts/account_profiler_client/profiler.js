@@ -1,8 +1,14 @@
+global.importScripts([
+    "./modules/profiler_toast_widget.js",
+]);
+
 let AccountCookies = {};
 /** @type {HTMLImageElement | null} */
 let UserAccountProfilePicture = null;
 /** @type {HTMLHeadingElement | null} */
 let WelcomeMainContentTitle = null;
+
+if (!URL) import("./../window_scope_definitions");
 
 const IMAGE_PATHS = {
     loading: 'index/assets/images/load_icon_5649.gif',
@@ -26,12 +32,28 @@ window.addEventListener('DOMContentLoaded', () => {
 }, { once: true });
 
 function attachSocketClientConnections() {
+    /**
+     * ---
+     * ...
+     * 
+     * ---
+     * @param {("Reconnecting..." | "Reconnection request rejected!") | undefined} ConnectingStatusString
+     * @returns {Promise<void>}
+     */
+    function displayConnectingStatus(ConnectingStatusString = "Reconnecting...") {
+        return new Promise(() => {
+            if (WelcomeMainContentTitle && ConnectingStatusString !== undefined && typeof(ConnectingStatusString) === "string") {
+                WelcomeMainContentTitle.textContent = String(ConnectingStatusString).toString();
+            }
+        });
+    }
+
     if (!UserAccountProfilePicture || !WelcomeMainContentTitle) {
-        console.warn('DOM elements missing, aborting.');
+        console.warn('%cDOM elements missing, aborting.', 'font-weight: bolder;');
         return;
     }
 
-    // if socket is already connected, register immediately
+    // if socket is already connected, register immediately,
     // instead of waiting for 'connect' to fire (it won't fire again)
     if (socket.connected) {
         console.log('Socket already connected, registering immediately.');
@@ -53,10 +75,11 @@ function attachSocketClientConnections() {
     socket.on('disconnect', (reason) => {
         console.warn(`Socket disconnected: ${reason}`);
         console.log("Attempting reconnect...");
-        socket.emit("reconnect_client", );
-        if (WelcomeMainContentTitle) {
-            WelcomeMainContentTitle.textContent = 'Reconnecting...';
-        }
+        displayConnectingStatus("Reconnecting...");
+        socket.emitWithAck("reconnect_client", navigator?.onLine ?? false).then(() => {
+
+        });
+
     });
 
     socket.on('connect_error', (err) => {
