@@ -10,7 +10,7 @@ const IMAGE_PATHS = {
     defaultAvatar: 'index/assets/images/avatardefault_92824.png',
 };
 
-// Preload immediately, parallel, no blocking
+// Preload immediately; Parallel; No blocking
 for (const src of Object.values(IMAGE_PATHS)) {
     new Image().src = src;
 }
@@ -52,6 +52,8 @@ function attachSocketClientConnections() {
 
     socket.on('disconnect', (reason) => {
         console.warn(`Socket disconnected: ${reason}`);
+        console.log("Attempting reconnect...");
+        socket.emit("reconnect_client", );
         if (WelcomeMainContentTitle) {
             WelcomeMainContentTitle.textContent = 'Reconnecting...';
         }

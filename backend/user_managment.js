@@ -1,5 +1,8 @@
+const { type } = require('os');
 const path = require('path');
 const picocolors = require('picocolors');
+const { stdout } = require('process');
+const { Socket } = require('socket.io');
 
 let CurrentUsersOnline = {};
 
@@ -28,9 +31,37 @@ function generateGuestUserID() {
   return `Guest_${randomID}`;
 }
 
+/**
+ * 
+ * @public
+ * @param {Socket} io 
+ * @returns {void}
+ */
 function attachSocketHandlers(io) {
-  io.on('connection', (socket) => {
+  /**
+   * @template {typeof Socket.prototype} SocketPrototypeTemplate
+   * @augments SocketPrototypeTemplate
+   */
+  io.on('connection', (
+    /** 
+     * @type {(typeof Socket.prototype) | undefined} 
+     */ 
+    /*  */ socket) => {
     UserManagementLogger(`Socket connected: ${socket.id}`);
+
+    socket.on("reconnect_client", async (ClientSocketIP) => {
+      await new Promise(async (ResolveClientConnection) => {
+        console.debug(`Client connection did recover:\t${Boolean(socket.recovered)}?`);
+        stdout._write("Attempting client reconnect recovery linkage...");
+        await socket.handshake().then((HandshakeFinalizeResult) => {
+          console.debug(picocolors.greenBright("Recovered client connection with remote-end.").valueOf());
+        }).catch(() => {
+          if (ResolveClientConnection !== null && typeof(ResolveClientConnection) === "function") {
+            ResolveClientConnection();
+          }
+        });
+      });
+    });
 
     // Handle connect_error on the io level
     socket.on('connect_error', (err) => {
