@@ -13,8 +13,7 @@ declare type DockerPositionTypes = {
 // Object Type Definitions
 /**
  * ---
- * 
- * 
+ * ...
  * 
  */
 export declare type FloatingDockWindow = {

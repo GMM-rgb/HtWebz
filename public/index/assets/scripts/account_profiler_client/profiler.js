@@ -37,7 +37,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
 
         return resolveProfilerSetup(true);
-        // return await Promise.resolve(true);
     }).catch((/** @type {*} */ AttatchmentFailure) => {
         if (AttatchmentFailure !== undefined && typeof(AttatchmentFailure) === "string") {
             console.error(String(AttatchmentFailure).trim());
