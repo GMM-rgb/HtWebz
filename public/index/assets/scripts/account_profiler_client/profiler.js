@@ -1,4 +1,4 @@
-global.importScripts([
+importScripts([
     "./modules/profiler_toast_widget.js",
 ]);
 
