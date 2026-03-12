@@ -1,6 +1,4 @@
-importScripts([
-    "./modules/profiler_toast_widget.js",
-]);
+import { ProfilerToast } from "./modules/profiler_toast_widget";
 
 let AccountCookies = {};
 /** @type {HTMLImageElement | null} */
