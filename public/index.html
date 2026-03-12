@@ -77,6 +77,10 @@ ___        ___        ___  ,________,  ,___    ,________
 </noscript>
 
 <head>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" defer>
+        globalThis.socket = io() || null;
+    </script>
     <!-- Service Workers -->
     <script async src="./index/assets/scripts/service_worker_sys/sw_registration.js" defer></script>
     <!-- HtWebz Core APIs' -->
@@ -94,6 +98,8 @@ ___        ___        ___  ,________,  ,___    ,________
     <script type="module" src="./index/assets/scripts/notification_system/notification_utility_modules/notification_main_interface.js"></script>
     <!-- Notification Main System -->
     <script type="module" src="./index/assets/scripts/notification_system/main_notification_system.js"></script>
+    <!---->
+    <script type="module" async="true" src="index/assets/scripts/account_profiler_client/profiler.js"></script>
 
     <link rel="icon" type="image/svg+xml" href="./index/assets/images/Tab_Icons/Main_Logo_Favicon.svg">
     <title id="WebsiteDocumentTitle">HtWebz &ndash; Homepage</title>
@@ -339,15 +345,7 @@ ___        ___        ___  ,________,  ,___    ,________
     ScrollbarAnimator.AttatchScrollbarListener();
 </script>
 <body>
-
     <span id="notification" class="notification"></span>
-
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" defer>
-        const socket = io();
-    </script>
-    <script async="true" src="index/assets/scripts/account_profiler_client/profiler.js"></script>
-
     <!-- Data Store API Client -->
     <script type="text/javascript">
         let connected = false;
