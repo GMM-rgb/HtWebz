@@ -4,36 +4,6 @@
 const UserInterfaceFlexBar = document.querySelector(".staticStickyUiFlex");
 
 /**
- * Waits for an element to appear in the DOM hierarchy tree.
- * @template {HTMLElement} WaitTemplate
- * @name waitForElement
- * @param {string} selector
- * @param {ParentNode} [root=document]
- * @returns {Promise<WaitTemplate>}
- */
-HtWebzAPIs.HtWebzUtility.waitForElement = function(selector, root = document) {
-    return new Promise(resolve => {
-        // Check immediately
-        const el = root.querySelector(selector);
-        if (el) {
-            resolve(/** @type {WaitTemplate} */ (el));
-            return;
-        }
-
-        // Otherwise wait for it
-        const obs = new MutationObserver(() => {
-            const el = root.querySelector(selector);
-            if (el) {
-                obs.disconnect();
-                resolve(/** @type {WaitTemplate} */ (el));
-            }
-        });
-
-        obs.observe(root, { childList: true, subtree: true });
-    });
-}
-
-/**
  * 
  */
 class NotificationInstancerData {

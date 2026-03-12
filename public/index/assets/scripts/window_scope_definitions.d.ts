@@ -3,9 +3,32 @@
 // scope_definitions.d.ts
 //
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
-import { MethodDeclaration } from "typescript";
 import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
 import { Socket } from "socket.io";
+// import { MethodDeclaration } from "typescript";
+
+export declare global {
+    /**
+     * ---
+     * ...
+     * 
+     */
+    export declare interface WaitForElementResult<T extends HTMLElement> {
+        // `then` promise exception
+        then<R1 = T, R2 = never>(
+            onfulfilled?: ((value: T) => R1 | PromiseLike<R1>) | null,
+            onrejected?: ((reason: unknown) => R2 | PromiseLike<R2>) | null
+        ): Promise<R1 | R2>;
+        // `catch` promise exception
+        catch<R = never>(
+            onrejected?: ((reason: unknown) => R | PromiseLike<R>) | null
+        ): Promise<T | R>;
+        // `finally` promise exception
+        finally(
+            onfinally?: (() => void) | null
+        ): Promise<T>;
+    }
+}
 
 export declare global {
     declare var socket: Readonly<typeof Socket.prototype> = (Socket.prototype) as const;
@@ -49,10 +72,17 @@ export declare global {
          */
         export declare interface HtWebzUtility {
             /**
-             * Waits for an element to appear in the DOM.
-             * @name waitForElement
+             * ---
+             * Waits for an element to appear in the DOM hierarchy tree.
+             * 
+             * ---
+             * @param selector - CSS selector to query for
+             * @param {ParentNode} [root=document] - Node to search within      
              */
-            waitForElement: <WaitTemplate extends HTMLElement>(selector: string, root: ParentNode = Document) => Promise<WaitTemplate>;
+            waitForElement: <WaitTemplate extends HTMLElement>(
+                selector: string,
+                root?: ParentNode
+            ) => WaitForElementResult<WaitTemplate>;
         }
     }
 

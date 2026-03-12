@@ -46,37 +46,37 @@ function attachSocketHandlers(io) {
     UserManagementLogger(`Socket connected: ${socket.id}`);
 
     socket.on("reconnect_client", async (ClientOnline, ClientUserObject) => {
-      try {
-        if (ClientOnline === true) {
-          await new Promise(async (ResolveClientConnection) => {
-            console.debug(`Client connection did recover:\t${Boolean(socket.recovered)}?`);
-            stdout._write("Attempting client reconnect recovery linkage...");
-            await socket.handshake()?.then((HandshakeFinalizeResult) => {
-              console.debug(picocolors.greenBright("Recovered client connection with remote-end.").valueOf());
-            })?.catch(() => {
-              if (ResolveClientConnection !== null && typeof(ResolveClientConnection) === "function") {
-                ResolveClientConnection();
-              }
-            })?.finally(() => {
-              console.debug(picocolors.createColors(true).greenBright("Re-established socket connection with client & server.").valueOf());
-            }) ?? void null;
-          });
-        } else if (!ClientOnline) {
-          socket.timeout(Math.round(10 * 1000)).emitWithAck("verify_client_network_status").then(() => {
-            console.warn(`Client was NOT online in the time period for reconnection.`);
-          }).catch((NetworkVerifyTimeoutError) => {
-            throw new Error();
-          });
-        }
-      } catch (ReconnectionFailure) {
-        if (ReconnectionFailure !== null && ReconnectionFailure instanceof Error) {
-          console.error(picocolors.createColors(true).redBright(
-          `\n${ReconnectionFailure.message.valueOf() ?? null}\nClient Reconnection Failure:\n${String(ReconnectionFailure.cause).toString() ?? null}`
-          ).normalize("NFC").valueOf());
-        } else {
-          console.warn(picocolors.yellowBright(String("There was NO Error found for logging.").trim()).valueOf());
-        }
-      }
+      // try {
+      //   if (ClientOnline === true) {
+      //     await new Promise(async (ResolveClientConnection) => {
+      //       console.debug(`Client connection did recover:\t${Boolean(socket.recovered)}?`);
+      //       stdout._write("Attempting client reconnect recovery linkage...");
+      //       await socket.handshake()?.then((HandshakeFinalizeResult) => {
+      //         console.debug(picocolors.greenBright("Recovered client connection with remote-end.").valueOf());
+      //       })?.catch(() => {
+      //         if (ResolveClientConnection !== null && typeof(ResolveClientConnection) === "function") {
+      //           ResolveClientConnection();
+      //         }
+      //       })?.finally(() => {
+      //         console.debug(picocolors.createColors(true).greenBright("Re-established socket connection with client & server.").valueOf());
+      //       }) ?? void null;
+      //     });
+      //   } else if (!ClientOnline) {
+      //     socket.timeout(Math.round(10 * 1000)).emitWithAck("verify_client_network_status").then(() => {
+      //       console.warn(`Client was NOT online in the time period for reconnection.`);
+      //     }).catch((NetworkVerifyTimeoutError) => {
+      //       throw new Error();
+      //     });
+      //   }
+      // } catch (ReconnectionFailure) {
+      //   if (ReconnectionFailure !== null && ReconnectionFailure instanceof Error) {
+      //     console.error(picocolors.createColors(true).redBright(
+      //     `\n${ReconnectionFailure.message.valueOf() ?? null}\nClient Reconnection Failure:\n${String(ReconnectionFailure.cause).toString() ?? null}`
+      //     ).normalize("NFC").valueOf());
+      //   } else {
+      //     console.warn(picocolors.yellowBright(String("There was NO Error found for logging.").trim()).valueOf());
+      //   }
+      // }
     });
 
     // Handle connect_error on the io level

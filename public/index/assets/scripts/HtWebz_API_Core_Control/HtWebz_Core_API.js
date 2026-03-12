@@ -24,7 +24,7 @@ globalThis.HtWebzAPIs = {
      * *HtWebz*'s **core interface** API.
      * 
      * ---
-     * @type {(HtWebzAPIs.HtWebzEngine | symbol) & typeof globalThis}
+     * @type {HtWebzAPIs.HtWebzEngine & typeof globalThis}
      * 
      */
     HtWebzEngine: new Object({}).valueOf(),
@@ -32,7 +32,7 @@ globalThis.HtWebzAPIs = {
      * 
      * 
      * ---
-     * @type {(HtWebzAPIs.HtWebzUtility | symbol) & typeof globalThis}
+     * @type {HtWebzAPIs.HtWebzUtility & typeof globalThis}
      */
     HtWebzUtility: new Object({}).valueOf(),
 };
@@ -82,34 +82,35 @@ globalThis.HtWebzAccountManager = {
    }).valueOf(),
 };
 
-// /**
-//  * 
-//  * 
-//  * @name NewAPI_OpCode
-//  * @param {HtWebzEngine | HtWebzUtility & globalThis}
-//  * @param {FunctionConstructor | Function} API_OP
-//  * @returns {void}
-//  */
-// HtWebzCore.NewAPI_OpCode = function(HtWebzAPI_Library = HtWebzEngine, API_OP) {
-//     /**
-//      * 
-//      * 
-//      * @returns {void}
-//      */
-//     function Check_API_LibraryExists(RequestedAPI) {
-//         if (RequestedAPI !== null) {
+/**
+ * Waits for an element to appear in the DOM hierarchy tree.
+ * @template {HTMLElement} WaitTemplate
+ * @name waitForElement
+ * @param {string} selector
+ * @param {ParentNode} [root=document]
+ * @returns {Promise<WaitTemplate>}
+ */
+HtWebzAPIs.HtWebzUtility.waitForElement = function(selector, root = document) {
+    return new Promise(resolve => {
+        // Check immediately
+        const el = root.querySelector(selector);
+        if (el) {
+            resolve(/** @type {WaitTemplate} */ el);
+            return;
+        }
 
-//         } else {
-//             console.error("");
-//         }
-//     }
+        // Otherwise then wait for it
+        const obs = new MutationObserver(() => {
+            const el = root.querySelector(selector);
+            if (el) {
+                obs.disconnect();
+                resolve(/** @type {WaitTemplate} */ el);
+            }
+        });
 
-//     if (HtWebzAPI_Library !== undefined && (HtWebzAPI_Library instanceof HtWebzEngine || HtWebzAPI_Library instanceof HtWebzUtility)) {
-
-//     } else {
-         
-//     }
-// }
+        obs.observe(root, { childList: true, subtree: true });
+    });
+}
 
 class _Registered_HTMLScriptElement {
     /**
@@ -157,7 +158,7 @@ HtWebzAPIs.HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, Sc
             const NewScriptElement = document.createElement("script");
             NewScriptElement.type = ScriptExecutionType ?? "text/javascript";
             NewScriptElement.src = new String(ScriptSourceURL).trim().valueOf() ?? (async () => {
-                throw new Error("No you did it wrong; it's RAW.");
+                throw new Error("");
             })();
             // Track Script Execution Errors
             // NewScriptElement.onerror((ScriptRuntimeFailureError) => {

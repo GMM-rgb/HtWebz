@@ -1,4 +1,4 @@
-import { ProfilerToast } from "./modules/profiler_toast_widget";
+import { ProfilerToast } from "./modules/profiler_toast_widget.js";
 
 let AccountCookies = {};
 /** @type {HTMLImageElement | null} */
@@ -19,14 +19,32 @@ for (const src of Object.values(IMAGE_PATHS)) {
     new Image().src = src;
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    UserAccountProfilePicture = document.getElementById('accountExpandIcon');
-    WelcomeMainContentTitle = document.getElementById('pinnedContentTitle');
+window.addEventListener('DOMContentLoaded', async () => {
+    UserAccountProfilePicture ??= await HtWebzAPIs.HtWebzUtility.waitForElement("#accountExpandIcon", document.body).finally(() => console.debug("\nFetched Profile Picture Element."));
+    WelcomeMainContentTitle ??= await HtWebzAPIs.HtWebzUtility.waitForElement("#pinnedContentTitle", document.body).finally(() => console.debug("\nFetched Main Content Title Element."));
+    new Promise(/** @returns {Promise<boolean>} */ async (resolveProfilerSetup) => {
+        console.debug(String(WelcomeMainContentTitle));
+        console.debug(String(UserAccountProfilePicture));
 
-    if (WelcomeMainContentTitle) WelcomeMainContentTitle.textContent = 'Welcome...';
-    if (UserAccountProfilePicture) UserAccountProfilePicture.src = IMAGE_PATHS.loading;
+        if (WelcomeMainContentTitle != null) WelcomeMainContentTitle.textContent = 'Welcome...'; else {
+            console.warn("no content title\t", WelcomeMainContentTitle);
+            await Promise.reject("There was no Content Title element, aborting!");
+        }
 
-    attachSocketClientConnections();
+        if (UserAccountProfilePicture != null) UserAccountProfilePicture.src = IMAGE_PATHS.loading; else {
+            console.warn("no profile picture\t", UserAccountProfilePicture);
+            await Promise.reject("There was no Account Profile Picture element, aborting!");
+        }
+
+        return resolveProfilerSetup(true);
+        // return await Promise.resolve(true);
+    }).catch((/** @type {*} */ AttatchmentFailure) => {
+        if (AttatchmentFailure !== undefined && typeof(AttatchmentFailure) === "string") {
+            console.error(String(AttatchmentFailure).trim());
+        }
+    }).finally(() => {
+        attachSocketClientConnections();
+    });
 }, { once: true });
 
 function attachSocketClientConnections() {
