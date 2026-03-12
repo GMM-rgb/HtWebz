@@ -52,3 +52,13 @@
 #UserNotificationListInterface::-webkit-scrollbar {
     display: none !important;
 }
+
+#UserNotificationListInterface:has(.notification-list-content-header.default-dimensions) h3 {
+    opacity: 0 !important;
+    min-width: 0 !important;
+    width: 0 !important;
+}
+
+.notification-list-content-header {
+    display: flex;
+}

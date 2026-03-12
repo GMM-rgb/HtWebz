@@ -1,9 +1,22 @@
 const UserArrangmentFlexbox = document.querySelector(".staticStickyUiFlex");
 /**
+ * ---
  * Determines that if the `NotificiationList` is constructed; or not in the ___current___ Window Document.
+ * 
+ * ---
  * @type {boolean}
  */
 let DocumentHasNotificationListConstructed = false;
+
+/**
+ * 
+ * 
+ */
+const NotificationListHeaderContentData = new String(`
+    <div class="notification-list-content-header default-dimensions">
+        <h3><strong>${("notifications").toUpperCase()}</strong></h3>
+    </div>
+`).normalize("NFC").trim();
 
 /**
  * 
@@ -46,6 +59,32 @@ class NotificationElementHolder {
                 this.NotificationListElement = NewNotifyList || null;
                 // Turn the Boolean over to opposite of current
                 DocumentHasNotificationListConstructed = new Boolean(!!DocumentHasNotificationListConstructed).valueOf();
+                // Content Header Data Importing
+                (async () => {
+                    await HtWebzAPIs.HtWebzUtility.waitForElement("#UserNotificationListInterface", window?.document ?? undefined).then((AwaitedAppenededList) => {
+                        if (AwaitedAppenededList !== null && AwaitedAppenededList instanceof HTMLElement) {
+                            new Promise((HeaderAppendingResolve) => {
+                                /**
+                                 * ---
+                                 * 
+                                 * 
+                                 * ---
+                                 * @returns {void}
+                                 */
+                                function RetryHeaderAppending() {
+
+                                }
+
+                                AwaitedAppenededList.innerHTML = NotificationListHeaderContentData instanceof String ? NotificationListHeaderContentData.valueOf() : String(NotificationListHeaderContentData.valueOf());
+
+                                if (!(AwaitedAppenededList.innerHTML === NotificationListHeaderContentData.valueOf()))
+                                    RetryHeaderAppending();
+                                else
+                                    HeaderAppendingResolve();
+                            });
+                        }
+                    });
+                })();
             }
         } else {
             console.warn(`Tried to call ${this.ConstructNotificationList.name.toString()}, when there's already a NotificationList present in the DOM Tree.`);
