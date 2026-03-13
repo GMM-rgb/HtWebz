@@ -63,7 +63,7 @@ class NotificationElementHolder {
                 (async () => {
                     await HtWebzAPIs.HtWebzUtility.waitForElement("#UserNotificationListInterface", window?.document ?? undefined).then((AwaitedAppenededList) => {
                         if (AwaitedAppenededList !== null && AwaitedAppenededList instanceof HTMLElement) {
-                            new Promise((HeaderAppendingResolve) => {
+                            new Promise(async (HeaderAppendingResolve) => {
                                 /**
                                  * ---
                                  * 
@@ -72,15 +72,26 @@ class NotificationElementHolder {
                                  * @returns {void}
                                  */
                                 function RetryHeaderAppending() {
-
+                                    AwaitedAppenededList.innerHTML = NotificationListHeaderContentData !== null
+                                    ? NotificationListHeaderContentData.valueOf()
+                                    : String(NotificationListHeaderContentData.valueOf());
                                 }
 
-                                AwaitedAppenededList.innerHTML = NotificationListHeaderContentData instanceof String ? NotificationListHeaderContentData.valueOf() : String(NotificationListHeaderContentData.valueOf());
+                                AwaitedAppenededList.innerHTML = NotificationListHeaderContentData !== null
+                                ? NotificationListHeaderContentData.valueOf()
+                                : String(NotificationListHeaderContentData.valueOf());
 
-                                if (!(AwaitedAppenededList.innerHTML === NotificationListHeaderContentData.valueOf()))
-                                    RetryHeaderAppending();
-                                else
-                                    HeaderAppendingResolve();
+                                async function CheckHeader() {
+                                    console.debug(String(AwaitedAppenededList).toString());
+                                    // 
+                                    if (!(AwaitedAppenededList.innerHTML === NotificationListHeaderContentData.valueOf())) {
+                                        RetryHeaderAppending();
+                                    } else {
+                                        HeaderAppendingResolve();
+                                    }
+                                }
+
+                                await CheckHeader();
                             });
                         }
                     });

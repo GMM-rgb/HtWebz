@@ -44,7 +44,7 @@
     gap: 6px;
 }
 
-#UserNotificationListInterface:has(div) {
+#UserNotificationListInterface:has(div.NotificationDeployed) {
     display: flex !important;
     animation: NotificationListAppearence 0.5875s ease-out forwards !important;
 }
@@ -59,6 +59,16 @@
     width: 0 !important;
 }
 
+.notification-list-content-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+}
+
 .notification-list-content-header {
     display: flex;
+    position: relative;
+    box-sizing: border-box;
+    height: 20px;
+    contain: paint;
 }

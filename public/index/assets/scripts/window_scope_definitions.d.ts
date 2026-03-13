@@ -101,3 +101,5 @@ export declare global {
         }
     }
 }
+
+export { };
