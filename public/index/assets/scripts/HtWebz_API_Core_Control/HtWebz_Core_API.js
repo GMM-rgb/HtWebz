@@ -75,7 +75,7 @@ globalThis.HtWebzAccountManager = {
                     const NewTargetData = (NewProtocolData ?? undefined) ?? null;
                     socket.emitWithAck("account_protocol_data_update");
                 } else {
-
+                    
                 }
             });
         }

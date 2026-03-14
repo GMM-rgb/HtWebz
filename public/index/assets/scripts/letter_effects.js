@@ -27,11 +27,22 @@ class LetterEffect {
                     }
 
                     if (!checkLetterEffectEnabledStatus()) {
-                        console.debug(`\nLetter effect was reqested to be DISABLED.`);
+                        console.debug(`\nLetter effect was reqested to be DISABLED.
+                            \nElement Source Type:\t"${element.nodeName.toWellFormed().normalize("NFC")}"
+                            \nElement Name:\t${String((
+                                element.id.length > 0
+                                ? element.id
+                                : element.className.length > 0
+                                ? element.className
+                                : '["id" and "className" was available]').toString()
+                            )}`);
                         return void null;
                     }
                 } else {
+                    console.group("LetterEffectSystem");
                     console.warn(`%c"lettereffect"%c was not found on notification list heading element textcontent!`, 'font-weight: bold;', 'font-weight: normal;');
+                    console.info("Continuing since the attribute doesn't exist... (Assumming ON)");
+                    console.groupEnd();
                 }
 
                 // Get the ACTUAL color before we modify anything
@@ -179,8 +190,10 @@ letterStyles.textContent = `
 document.head.appendChild(letterStyles);
 
 // Wait for everything to load
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        LetterEffect.initializeLetters('h1, h2, h3');
-    }, 200);
+window.addEventListener('DOMContentLoaded', () => {
+    HtWebzAPIs.HtWebzUtility.waitForElement("body", window.document).then(() => {
+        setTimeout(() => {
+            LetterEffect.initializeLetters('h1, h2, h3');
+        }, 100);
+    });
 }, { once: true });

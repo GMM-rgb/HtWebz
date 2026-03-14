@@ -7,14 +7,9 @@ const UserArrangmentFlexbox = document.querySelector(".staticStickyUiFlex");
  * @type {boolean}
  */
 let DocumentHasNotificationListConstructed = false;
-
-/**
- * 
- * 
- */
 const NotificationListHeaderContentData = new String(`
     <div class="notification-list-content-header default-dimensions">
-        <h3><strong>${("notifications").toUpperCase()}</strong></h3>
+        <h3 lettereffect="off">${("notifications").toUpperCase()}</h3>
     </div>
 `).normalize("NFC").trim();
 

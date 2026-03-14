@@ -67,8 +67,12 @@
 
 .notification-list-content-header {
     display: flex;
-    position: relative;
+    text-wrap-mode: wrap;
+    text-wrap-style: pretty;
+    text-align: center !important;
+    contain: unset !important;
     box-sizing: border-box;
-    height: 20px;
-    contain: paint;
+    position: relative;
+    color: black;
+    width: 100%;
 }

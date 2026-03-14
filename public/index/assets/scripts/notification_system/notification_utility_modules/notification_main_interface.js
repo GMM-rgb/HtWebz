@@ -19,7 +19,7 @@ class NotificationInstancerData {
         <!-- Notification Message Text -->
         <span class="notification-message"></span>
     `;
-    
+
     /**
      * 
      * @public
@@ -105,7 +105,7 @@ class UserNotification {
      * 
      */
     TryAttatchAutoRemove() {
-        if (this.RemovalTimeout !== (null || undefined) && typeof(this.RemovalTimeout) === "number") {
+        if (this.RemovalTimeout !== (null || undefined) && typeof (this.RemovalTimeout) === "number") {
             let RemovalTimeoutCountdowns = [];
             let TimeoutIntervalIncrement = 1;
             while (this.RemovalCountdown.valueOf() > 0) {
@@ -145,12 +145,12 @@ class UserNotification {
 
             }
         }
-        
+
         // Fetch the cancel notification button
         const TargetNotificationCloseButton = TargetNotification.querySelector(".cancel-notification");
         // Append the click event listener & functionality
         if (TargetNotificationCloseButton !== null && TargetNotificationCloseButton instanceof HTMLButtonElement) {
-            if (this.DeconstructNotification !== undefined && typeof(this.DeconstructNotification) === "function") {
+            if (this.DeconstructNotification !== undefined && typeof (this.DeconstructNotification) === "function") {
                 TargetNotificationCloseButton.addEventListener("click", async () => {
                     await AnimateOutNotification().then(() => {
                         this.DeconstructNotification();
@@ -232,12 +232,12 @@ class UserNotification {
          * @param  {(string[])} InstancerWarnings 
          */
         function _Generate_TimelineDivider_SummaryWarnings(...InstancerWarnings) {
-            if (InstancerWarnings !== null && typeof(InstancerWarnings) === "object") {
+            if (InstancerWarnings !== null && typeof (InstancerWarnings) === "object") {
                 console.groupCollapsed("Notification Timeline Divider Warnings");
                 const InstancerWarningEntries = InstancerWarnings.entries() ?? null;
                 (async () => {
                     for (let WarningIndex = 0; WarningIndex < InstancerWarnings.length; WarningIndex++) {
-                        
+
                     }
                 })().finally(() => {
                     console.groupEnd();
@@ -245,7 +245,7 @@ class UserNotification {
             }
         }
 
-        if (LifetimeAge !== null && typeof(LifetimeAge) === "number") {
+        if (LifetimeAge !== null && typeof (LifetimeAge) === "number") {
 
         } else {
         }
@@ -261,7 +261,7 @@ class UserNotification {
         // Fetch the Notification message in its current state
         const MessageDataWhenChecking = this.message;
         // 
-        if (MessageDataWhenChecking !== null && typeof(MessageDataWhenChecking) === "string") {
+        if (MessageDataWhenChecking !== null && typeof (MessageDataWhenChecking) === "string") {
             console.info(`%cNotification has message data.`, 'color: lime;');
             return true;
         } else {
@@ -307,7 +307,7 @@ class UserNotification {
             console.debug(`%cAlready has AudioContext within the class constructor.`, 'color: magenta;');
         }
 
-        if (this.NotificationAudioContext !== null && AduioContextCreationSuccess !== null && typeof(AduioContextCreationSuccess) === "boolean" && AduioContextCreationSuccess === true) {
+        if (this.NotificationAudioContext !== null && AduioContextCreationSuccess !== null && typeof (AduioContextCreationSuccess) === "boolean" && AduioContextCreationSuccess === true) {
             /**
              * 
              * ---
@@ -346,13 +346,13 @@ class UserNotification {
                 SoundBufferSource.start(0);
                 if (this.NotificationAudioContext.state === ("interrupted" || "suspended")) {
                     await this.NotificationAudioContext.resume()
-                    .catch((ResumeNotificationEffectError) => {
-                        if (ResumeNotificationEffectError !== null) {
-                            console.error(`There was an %cError trying to play notification sound; uh-ohs!\n${new String(ResumeNotificationEffectError).toString()}`, 'font-weight: bolder;');
-                        }
-                    }).finally(() => {
-                        return void null;
-                    });
+                        .catch((ResumeNotificationEffectError) => {
+                            if (ResumeNotificationEffectError !== null) {
+                                console.error(`There was an %cError trying to play notification sound; uh-ohs!\n${new String(ResumeNotificationEffectError).toString()}`, 'font-weight: bolder;');
+                            }
+                        }).finally(() => {
+                            return void null;
+                        });
                 }
             });
         }
@@ -395,101 +395,103 @@ class UserNotification {
      */
     PreBuildNotification() {
         try {
-            console.debug(`%cBuilding Notification Object...`, 'color: magenta;');
-            if (this.hasMessageData() === true) {
-                this.FormatedNotificationClassName = new String(this.message.replaceAll(" ", "-").toLowerCase());
-                // Create a _safe_ class **ONCE**
-                this.safeClass = this.message
-                    .toLowerCase()
-                    .replace(/[^a-z0-9_-]/gi, "-")   // sanitize
-                    .replace(/^-+|-+$/g, "")         // trim hyphens at start/end
-                    .trim();
-            } else {
-                throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
-                    cause: new String(`
+            HtWebzAPIs.HtWebzUtility.waitForElement("body", window.document).then(() => {
+                console.debug(`%cBuilding Notification Object...`, 'color: magenta;');
+                if (this.hasMessageData() === true) {
+                    this.FormatedNotificationClassName = new String(this.message.replaceAll(" ", "-").toLowerCase());
+                    // Create a _safe_ class **ONCE**
+                    this.safeClass = this.message
+                        .toLowerCase()
+                        .replace(/[^a-z0-9_-]/gi, "-")   // sanitize
+                        .replace(/^-+|-+$/g, "")         // trim hyphens at start/end
+                        .trim();
+                } else {
+                    throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {
+                        cause: new String(`
                     \nNotification Instancer was not provided a Notification message from the beginning.
                     \nWas Message Data Available?:\t${this.hasMessageData().valueOf()}`).normalize("NFC").trimEnd()
-                });
-            }
-
-            this.notification = document.createElement("div");
-            this.notification.setAttribute("class", this.safeClass.valueOf());
-
-            // The text element for the notification message; to display towards the user
-            let NotificationTextSpan = null;
-
-            // Port over base initial Notification Interface
-            (async () => {
-                if (this.notification !== null && this.notification instanceof HTMLDivElement) {
-                    if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
-                        this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
-                        NotificationTextSpan = this.notification.querySelector("span");
-                        if (!(Math.ceil(NotificationTextSpan.innerHTML.length) > 0) || NotificationTextSpan.textContent.length <= 0) {
-                            NotificationTextSpan.innerHTML = this.message.toString();
-                        }
-                    }
-                }
-            })().then(() => {
-                console.debug(`%cSuccessfully ported notifcation interface content.`, 'color: magenta;');
-            }).finally(async () => {
-                // Helper for adding a "remove notification" tooltip
-                //
-                await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", document).then((CancelNotifiationElement) => {
-                    // Fetch cancel notification button
-                    this.CancelNotificationBtn = CancelNotifiationElement instanceof HTMLElement ? CancelNotifiationElement : null;
-                    if (this.CancelNotificationBtn !== null && this.CancelNotificationBtn instanceof HTMLButtonElement) {
-                        if (this.ListeningForTooltip !== true) {
-                            console.debug(this.safeClass.toString());
-
-                            this.CancelNotificationBtn.addEventListener("mouseenter", () => {
-                                setupTooltip(
-                                    `.${this.safeClass.trim()} .notification-header .cancel-notification`,
-                                    "Delete notification?"
-                                ).then(() => {
-                                    console.debug("Notification Cancel Tooltip Triggered.");
-                                });
-                            });
-
-                            if (!this.ListeningForTooltip) {
-                                this.ListeningForTooltip = true;
-                            }
-                        } else {
-                            // incase the attribute already exists
-                            self.console.warn(`\nTooltip for notification already exists!\nNotification Content:\t${this.hasMessageData() ? this.message : "(empty)"}`);
-                        }
-                    }
-                }).finally(() => {
-                    console.debug("Added Tooltip to pre-constructed notification.");
-                });
-            });
-
-            // Notification Header Label
-            const NotificationLabel = this.notification.querySelector(".notification-label");
-
-            /**
-             * 
-             * 
-             * 
-             * ---
-             * 
-             * @returns {void}
-             * 
-             */
-            function ApplyNotificationHeaderLabel(LabelRequest) {
-                if (NotificationLabel !== null && NotificationLabel instanceof HTMLLabelElement) {
-                    (async () => {
-                        NotificationLabel.textContent = new String(LabelRequest).trim();
-                    })().then(() => {
-                        if (!Object.isSealed(NotificationLabel)) {
-                            Object.seal(NotificationLabel);
-                        }
-                    }).finally(() => {
-                        return void null;
                     });
                 }
-            }
-            
-            ApplyNotificationHeaderLabel(this.label);
+
+                this.notification = document.createElement("div");
+                this.notification.setAttribute("class", this.safeClass.valueOf());
+
+                // The text element for the notification message; to display towards the user
+                let NotificationTextSpan = null;
+
+                // Port over base initial Notification Interface
+                (async () => {
+                    if (this.notification !== null && this.notification instanceof HTMLDivElement) {
+                        if (this.notification.innerHTML.length.valueOf() <= 0 && NotificationInstancerData.NotificationInnerContentsTemplate !== null) {
+                            this.notification.innerHTML = new String(NotificationInstancerData.NotificationInnerContentsTemplate);
+                            NotificationTextSpan = this.notification.querySelector("span");
+                            if (!(Math.ceil(NotificationTextSpan.innerHTML.length) > 0) || NotificationTextSpan.textContent.length <= 0) {
+                                NotificationTextSpan.innerHTML = this.message.toString();
+                            }
+                        }
+                    }
+                })().then(() => {
+                    console.debug(`%cSuccessfully ported notifcation interface content.`, 'color: magenta;');
+                }).finally(async () => {
+                    // Helper for adding a "remove notification" tooltip
+                    //
+                    await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", document).then((CancelNotifiationElement) => {
+                        // Fetch cancel notification button
+                        this.CancelNotificationBtn = CancelNotifiationElement instanceof HTMLElement ? CancelNotifiationElement : null;
+                        if (this.CancelNotificationBtn !== null && this.CancelNotificationBtn instanceof HTMLButtonElement) {
+                            if (this.ListeningForTooltip !== true) {
+                                console.debug(this.safeClass.toString());
+
+                                this.CancelNotificationBtn.addEventListener("mouseenter", () => {
+                                    setupTooltip(
+                                        `.${this.safeClass.trim()} .notification-header .cancel-notification`,
+                                        "Delete notification?"
+                                    ).then(() => {
+                                        console.debug("Notification Cancel Tooltip Triggered.");
+                                    });
+                                });
+
+                                if (!this.ListeningForTooltip) {
+                                    this.ListeningForTooltip = true;
+                                }
+                            } else {
+                                // incase the attribute already exists
+                                self.console.warn(`\nTooltip for notification already exists!\nNotification Content:\t${this.hasMessageData() ? this.message : "(empty)"}`);
+                            }
+                        }
+                    }).finally(() => {
+                        console.debug("Added Tooltip to pre-constructed notification.");
+                    });
+                });
+
+                // Notification Header Label
+                const NotificationLabel = this.notification.querySelector(".notification-label");
+
+                /**
+                 * 
+                 * 
+                 * 
+                 * ---
+                 * 
+                 * @returns {void}
+                 * 
+                 */
+                function ApplyNotificationHeaderLabel(LabelRequest) {
+                    if (NotificationLabel !== null && NotificationLabel instanceof HTMLLabelElement) {
+                        (async () => {
+                            NotificationLabel.textContent = new String(LabelRequest).trim();
+                        })().then(() => {
+                            if (!Object.isSealed(NotificationLabel)) {
+                                Object.seal(NotificationLabel);
+                            }
+                        }).finally(() => {
+                            return void null;
+                        });
+                    }
+                }
+
+                ApplyNotificationHeaderLabel(this.label);
+            });
         } catch (NotificationFailure) {
             if (NotificationFailure !== null) {
                 const NotificationFailureMessage = new String(NotificationFailure).valueOf();
@@ -556,7 +558,7 @@ class UserNotification {
                         // Scan notifications (simplified version)
                         CurrentNotifications = Array.from(NotifyList.children)
                             .filter(node => node instanceof HTMLDivElement);
-                        
+
                         // Expierimental removed for now.
                         // if (CurrentNotifications !== null) {
                         //     CurrentNotifications.forEach((CurrentNotification) => {
