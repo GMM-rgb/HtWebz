@@ -166,7 +166,7 @@ class _EasyLoaderUtilitys {
  * @param {string | undefined} TargetScriptName 
  * @param {boolean} ExecuteAutomatically
  */
-HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = function (TargetScriptName, ExecuteAutomatically) {
+HtWebzEfficencyEngine?.EasyLoader?.JavaScriptLoader.InjectJavaScriptObject = function(TargetScriptName, ExecuteAutomatically) {
     if (TargetScriptName !== null && typeof (TargetScriptName) === "string") {
         (async () => {
             try {

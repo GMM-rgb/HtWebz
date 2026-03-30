@@ -113,7 +113,7 @@ export declare global {
     export namespace HtWebzEfficencyEngine {
         export interface EasyLoader {
             JavaScriptLoader: {
-                InjectJavaScriptObject: (TargetFileName?: string, ExecuteOnLoad: boolean) => {};
+                InjectJavaScriptObject: (TargetFileName?: string, ExecuteOnLoad: boolean) => void;
             };
         }
     }
