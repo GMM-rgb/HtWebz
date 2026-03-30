@@ -94,7 +94,9 @@ globalThis.HtWebzEfficencyEngine = {
      * ---
      * @type {HtWebzEfficencyEngine.EasyLoader}
      */
-    EasyLoader: new Object({}).valueOf(),
+    EasyLoader: {
+        JavaScriptLoader: new Object({}).valueOf(),
+    },
 };
 
 class _EasyLoaderUtilitys {
