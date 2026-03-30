@@ -44,43 +44,43 @@ globalThis.HtWebzAPIs = {
  */
 //
 // Extra HtWebz APIs
-/**
- * ---
- * __HtWebzAPI:__ *HtWebzAccountManager*
- * 
- * ---
- * The AccountManagment `HtWebzAPI` is used in the codebase feild for
- * *controlling/maintaining* connection & stability to the server.  
- * Following `HtWebzAPI` includes:  
- * 
- * ---
- * @public
- * @global
- * @type {HtWebzAccountManager}
- */
-globalThis.HtWebzAccountManager = {
-    AccountServerCommunication: new Object({
-        /**
-         * ---
-         * ...
-         * 
-         * ---
-         * @public
-         * @param {any} NewProtocolData
-         * @returns {void}
-         */
-        UpdateAccountProtocolDataWith: (NewProtocolData) => {
-            return new Promise(() => {
-                if (NewProtocolData !== null && NewProtocolData instanceof Object) {
-                    const NewTargetData = (NewProtocolData ?? undefined) ?? null;
-                    socket.emitWithAck("account_protocol_data_update");
-                } else {
+// /**
+//  * ---
+//  * __HtWebzAPI:__ *HtWebzAccountManager*
+//  * 
+//  * ---
+//  * The AccountManagment `HtWebzAPI` is used in the codebase feild for
+//  * *controlling/maintaining* connection & stability to the server.  
+//  * Following `HtWebzAPI` includes:  
+//  * 
+//  * ---
+//  * @public
+//  * @global
+//  * @type {HtWebzAccountManager}
+//  */
+// globalThis.HtWebzAccountManager = {
+//     AccountServerCommunication: new Object({
+//         /**
+//          * ---
+//          * ...
+//          * 
+//          * ---
+//          * @public
+//          * @param {any} NewProtocolData
+//          * @returns {void}
+//          */
+//         UpdateAccountProtocolDataWith: (NewProtocolData) => {
+//             return new Promise(() => {
+//                 if (NewProtocolData !== null && NewProtocolData instanceof Object) {
+//                     const NewTargetData = (NewProtocolData ?? undefined) ?? null;
+//                     socket.emitWithAck("account_protocol_data_update");
+//                 } else {
 
-                }
-            });
-        }
-    }).valueOf(),
-};
+//                 }
+//             });
+//         }
+//     }).valueOf(),
+// };
 
 /**
  * ---
@@ -166,7 +166,7 @@ class _EasyLoaderUtilitys {
  * @param {string | undefined} TargetScriptName 
  * @param {boolean} ExecuteAutomatically
  */
-HtWebzEfficencyEngine?.EasyLoader?.JavaScriptLoader.InjectJavaScriptObject = function(TargetScriptName, ExecuteAutomatically) {
+HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async function(TargetScriptName, ExecuteAutomatically) {
     if (TargetScriptName !== null && typeof (TargetScriptName) === "string") {
         (async () => {
             try {
