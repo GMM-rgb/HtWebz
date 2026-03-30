@@ -56,7 +56,7 @@ class NotificationElementHolder {
                 DocumentHasNotificationListConstructed = new Boolean(!!DocumentHasNotificationListConstructed).valueOf();
                 // Content Header Data Importing
                 (async () => {
-                    await HtWebzAPIs.HtWebzUtility.waitForElement("#UserNotificationListInterface", window?.document ?? undefined).then((AwaitedAppenededList) => {
+                    await HtWebzAPIs.HtWebzUtility.waitForElement?.("#UserNotificationListInterface", window?.document ?? undefined).then((AwaitedAppenededList) => {
                         if (AwaitedAppenededList !== null && AwaitedAppenededList instanceof HTMLElement) {
                             new Promise(async (HeaderAppendingResolve) => {
                                 /**
