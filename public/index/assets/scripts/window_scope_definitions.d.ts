@@ -5,7 +5,8 @@
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
 import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
 import { Socket } from "socket.io";
-// import { MethodDeclaration } from "typescript";
+
+declare type VariableReactionEventResult = [...any];
 
 export declare global {
     /**
@@ -83,6 +84,14 @@ export declare global {
                 selector: string,
                 root?: ParentNode
             ) => WaitForElementResult<WaitTemplate>;
+            /**
+             * 
+             */
+            VariableReactionValid: () => typeof Boolean.prototype;
+            /**
+             * 
+             */
+            ObserveVariableReactionEvent: () => VariableReactionEventResult;
         }
     }
 
@@ -100,6 +109,14 @@ export declare global {
             UpdateAccountProtocolDataWith: (NewProtocolData?: any) => {};
         }
     }
+
+    export namespace HtWebzEfficencyEngine {
+        export interface EasyLoader {
+            JavaScriptLoader: {
+                InjectJavaScriptObject: (TargetFileName?: string, ExecuteOnLoad: boolean) => {};
+            };
+        }
+    }
 }
 
-export { };
+export {};

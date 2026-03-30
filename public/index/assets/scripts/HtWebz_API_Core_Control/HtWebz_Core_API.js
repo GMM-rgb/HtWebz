@@ -59,7 +59,7 @@ globalThis.HtWebzAPIs = {
  * @type {HtWebzAccountManager}
  */
 globalThis.HtWebzAccountManager = {
-   AccountServerCommunication: new Object({
+    AccountServerCommunication: new Object({
         /**
          * ---
          * ...
@@ -75,22 +75,186 @@ globalThis.HtWebzAccountManager = {
                     const NewTargetData = (NewProtocolData ?? undefined) ?? null;
                     socket.emitWithAck("account_protocol_data_update");
                 } else {
-                    
+
                 }
             });
         }
-   }).valueOf(),
+    }).valueOf(),
 };
 
 /**
+ * ---
+ * 
+ */
+globalThis.HtWebzEfficencyEngine = {
+    /**
+     * ---
+     * 
+     * 
+     * ---
+     * @type {HtWebzEfficencyEngine.EasyLoader}
+     */
+    EasyLoader: new Object({}).valueOf(),
+};
+
+class _EasyLoaderUtilitys {
+    static EasyLoaderLoggingEval = {
+        "error": console.error,
+        "debug": console.debug,
+        "warn": console.warn,
+    };
+    
+    /**
+     * ---
+     * ...
+     * 
+     * ---
+     * @param {Function | undefined} [ConsoleExecutionsFunction=undefined] 
+     * @returns {void}
+     */
+    static EasyLoaderConsoleGroup(ConsoleExecutionsFunction = undefined) {
+        console.groupCollapsed("%cEasyLoader %cAPI", 'font-weight: bold;', 'font-weight: normal;');
+        // ...
+        if (ConsoleExecutionsFunction !== undefined && (typeof(ConsoleExecutionsFunction) === "function")) {
+            this.call?.(ConsoleExecutionsFunction ?? null, undefined) ?? void null;
+        }
+    }
+
+    /**
+     * ---
+     * Deploys *Error* & *Warning* messages **from** HtWebz EasyLoader API.
+     * 
+     * ---
+     * @param {("ERROR" | "WARNING" | "DEBUG") | undefined} MessageTypeDeploy 
+     * @param {object} InformationOutput 
+     * @returns {void}
+     */
+    static DeployEasyLoaderMessages(MessageTypeDeploy = "ERROR", InformationOutput = undefined) {
+        if (((MessageTypeDeploy !== undefined && typeof (MessageTypeDeploy) === "string") && (InformationOutput !== undefined && typeof(InformationOutput) === "object"))) {
+            try {
+                /**
+                 * ---
+                 * @type {string[]?} 
+                 */
+                const SelectedInformation = InformationOutput?.[MessageTypeDeploy.trim()] ?? null;
+                // ...
+                for (let SelectedInfoIndex = 0; SelectedInfoIndex < SelectedInformation.length.valueOf(); SelectedInfoIndex++) {
+                    if (SelectedInfoIndex !== null && typeof(SelectedInfoIndex) === "number") {
+                        const LogValueData = SelectedInformation[SelectedInfoIndex].valueOf();
+                        (this.EasyLoaderLoggingEval[String(MessageTypeDeploy.valueOf())])?.(`${LogValueData.trim()}`);
+                    } else {
+                        console.warn("SelectedInfoIndex value variable; Invalid!");
+                    }
+                }
+            } catch (EasyLoaderOutputMessageError) {
+                if (EasyLoaderOutputMessageError !== null && typeof(EasyLoaderOutputMessageError)) {
+                    console.error(`${new String(EasyLoaderOutputMessageError).valueOf()}`);
+                }
+            }
+        } else {
+            console.warn("HtWebz EasyLoader API failed to deploy important messages from output!");
+        }
+    }
+}
+
+/**
+ * ---
+ * Imports a new JavaScript file `Object` \
+ * that can be executed automatically, or manually.
+ * 
+ * ---
+ * @param {string | undefined} TargetScriptName 
+ * @param {boolean} ExecuteAutomatically
+ */
+HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = function (TargetScriptName, ExecuteAutomatically) {
+    if (TargetScriptName !== null && typeof (TargetScriptName) === "string") {
+        (async () => {
+            try {
+                let EasyLoaderImportantInformationOutput = {
+                    "ERROR": new Array(0),
+                    "WARNING": new Array(0),
+                    "DEBUG": new Array(0),
+                };
+                // ...
+                const GeneratedJavaScriptObjectName = new RegExp(/[/d]+(.)/).exec();
+                const JavaScriptSourceFetch = await fetch("/index/assets/scripts/" + String(TargetScriptName).trim());
+                // create injection script element for the current website page
+                const NewInjectionScript = document.createElement("script");
+                NewInjectionScript.async = ExecuteAutomatically === true ? "off" : "on";
+                NewInjectionScript.type = ("text/javascript").toLowerCase();
+                NewInjectionScript.src = JavaScriptSourceFetch.url.toString();
+                NewInjectionScript.setAttribute("name", String(GeneratedJavaScriptObjectName));
+                window.document.appendChild(NewInjectionScript);
+                new Promise(async () => {
+                    // ...
+                    /**
+                     * 
+                     * 
+                     * ---
+                     * @type {HTMLScriptElement?}
+                     */
+                    let QueriedInjectionScriptFetch = null;
+                    // ...
+                    const FetchedDocumentElements = document.childNodes.entries();
+                    for (let DocumentTreeIndex = 0; DocumentTreeIndex < document.childElementCount.valueOf(); DocumentTreeIndex++) {
+                        if (DocumentTreeIndex !== undefined && typeof (DocumentTreeIndex) === "number") {
+                            const ScanningElementIrretator = FetchedDocumentElements.next();
+                            const CurrentScanningElement = ScanningElementIrretator.value;
+                            // ...
+                            if (CurrentScanningElement !== null && CurrentScanningElement instanceof HTMLElement && CurrentScanningElement instanceof HTMLScriptElement) {
+
+                            }
+                        } else {
+                            const ForLoopErrorMessage = new String("FATAL:\tThere was an error with the document index ReactionVariable!").valueOf();
+                            // ...
+                            EasyLoaderImportantInformationOutput.WARNING.push(ForLoopErrorMessage);
+                            // Reject the `Promise`; Return *Error* message.
+                            await Promise.reject?.(ForLoopErrorMessage ?? null);
+                        }
+                    }
+
+                    await Promise.resolve();
+                }).catch((ScanChecksumErrorMessage) => {
+                    if (ScanChecksumErrorMessage !== undefined && typeof (ScanChecksumErrorMessage) !== null) {
+                        const FormatedErrorMessage = new String(ScanChecksumErrorMessage).valueOf();
+                        console.error(FormatedErrorMessage ?? undefined);
+                    }
+                }).then(() => {
+
+                }).finally(() => {
+                    (async () => {
+                        _EasyLoaderUtilitys.EasyLoaderConsoleGroup();
+                        _EasyLoaderUtilitys.DeployEasyLoaderMessages("DEBUG");
+                        _EasyLoaderUtilitys.DeployEasyLoaderMessages("ERROR");
+                        _EasyLoaderUtilitys.DeployEasyLoaderMessages("WARNING");
+                    })().then(() => console.groupEnd());
+                });
+            } catch (InjectionFailureMessage) {
+                const FormatedFailureMessage = new String(InjectionFailureMessage ?? undefined);
+                if (FormatedFailureMessage != null && FormatedFailureMessage instanceof String) {
+                    console.error(FormatedFailureMessage);
+                }
+            }
+        })();
+    } else {
+        _EasyLoaderUtilitys.EasyLoaderConsoleGroup();
+        console.warn(`JavaScript source path was not valid!`);
+        console.groupEnd();
+    }
+}
+
+/**
+ * ---
  * Waits for an element to appear in the DOM hierarchy tree.
+ * 
+ * ---
  * @template {HTMLElement} WaitTemplate
  * @name waitForElement
  * @param {string} selector
  * @param {ParentNode} [root=document]
  * @returns {Promise<WaitTemplate>}
  */
-HtWebzAPIs.HtWebzUtility.waitForElement = function(selector, root = document) {
+HtWebzAPIs.HtWebzUtility.waitForElement = async function (selector, root = document) {
     return new Promise(resolve => {
         // Check immediately
         const el = root.querySelector(selector);
@@ -148,8 +312,8 @@ class RegisteredScript extends _Registered_HTMLScriptElement {
  * @returns {void}
  * 
  */
-HtWebzAPIs.HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, ScriptSourceURL) {
-    if (ScriptSourceURL != null && typeof(ScriptSourceURL) === "string") {
+HtWebzAPIs.HtWebzEngine.RegisterScriptLinkage = function (ScriptExecutionType, ScriptSourceURL) {
+    if (ScriptSourceURL != null && typeof (ScriptSourceURL) === "string") {
         try {
             /**
              * 
@@ -193,7 +357,7 @@ HtWebzAPIs.HtWebzEngine.RegisterScriptLinkage = function(ScriptExecutionType, Sc
  * @returns {void}
  * 
  */
-HtWebzAPIs.HtWebzEngine.debug = function(...RequestedDebugMessage) {
+HtWebzAPIs.HtWebzEngine.debug = function (...RequestedDebugMessage) {
     if (RequestedDebugMessage != null) {
         RequestedDebugMessage.concat(["[HtWebz]:\t"]);
         const MessageContent = RequestedDebugMessage.copyWithin(
