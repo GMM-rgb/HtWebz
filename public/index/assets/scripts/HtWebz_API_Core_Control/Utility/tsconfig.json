@@ -1,21 +1,21 @@
 {
     "buildOptions": {
         "verbose": true,
-        "traceResolution": true
+        "traceResolution": true,
     },
     "compilerOptions": {
         "typeRoots": [],
         "moduleResolution": "classic",
         "lib": [
             "ES2018",
-            "DOM"
+            "DOM",
         ],
         "module": "commonjs",
-        "outDir": "~/Build/",
+        "outDir": "UtilitysBuild",
         "rootDir": "./TypeScript/",
         "removeComments": true,
         "diagnostics": true,
         "allowJs": true,
-        "strict": true
+        "strict": true,
     }
 }

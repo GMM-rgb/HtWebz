@@ -1,46 +1,41 @@
-declare namespace PackageDebugTypes {
-    export type DebugInformationAbsoluteTypeKeys = ("DEBUG" | "WARN" | "ERROR")[];
-    export type DebugInformationAlikes = ("DEBUG" | "WARN" | "ERROR");
-    export type DebugInformationData = {
-        DEBUG: any[];
-        WARN: any[];
-        ERROR: any[];
-    };
-}
-
-namespace InformationAbsoluteKeys {
-    export const DebugInformationKeys: Readonly<PackageDebugTypes.DebugInformationAbsoluteTypeKeys> = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GroupLogPackage = void 0;
+var InformationAbsoluteKeys;
+(function (InformationAbsoluteKeys) {
+    InformationAbsoluteKeys.DebugInformationKeys = [
         "DEBUG",
         "ERROR",
         "WARN"
     ];
-}
-
+})(InformationAbsoluteKeys || (InformationAbsoluteKeys = {}));
 class GroupLogPackage {
-    ImportedDebugInformation: PackageDebugTypes.DebugInformationData;
-
-    constructor(private ConsoleLoggingName: string) {
+    ConsoleLoggingName;
+    ImportedDebugInformation;
+    constructor(ConsoleLoggingName) {
+        this.ConsoleLoggingName = ConsoleLoggingName;
         this.ImportedDebugInformation = {
             DEBUG: [],
             WARN: [],
             ERROR: [],
         };
     }
-
-    private isDebugInformationRelativeTypeValid(RequestedInformationType?: PackageDebugTypes.DebugInformationAlikes): boolean {
+    isDebugInformationRelativeTypeValid(RequestedInformationType) {
         return new Boolean((async () => {
             if (InformationAbsoluteKeys !== null && InformationAbsoluteKeys.DebugInformationKeys instanceof Array) {
-                let ValidDebugType: boolean = false;
+                let ValidDebugType = false;
                 return (async () => {
                     for (let AlikeTypeIndex = 0; AlikeTypeIndex < Math.ceil(InformationAbsoluteKeys.DebugInformationKeys.length); AlikeTypeIndex++) {
                         if ((AlikeTypeIndex.valueOf?.() ?? undefined) !== undefined && typeof (AlikeTypeIndex) === "number") {
                             const SelectedAlikeKey = InformationAbsoluteKeys.DebugInformationKeys[AlikeTypeIndex].toString();
                             if (SelectedAlikeKey === RequestedInformationType?.trim()) {
                                 ValidDebugType = true;
-                            } else if (SelectedAlikeKey !== RequestedInformationType?.trim() && !ValidDebugType) {
+                            }
+                            else if (SelectedAlikeKey !== RequestedInformationType?.trim() && !ValidDebugType) {
                                 ValidDebugType = false;
                             }
-                        } else {
+                        }
+                        else {
                             console.error("AlikeTypeIndex variable in *For Loop* was invalid!");
                         }
                     }
@@ -54,36 +49,29 @@ class GroupLogPackage {
             console.debug();
         })).valueOf();
     }
-
-    private ExecuteCommitInformationType(): void {
-
+    ExecuteCommitInformationType() {
     }
-
-    public ImportNewDebugInformation(NewDebugInformation: any = undefined, DebugInformationRelativeType: PackageDebugTypes.DebugInformationAlikes): void {
+    ImportNewDebugInformation(NewDebugInformation = undefined, DebugInformationRelativeType) {
         const RelativeTypeValid = Boolean(this.isDebugInformationRelativeTypeValid(DebugInformationRelativeType ?? undefined));
         if (NewDebugInformation !== undefined && this.ImportedDebugInformation !== null && typeof (this.ImportedDebugInformation) === "object") {
             if (RelativeTypeValid.valueOf() === true) {
-
             }
-        } else {
+        }
+        else {
             console.warn("");
         }
     }
-
-    public CommitDebugInformation(): void {
+    CommitDebugInformation() {
         if (this.ImportedDebugInformation !== null && typeof (this.ImportedDebugInformation) === "object" && Object.entries(this.ImportedDebugInformation).length > 0) {
             const DebugInformationKeys = Object.entries(this.ImportedDebugInformation);
             DebugInformationKeys.forEach((DebugKey) => {
                 if (DebugKey !== undefined && (typeof (DebugKey) === "object" && DebugKey instanceof Array)) {
-
-                } else {
+                }
+                else {
                     return;
                 }
             });
         }
     }
 }
-
-export {
-    GroupLogPackage,
-};
+exports.GroupLogPackage = GroupLogPackage;
