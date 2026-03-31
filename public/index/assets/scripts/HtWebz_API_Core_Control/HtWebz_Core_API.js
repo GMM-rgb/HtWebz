@@ -143,7 +143,7 @@ class _EasyLoaderUtilitys {
                 for (let SelectedInfoIndex = 0; SelectedInfoIndex < SelectedInformation.length.valueOf(); SelectedInfoIndex++) {
                     if (SelectedInfoIndex !== null && typeof(SelectedInfoIndex) === "number") {
                         const LogValueData = SelectedInformation[SelectedInfoIndex].valueOf();
-                        (this.EasyLoaderLoggingEval[String(MessageTypeDeploy.valueOf())])?.(`${LogValueData.trim()}`);
+                        (this.EasyLoaderLoggingEval[String(MessageTypeDeploy.valueOf())])?.(`${LogValueData.trim()}`) ?? void null;
                     } else {
                         console.warn("SelectedInfoIndex value variable; Invalid!");
                     }
@@ -187,6 +187,9 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                 NewInjectionScript.src = JavaScriptSourceFetch.url.toString();
                 NewInjectionScript.setAttribute("name", String(GeneratedJavaScriptObjectName));
                 window.document.appendChild(NewInjectionScript);
+                /**
+                 * @template {HTMLScriptElement} FetchChecksum
+                 */
                 new Promise(async () => {
                     // ...
                     /**
@@ -215,14 +218,43 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                         }
                     }
 
-                    await Promise.resolve();
+                    await Promise.resolve(QueriedInjectionScriptFetch !== null ? QueriedInjectionScriptFetch : null);
                 }).catch((ScanChecksumErrorMessage) => {
                     if (ScanChecksumErrorMessage !== undefined && typeof (ScanChecksumErrorMessage) !== null) {
                         const FormatedErrorMessage = new String(ScanChecksumErrorMessage).valueOf();
                         console.error(FormatedErrorMessage ?? undefined);
+                    } else {
+                        EasyLoaderImportantInformationOutput.WARNING.push(`Checksum scan error message was not available!`.trim());
                     }
-                }).then(() => {
+                }).then((/** @type {FetchChecksum} */ FetchedChecksumScript = /* ...or just create a blank script element */ new HTMLScriptElement()) => {
+                    /**
+                     * ---
+                     * [needs ***JSDoc*** comment]  
+                     * 
+                     * ---
+                     * @param {HTMLScriptElement | undefined} [TargetSelector=undefined] 
+                     * @returns {boolean} 
+                     */
+                    function ChecksumElementValidated(TargetSelector = undefined) {
+                        return (async () => {
+                            let isValidated = false;
+                            if (TargetSelector !== undefined && TargetSelector instanceof HTMLScriptElement && Object.entries(TargetSelector) !== null) {
+                                const FetchedScriptValidatedAttribute = TargetSelector.getAttribute("scriptvalidated");
+                                typeof(isValidated) === "boolean" ? (isValidated = new Boolean(FetchedScriptValidatedAttribute).valueOf()) : void null;
+                                return isValidated ?? false;
+                            } else {
+                                EasyLoaderImportantInformationOutput.ERROR.push(`>>> TargetSelector <<< is invalid, expected an HTMLScriptElement;\nReceived unexpected HTML Object:\t${TargetSelector.getRootNode().nodeName.toString().trim()}`);
+                            }
+                        })().then((ProcessedValue) => {
+                            return ProcessedValue !== null && ProcessedValue ? ProcessedValue : false;
+                        }).finally(() => {
+                            EasyLoaderImportantInformationOutput.DEBUG.push("Validated script has a validation attribute, and is truthy / false.");
+                        });
+                    }
 
+                    if (FetchedChecksumScript !== undefined) {
+                        const ValidatedSuccessfully = ChecksumElementValidated?.(FetchedChecksumScript) ?? console.warn();
+                    }
                 }).finally(() => {
                     (async () => {
                         _EasyLoaderUtilitys.EasyLoaderConsoleGroup();
