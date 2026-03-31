@@ -10,6 +10,8 @@ if (typeof importScripts === "function") {
     });
 }
 
+// import * as EfficencyGroupLogging from "./Utility/TypeScript/GroupLoggingUtility";
+
 if ((!URL && !this.window)) import("../window_scope_definitions");
 
 // HtWebz Gl uhobal Namespace(s) JavaScript Declaration
@@ -105,7 +107,7 @@ class _EasyLoaderUtilitys {
         "debug": console.debug,
         "warn": console.warn,
     };
-    
+
     /**
      * ---
      * ...
@@ -117,7 +119,7 @@ class _EasyLoaderUtilitys {
     static EasyLoaderConsoleGroup(ConsoleExecutionsFunction = undefined) {
         console.groupCollapsed("%cEasyLoader %cAPI", 'font-weight: bold;', 'font-weight: normal;');
         // ...
-        if (ConsoleExecutionsFunction !== undefined && (typeof(ConsoleExecutionsFunction) === "function")) {
+        if (ConsoleExecutionsFunction !== undefined && (typeof (ConsoleExecutionsFunction) === "function")) {
             this.call?.(ConsoleExecutionsFunction ?? null, undefined) ?? void null;
         }
     }
@@ -132,7 +134,7 @@ class _EasyLoaderUtilitys {
      * @returns {void}
      */
     static DeployEasyLoaderMessages(MessageTypeDeploy = "ERROR", InformationOutput = undefined) {
-        if (((MessageTypeDeploy !== undefined && typeof (MessageTypeDeploy) === "string") && (InformationOutput !== undefined && typeof(InformationOutput) === "object"))) {
+        if (((MessageTypeDeploy !== undefined && typeof (MessageTypeDeploy) === "string") && (InformationOutput !== undefined && typeof (InformationOutput) === "object"))) {
             try {
                 /**
                  * ---
@@ -141,7 +143,7 @@ class _EasyLoaderUtilitys {
                 const SelectedInformation = InformationOutput?.[MessageTypeDeploy.trim()] ?? null;
                 // ...
                 for (let SelectedInfoIndex = 0; SelectedInfoIndex < SelectedInformation.length.valueOf(); SelectedInfoIndex++) {
-                    if (SelectedInfoIndex !== null && typeof(SelectedInfoIndex) === "number") {
+                    if (SelectedInfoIndex !== null && typeof (SelectedInfoIndex) === "number") {
                         const LogValueData = SelectedInformation[SelectedInfoIndex].valueOf();
                         (this.EasyLoaderLoggingEval[String(MessageTypeDeploy.valueOf())])?.(`${LogValueData.trim()}`) ?? void null;
                     } else {
@@ -149,7 +151,7 @@ class _EasyLoaderUtilitys {
                     }
                 }
             } catch (EasyLoaderOutputMessageError) {
-                if (EasyLoaderOutputMessageError !== null && typeof(EasyLoaderOutputMessageError)) {
+                if (EasyLoaderOutputMessageError !== null && typeof (EasyLoaderOutputMessageError)) {
                     console.error(`${new String(EasyLoaderOutputMessageError).valueOf()}`);
                 }
             }
@@ -168,7 +170,7 @@ class _EasyLoaderUtilitys {
  * @param {string | undefined} TargetScriptName 
  * @param {boolean} ExecuteAutomatically
  */
-HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async function(TargetScriptName, ExecuteAutomatically) {
+HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async function (TargetScriptName, ExecuteAutomatically) {
     if (TargetScriptName !== null && typeof (TargetScriptName) === "string") {
         (async () => {
             try {
@@ -241,7 +243,7 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                             let isValidated = false;
                             if (TargetSelector !== undefined && TargetSelector instanceof HTMLScriptElement && Object.entries(TargetSelector) !== null) {
                                 const FetchedScriptValidatedAttribute = TargetSelector.getAttribute("scriptvalidated").trim().toLowerCase();
-                                typeof(isValidated) === "boolean" ? (isValidated = new Boolean(FetchedScriptValidatedAttribute).valueOf()) : void null;
+                                typeof (isValidated) === "boolean" ? (isValidated = new Boolean(FetchedScriptValidatedAttribute).valueOf()) : void null;
                                 return isValidated ?? false;
                             } else {
                                 EasyLoaderImportantInformationOutput.ERROR.push(`>>> TargetSelector <<< is invalid, expected an HTMLScriptElement;\nReceived unexpected HTML Object:\t${TargetSelector.getRootNode().nodeName.toString().trim()}`);

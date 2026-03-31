@@ -120,43 +120,52 @@ class UserNotification {
     }
 
     /**
+     * ---
+     * Attempts to assign an **EventListener** `Object` to the close button for every notification that is prebuilt.
      * 
-     * @param {HTMLElement} TargetNotification 
+     * ---
+     * @param {HTMLElement} [TargetNotification=undefined]
      * @returns {Promise<void>}
      * @public
      */
-    async SetNotificationCloseTrigger(TargetNotification) {
-        /**
-         * 
-         * ---
-         * 
-         * 
-         * 
-         * ---
-         * 
-         * @param {number|undefined} AnimateDuration 
-         * @returns {Promise<void>}
-         * 
-         */
-        async function AnimateOutNotification(AnimateDuration) {
-            if (AnimateDuration !== (null || undefined)) {
+    async SetNotificationCloseTrigger(TargetNotification = undefined) {
+        if ((TargetNotification !== undefined && TargetNotification instanceof HTMLElement) && Object.entries(TargetNotification) !== null) {
+            /**
+             * 
+             * ---
+             * 
+             * 
+             * 
+             * ---
+             * 
+             * @param {number|undefined} AnimateDuration 
+             * @returns {Promise<void>}
+             * 
+             */
+            async function AnimateOutNotification(AnimateDuration) {
+                if (AnimateDuration !== (null || undefined)) {
 
-            } else {
+                } else {
 
+                }
             }
-        }
 
-        // Fetch the cancel notification button
-        const TargetNotificationCloseButton = TargetNotification.querySelector(".cancel-notification");
-        // Append the click event listener & functionality
-        if (TargetNotificationCloseButton !== null && TargetNotificationCloseButton instanceof HTMLButtonElement) {
-            if (this.DeconstructNotification !== undefined && typeof (this.DeconstructNotification) === "function") {
-                TargetNotificationCloseButton.addEventListener("click", async () => {
-                    await AnimateOutNotification().then(() => {
-                        this.DeconstructNotification();
+            // Fetch the cancel notification button
+            const TargetNotificationCloseButton = await HtWebzAPIs.HtWebzUtility.waitForElement(".cancel-notification", TargetNotification);
+            // Append the click event listener & functionality
+            if (TargetNotificationCloseButton !== null && TargetNotificationCloseButton instanceof HTMLButtonElement) {
+                if (this.DeconstructNotification !== undefined && typeof (this.DeconstructNotification) === "function") {
+                    TargetNotificationCloseButton.addEventListener("click", async () => {
+                        // await AnimateOutNotification().then(() => {
+                        this.DeconstructNotification?.();
+                        // });
                     });
-                });
+                }
             }
+        } else {
+            console.groupCollapsed("NotificationInterface");
+            console.error(`TargetNotification for setting close trigger event; NULL value!\nVALUE:\t${String(TargetNotification).toString()}`);
+            console.groupEnd();
         }
     }
 
@@ -491,6 +500,7 @@ class UserNotification {
                 }
 
                 ApplyNotificationHeaderLabel(this.label);
+                this.SetNotificationCloseTrigger(this.notification);
             });
         } catch (NotificationFailure) {
             if (NotificationFailure !== null) {
