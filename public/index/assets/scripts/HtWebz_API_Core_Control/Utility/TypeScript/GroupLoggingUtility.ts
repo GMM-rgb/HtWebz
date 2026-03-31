@@ -55,7 +55,7 @@ class GroupLogPackage {
         })).valueOf();
     }
 
-    private ExecuteCommitInformationType(): void {
+    private ExecuteCommitInformationType(CommitType: string): void {
 
     }
 
@@ -63,10 +63,8 @@ class GroupLogPackage {
         const RelativeTypeValid = Boolean(this.isDebugInformationRelativeTypeValid(DebugInformationRelativeType ?? undefined));
         if (NewDebugInformation !== undefined && this.ImportedDebugInformation !== null && typeof (this.ImportedDebugInformation) === "object") {
             if (RelativeTypeValid.valueOf() === true) {
-
+                this.ImportedDebugInformation[DebugInformationRelativeType].push(NewDebugInformation);
             }
-        } else {
-            console.warn("");
         }
     }
 
@@ -75,7 +73,7 @@ class GroupLogPackage {
             const DebugInformationKeys = Object.entries(this.ImportedDebugInformation);
             DebugInformationKeys.forEach((DebugKey) => {
                 if (DebugKey !== undefined && (typeof (DebugKey) === "object" && DebugKey instanceof Array)) {
-
+                    this.ExecuteCommitInformationType(DebugKey[0]);
                 } else {
                     return;
                 }
