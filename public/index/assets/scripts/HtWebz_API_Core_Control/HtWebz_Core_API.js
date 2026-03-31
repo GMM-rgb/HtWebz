@@ -177,6 +177,14 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                     "WARNING": new Array(0),
                     "DEBUG": new Array(0),
                 };
+                /**
+                 * ---
+                 * 
+                 * 
+                 * ---
+                 * @type {HTMLScriptElement?}
+                 */
+                let QueriedInjectionScriptFetch = null;
                 // ...
                 const GeneratedJavaScriptObjectName = new RegExp(/[/d]+(.)/).exec();
                 const JavaScriptSourceFetch = await fetch("/index/assets/scripts/" + String(TargetScriptName).trim());
@@ -185,20 +193,13 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                 NewInjectionScript.async = ExecuteAutomatically === true ? "off" : "on";
                 NewInjectionScript.type = ("text/javascript").toLowerCase();
                 NewInjectionScript.src = JavaScriptSourceFetch.url.toString();
+                NewInjectionScript.setAttribute("scriptvalidated", "FALSE");
                 NewInjectionScript.setAttribute("name", String(GeneratedJavaScriptObjectName));
                 window.document.appendChild(NewInjectionScript);
                 /**
                  * @template {HTMLScriptElement} FetchChecksum
                  */
                 new Promise(async () => {
-                    // ...
-                    /**
-                     * 
-                     * 
-                     * ---
-                     * @type {HTMLScriptElement?}
-                     */
-                    let QueriedInjectionScriptFetch = null;
                     // ...
                     const FetchedDocumentElements = document.childNodes.entries();
                     for (let DocumentTreeIndex = 0; DocumentTreeIndex < document.childElementCount.valueOf(); DocumentTreeIndex++) {
@@ -239,7 +240,7 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                         return (async () => {
                             let isValidated = false;
                             if (TargetSelector !== undefined && TargetSelector instanceof HTMLScriptElement && Object.entries(TargetSelector) !== null) {
-                                const FetchedScriptValidatedAttribute = TargetSelector.getAttribute("scriptvalidated");
+                                const FetchedScriptValidatedAttribute = TargetSelector.getAttribute("scriptvalidated").trim().toLowerCase();
                                 typeof(isValidated) === "boolean" ? (isValidated = new Boolean(FetchedScriptValidatedAttribute).valueOf()) : void null;
                                 return isValidated ?? false;
                             } else {
@@ -254,6 +255,7 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
 
                     if (FetchedChecksumScript !== undefined) {
                         const ValidatedSuccessfully = ChecksumElementValidated?.(FetchedChecksumScript) ?? console.warn();
+                        ValidatedSuccessfully ? EasyLoaderImportantInformationOutput.DEBUG.push() : (/** @type {HTMLScriptElement} */ QueriedInjectionScriptFetch.remove());
                     }
                 }).finally(() => {
                     (async () => {
