@@ -1,18 +1,5 @@
-// Import Priority HtWebzEngine API JavaScript Files
-if (typeof importScripts === "function") {
-    new Promise(() => importScripts([
-        "node-fetch",
-        "socket",
-    ])).then(() => {
-        console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
-        console.debug();
-        console.groupEnd();
-    });
-}
-
-// import * as EfficencyGroupLogging from "./Utility/TypeScript/GroupLoggingUtility";
-
 if ((!URL && !this.window)) import("../window_scope_definitions");
+// import * as EfficencyGroupLogging from "./Utility/TypeScript/GroupLoggingUtility";
 
 // HtWebz Gl uhobal Namespace(s) JavaScript Declaration
 globalThis.HtWebzAPIs = {
@@ -57,8 +44,7 @@ globalThis.HtWebzAPIs = {
  * 
  * ---
  * @public
- * @global
- * @type {HtWebzAccountManager}
+ * (@type {HtWebzAccountManager})
  */
 globalThis.HtWebzAccountManager = {
     AccountServerCommunication: new Object({
@@ -179,6 +165,52 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                     "WARNING": new Array(0),
                     "DEBUG": new Array(0),
                 };
+
+                /**
+                 * ---
+                 * @param {HTMLScriptElement} [TargetScriptObject=undefined] 
+                 * @returns {boolean}
+                 */
+                function HasJavaScriptAttributeName(TargetScriptObject = undefined) {
+                    if ((TargetScriptObject !== undefined && TargetScriptObject instanceof HTMLScriptElement)
+                        && (SelectedHTMLScript.hasAttribute("name"))) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                /**
+                 * ---
+                 * ...
+                 * 
+                 * ---
+                 * @param {HTMLScriptElement} [SelectedHTMLScript=undefined] 
+                 * @returns {boolean}
+                 */
+                function LoadedJavaScriptValidSource(SelectedHTMLScript = undefined) {
+                    /**
+                     * @type {boolean}
+                     */
+                    let isSourceValid = false;
+                    // ...
+                    if ((isSourceValid !== undefined && isSourceValid !== null) && typeof (isSourceValid) === "boolean") {
+                        if (SelectedHTMLScript !== undefined && (SelectedHTMLScript instanceof HTMLElement && SelectedHTMLScript instanceof HTMLScriptElement)) {
+                            if (HasJavaScriptAttributeName() === true) {
+                                const FetchedJavaScriptObjectName = SelectedHTMLScript.getAttribute("name").toString();
+                                const JavaScriptObjectStatus = new RegExp(/(.<=?::)/).exec(FetchedJavaScriptObjectName)[0].trim();
+                                console.debug(new String(JavaScriptObjectStatus).valueOf());
+                            } else {
+                                console.warn();
+                            }
+                        } else {
+                            console.error();
+                        }
+                    }
+
+                    return isSourceValid ?? false;
+                }
+
                 /**
                  * ---
                  * 
@@ -188,8 +220,10 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                  */
                 let QueriedInjectionScriptFetch = null;
                 // ...
-                const GeneratedJavaScriptObjectName = new RegExp(/[/d]+(.)/).exec();
                 const JavaScriptSourceFetch = await fetch("/index/assets/scripts/" + String(TargetScriptName).trim());
+                const GeneratedJavaScriptObjectName = String(`${JavaScriptSourceFetch.status.valueOf()}::LoadedJavaScript::${Math.ceil(Math.random() * Math.abs(100 * 10))}`);
+                // ...
+                console.debug(`${GeneratedJavaScriptObjectName.toString() ?? "Name NOT Available!"}`);
                 // create injection script element for the current website page
                 const NewInjectionScript = document.createElement("script");
                 NewInjectionScript.async = ExecuteAutomatically === true ? "off" : "on";
@@ -197,27 +231,40 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                 NewInjectionScript.src = JavaScriptSourceFetch.url.toString();
                 NewInjectionScript.setAttribute("scriptvalidated", "FALSE");
                 NewInjectionScript.setAttribute("name", String(GeneratedJavaScriptObjectName));
-                window.document.appendChild(NewInjectionScript);
+                NewInjectionScript.onload((ScriptLoadEvalEvent) => {
+                    if (ScriptLoadEvalEvent != null && ScriptLoadEvalEvent instanceof Event) {
+                        (async () => {
+                            ScriptLoadEvalEvent.preventDefault();
+                        })().then(() => {
+                            eval((!(NewInjectionScript.src instanceof Object) && typeof(NewInjectionScript.src) === "string") ? NewInjectionScript.src.toString() : JSON.parse(NewInjectionScript.src.trim()));
+                        });
+                    } else {
+                        console.warn("ScriptLoadEvent was not defined; Has a NULL value.");
+                    }
+                });
+                // ...
+                document.body.appendChild(NewInjectionScript);
                 /**
                  * @template {HTMLScriptElement} FetchChecksum
                  */
                 new Promise(async () => {
-                    // ...
                     const FetchedDocumentElements = document.childNodes.entries();
-                    for (let DocumentTreeIndex = 0; DocumentTreeIndex < document.childElementCount.valueOf(); DocumentTreeIndex++) {
+                    // ...
+                    console.debug("Validating loaded JavaScript...");
+                    // ...
+                    for (let DocumentTreeIndex = 0; DocumentTreeIndex < document.body.childElementCount.valueOf(); DocumentTreeIndex++) {
                         if (DocumentTreeIndex !== undefined && typeof (DocumentTreeIndex) === "number") {
                             const ScanningElementIrretator = FetchedDocumentElements.next();
                             const CurrentScanningElement = ScanningElementIrretator.value;
-                            // ...
+                            console.debug(DocumentTreeIndex.toString());
                             if (CurrentScanningElement !== null && CurrentScanningElement instanceof HTMLElement && CurrentScanningElement instanceof HTMLScriptElement) {
-
+                                console.info(LoadedJavaScriptValidSource());
+                                console.debug("%cELEMENT MATCH!", 'font-weight: bold;');
                             }
                         } else {
                             const ForLoopErrorMessage = new String("FATAL:\tThere was an error with the document index ReactionVariable!").valueOf();
-                            // ...
                             EasyLoaderImportantInformationOutput.WARNING.push(ForLoopErrorMessage);
-                            // Reject the `Promise`; Return *Error* message.
-                            await Promise.reject?.(ForLoopErrorMessage ?? null);
+                            await Promise.reject?.(ForLoopErrorMessage ?? null); // Reject the `Promise`; Return *Error* message.
                         }
                     }
 
@@ -229,7 +276,7 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                     } else {
                         EasyLoaderImportantInformationOutput.WARNING.push(`Checksum scan error message was not available!`.trim());
                     }
-                }).then((/** @type {FetchChecksum} */ FetchedChecksumScript = /* ...or just create a blank script element */ new HTMLScriptElement()) => {
+                }).then((/** @type {FetchChecksum} */ FetchedChecksumScript = /* ...or just create a blank script element so this doesn't _*fail / crash*_ */ new HTMLScriptElement()) => {
                     /**
                      * ---
                      * [needs ***JSDoc*** comment]  
@@ -408,4 +455,16 @@ HtWebzAPIs.HtWebzEngine.debug = function (...RequestedDebugMessage) {
         console.warn();
         console.groupEnd();
     }
+}
+
+// Import Priority HtWebzEngine API JavaScript Files
+if (typeof importScripts === "function") {
+    new Promise(() => importScripts([
+        "node-fetch",
+        "socket",
+    ])).then(() => {
+        console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
+        console.debug();
+        console.groupEnd();
+    });
 }

@@ -411,8 +411,8 @@ class UserNotification {
                     // Create a _safe_ class **ONCE**
                     this.safeClass = this.message
                         .toLowerCase()
-                        .replace(/[^a-z0-9_-]/gi, "-")   // sanitize
-                        .replace(/^-+|-+$/g, "")         // trim hyphens at start/end
+                        .replace(/[^a-z0-9_-]/gi, "-") // sanitize
+                        .replace(/^-+|-+$/g, "") // trim hyphens at start/end
                         .trim();
                 } else {
                     throw new Error("Whilist pre-building new Notification; the Notification System experienced an Error!\n", {

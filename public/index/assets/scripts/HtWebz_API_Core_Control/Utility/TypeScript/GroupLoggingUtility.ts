@@ -1,10 +1,11 @@
 declare namespace PackageDebugTypes {
     export type DebugInformationAbsoluteTypeKeys = ("DEBUG" | "WARN" | "ERROR")[];
     export type DebugInformationAlikes = ("DEBUG" | "WARN" | "ERROR");
+    export type DebugKeyTemplate = string[];
     export type DebugInformationData = {
-        DEBUG: any[];
-        WARN: any[];
-        ERROR: any[];
+        DEBUG: string[];
+        WARN: string[];
+        ERROR: string[];
     };
 }
 
@@ -18,6 +19,7 @@ namespace InformationAbsoluteKeys {
 
 class GroupLogPackage {
     ImportedDebugInformation: PackageDebugTypes.DebugInformationData;
+    CurrentCommitingDebug: string;
 
     constructor(private ConsoleLoggingName: string) {
         this.ImportedDebugInformation = {
@@ -25,6 +27,7 @@ class GroupLogPackage {
             WARN: [],
             ERROR: [],
         };
+        this.CurrentCommitingDebug = String.prototype.valueOf();
     }
 
     private isDebugInformationRelativeTypeValid(RequestedInformationType?: PackageDebugTypes.DebugInformationAlikes): boolean {
@@ -55,8 +58,13 @@ class GroupLogPackage {
         })).valueOf();
     }
 
-    private ExecuteCommitInformationType(CommitType: string): void {
-
+    private ExecuteCommitInformationType(CommitType: PackageDebugTypes.DebugInformationAlikes, CommitLogMessage: string | undefined = undefined): void {
+        if (CommitType === undefined || CommitType === null) return;
+        if ((CommitLogMessage !== undefined && typeof(CommitLogMessage) === "string") && (typeof(CommitType) === "string")) {
+            if (this.isDebugInformationRelativeTypeValid(String(CommitType) as PackageDebugTypes.DebugInformationAlikes)) {
+                
+            }
+        }
     }
 
     public ImportNewDebugInformation(NewDebugInformation: any = undefined, DebugInformationRelativeType: PackageDebugTypes.DebugInformationAlikes): void {
@@ -70,12 +78,29 @@ class GroupLogPackage {
 
     public CommitDebugInformation(): void {
         if (this.ImportedDebugInformation !== null && typeof (this.ImportedDebugInformation) === "object" && Object.entries(this.ImportedDebugInformation).length > 0) {
-            const DebugInformationKeys = Object.entries(this.ImportedDebugInformation);
-            DebugInformationKeys.forEach((DebugKey) => {
-                if (DebugKey !== undefined && (typeof (DebugKey) === "object" && DebugKey instanceof Array)) {
-                    this.ExecuteCommitInformationType(DebugKey[0]);
-                } else {
-                    return;
+            new Promise(() => {
+                return Object.entries(this.ImportedDebugInformation);
+            }).then((DebugInformationKeys) => {
+                if (DebugInformationKeys !== null && DebugInformationKeys instanceof Array) {
+                    DebugInformationKeys.forEach((DebugKey: PackageDebugTypes.DebugKeyTemplate) => {
+                        if (DebugKey !== undefined && (typeof (DebugKey) === "object" && DebugKey instanceof Array)) {
+                            /**
+                             * ---
+                             * ...
+                             */
+                            const DebugInfoDataEntries = DebugKey.entries();
+                            // ...
+                            for (let DebugDataIndex = 0; DebugDataIndex < DebugKey.length; DebugDataIndex++) {
+                                const CurrentArrayIteration = DebugInfoDataEntries.next();
+                                const CommitMessageInformation = DebugKey[CurrentArrayIteration.value?.[0] ?? 0];
+                                const CommitMessageType = String(CurrentArrayIteration.value?.[1]) as PackageDebugTypes.DebugInformationAlikes;
+                                this.CurrentCommitingDebug = CommitMessageInformation[DebugDataIndex].trim();
+                                this.ExecuteCommitInformationType(CommitMessageType, this.CurrentCommitingDebug);
+                            }
+                        } else {
+                            return;
+                        }
+                    });
                 }
             });
         }
