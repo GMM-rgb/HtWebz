@@ -757,11 +757,11 @@ head {
     transform: scale(1) !important;
 }
 
-.ResourcesInteractable.Focused:hover {
+#resourcesMenuOpen.Focused:hover {
     transform: unset !important;
 }
 
-.ResourcesInteractable.Focused {
+#resourcesMenuOpen.Focused {
     border-width: 4.5px !important;
     border-style: solid !important;
     border-color: transparent !important;
@@ -818,7 +818,7 @@ head {
     100% { position: relative; }
 } */
 
-*:has(.ResourcesInteractable.Focused) #resourcesMenuOpen input {
+*:has(#resourcesMenuOpen.Focused) #resourcesMenuOpen input {
     position: relative !important;
     min-inline-size: auto !important;
 }
