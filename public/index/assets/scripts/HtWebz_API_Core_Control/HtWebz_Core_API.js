@@ -27,65 +27,70 @@ globalThis.HtWebzAPIs = {
 };
 
 // Extra; Type Reference Definitions
-//
+// ...
 /**
  * @typedef {typeof Function.prototype} BandwidthAccountCommunication
  */
-//
+// ...
 // Extra HtWebz APIs
-/**
- * ---
- * __HtWebzAPI:__ *HtWebzAccountManager*
- * 
- * ---
- * The AccountManagment `HtWebzAPI` is used in the codebase feild for
- * *controlling/maintaining* connection & stability to the server.  
- * Following `HtWebzAPI` includes:  
- * 
- * ---
- * @public
- * (@type {HtWebzAccountManager})
- */
-globalThis.HtWebzAccountManager = {
-    AccountServerCommunication: new Object({
-        /**
-         * ---
-         * ...
-         * 
-         * ---
-         * @public
-         * @param {any} NewProtocolData
-         * @returns {void}
-         */
-        UpdateAccountProtocolDataWith: (NewProtocolData) => {
-            return new Promise(() => {
-                if (NewProtocolData !== null && NewProtocolData instanceof Object) {
-                    const NewTargetData = (NewProtocolData ?? undefined) ?? null;
-                    socket.emitWithAck("account_protocol_data_update");
-                } else {
+function InsertExtraAPI() {
+    /**
+     * ---
+     * __HtWebzAPI:__ *HtWebzAccountManager*
+     * 
+     * ---
+     * The AccountManagment `HtWebzAPI` is used in the codebase feild for
+     * *controlling/maintaining* connection & stability to the server.  
+     * Following `HtWebzAPI` includes:  
+     * 
+     * ---
+     * @public
+     * (@type {HtWebzAccountManager})
+     */
+    globalThis.HtWebzAccountManager = {
+        AccountServerCommunication: new Object({
+            /**
+             * ---
+             * ...
+             * 
+             * ---
+             * @public
+             * @param {any} NewProtocolData
+             * @returns {void}
+             */
+            UpdateAccountProtocolDataWith: (NewProtocolData) => {
+                return new Promise(() => {
+                    if (NewProtocolData !== null && NewProtocolData instanceof Object) {
+                        const NewTargetData = (NewProtocolData ?? undefined) ?? null;
+                        socket.emitWithAck("account_protocol_data_update");
+                    } else {
 
-                }
-            });
-        }
-    }).valueOf(),
-};
+                    }
+                });
+            }
+        }).valueOf(),
+    };
 
-/**
- * ---
- * 
- */
-globalThis.HtWebzEfficencyEngine = {
     /**
      * ---
      * 
-     * 
-     * ---
-     * @type {HtWebzEfficencyEngine.EasyLoader}
      */
-    EasyLoader: {
-        JavaScriptLoader: new Object({}).valueOf(),
-    },
-};
+    globalThis.HtWebzEfficencyEngine = {
+        /**
+         * ---
+         * 
+         * 
+         * ---
+         * @type {HtWebzEfficencyEngine.EasyLoader}
+         */
+        EasyLoader: {
+            JavaScriptLoader: new Object({}).valueOf(),
+        },
+    };
+}
+
+InsertExtraAPI();
+// self.addEventListener("load", InsertExtraAPI, { once: true });
 
 class _EasyLoaderUtilitys {
     static EasyLoaderLoggingEval = {
@@ -231,12 +236,13 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                 NewInjectionScript.src = JavaScriptSourceFetch.url.toString();
                 NewInjectionScript.setAttribute("scriptvalidated", "FALSE");
                 NewInjectionScript.setAttribute("name", String(GeneratedJavaScriptObjectName));
-                NewInjectionScript.onload((ScriptLoadEvalEvent) => {
+                NewInjectionScript.addEventListener("load", (ScriptLoadEvalEvent) => {
                     if (ScriptLoadEvalEvent != null && ScriptLoadEvalEvent instanceof Event) {
                         (async () => {
                             ScriptLoadEvalEvent.preventDefault();
                         })().then(() => {
-                            eval((!(NewInjectionScript.src instanceof Object) && typeof(NewInjectionScript.src) === "string") ? NewInjectionScript.src.toString() : JSON.parse(NewInjectionScript.src.trim()));
+                            // eval((!(NewInjectionScript.src instanceof Object) && typeof (NewInjectionScript.src) === "string") ? NewInjectionScript.src.toString() : JSON.parse(NewInjectionScript.src.trim()));
+                            // NewInjectionScript.blocking
                         });
                     } else {
                         console.warn("ScriptLoadEvent was not defined; Has a NULL value.");
