@@ -84,14 +84,11 @@ class GroupLogPackage {
                 if (DebugInformationKeys !== null && DebugInformationKeys instanceof Array) {
                     DebugInformationKeys.forEach((DebugKey: PackageDebugTypes.DebugKeyTemplate) => {
                         if (DebugKey !== undefined && (typeof (DebugKey) === "object" && DebugKey instanceof Array)) {
-                            /**
-                             * ---
-                             * ...
-                             */
-                            const DebugInfoDataEntries = DebugKey.entries();
-                            // ...
+                            console.group(new String(this?.ConsoleLoggingName).trim().valueOf());
+                            const DebugInfoDataEntries = DebugKey.entries() ?? undefined;
+                            if (DebugInfoDataEntries === null || DebugInfoDataEntries === undefined) return;
                             for (let DebugDataIndex = 0; DebugDataIndex < DebugKey.length; DebugDataIndex++) {
-                                const CurrentArrayIteration = DebugInfoDataEntries.next();
+                                const CurrentArrayIteration = DebugInfoDataEntries.next() ?? null;
                                 const CommitMessageInformation = DebugKey[CurrentArrayIteration.value?.[0] ?? 0];
                                 const CommitMessageType = String(CurrentArrayIteration.value?.[1]) as PackageDebugTypes.DebugInformationAlikes;
                                 this.CurrentCommitingDebug = CommitMessageInformation[DebugDataIndex].trim();
