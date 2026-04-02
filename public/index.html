@@ -27,13 +27,13 @@ ___        ___        ___  ,________,  ,___    ,________
 <meta property="og:title" content="HtWebz" />
 <meta property="og:site_name" content="HtWebz" />
 <meta property="og:description"
-      content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
+    content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://htwebz.com" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="HtWebz" />
 <meta name="twitter:description"
-      content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
+    content="Welcome to HtWebz, your gateway to a world of web-based games, resources, and entertainment. Explore our curated selection of apps and discover new favorites today!" />
 <meta name="twitter:image" content="./index/assets/images/Tab_Icons/Main_Logo_Favicon.png" />
 <!---->
 <html lang="en-US">
@@ -89,17 +89,20 @@ ___        ___        ___  ,________,  ,___    ,________
     <script type="module" src="./index/assets/scripts/modules/logging/logger.js"></script>
     <script type="module" src="./index/assets/scripts/modules/cookie_store_manager.js"></script>
     <script type="module" src="./index/assets/scripts/modules/fetch_user_cookies.js"></script>
-    <script type="module" src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
+    <script type="module"
+        src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
     <script type="module" src="./index/assets/scripts/recent_logic/user_recents_loader.js"></script>
     <!-- Onboarding -->
     <script type="text/javascript" src="./index/assets/scripts/welcome_services/page_load_onboard.js"></script>
     <!-- Notification System Scripts -->
     <!-- Notification Modules -->
-    <script type="module" src="./index/assets/scripts/notification_system/notification_utility_modules/notification_main_interface.js"></script>
+    <script type="module"
+        src="./index/assets/scripts/notification_system/notification_utility_modules/notification_main_interface.js"></script>
     <!-- Notification Main System -->
     <script type="module" src="./index/assets/scripts/notification_system/main_notification_system.js"></script>
     <!---->
-    <script type="moudle" src="./index/assets/scripts/account_profiler_client/modules/profiler_toast_widget.js"></script>
+    <script type="moudle"
+        src="./index/assets/scripts/account_profiler_client/modules/profiler_toast_widget.js"></script>
     <script type="module" src="./index/assets/scripts/account_profiler_client/profiler.js"></script>
 
     <link rel="icon" type="image/svg+xml" href="./index/assets/images/Tab_Icons/Main_Logo_Favicon.svg">
@@ -128,17 +131,18 @@ ___        ___        ___  ,________,  ,___    ,________
     <link rel="stylesheet" href="./index/assets/stylesheets/input_type_base_styles/input_base.css" />
     <!-- Notification System Stylesheets -->
     <link rel="stylesheet" href="./index/assets/stylesheets/notification_interface_styling/notify_list.css" />
-    <link rel="stylesheet" href="./index/assets/stylesheets/notification_interface_styling/notification_elements/inner_notification_interface.css" />
+    <link rel="stylesheet"
+        href="./index/assets/stylesheets/notification_interface_styling/notification_elements/inner_notification_interface.css" />
     <i>
         <link rel="apple-touch-icon" href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
         <link rel="apple-touch-icon" sizes="76x76"
-              href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
         <link rel="apple-touch-icon" sizes="120x120"
-              href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
         <link rel="apple-touch-icon" sizes="152x152"
-              href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
         <link rel="apple-touch-icon" sizes="180x180"
-              href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
+            href="index/assets/images/Backup ~ Tab_Icons/HtWebz_MainPage_Icon.png" />
     </i>
     <style>
         :root {
@@ -271,13 +275,13 @@ ___        ___        ___  ,________,  ,___    ,________
         transition: all 0.3s ease !important;
     }
 
-        #menuBlur > * {
-            pointer-events: none !important;
-            overflow-wrap: normal;
-            flex-basis: auto;
-        }
+    #menuBlur>* {
+        pointer-events: none !important;
+        overflow-wrap: normal;
+        flex-basis: auto;
+    }
 
-    * ~ #menuBlur:has(view) {
+    *~#menuBlur:has(view) {
         overflow: hidden !important;
     }
 </style>
@@ -345,6 +349,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
     ScrollbarAnimator.AttatchScrollbarListener();
 </script>
+
 <body>
     <span id="notification" class="notification"></span>
     <!-- Data Store API Client -->
@@ -399,8 +404,7 @@ ___        ___        ___  ,________,  ,___    ,________
                 <!-- <p id="appsTextTag">Apps</p> -->
                 <div id="appList">
                     <div id="appListContainer">
-                        <button class="appButton" id="searcherAppButton"
-                                onclick="notify('Redirecting...');">
+                        <button class="appButton" id="searcherAppButton" onclick="notify('Redirecting...');">
                             Chat
                         </button>
                         <button class="appButton" id="textEditorAppButton" onclick="notify('Redirecting...');">
@@ -435,23 +439,22 @@ ___        ___        ___  ,________,  ,___    ,________
                         src="index/assets/images/Hamburger_icon.png" height="25"
                         width="25" preload="auto" />
                 </button> -->
-                <button aria-label="Account Options" id="accountExpandInfo"
-                        onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')"
-                        onclick="notify('Under Construction');">
+                <button aria-label="Account Options" id="accountExpandInfo" class="navigation-interface-button"
+                    onmouseenter="setupTooltip('#accountExpandInfo', 'Click to see your account options.')"
+                    onclick="notify('Under Construction');">
                     <img id="accountExpandIcon" src="index/assets/images/load_icon_5649.gif" alt="Error" preload="auto"
-                         height="25" width="25" />
+                        height="25" width="25" />
                 </button>
 
-                <button aria-label="Apps" id="appMenuOpen"
-                        onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')">
-                    <img id="appMenuIcon"
-                         src="index/assets/images/app_button_icon.png" preload="auto" aria-busy="false" height="25"
-                         width="25" /><span class="apps-menu-text">Apps</span>
+                <button aria-label="Apps" id="appMenuOpen" class="navigation-interface-button"
+                    onmouseenter="setupTooltip('#appMenuOpen', 'Click to open App Menu.')">
+                    <img id="appMenuIcon" src="index/assets/images/app_button_icon.png" preload="auto" aria-busy="false"
+                        height="25" width="25" /><span class="apps-menu-text">Apps</span>
                 </button>
-                <button aria-label="Settings" id="settingsQuick"
-                        onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
+                <button aria-label="Settings" id="settingsQuick" class="navigation-interface-button"
+                    onmouseenter="setupTooltip('#settingsQuick', 'Click to open Settings Menu.')">
                     <img id="settingsIcon" src="index/assets/images/Tab_Icons/Setting_Icon_Favicon.svg" preload="auto"
-                         aria-busy="false" height="25" width="25" />
+                        aria-busy="false" height="25" width="25" />
                     <span class="settings-quick-text">Settings</span>
                 </button>
             </div>
@@ -462,13 +465,13 @@ ___        ___        ___  ,________,  ,___    ,________
                 <a href="/homepage">
                     <div id="mainLogo" onmouseenter="setupTooltip('#mainLogo', 'Return to Homepage?')">
                         <img src="index/assets/images/Tab_Icons/Main_Logo_Favicon.svg" alt="HtWebz Logo" width="60"
-                             height="60" style="image-rendering: pixelated !important; user-select: none !important;" />
+                            height="60" style="image-rendering: pixelated !important; user-select: none !important;" />
                     </div>
                 </a>
             </div>
 
             <script name="TruncateTextScript"
-                    src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
+                src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
             <script>
                 // Run once on load
                 self.onload = async () => {
@@ -491,15 +494,17 @@ ___        ___        ___  ,________,  ,___    ,________
                     <span class="games-menu-text">Games</span>
                 </button> -->
                 <button aria-label="Search" id="resourcesMenuOpen" class="ResourcesInteractable"
-                        onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
+                    class="navigation-interface-button"
+                    onmouseenter="setupTooltip('#resourcesMenuOpen', 'Click to Expand Search.')">
                     <div class="search-bar-wrapper">
                         <div class="search-bar-interface">
                             <input autocomplete="off" class="search-bar-input" id="SearchBarInput" type="text"
-                                   placeholder="Type here to search..." />
+                                placeholder="Type here to search..." />
                             <div class="search-bar-contents">
                                 <div id="resourcesIconWrapper" class="Resources-Icon-Wrapper-Div" aria-sort="other">
-                                    <img id="resourcesMenuIcon" src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg"
-                                         alt="Resources Icon" preload="auto" height="27.5" width="27.5" />
+                                    <img id="resourcesMenuIcon"
+                                        src="index/assets/images/Tab_Icons/Search_Icon_Favicon.svg" alt="Resources Icon"
+                                        preload="auto" height="27.5" width="27.5" />
                                 </div>
                                 <span class="resources-menu-text">Search</span>
                             </div>
@@ -599,7 +604,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
     <div id="bottom-background-decoration">
         <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg" class="wave-background-decoration-SVG"
-             viewBox="0 0 400 120" preserveAspectRatio="none">
+            viewBox="0 0 400 120" preserveAspectRatio="none">
             <defs>
                 <lineargradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stop-color="skyblue" stop-opacity="0.8" />
@@ -615,7 +620,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
             <g>
                 <path id="wave-one" d="M -1 15 Q 60 8, 120 22 T 400 18 L 400 100 L -1 100 Z" fill="url(#waveGradient1)"
-                      stroke="url(#waveGradient2)" stroke-width="2" stroke-linejoin="round" opacity="0.9">
+                    stroke="url(#waveGradient2)" stroke-width="2" stroke-linejoin="round" opacity="0.9">
                     <animate attributeName="d" dur="8s" repeatCount="indefinite" values="M -1 25 Q 80 75, 160 10 T 400 65 L 400 100 L -1 100 Z;
                        M -1 60 Q 120 5, 200 80 T 400 15 L 400 100 L -1 100 Z;
                        M -1 15 Q 60 90, 140 25 T 400 70 L 400 100 L -1 100 Z;
@@ -624,8 +629,8 @@ ___        ___        ___  ,________,  ,___    ,________
                 </path>
 
                 <path id="wave-two" d="M -1 35 Q 180 20, 280 45 T 400 30 L 400 100 L -1 100 Z"
-                      fill="url(#waveGradient2)" stroke="url(#waveGradient1)" stroke-width="2" stroke-linejoin="round"
-                      opacity="0.7">
+                    fill="url(#waveGradient2)" stroke="url(#waveGradient1)" stroke-width="2" stroke-linejoin="round"
+                    opacity="0.7">
                     <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M -1 45 Q 200 95, 300 15 T 400 80 L 400 100 L -1 100 Z;
                        M -1 85 Q 150 10, 250 100 T 400 25 L 400 100 L -1 100 Z;
                        M -1 20 Q 240 85, 340 30 T 400 90 L 400 100 L -1 100 Z;
@@ -683,7 +688,9 @@ ___        ___        ___  ,________,  ,___    ,________
         <!-- Menus HTML Section -->
         <div id="menuBlur"></div>
 
-        <div id="MenuWindowsRootOrigin"><!-- Will hold the windows that will be constructed on future interaction by the client user. --></div>
+        <div id="MenuWindowsRootOrigin">
+            <!-- Will hold the windows that will be constructed on future interaction by the client user. -->
+        </div>
 
         <!-- Game Menu -->
         <section id="gameMenu">
@@ -726,8 +733,7 @@ ___        ___        ___  ,________,  ,___    ,________
                                 progress.
                             </text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryButtonGame"
-                                class="tryButtonGameStyle">
+                        <button onclick="notify('Redirecting...')" id="tryButtonGame" class="tryButtonGameStyle">
                             Play
                         </button>
                         <script>
@@ -752,8 +758,7 @@ ___        ___        ___  ,________,  ,___    ,________
                                 Version 1.0.0
                             </text>
                         </p>
-                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton"
-                                class="tryButtonGameStyle">
+                        <button onclick="notify('Redirecting...')" id="tryDinoGameButton" class="tryButtonGameStyle">
                             Play
                         </button>
                         <script>
@@ -806,8 +811,8 @@ ___        ___        ___  ,________,  ,___    ,________
             <div class="content-section-header-container">
                 <div class="drag-content-section-container">
                     <button class="grab-move-button featured-section">
-                        <img style="pointer-events:none !important;"
-                             src="./index/assets/svg/grab_icon.svg" height="50" width="50" />
+                        <img style="pointer-events:none !important;" src="./index/assets/svg/grab_icon.svg" height="50"
+                            width="50" />
                     </button>
                 </div>
                 <div class="content-section-text-title">
@@ -821,15 +826,15 @@ ___        ___        ___  ,________,  ,___    ,________
                 <!-- Featured Objects get created & organized by the following script: ... create_featured_results.js -->
             </div>
             <script type="text/javascript" src="./index/assets/scripts/featured_logic/create_featured_results.js"
-                    defer></script>
+                defer></script>
         </section>
 
         <section class="content-section recent" id="recent-section-A">
             <div class="content-section-header-container">
                 <div class="drag-content-section-container">
                     <button class="grab-move-button recent-section">
-                        <img style="pointer-events:none !important;"
-                             src="./index/assets/svg/grab_icon.svg" height="50" width="50" />
+                        <img style="pointer-events:none !important;" src="./index/assets/svg/grab_icon.svg" height="50"
+                            width="50" />
                     </button>
                 </div>
                 <div class="content-section-text-title">
@@ -887,23 +892,23 @@ ___        ___        ___  ,________,  ,___    ,________
                 background-clip: border-box;
             }
 
-                #footerContainer::-webkit-scrollbar {
-                    width: 2px;
-                }
+            #footerContainer::-webkit-scrollbar {
+                width: 2px;
+            }
 
-                #footerContainer::-webkit-scrollbar-track {
-                    border-radius: 10px;
-                    background: #5aa5e0;
-                    border: 1px solid #479dda;
-                    margin: 8px;
-                }
+            #footerContainer::-webkit-scrollbar-track {
+                border-radius: 10px;
+                background: #5aa5e0;
+                border: 1px solid #479dda;
+                margin: 8px;
+            }
 
-                #footerContainer::-webkit-scrollbar-thumb {
-                    border-radius: 10px;
-                    background: #afdeff;
-                    border: 1px solid #5aa5e0;
-                    cursor: ew-resize;
-                }
+            #footerContainer::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                background: #afdeff;
+                border: 1px solid #5aa5e0;
+                cursor: ew-resize;
+            }
 
             #developer {
                 cursor: pointer !important;
@@ -919,15 +924,15 @@ ___        ___        ___  ,________,  ,___    ,________
                 text-align: center !important;
             }
 
-                #developer:hover {
-                    transform: scale(1.025);
-                    border: 2px solid cyan;
-                }
+            #developer:hover {
+                transform: scale(1.025);
+                border: 2px solid cyan;
+            }
 
-                    #developer:hover > .developerText {
-                        color: rgb(120, 120, 120);
-                        -webkit-text-stroke: 0.5px #5aa5e0;
-                    }
+            #developer:hover>.developerText {
+                color: rgb(120, 120, 120);
+                -webkit-text-stroke: 0.5px #5aa5e0;
+            }
 
             .developerText {
                 color: rgb(243, 243, 243);
@@ -1050,24 +1055,23 @@ ___        ___        ___  ,________,  ,___    ,________
     </section>
 
     <!-- End External Scripts ./index/assets/scripts/* -->
-    <i>
-        <script type="text/javascript" src="index/assets/scripts/tooltip_system.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/letter_effects.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/main_user_interface.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/app_menu_script.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/info_managment.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/button_splash_effect.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/search_interface.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/search_process.js" defer></script>
-        <script type="text/javascript" src="index/assets/scripts/window_resize_manager.js" defer></script>
-    </i>
+    <script type="text/javascript" src="index/assets/scripts/tooltip_system.js" defer></script>
+    <script type="text/javascript" src="index/assets/scripts/letter_effects.js" defer></script>
+    <script type="text/javascript" src="index/assets/scripts/main_user_interface.js" defer></script>
+    <script type="text/javascript" src="index/assets/scripts/app_menu_script.js" defer></script>
+    <script type="text/javascript" src="index/assets/scripts/info_managment.js" defer></script>
+    <script type="text/javascript" src="index/assets/scripts/button_splash_effect.js" defer></script>
+    <!-- Search Client Scripts -->
+    <script type="text/javascript" src="index/assets/scripts/search_client_system/search_interface.js" defer></script>
+    <script type="text/javascript" src="index/assets/scripts//search_client_system/search_process.js" defer></script>
+    <!-- ... -->
+    <script type="text/javascript" src="index/assets/scripts/window_resize_manager.js" defer></script>
     <!-- Modules -->
     <!-- DOM Viewport Handler -->
     <script type="module" src="index/assets/scripts/DOM_viewport_manager/dom_manager.js"></script>
     <!-- Settings Functionality -->
     <script type="module" src="index/assets/scripts/settings/modules/UI_interactables.js" defer></script>
-    <!---->
-    <script>
+    <!-- <script>
         /*
             Reminder on pre-functions:
 
@@ -1075,20 +1079,19 @@ ___        ___        ___  ,________,  ,___    ,________
             For multiple elements with same message
             setupTooltips('.hoverable', 'This element has a tooltip');
         */
-    </script>
-
-    <!-- <script async src="index/assets/scripts/context_menu.js"
-        defer></script> -->
+    </script> -->
     <script type="text/javascript" src="./index/assets/scripts/toolbar_extension_manager.js" defer></script>
-    <script type="text/javascript" src="./index/assets/scripts/project_file_validation.js" defer preload="auto"></script>
+    <script type="text/javascript" src="./index/assets/scripts/project_file_validation.js" defer
+        preload="auto"></script>
     <script type="text/javascript" src="./index/assets/scripts/content_section_logic/hide_content.js" defer></script>
     <script type="text/javascript" src="./index/assets/scripts/content_section_logic/content_arrangment_interaction.js"
-            defer></script>
+        defer></script>
 
     <script type="module" src="./index/assets/scripts/recent_logic/create_recent_results.js" defer></script>
 
     <script type="module" src="./index/assets/scripts/input_format_tool_system/input_format_interface.js"></script>
-    <script type="module" async="true" src="./index/assets/scripts/input_format_tool_system/input_formater_instancer.js"></script>
+    <script type="module" async="true"
+        src="./index/assets/scripts/input_format_tool_system/input_formater_instancer.js"></script>
     <script type="module" async="true" src="./index/assets/scripts/input_format_tool_system/input_scanner.js"></script>
 
     <script type="text/javascript" defer>

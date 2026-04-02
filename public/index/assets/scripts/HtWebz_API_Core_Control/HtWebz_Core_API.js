@@ -161,8 +161,8 @@ class _EasyLoaderUtilitys {
  * @param {string | undefined} TargetScriptName 
  * @param {boolean} ExecuteAutomatically
  */
-HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async function (TargetScriptName, ExecuteAutomatically) {
-    if (TargetScriptName !== null && typeof (TargetScriptName) === "string") {
+HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async function (TargetScriptName = undefined, ExecuteAutomatically = true) {
+    if ((TargetScriptName !== undefined && TargetScriptName !== null) && typeof (TargetScriptName) === "string") {
         (async () => {
             try {
                 let EasyLoaderImportantInformationOutput = {
@@ -218,6 +218,27 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
 
                 /**
                  * ---
+                 * @template {"text/javascript" | "module"} ScriptCompilationUsage
+                 * @param {Blob | Response} [FetchedScriptFile=undefined]
+                 * @returns {ScriptCompilationUsage}
+                 */
+                function CompilationTypeCommonJS(FetchedScriptFile = undefined) {
+                    if (FetchedScriptFile !== undefined && FetchedScriptFile !== null) {
+                        if (FetchedScriptFile instanceof Blob || FetchedScriptFile instanceof Response) {
+                            const BlobFileResponse = // ...
+                                FetchedScriptFile instanceof Response
+                                    ? FetchedScriptFile.blob
+                                    : FetchedScriptFile instanceof Blob
+                                        ? FetchedScriptFile
+                                        : undefined;
+                        } else {
+                            console.error();
+                        }
+                    }
+                }
+
+                /**
+                 * ---
                  * 
                  * 
                  * ---
@@ -250,22 +271,27 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.InjectJavaScriptObject = async
                 });
                 // ...
                 document.body.appendChild(NewInjectionScript);
+                console.debug("Validating loaded JavaScript...");
                 /**
                  * @template {HTMLScriptElement} FetchChecksum
                  */
                 new Promise(async () => {
-                    const FetchedDocumentElements = document.childNodes.entries();
-                    // ...
-                    console.debug("Validating loaded JavaScript...");
-                    // ...
-                    for (let DocumentTreeIndex = 0; DocumentTreeIndex < document.body.childElementCount.valueOf(); DocumentTreeIndex++) {
+                    for (let DocumentTreeIndex = 0; (DocumentTreeIndex.valueOf() < Number(document.body.childElementCount)); DocumentTreeIndex++) {
                         if (DocumentTreeIndex !== undefined && typeof (DocumentTreeIndex) === "number") {
-                            const ScanningElementIrretator = FetchedDocumentElements.next();
-                            const CurrentScanningElement = ScanningElementIrretator.value;
-                            console.debug(DocumentTreeIndex.toString());
-                            if (CurrentScanningElement !== null && CurrentScanningElement instanceof HTMLElement && CurrentScanningElement instanceof HTMLScriptElement) {
+                            const SelectedElement = document.body.children.item(DocumentTreeIndex.valueOf());
+                            // ...
+                            console.debug(parseFloat(DocumentTreeIndex.toString()));
+                            // ...
+                            if (SelectedElement !== null && SelectedElement instanceof HTMLScriptElement) {
                                 console.info(LoadedJavaScriptValidSource());
                                 console.debug("%cELEMENT MATCH!", 'font-weight: bold;');
+                                if (SelectedElement.hasAttribute("scriptvalidated") === true) {
+                                    SelectedElement.setAttribute("scriptvalidated", "TRUE");
+                                }
+                                return void null;
+                            } else {
+                                console.warn("VALIDATION ELEMENT MISMATCH!");
+                                continue;
                             }
                         } else {
                             const ForLoopErrorMessage = new String("FATAL:\tThere was an error with the document index ReactionVariable!").valueOf();
