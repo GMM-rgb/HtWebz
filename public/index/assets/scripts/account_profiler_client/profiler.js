@@ -1,4 +1,3 @@
-import { Socket } from "socket.io";
 import { ProfilerToast } from "./modules/profiler_toast_widget.js";
 
 let AccountCookies = {};
