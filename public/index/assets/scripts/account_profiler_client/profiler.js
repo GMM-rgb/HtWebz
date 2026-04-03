@@ -1,3 +1,4 @@
+import { Socket } from "socket.io";
 import { ProfilerToast } from "./modules/profiler_toast_widget.js";
 
 let AccountCookies = {};
@@ -72,18 +73,21 @@ function attachSocketClientConnections() {
     // instead of waiting for 'connect' to fire (it won't fire again)
     if (socket.connected) {
         console.log('Socket already connected, registering immediately.');
+        new ProfilerToast("Registering With Cache...").BuildToastElement();
         registerUser();
     }
 
     // Still listen for future connects (page load before socket ready, or reconnects)
     socket.on('connect', () => {
         console.log('Socket connected, registering...');
+        new ProfilerToast("Registering...").BuildToastElement();
         registerUser();
     });
 
     // If the socket drops and comes back, re-register automatically
     socket.on('reconnect', () => {
         console.log('Socket reconnected, re-registering...');
+        new ProfilerToast("Registering...").BuildToastElement();
         registerUser();
     });
 
@@ -94,7 +98,6 @@ function attachSocketClientConnections() {
         socket.emitWithAck("reconnect_client", navigator?.onLine ?? false).then(() => {
 
         });
-
     });
 
     socket.on('connect_error', (err) => {

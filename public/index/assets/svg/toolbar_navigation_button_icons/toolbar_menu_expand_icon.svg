@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <!---->
+    <path stroke="#80b5db" stroke-width="3" stroke-linejoin="round" fill="rgba(5, 134, 227, 0.75)" transform="scale(2) translate(25,50)" d="
+    M 0 0
+    C 0 50 0 0 0 0
+    C 150 0 150 0 150 100
+    C 0 100 0 100 0 50
+    Z;"/>
+    <!---->
+    <g>
+        
+    </g>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 if ((!URL && !this.window)) import("../window_scope_definitions");
 // import * as EfficencyGroupLogging from "./Utility/TypeScript/GroupLoggingUtility";
 
-// HtWebz Gl uhobal Namespace(s) JavaScript Declaration
+// HtWebz Global Namespace(s) JavaScript Declaration
 globalThis.HtWebzAPIs = {
     /**
      * ---
@@ -33,64 +33,59 @@ globalThis.HtWebzAPIs = {
  */
 // ...
 // Extra HtWebz APIs
-function InsertExtraAPI() {
-    /**
-     * ---
-     * __HtWebzAPI:__ *HtWebzAccountManager*
-     * 
-     * ---
-     * The AccountManagment `HtWebzAPI` is used in the codebase feild for
-     * *controlling/maintaining* connection & stability to the server.  
-     * Following `HtWebzAPI` includes:  
-     * 
-     * ---
-     * @public
-     * (@type {HtWebzAccountManager})
-     */
-    globalThis.HtWebzAccountManager = {
-        AccountServerCommunication: new Object({
-            /**
-             * ---
-             * ...
-             * 
-             * ---
-             * @public
-             * @param {any} NewProtocolData
-             * @returns {void}
-             */
-            UpdateAccountProtocolDataWith: (NewProtocolData) => {
-                return new Promise(() => {
-                    if (NewProtocolData !== null && NewProtocolData instanceof Object) {
-                        const NewTargetData = (NewProtocolData ?? undefined) ?? null;
-                        socket.emitWithAck("account_protocol_data_update");
-                    } else {
-
-                    }
-                });
-            }
-        }).valueOf(),
-    };
-
-    /**
-     * ---
-     * 
-     */
-    globalThis.HtWebzEfficencyEngine = {
+/**
+ * ---
+ * __HtWebzAPI:__ *HtWebzAccountManager*
+ * 
+ * ---
+ * The AccountManagment `HtWebzAPI` is used in the codebase feild for
+ * *controlling/maintaining* connection & stability to the server.  
+ * Following `HtWebzAPI` includes:  
+ * 
+ * ---
+ * @public
+ * (@type {HtWebzAccountManager})
+ */
+globalThis.HtWebzAccountManager = {
+    AccountServerCommunication: new Object({
         /**
          * ---
-         * 
+         * ...
          * 
          * ---
-         * @type {HtWebzEfficencyEngine.EasyLoader}
+         * @public
+         * @param {any} NewProtocolData
+         * @returns {void}
          */
-        EasyLoader: {
-            JavaScriptLoader: new Object({}).valueOf(),
-        },
-    };
-}
+        UpdateAccountProtocolDataWith: (NewProtocolData) => {
+            return new Promise(() => {
+                if (NewProtocolData !== null && NewProtocolData instanceof Object) {
+                    const NewTargetData = (NewProtocolData ?? undefined) ?? null;
+                    socket.emitWithAck("account_protocol_data_update");
+                } else {
 
-InsertExtraAPI();
-// self.addEventListener("load", InsertExtraAPI, { once: true });
+                }
+            });
+        }
+    }).valueOf(),
+};
+
+/**
+ * ---
+ * 
+ */
+globalThis.HtWebzEfficencyEngine = {
+    /**
+     * ---
+     * 
+     * 
+     * ---
+     * @type {HtWebzEfficencyEngine.EasyLoader}
+     */
+    EasyLoader: {
+        JavaScriptLoader: new Object({}).valueOf(),
+    },
+};
 
 class _EasyLoaderUtilitys {
     static EasyLoaderLoggingEval = {
@@ -218,21 +213,74 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.LoadJavaScriptObject = async f
 
                 /**
                  * ---
+                 * @param {URL | string} FullScriptUrl 
+                 * @returns {boolean}
+                 */
+                function LoadedJavaScriptObjectAlreadyExists(FullScriptUrl) {
+                    /**
+                     * ---
+                     * @type {boolean}
+                     */
+                    let JavaScriptObjectExists = false;
+                    /**
+                     * ---
+                     * @type {(HTMLElement[] | undefined[])}
+                     */
+                    let ChecksumFetchedDocumentElements = [];
+                    // ...
+                    if (JavaScriptObjectExists !== undefined && ChecksumFetchedDocumentElements !== undefined && (ChecksumFetchedDocumentElements instanceof Array)) {
+                        for (let iv = 0; iv.valueOf() < Math.ceil(document.body.childElementCount); iv++) {
+                            if (iv === null) return;
+                            
+                        }
+                    }
+
+                    return JavaScriptObjectExists ?? false;
+                }
+
+                /**
+                 * ---
                  * @template {"text/javascript" | "module"} ScriptCompilationUsage
-                 * @param {Blob | Response} [FetchedScriptFile=undefined]
-                 * @returns {ScriptCompilationUsage}
+                 * @param {(Blob | Response)} [FetchedScriptFile=undefined]
+                 * @returns {(ScriptCompilationUsage | null)?}
                  */
                 function CompilationTypeCommonJS(FetchedScriptFile = undefined) {
                     if (FetchedScriptFile !== undefined && FetchedScriptFile !== null) {
                         if (FetchedScriptFile instanceof Blob || FetchedScriptFile instanceof Response) {
-                            const BlobFileResponse = // ...
-                                FetchedScriptFile instanceof Response
-                                    ? FetchedScriptFile.blob
-                                    : FetchedScriptFile instanceof Blob
-                                        ? FetchedScriptFile
-                                        : undefined;
+                            /**
+                             * ---
+                             * @type {string[]} 
+                             */
+                            const ModuleTypeKeywords = ['import', 'export'];
+                            /**
+                             * ---
+                             * @type {(ScriptCompilationUsage)[]} 
+                             */
+                            const CompilationTypes = ["text/javascript", "module"];
+                            /**
+                             * ---
+                             * @type {(Blob | undefined)?} 
+                             */
+                            const BlobFileResponse = FetchedScriptFile instanceof Response
+                                ? FetchedScriptFile.blob
+                                : FetchedScriptFile instanceof Blob
+                                    ? FetchedScriptFile
+                                    : (undefined ?? null);
+                            let CommonJS_CompilationTypeMethod = String(CompilationTypes[0].toLowerCase()).toString();
+                            let ModulePatternExpression = new RegExp(/(.<=?)[\w]+/gi);
+                            const ModulePatternSource = ModulePatternExpression.source.trim().normalize("NFC");
+                            const SelectedPatternSegment = ModulePatternSource.at(Math.floor(parseFloat(String(Math.abs((ModulePatternSource.length.valueOf() - (1 + 3)))))));
+                            console.debug(`${SelectedPatternSegment}`);
+                            const FinalizedModulePattern = ModulePatternSource.replace();
+                            ModulePatternExpression.source = String(FinalizedModulePattern).trim();
+                            // ...
+                            const isModule = new Boolean(ModulePatternExpression.test(String(BlobFileResponse.text()).trim())).valueOf();
+                            // ...
+                            CommonJS_CompilationTypeMethod = (isModule ? CompilationTypes[1] : CompilationTypes[0]).toString();
+                            // ...
+                            return CommonJS_CompilationTypeMethod ?? null;
                         } else {
-                            console.error();
+                            console.error("JavaScript Loading Method Type Determination Error:\n" + ``);
                         }
                     }
                 }
@@ -250,6 +298,7 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.LoadJavaScriptObject = async f
                 const GeneratedJavaScriptObjectName = String(`${JavaScriptSourceFetch.status.valueOf()}::LoadedJavaScript::${Math.ceil(Math.random() * Math.abs(100 * 10))}`);
                 // ...
                 console.debug(`${GeneratedJavaScriptObjectName.toString() ?? "Name NOT Available!"}`);
+                console.debug(CompilationTypeCommonJS(JavaScriptSourceFetch));
                 // create injection script element for the current website page
                 const NewInjectionScript = document.createElement("script");
                 NewInjectionScript.async = ExecuteAutomatically === true ? "off" : "on";
@@ -257,20 +306,8 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.LoadJavaScriptObject = async f
                 NewInjectionScript.src = JavaScriptSourceFetch.url.toString();
                 NewInjectionScript.setAttribute("scriptvalidated", "FALSE");
                 NewInjectionScript.setAttribute("name", String(GeneratedJavaScriptObjectName));
-                NewInjectionScript.addEventListener("load", (ScriptLoadEvalEvent) => {
-                    if (ScriptLoadEvalEvent != null && ScriptLoadEvalEvent instanceof Event) {
-                        (async () => {
-                            ScriptLoadEvalEvent.preventDefault();
-                        })().then(() => {
-                            // eval((!(NewInjectionScript.src instanceof Object) && typeof (NewInjectionScript.src) === "string") ? NewInjectionScript.src.toString() : JSON.parse(NewInjectionScript.src.trim()));
-                            // NewInjectionScript.blocking
-                        });
-                    } else {
-                        console.warn("ScriptLoadEvent was not defined; Has a NULL value.");
-                    }
-                });
-                // ...
                 document.body.appendChild(NewInjectionScript);
+                // ...
                 console.debug("Validating loaded JavaScript...");
                 /**
                  * @template {HTMLScriptElement} FetchChecksum
@@ -286,7 +323,7 @@ HtWebzEfficencyEngine.EasyLoader.JavaScriptLoader.LoadJavaScriptObject = async f
                                 console.info(LoadedJavaScriptValidSource());
                                 console.debug("%cELEMENT MATCH!", 'font-weight: bold;');
                                 if (SelectedElement.hasAttribute("scriptvalidated") === true) {
-                                    SelectedElement.setAttribute("scriptvalidated", "TRUE");
+                                    NewInjectionScript.setAttribute("scriptvalidated", "TRUE");
                                 }
                                 return void null;
                             } else {

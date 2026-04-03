@@ -39,10 +39,10 @@ class LetterEffect {
                         return void null;
                     }
                 } else {
-                    console.group("LetterEffectSystem");
-                    console.warn(`%c"lettereffect"%c was not found on notification list heading element textcontent!`, 'font-weight: bold;', 'font-weight: normal;');
-                    console.info("Continuing since the attribute doesn't exist... (Assumming ON)");
-                    console.groupEnd();
+                    // console.group("LetterEffectSystem");
+                    // console.warn(`%c"lettereffect"%c was not found on notification list heading element textcontent!`, 'font-weight: bold;', 'font-weight: normal;');
+                    // console.info("Continuing since the attribute doesn't exist... (Assumming ON)");
+                    // console.groupEnd();
                 }
 
                 // Get the ACTUAL color before we modify anything
