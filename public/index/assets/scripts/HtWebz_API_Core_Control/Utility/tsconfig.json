@@ -5,14 +5,13 @@
     },
     "compilerOptions": {
         "typeRoots": [],
-        "moduleResolution": "classic",
         "lib": [
             "ES2018",
             "DOM",
         ],
         "module": "commonjs",
-        "outDir": "UtilitysBuild",
-        "rootDir": "./TypeScript/",
+        "outDir": "./API_UtilitysBuild",
+        "rootDir": "./",
         "removeComments": true,
         "diagnostics": true,
         "allowJs": true,
