@@ -1,0 +1,25 @@
+{
+    "buildOptions": {
+        "verbose": true,
+        "traceResolution": true
+    },
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "pretty": true,
+        "diagnostics": true,
+        "removeComments": true,
+        "sourceMap": true,
+        "sourceRoot": "./",
+        "rootDir": "./",
+        "module": "commonjs",
+        "outDir": "WebOS_BUILD",
+        "lib": [
+            "DOM",
+            "ES2015"
+        ],
+        "typeRoots": [
+            "./file_system/"
+        ]
+    }
+}
