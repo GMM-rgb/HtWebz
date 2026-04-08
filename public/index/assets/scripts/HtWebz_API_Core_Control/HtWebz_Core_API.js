@@ -532,7 +532,7 @@ if (typeof importScripts === "function") {
         "node-fetch",
         "socket",
     ])).then(() => {
-        console.groupCollapsed("[HtWebzEngine]:\tImported priority external scripts for API.");
+        console.groupCollapsed("[HtWebzEngine]:\tImported priority external backend hosted scripts for API.");
         console.debug();
         console.groupEnd();
     });
