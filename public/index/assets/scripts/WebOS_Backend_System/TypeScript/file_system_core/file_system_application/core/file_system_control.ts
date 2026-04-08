@@ -11,8 +11,18 @@ let FileSystemData: FileSystemOverviewDataType = {
 // ...
 class FileSystemObjectBoilerplate implements FileSystemBoilerplateReferenceType {
     static FileSystemDataObjectBuilder(DataParameters: DataObjectBoilerplateParameters): FileTypes[0] | FileTypes[1] {
-        
-        return;
+        let InstancedDataObject: FileTypes[0] | FileTypes[1] = null;
+
+        function DataHas(): boolean {
+
+            return;
+        }
+
+        if (DataParameters !== undefined && (typeof (DataParameters)) === "object") {
+
+        }
+
+        return InstancedDataObject;
     }
 }
 /**
