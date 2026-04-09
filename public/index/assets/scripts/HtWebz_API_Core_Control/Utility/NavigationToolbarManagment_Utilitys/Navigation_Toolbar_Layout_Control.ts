@@ -18,8 +18,9 @@ declare type ValidNavigationElements = (
 
 let CurrentLayoutControlerNames = [];
 let ActiveLayoutControlers: LayoutControler[] = new Array(0);
-let AvailableNavigationElements = [
-
+let AvailableNavigationElements = new Array(0);
+let ValidNavigationElements = [
+    "AccountProfiler",
 ] as const;
 
 class LayoutControler {
@@ -31,7 +32,8 @@ class LayoutControler {
     CommitNavigationToolbarElement(RequestedNavigationElements: NavigationToolbarElements | undefined = undefined): void {
         if (RequestedNavigationElements !== undefined && typeof (RequestedNavigationElements) === "object") {
             let RequestedElementAmount: number = 0;
-            let RequestedElementStrings = new Array(0);
+            let CurrentElementIndex: number = parseFloat("0");
+            let RequestedElementStrings: any[] = new Array(0);
             // ...
             for (const _RequestedElement in RequestedNavigationElements) {
                 RequestedElementAmount = Math.ceil(Math.abs(RequestedElementAmount)) + 1;

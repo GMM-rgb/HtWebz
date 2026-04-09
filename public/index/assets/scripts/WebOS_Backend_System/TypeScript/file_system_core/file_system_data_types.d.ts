@@ -1,18 +1,20 @@
 declare type _FileSystemControl_Directory = {
     name: String;
-    DirectoryParent?: _FileSystemControl_Directory;
+    ParentDirectory?: _FileSystemControl_Directory;
 };
 
 declare type _FileSystemControl_File = {
-    namme: String;
+    name: String;
+    InnerContentData: StringIterator<string>
+    ParentDirectory: _FileSystemControl_Directory;
 };
 
 declare type FileSystemOverviewDataType = {
     SystemFolderCount?: number;
     SystemFileCount?: number;
     DirectoryMapping: {
-        "Folders": _FileSystemControl_Directory[];
-        "Files": _FileSystemControl_File[];
+        "folders": _FileSystemControl_Directory[];
+        "files": _FileSystemControl_File[];
     };
 };
 
