@@ -1,31 +1,61 @@
 /// <reference path="../../file_system_data_types.d.ts" />
 // file system memmory concurrent varaible data
 let FileSystemData: FileSystemOverviewDataType = {
-    SystemFolderCount: 0 as number,
-    SystemFileCount: 0 as number,
+    SystemFolderCount: 0,
+    SystemFileCount: 0,
     DirectoryMapping: {
         "folders": [],
         "files": [],
     },
 };
 // ...
+let _ValidFileSystemDataKeys: Readonly<FileSystemDataKeys> = {
+    FILE: [
+        "name",
+        "parent",
+        "ContentData",
+        "ExtensionType"
+    ],
+    DIRECTORY: [
+        "name",
+        "parent"
+    ]
+} as const;
 let _DirectoryMappingConversion = {
-    "FILE": "files",
-    "DIRECTORY": "folders",
+    FILE: "files",
+    DIRECTORY: "folders"
 } as const;
 // ...
 class FileSystemObjectBoilerplate implements FileSystemBoilerplateReferenceType {
-    static FileSystemDataObjectBuilder(DataParameters: DataObjectBoilerplateParameters): FileTypes[0] | FileTypes[1] | null {
+    static FileSystemDataObjectConstructor(DataType: DataObjectBoilerplateParameters["FileDataType"], DataParameters: any | Object): FileTypes[0] | FileTypes[1] | null {
         let InstancedDataObject: FileTypes[0] | FileTypes[1] | null = null;
+        function ReceivedDataHas(RequestedDataKey?: FileSystemDataKeys[typeof DataType]): boolean {
+            let RequestedCheckValid = Boolean("false").valueOf();
+            if ((DataParameters !== undefined && RequestedDataKey !== undefined) && typeof (RequestedDataKey) === "string") {
+                try {
+                    if (typeof (DataParameters) === "object") {
+                        for (let DataChecksumIndex = 0; DataChecksumIndex < parseFloat(_ValidFileSystemDataKeys[DataType].length.toFixed(2)); DataChecksumIndex++) {
+                            if (RequestedCheckValid !== undefined && typeof (RequestedCheckValid) === "boolean") {
 
-        function ReceivedDataHas(): boolean {
-            let RequestedCheckValid = false;
+                            }
+                        }
+                    } else {
+                        throw new Error(`DataParametes for checking data key; INVALID!\n${DataParameters}`);
+                    }
+                } catch (ChecksumError: any | null) { void null; }
+            }
 
             return RequestedCheckValid ?? false;
         }
 
-        if (DataParameters !== undefined && (typeof (DataParameters)) === "object") {
+        for (const SelectedDataParameterKey in DataParameters) {
+            if (SelectedDataParameterKey !== null && typeof (SelectedDataParameterKey) === "string") {
+                if (ReceivedDataHas() === true) {
 
+                }
+            } else {
+                console.warn();
+            }
         }
 
         return InstancedDataObject;
@@ -43,8 +73,8 @@ class FileSystemWebOS extends FileSystemObjectBoilerplate implements FileSystemR
      */
     constructor(private RequestedLocalFileSystemID: String) { super(); }
 
-    static FetchData(ReferenceType: ValidDataTypes[1]): _FileSystemControl_Directory;
-    static FetchData(ReferenceType: ValidDataTypes[0]): _FileSystemControl_File;
+    static FetchData(ReferenceType: ValidDataTypes[1]): _FileSystemControlDirectory;
+    static FetchData(ReferenceType: ValidDataTypes[0]): _FileSystemControlFile;
 
     public static FetchData(ReferenceType: ValidDataTypes[0] | ValidDataTypes[1]): FileTypes[0] | FileTypes[1] | undefined {
         const SelectedMappingArray = FileSystemData.DirectoryMapping[_DirectoryMappingConversion[ReferenceType]];
@@ -77,7 +107,7 @@ class FileSystemWebOS extends FileSystemObjectBoilerplate implements FileSystemR
         return FetchedFileSystemData ?? undefined;
     }
 
-    public NewDataCommit(FileSystemDataObject: _FileSystemControl_Directory | _FileSystemControl_File): void {
+    public NewDataCommit(FileSystemDataObject: _FileSystemControlDirectory | _FileSystemControlFile): void {
 
     }
 
@@ -87,5 +117,3 @@ class FileSystemWebOS extends FileSystemObjectBoilerplate implements FileSystemR
         }
     }
 }
-
-// FileSystemWebOS.FetchData("FILE");
