@@ -21,20 +21,25 @@ let _ValidFileSystemDataKeys: Readonly<FileSystemDataKeys> = {
         "parent"
     ]
 } as const;
+// ...
 let _DirectoryMappingConversion = {
     FILE: "files",
     DIRECTORY: "folders"
 } as const;
 // ...
 class FileSystemObjectBoilerplate implements FileSystemBoilerplateReferenceType {
-    static FileSystemDataObjectConstructor(DataType: DataObjectBoilerplateParameters["FileDataType"], DataParameters: any | Object): FileTypes[0] | FileTypes[1] | null {
+    static FileSystemDataObjectConstructor(DataType?: (DataObjectBoilerplateParameters["FileDataType"]), DataParameters?: Object): FileTypes[0] | FileTypes[1] | null {
+        if (DataType === undefined || DataType === null || typeof (DataType) !== "string") return null;
+
+        const SelectedDataType = DataType as DataObjectBoilerplateParameters["FileDataType"];
         let InstancedDataObject: FileTypes[0] | FileTypes[1] | null = null;
-        function ReceivedDataHas(RequestedDataKey?: FileSystemDataKeys[typeof DataType]): boolean {
+
+        function ReceivedDataHas(RequestedDataKey: FileSystemDataKeys[typeof SelectedDataType]): boolean {
             let RequestedCheckValid = Boolean("false").valueOf();
             if ((DataParameters !== undefined && RequestedDataKey !== undefined) && typeof (RequestedDataKey) === "string") {
                 try {
                     if (typeof (DataParameters) === "object") {
-                        for (let DataChecksumIndex = 0; DataChecksumIndex < parseFloat(_ValidFileSystemDataKeys[DataType].length.toFixed(2)); DataChecksumIndex++) {
+                        for (let DataChecksumIndex = 0; DataChecksumIndex < parseFloat(_ValidFileSystemDataKeys[SelectedDataType].length.toFixed(2)); DataChecksumIndex++) {
                             if (RequestedCheckValid !== undefined && typeof (RequestedCheckValid) === "boolean") {
 
                             }
@@ -45,20 +50,29 @@ class FileSystemObjectBoilerplate implements FileSystemBoilerplateReferenceType 
                 } catch (ChecksumError: any | null) { void null; }
             }
 
-            return RequestedCheckValid ?? false;
+            return RequestedCheckValid ||= false;
+        }
+
+        function GetDataTypeSupposedKeys(): FileSystemDataKeys[typeof SelectedDataType] | undefined {
+            if (DataType !== undefined && typeof (DataType) === "string") {
+                const _DetectedKeyCategory: FileSystemDataKeys[typeof SelectedDataType] = _ValidFileSystemDataKeys[DataType];
+                return _DetectedKeyCategory;
+            }
+
+            return void null;
         }
 
         for (const SelectedDataParameterKey in DataParameters) {
             if (SelectedDataParameterKey !== null && typeof (SelectedDataParameterKey) === "string") {
-                if (ReceivedDataHas() === true) {
-
+                if (ReceivedDataHas((GetDataTypeSupposedKeys?.() ?? ["name", "parent"])) === true) {
+                    
                 }
             } else {
                 console.warn();
             }
         }
 
-        return InstancedDataObject;
+        return InstancedDataObject ?? null;
     }
 }
 /**
