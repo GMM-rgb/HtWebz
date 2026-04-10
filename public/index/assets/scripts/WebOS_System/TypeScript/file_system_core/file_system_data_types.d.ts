@@ -1,5 +1,6 @@
 declare type ExtensionKeys = [
-    "txt",
+    "txt", // standardized text file document
+    "oet" // system file core component
 ];
 
 type PersistentDataKeyStrings = ["name", "parent"];

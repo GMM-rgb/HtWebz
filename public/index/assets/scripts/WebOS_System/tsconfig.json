@@ -16,7 +16,12 @@
         "outDir": "WebOS_BUILD",
         "lib": [
             "DOM",
-            "ES2015"
+            "ES7",
+            "ES2015",
+            "ES2022",
+            "ES2015.Core",
+            "DOM.Iterable",
+            "Decorators",
         ],
         "typeRoots": [
             "./file_system/"

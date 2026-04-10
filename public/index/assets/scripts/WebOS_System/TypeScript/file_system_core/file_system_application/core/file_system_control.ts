@@ -28,26 +28,46 @@ let _DirectoryMappingConversion = {
 } as const;
 // ...
 class FileSystemObjectBoilerplate implements FileSystemBoilerplateReferenceType {
-    static FileSystemDataObjectConstructor(DataType?: (DataObjectBoilerplateParameters["FileDataType"]), DataParameters?: Object): FileTypes[0] | FileTypes[1] | null {
+    static FileSystemDataObjectConstructor(DataType?: (DataObjectBoilerplateParameters["FileDataType"]), DataParameters?: typeof _ValidFileSystemDataKeys["DIRECTORY"] | typeof _ValidFileSystemDataKeys["FILE"]): FileTypes[0] | FileTypes[1] | null {
         if (DataType === undefined || DataType === null || typeof (DataType) !== "string") return null;
 
         const SelectedDataType = DataType as DataObjectBoilerplateParameters["FileDataType"];
         let InstancedDataObject: FileTypes[0] | FileTypes[1] | null = null;
 
         function ReceivedDataHas(RequestedDataKey: FileSystemDataKeys[typeof SelectedDataType]): boolean {
-            let RequestedCheckValid = Boolean("false").valueOf();
-            if ((DataParameters !== undefined && RequestedDataKey !== undefined) && typeof (RequestedDataKey) === "string") {
+            let RequestedCheckValid = new Boolean("false").valueOf();
+            let CurrentValidChecksumKey: string = new String().valueOf();
+            let SelectedDataKeyString: string | null = null;
+            if ((DataParameters !== undefined && RequestedDataKey !== undefined)) {
                 try {
                     if (typeof (DataParameters) === "object") {
-                        for (let DataChecksumIndex = 0; DataChecksumIndex < parseFloat(_ValidFileSystemDataKeys[SelectedDataType].length.toFixed(2)); DataChecksumIndex++) {
-                            if (RequestedCheckValid !== undefined && typeof (RequestedCheckValid) === "boolean") {
-
+                        for (let DataChecksumIndex = 0; DataChecksumIndex < new Number(_ValidFileSystemDataKeys[SelectedDataType].length.toFixed(2)).valueOf(); DataChecksumIndex++) {
+                            if (RequestedCheckValid !== undefined && typeof (RequestedCheckValid) === "boolean" && DataParameters !== null) {
+                                type IndexData = typeof _ValidFileSystemDataKeys[typeof DataTypeFormat][typeof DataChecksumIndex];
+                                const DataTypeFormat = DataType as DataObjectBoilerplateParameters["FileDataType"];
+                                const SanatizedChecksumIndex = typeof (DataChecksumIndex) === "string" ? parseFloat(DataChecksumIndex) : DataChecksumIndex;
+                                // ...
+                                CurrentValidChecksumKey = _ValidFileSystemDataKeys[DataTypeFormat][SanatizedChecksumIndex].valueOf();
+                                SelectedDataKeyString = DataParameters[SanatizedChecksumIndex].valueOf();
+                                // Filters the reuqested key with the valid; incase of order mismatch.
+                                const FilteredChecksum = DataParameters.every(data => {
+                                    const ReceivedIndexData = data as IndexData;
+                                    if (ReceivedIndexData === RequestedDataKey.toString() as IndexData && !RequestedCheckValid) {
+                                        RequestedCheckValid = !!RequestedCheckValid;
+                                    } else {
+                                        if (RequestedCheckValid === true) {
+                                            RequestedCheckValid = false;
+                                        }
+                                    }
+                                }, CurrentValidChecksumKey.trim());
+                            } else {
+                                continue;
                             }
                         }
                     } else {
                         throw new Error(`DataParametes for checking data key; INVALID!\n${DataParameters}`);
                     }
-                } catch (ChecksumError: any | null) { void null; }
+                } catch (ChecksumError: any) { void null; }
             }
 
             return RequestedCheckValid ||= false;
