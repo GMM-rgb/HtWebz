@@ -59,12 +59,17 @@ class UiRenderingSystem implements OS_RenderingSystemControler {
             }) ?? new WebGL2RenderingContext();
         })().then(() => {
             this.AttatchedRenderingBuffer?.bindBuffer(this.AttatchedRenderingBuffer.ARRAY_BUFFER, this.InterfaceRenderingPipeline || new WebGLBuffer());
+        }).finally(() => {
+            console.debug("Processed UI rendering system constructor variables.");
         });
     }
 
     GenerateWindowDisplay(WindowInterfaceConstructionData: InterfaceWindowData | undefined = undefined): void {
         if (typeof (WindowInterfaceConstructionData !== undefined && WindowInterfaceConstructionData instanceof WindowConstructor && WindowInterfaceConstructionData) === "object") {
 
+        } else {
+            console.warn();
+            return;
         }
     }
 }
