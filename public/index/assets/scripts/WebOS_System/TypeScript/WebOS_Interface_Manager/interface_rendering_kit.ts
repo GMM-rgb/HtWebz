@@ -1,7 +1,7 @@
 /// <reference path="./interface_rendering_types.d.ts" />
-import node from "node-fetch";
-import { ChildProcess } from "child_process";
-import { devNull, freemem, availableParallelism } from "os";
+// import node from "node-fetch";
+// import { ChildProcess } from "child_process";
+// import { devNull, freemem, availableParallelism } from "os";
 // ...
 /**
  * 
@@ -42,17 +42,23 @@ class WindowConstructor {
  * 
  */
 class UiRenderingSystem implements OS_RenderingSystemControler {
-    RenderingDisplay: HTMLCanvasElement | null;
-    RenderingContext: WebGL2RenderingContext;
-    InterfaceRenderingPipeline: WebGLBuffer;
+    RenderingDisplay?: HTMLCanvasElement | null;
+    RenderingContext?: WebGL2RenderingContext | null;
+    AttatchedRenderingBuffer?: WebGL2RenderingContext;
+    InterfaceRenderingPipeline?: WebGLBuffer;
 
     constructor() {
-        this.RenderingContext = new WebGL2RenderingContext();
-        this.InterfaceRenderingPipeline = this.RenderingContext.createBuffer();
-        this.RenderingDisplay = window.document?.body?.querySelector?.("canvas") ?? null;
-        const BindableBuffer = this.RenderingDisplay?.getContext("webgl2");
-        Object.assign(this.InterfaceRenderingPipeline, {
-
+        (async () => {
+            this.RenderingContext = new WebGL2RenderingContext();
+            this.InterfaceRenderingPipeline = this.RenderingContext.createBuffer();
+            this.RenderingDisplay = window.document?.body?.querySelector?.("canvas") ?? null;
+            this.AttatchedRenderingBuffer = this.RenderingDisplay?.getContext("webgl2", {
+                powerPreference: "default",
+                antialias: true,
+                depth: true,
+            }) ?? new WebGL2RenderingContext();
+        })().then(() => {
+            this.AttatchedRenderingBuffer?.bindBuffer(this.AttatchedRenderingBuffer.ARRAY_BUFFER, this.InterfaceRenderingPipeline || new WebGLBuffer());
         });
     }
 
