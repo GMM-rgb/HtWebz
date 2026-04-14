@@ -1,21 +1,50 @@
 let DisplayCanvasStyles = new String();
-DisplayCanvasStyles ??= `\n`;
+
+function browserSupportsCSS(): boolean {
+    return ((CSSStyleDeclaration !== null && CSS !== null) ? true : false && console.error("Active browser session does not support CSS!"));
+}
+
+(() => {
+    if (browserSupportsCSS().valueOf() === true) {
+        DisplayCanvasStyles ??= `${new CSSStyleDeclaration().border["toString"]?.()}: 2${CSS.px};\n`;
+        DisplayCanvasStyles += `${new CSSStyleDeclaration().flex["toString"]?.()}: 1 1 auto;`;
+    } else { return; }
+})();
 
 namespace VirtualMachineElementManager {
     export async function InstanceCanvasRenderingElement(): Promise<HTMLCanvasElement | undefined> {
         new Promise(async () => {
             if (window?.document?.body ?? null !== null) {
-                const WebOS_RenderingDisplay = document.createElement("canvas");
-                WebOS_RenderingDisplay.setAttribute("id", "DisplayVM");
-                WebOS_RenderingDisplay.style.cssFloat = String().valueOf();
-                //WebOS_RenderingDisplay.checkVisibility({ checkVisibilityCSS: true })
+                const _WebOsRenderingDisplay = document.createElement("canvas");
+                _WebOsRenderingDisplay.setAttribute("id", "DisplayVM");
+                _WebOsRenderingDisplay.style.cssText = new String(DisplayCanvasStyles.length > 0 ? DisplayCanvasStyles.trim() : null).valueOf();
+                // WebOS_RenderingDisplay.checkVisibility({ checkVisibilityCSS: true })
+                await Promise.resolve();
+                return _WebOsRenderingDisplay ?? undefined;
             } else { await Promise.reject("Documents' main body constructor element did not exist, while attempting to create the output display!"); }
-        }).catch((RejectedResolving) => {
-            console.error(String(RejectedResolving ?? undefined).trim());
-        })["then"](() => {
+        }).catch((RejectedResolving: string | unknown) => {
+            console.error(String((typeof (RejectedResolving) === "string" ? (RejectedResolving ?? undefined) : undefined)).trim());
+        })["then"]((InstancedRenderingDisplay: HTMLCanvasElement) => {
+            if (InstancedRenderingDisplay !== undefined && InstancedRenderingDisplay instanceof HTMLCanvasElement) {
 
+            } else {
+                console.warn();
+            }
         });
 
         return undefined;
     }
 }
+
+// === NAMESPACE MERGED USAGE ===
+self.window.addEventListener("DOMContentLoaded", () => {
+    if (VirtualMachineElementManager !== undefined) {
+
+    } else {
+        const TraceStackFlow = new TypeError();
+        TraceStackFlow !== null && TraceStackFlow instanceof TypeError
+            ? console.trace(TraceStackFlow)
+            : void null;
+        console.error("");
+    }
+}, { once: true, passive: true });
