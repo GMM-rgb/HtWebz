@@ -1,7 +1,7 @@
 {
     "buildOptions": {
         "verbose": true,
-        "traceResolution": true
+        "traceResolution": false
     },
     "compilerOptions": {
         "allowJs": true,
@@ -13,27 +13,20 @@
         // "baseUrl": "~/",
         "sourceRoot": "./",
         "rootDir": "./",
-        "rootDirs": [
-            "./",
-            "../../../"
-        ],
-        "module": "commonjs",
+        "mapRoot": "../",
+        "module": "nodenext",
         "outDir": "WebOS_BUILD",
         "lib": [
             "DOM",
             "ES7",
             "ES2015",
-            "ES2022",
-            "ES2015.Core",
-            "DOM.Iterable",
             "Decorators",
+            "Decorators.Legacy",
+            "ESNext.Disposable"
+            //"ES2015",
         ],
-        "typeRoots": [
-            "./file_system/",
-            "../../../"
-        ],
-        // "types": [
-        //     "../window_scope_definitions.d.ts"
-        // ]
+        //"typeRoots": [
+        //    "./file_system/",
+        //],
     }
 }

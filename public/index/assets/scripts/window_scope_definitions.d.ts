@@ -3,18 +3,18 @@
 // scope_definitions.d.ts
 //
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
-import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
+import * as NotifyUtility from "notification_system/notification_utility_modules/notification_main_interface";
 import { Socket } from "socket.io";
-
+// ...
 declare type VariableReactionEventResult = [...any];
-
-export declare global {
+// ...
+declare global {
     /**
      * ---
      * ...
      * 
      */
-    export declare interface WaitForElementResult<T extends HTMLElement> {
+    interface WaitForElementResult<T extends HTMLElement> {
         // `then` promise exception
         then<R1 = T, R2 = never>(
             onfulfilled?: ((value: T) => R1 | PromiseLike<R1>) | null,
@@ -31,17 +31,17 @@ export declare global {
     }
 }
 
-export declare global {
-    declare var socket: Readonly<typeof Socket.prototype> = (Socket.prototype) as const;
+declare global {
+    var socket = Socket.prototype as const;
 }
 
-export declare global {
-    export declare namespace HtWebzAPIs {
+declare global {
+    namespace HtWebzAPIs {
         /**
          * ---
          * 
          */
-        export declare interface HtWebzCore {
+        interface HtWebzCore {
 
         }
 
@@ -49,7 +49,7 @@ export declare global {
          * ---
          * 
          */
-        export declare interface HtWebzEngine {
+        interface HtWebzEngine {
             /**
              * 
              * @param RequestedNotificationMessage 
@@ -71,7 +71,7 @@ export declare global {
          * ---
          * 
          */
-        export declare interface HtWebzUtility {
+        interface HtWebzUtility {
             /**
              * ---
              * Waits for an element to appear in the DOM hierarchy tree.
@@ -95,9 +95,9 @@ export declare global {
         }
     }
 
-    export namespace HtWebzAccountManager {
-        export declare namespace AccountProtocolStreamingTypes {
-            declare type AccountProtocolData = {
+    namespace HtWebzAccountManager {
+        namespace AccountProtocolStreamingTypes {
+            type AccountProtocolData = {
                 ProtocolDataGroupName: string;
                 ProtocolDataGroup: {
                     DataJSON: (Object | JSON | String);
@@ -105,18 +105,16 @@ export declare global {
             };
         }
 
-        export interface AccountServerCommunication {
+        interface AccountServerCommunication {
             UpdateAccountProtocolDataWith: (NewProtocolData?: any) => {};
         }
     }
 
-    export namespace HtWebzEfficencyEngine {
-        export interface EasyLoader {
+    namespace HtWebzEfficencyEngine {
+        interface EasyLoader {
             JavaScriptLoader: {
                 InjectJavaScriptObject: (TargetFileName?: string, ExecuteOnLoad: boolean) => void;
             };
         }
     }
 }
-
-export {};

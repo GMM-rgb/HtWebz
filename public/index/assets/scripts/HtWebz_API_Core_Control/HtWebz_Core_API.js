@@ -1,6 +1,5 @@
 if ((!URL && !this.window)) import("../window_scope_definitions");
 // import * as EfficencyGroupLogging from "./Utility/TypeScript/GroupLoggingUtility";
-
 // HtWebz Global Namespace(s) JavaScript Declaration
 globalThis.HtWebzAPIs = {
     /**
