@@ -13,20 +13,22 @@ function browserSupportsCSS(): boolean {
 
 namespace VirtualMachineElementManager {
     export async function InstanceCanvasRenderingElement(): Promise<HTMLCanvasElement | undefined> {
+        /**
+         * @template {HTMLCanvasElement} RenderingDisplay
+         */
         new Promise(async () => {
             if (window?.document?.body ?? null !== null) {
                 const _WebOsRenderingDisplay = document.createElement("canvas");
                 _WebOsRenderingDisplay.setAttribute("id", "DisplayVM");
                 _WebOsRenderingDisplay.style.cssText = new String(DisplayCanvasStyles.length > 0 ? DisplayCanvasStyles.trim() : null).valueOf();
                 // WebOS_RenderingDisplay.checkVisibility({ checkVisibilityCSS: true })
-                await Promise.resolve();
-                return _WebOsRenderingDisplay ?? undefined;
+                return _WebOsRenderingDisplay && await Promise.resolve();
             } else { await Promise.reject("Documents' main body constructor element did not exist, while attempting to create the output display!"); }
         }).catch((RejectedResolving: string | unknown) => {
             console.error(String((typeof (RejectedResolving) === "string" ? (RejectedResolving ?? undefined) : undefined)).trim());
-        })["then"]((InstancedRenderingDisplay: HTMLCanvasElement) => {
+        }).then(<RenderingDisplay>(InstancedRenderingDisplay: HTMLCanvasElement | RenderingDisplay) => {
             if (InstancedRenderingDisplay !== undefined && InstancedRenderingDisplay instanceof HTMLCanvasElement) {
-
+                
             } else {
                 console.warn();
             }
