@@ -7,11 +7,16 @@
         "allowJs": true,
         "checkJs": true,
         "pretty": true,
-        "diagnostics": true,
         "removeComments": true,
+        "diagnostics": true,
         "sourceMap": true,
+        // "baseUrl": "~/",
         "sourceRoot": "./",
         "rootDir": "./",
+        "rootDirs": [
+            "./",
+            "../../../"
+        ],
         "module": "commonjs",
         "outDir": "WebOS_BUILD",
         "lib": [
@@ -24,7 +29,11 @@
             "Decorators",
         ],
         "typeRoots": [
-            "./file_system/"
-        ]
+            "./file_system/",
+            "../../../"
+        ],
+        // "types": [
+        //     "../window_scope_definitions.d.ts"
+        // ]
     }
 }
