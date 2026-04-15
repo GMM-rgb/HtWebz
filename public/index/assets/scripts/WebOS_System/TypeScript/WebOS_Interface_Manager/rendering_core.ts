@@ -187,7 +187,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
         return s;
     }
 
-    /** Load image → WebGL texture (supports URL or existing Image) */
+    /** Load image URI data; WebGL texture (supports file / streaming bitwise URL or existing Image) */
     public async loadTexture(source: string | HTMLImageElement): Promise<WebGLTexture> {
         const gl = this.AttatchedRenderer;
         let img: HTMLImageElement;
@@ -221,17 +221,17 @@ export class Renderer2D implements ReferenceRendererCore2D {
         return new RenderQuad(x, y, w, h, color, null);
     }
 
-    /** Create a textured sprite */
+    /** Instance a textured sprite */
     public createSprite(x: number, y: number, w: number, h: number, texture: WebGLTexture, tint: [number, number, number, number] = [1, 1, 1, 1]): RenderQuad {
         return new RenderQuad(x, y, w, h, tint, texture);
     }
 
-    /** Create a group for collective positioning / management */
+    /** Grouping for collective positioning / management */
     public createGroup(x = 0, y = 0): RenderGroup {
         return new RenderGroup(x, y);
     }
 
-    /** Add any drawable (quad or group) to the scene */
+    /** Instances any drawable (quad or group) to the scene */
     public addToScene(drawable: RenderQuad | RenderGroup) {
         if (!this.topLevelDrawables.includes(drawable)) {
             this.topLevelDrawables.push(drawable);
@@ -385,7 +385,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
         verts.push(x2, y2, r, g, b, a, u2, v2);
     }
 
-    /** OPTIONAL: start a **full** animation loop setup automatically (call this ONCE) */
+    /** OPTIONAL: start a **full** animation loop setup automatically (execute ONCE) */
     public startAnimationLoop(onBeforeRender?: (deltaMs: number) => void) {
         let last = performance.now();
         const loop = (now: number) => {
@@ -395,7 +395,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
             this.update();
             if (onBeforeRender) onBeforeRender(delta);
 
-            // User must call render() themselves with current canvas dimensions
+            // Following user must call render() themselves with current canvas dimensions
             // Example: onBeforeRender = () => renderer.render(canvas.width, canvas.height)
 
             requestAnimationFrame(loop);

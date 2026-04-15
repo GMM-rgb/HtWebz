@@ -138,8 +138,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             });
 
             renderer.startAnimationLoop(() => {
-                const logicalW = Math.floor(canvas.clientWidth);
-                const logicalH = Math.ceil(canvas.clientHeight);
+                const logicalW = Math.floor(new Number(canvas.clientWidth).valueOf());
+                const logicalH = Math.ceil(new Number(canvas.clientHeight).valueOf());
                 renderer.render(logicalW, logicalH);
             });
         }

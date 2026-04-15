@@ -1,3 +1,4 @@
+"use strict";
 class WindowConstructor {
     constructor() {
         this.DataConstructors = new Object({
