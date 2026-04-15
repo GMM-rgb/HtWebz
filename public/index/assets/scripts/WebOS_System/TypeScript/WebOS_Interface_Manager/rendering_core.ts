@@ -109,8 +109,9 @@ export class Renderer2D implements ReferenceRendererCore2D {
     private activeTweens: any[] = [];
 
     /**
-     * Improved Renderer2D with:
-     * - Retained-mode object management (no more manual per-frame rect calls)
+     * ---
+     * Renderer2D:
+     * - Retained-mode object management
      * - Sprite / image support with textures
      * - Grouping with collective positioning
      * - Built-in tweening / animation system
@@ -118,56 +119,60 @@ export class Renderer2D implements ReferenceRendererCore2D {
      * - Simplified API while keeping WebGL2 under the hood
      */
     constructor(DisplayCanvas: HTMLCanvasElement, TargetObjectLimit: number = 4096) {
-        const gl = DisplayCanvas.getContext("webgl2");
-        if (!gl) throw new Error("WebGL2 not supported");
-        this.AttatchedRenderer = gl;
+        const GraphicLibrary = DisplayCanvas.getContext("webgl2", {
+            powerPreference: "default",
+            antialias: true,
+            depth: true,
+        });
+        if (!GraphicLibrary) throw new Error("WebGL2 not supported");
+        this.AttatchedRenderer = GraphicLibrary;
 
         // Compile shaders (texture support added)
-        const vs = this.CompileFramework(gl.VERTEX_SHADER, RenderingShaderData.InterfaceRenderingVertex.trim());
-        const fs = this.CompileFramework(gl.FRAGMENT_SHADER, RenderingShaderData.FragmentRendering.trim());
-        const InstancedProgram = gl.createProgram()!;
-        gl.attachShader(InstancedProgram, vs);
-        gl.attachShader(InstancedProgram, fs);
-        gl.linkProgram(InstancedProgram);
+        const vs = this.CompileFramework(GraphicLibrary.VERTEX_SHADER, RenderingShaderData.InterfaceRenderingVertex.trim());
+        const fs = this.CompileFramework(GraphicLibrary.FRAGMENT_SHADER, RenderingShaderData.FragmentRendering.trim());
+        const InstancedProgram = GraphicLibrary.createProgram()!;
+        GraphicLibrary.attachShader(InstancedProgram, vs);
+        GraphicLibrary.attachShader(InstancedProgram, fs);
+        GraphicLibrary.linkProgram(InstancedProgram);
         this.program = InstancedProgram;
 
-        this.uResolutionLoc = gl.getUniformLocation(InstancedProgram, "uResolution");
-        this.uTextureLoc = gl.getUniformLocation(InstancedProgram, "uTexture");
+        this.uResolutionLoc = GraphicLibrary.getUniformLocation(InstancedProgram, "uResolution");
+        this.uTextureLoc = GraphicLibrary.getUniformLocation(InstancedProgram, "uTexture");
 
         // Vertex setup: 2 pos + 4 color + 2 texCoord = 8 floats per vertex
-        this.RenderingBuffer = gl.createBuffer()!;
-        this.VertexArrayBuffer = gl.createVertexArray()!;
+        this.RenderingBuffer = GraphicLibrary.createBuffer()!;
+        this.VertexArrayBuffer = GraphicLibrary.createVertexArray()!;
 
-        gl.bindVertexArray(this.VertexArrayBuffer);
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.RenderingBuffer);
+        GraphicLibrary.bindVertexArray(this.VertexArrayBuffer);
+        GraphicLibrary.bindBuffer(GraphicLibrary.ARRAY_BUFFER, this.RenderingBuffer);
 
         const stride = 8 * 4; // 8 floats
 
         // position
-        const posLoc = gl.getAttribLocation(InstancedProgram, "position");
-        gl.enableVertexAttribArray(posLoc);
-        gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, stride, 0);
+        const posLoc = GraphicLibrary.getAttribLocation(InstancedProgram, "position");
+        GraphicLibrary.enableVertexAttribArray(posLoc);
+        GraphicLibrary.vertexAttribPointer(posLoc, 2, GraphicLibrary.FLOAT, false, stride, 0);
 
         // color
-        const colLoc = gl.getAttribLocation(InstancedProgram, "color");
-        gl.enableVertexAttribArray(colLoc);
-        gl.vertexAttribPointer(colLoc, 4, gl.FLOAT, false, stride, 2 * 4);
+        const colLoc = GraphicLibrary.getAttribLocation(InstancedProgram, "color");
+        GraphicLibrary.enableVertexAttribArray(colLoc);
+        GraphicLibrary.vertexAttribPointer(colLoc, 4, GraphicLibrary.FLOAT, false, stride, 2 * 4);
 
         // texCoord
-        const texLoc = gl.getAttribLocation(InstancedProgram, "texCoord");
-        gl.enableVertexAttribArray(texLoc);
-        gl.vertexAttribPointer(texLoc, 2, gl.FLOAT, false, stride, 6 * 4);
+        const texLoc = GraphicLibrary.getAttribLocation(InstancedProgram, "texCoord");
+        GraphicLibrary.enableVertexAttribArray(texLoc);
+        GraphicLibrary.vertexAttribPointer(texLoc, 2, GraphicLibrary.FLOAT, false, stride, 6 * 4);
 
-        gl.bindVertexArray(null);
+        GraphicLibrary.bindVertexArray(null);
 
         // Default 1x1 white texture (for colored rects)
-        this.whiteTexture = gl.createTexture()!;
-        gl.bindTexture(gl.TEXTURE_2D, this.whiteTexture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        this.whiteTexture = GraphicLibrary.createTexture()!;
+        GraphicLibrary.bindTexture(GraphicLibrary.TEXTURE_2D, this.whiteTexture);
+        GraphicLibrary.texImage2D(GraphicLibrary.TEXTURE_2D, 0, GraphicLibrary.RGBA, 1, 1, 0, GraphicLibrary.RGBA, GraphicLibrary.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
+        GraphicLibrary.texParameteri(GraphicLibrary.TEXTURE_2D, GraphicLibrary.TEXTURE_MIN_FILTER, GraphicLibrary.LINEAR);
+        GraphicLibrary.texParameteri(GraphicLibrary.TEXTURE_2D, GraphicLibrary.TEXTURE_MAG_FILTER, GraphicLibrary.LINEAR);
+        GraphicLibrary.texParameteri(GraphicLibrary.TEXTURE_2D, GraphicLibrary.TEXTURE_WRAP_S, GraphicLibrary.CLAMP_TO_EDGE);
+        GraphicLibrary.texParameteri(GraphicLibrary.TEXTURE_2D, GraphicLibrary.TEXTURE_WRAP_T, GraphicLibrary.CLAMP_TO_EDGE);
     }
 
     private CompileFramework(type: number, src: string): WebGLShader {

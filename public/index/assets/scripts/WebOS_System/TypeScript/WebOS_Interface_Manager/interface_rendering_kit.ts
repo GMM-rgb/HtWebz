@@ -1,6 +1,6 @@
 /// <reference path="./interface_rendering_types.d.ts" />
 // ...
-import { Renderer2D } from "./rendering_core";
+// const InterfaceRenderingPipeline = new Renderer2D();
 
 /**
  * 
@@ -58,7 +58,7 @@ class UiRenderingSystem implements OS_RenderingSystemControler {
 /**
  * 
  */
-class UiWebO extends WindowConstructor implements _WebOS_UI_KitReference {
+class UiWebOS extends WindowConstructor implements _WebOS_UI_KitReference {
     WindowConstructor: WindowConstructor;
     CurrentWindows: Object;
 

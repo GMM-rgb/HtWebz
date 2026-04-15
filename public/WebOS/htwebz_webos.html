@@ -4,11 +4,11 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="../index/assets/scripts/HtWebz_API_Core_Control/HtWebz_Core_API.js"></script>
-        <link rel="stylesheet" href="../index/assets/stylesheets/" />
+        <link rel="stylesheet" href="../index/assets/stylesheets/webos_displayer_styles/displayer_wrapper.css" />
         <title>WebOS</title>
         <style>
             *>body {
-                margin: 0;
+                margin: 20px;
                 overflow-x: hidden;
                 overflow-y: auto;
                 font-family: Arial, Helvetica, sans-serif !important;
@@ -16,10 +16,14 @@
         </style>
     </head>
     <body>
-        <div class="virtual-machine-display-wrapper">
-            <h2 style="text-align: center;">WebOS Prototype BETA</h2>
+        <!-- ... -->
+        <div class="project-title-wrapper">
+            <h1 class="project-title">WebOS BETA</h1>
         </div>
+        <!-- ... -->
+        <div class="virtual-machine-display-wrapper"></div>
         <!-- <script charset="utf8" crossorigin="anonymous" src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/base_document_mangment.js.map"></script> -->
-        <script type="text/javascript" crossorigin="anonymous" src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/base_document_mangment.js"></script>
+        <script type="module" crossorigin="anonymous" src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/base_document_mangment.js"></script>
+        <script type="module" crossorigin="anonymous" src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/rendering_core.js"></script>
     </body>
 </html>

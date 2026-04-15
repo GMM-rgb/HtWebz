@@ -1,14 +1,18 @@
-let DisplayCanvasStyles = String().valueOf();
-function browserSupportsCSS() {
-    return typeof CSS !== "undefined" && typeof CSSStyleDeclaration !== "undefined";
-}
+import { Renderer2D } from "./rendering_core.js";
+const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-machine-display-wrapper");
+let DisplayCanvasStyles = new String().valueOf();
 (() => {
-    if (!browserSupportsCSS())
+    function browserSupportsCSS() {
+        return typeof CSS !== "undefined" && typeof CSSStyleDeclaration !== "undefined";
+    }
+    if (!browserSupportsCSS()) {
         return console.error("Active browser session does not support CSS!");
-    DisplayCanvasStyles = `
-        border: 2px solid;
-        flex: 1 1 auto;
-    `.trim();
+    }
+    DisplayCanvasStyles = String(`
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        background: #fff;
+    `).trim();
 })();
 var VirtualMachineElementManager;
 (function (VirtualMachineElementManager) {
@@ -17,21 +21,85 @@ var VirtualMachineElementManager;
             console.error("Document body not available");
             return undefined;
         }
+        let lastW = 0;
+        let lastH = 0;
+        function UpdateDisplaySizing() {
+            if (!VirtualMachineWrapper || !canvas)
+                return;
+            const wrapperW = Math.floor(VirtualMachineWrapper.clientWidth);
+            const wrapperH = Math.floor(VirtualMachineWrapper.clientHeight);
+            if (wrapperW <= 0 || wrapperH <= 0)
+                return;
+            if (wrapperW === lastW && wrapperH === lastH)
+                return;
+            const dpr = window.devicePixelRatio || 1;
+            const paddingLeft = 35;
+            const paddingRight = 35;
+            const paddingTop = 10;
+            const paddingBottom = 35;
+            let titleHeight = 0;
+            for (let i = 0; i < VirtualMachineWrapper.children.length; i++) {
+                const child = VirtualMachineWrapper.children[i];
+                if (child !== canvas && child instanceof HTMLElement) {
+                    titleHeight = child.clientHeight;
+                    break;
+                }
+            }
+            let availW = wrapperW - paddingLeft - paddingRight;
+            let availH = wrapperH - paddingTop - paddingBottom - titleHeight;
+            const MIN_WIDTH = 320;
+            const MIN_HEIGHT = 180;
+            availW = Math.max(availW, MIN_WIDTH);
+            availH = Math.max(availH, MIN_HEIGHT);
+            const desiredAspect = 16 / 9;
+            let finalW = availW;
+            let finalH = Math.floor(finalW / desiredAspect);
+            if (finalH > availH) {
+                finalH = availH;
+                finalW = Math.floor(finalH * desiredAspect);
+            }
+            finalW = Math.max(finalW, MIN_WIDTH);
+            finalH = Math.max(finalH, MIN_HEIGHT);
+            const physicalW = Math.floor(finalW * dpr);
+            const physicalH = Math.floor(finalH * dpr);
+            if (canvas.width !== physicalW || canvas.height !== physicalH) {
+                canvas.width = physicalW;
+                canvas.height = physicalH;
+                canvas.style.width = `${finalW}px`;
+                canvas.style.height = `${finalH}px`;
+            }
+            lastW = wrapperW;
+            lastH = wrapperH;
+        }
         const canvas = document.createElement("canvas");
-        canvas.id = "DisplayVM";
-        canvas.height = Math.abs(self?.innerHeight ?? 100 / 2);
-        canvas.width = Math.abs(self?.innerWidth ?? 100 / 2);
         canvas.style.cssText = DisplayCanvasStyles;
+        canvas.id ?? (canvas.id = "DisplayVM");
+        UpdateDisplaySizing();
+        function handleResize() {
+            requestAnimationFrame(UpdateDisplaySizing);
+        }
+        window.addEventListener('resize', handleResize, { passive: true });
+        const resizeObserver = new ResizeObserver(handleResize);
+        if (VirtualMachineWrapper)
+            resizeObserver.observe(VirtualMachineWrapper);
         return canvas;
     }
     VirtualMachineElementManager.InstanceCanvasRenderingElement = InstanceCanvasRenderingElement;
 })(VirtualMachineElementManager || (VirtualMachineElementManager = {}));
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
     VirtualMachineElementManager.InstanceCanvasRenderingElement().then(canvas => {
-        if (canvas) {
-            console.log("Canvas created successfully:", canvas.id);
-            document.body.querySelector(".virtual-machine-display-wrapper")?.appendChild(canvas ?? undefined);
+        if (canvas && canvas instanceof HTMLCanvasElement) {
+            VirtualMachineWrapper?.appendChild(canvas);
+            console.debug("Virtual-Machine display created successfully:", canvas.id);
+            const renderer = new Renderer2D(canvas, 1024);
+            renderer.addToScene(renderer.createRect(10, 10, 100, 50, [125, 125, 0, 1]));
+            renderer.startAnimationLoop(() => {
+                const logicalW = Math.floor(canvas.clientWidth);
+                const logicalH = Math.floor(canvas.clientHeight);
+                renderer.render(logicalW, logicalH);
+            });
         }
     }).catch(err => console.error("Failed to create canvas:", err));
+    LoadEventValue.stopPropagation();
 }, { once: true, passive: true });
 //# sourceMappingURL=../../../TypeScript/WebOS_Interface_Manager/base_document_mangment.js.map

@@ -36,7 +36,7 @@ class UiRenderingSystem {
         }
     }
 }
-class UiWebO extends WindowConstructor {
+class UiWebOS extends WindowConstructor {
     static FormatWindowTitle(TargetWindow = undefined) {
         if (TargetWindow !== undefined && typeof (TargetWindow) === "object") {
         }
@@ -65,5 +65,4 @@ class UiWebO extends WindowConstructor {
         throw void null;
     }
 }
-export {};
 //# sourceMappingURL=../../../TypeScript/WebOS_Interface_Manager/interface_rendering_kit.js.map
