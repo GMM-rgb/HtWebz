@@ -19,11 +19,7 @@
         "lib": [
             "DOM",
             "ES7",
-            "ES2015",
             "ES2020",
-            "Decorators",
-            "Decorators.Legacy",
-            "ESNext.Disposable"
             //"ES2015",
         ],
         //"typeRoots": [

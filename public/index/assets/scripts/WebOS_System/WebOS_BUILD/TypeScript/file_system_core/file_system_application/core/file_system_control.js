@@ -1,19 +1,6 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var FileSystemData = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+let FileSystemData = {
     SystemFolderCount: 0,
     SystemFileCount: 0,
     DirectoryMapping: {
@@ -21,7 +8,7 @@ var FileSystemData = {
         "files": [],
     },
 };
-var _ValidFileSystemDataKeys = {
+let _ValidFileSystemDataKeys = {
     FILE: [
         "name",
         "parent",
@@ -33,34 +20,31 @@ var _ValidFileSystemDataKeys = {
         "parent"
     ]
 };
-var _DirectoryMappingConversion = {
+let _DirectoryMappingConversion = {
     FILE: "files",
     DIRECTORY: "folders"
 };
-var FileSystemObjectBoilerplate = (function () {
-    function FileSystemObjectBoilerplate() {
-    }
-    FileSystemObjectBoilerplate.FileSystemDataObjectConstructor = function (DataType, DataParameters) {
-        var _a;
+class FileSystemObjectBoilerplate {
+    static FileSystemDataObjectConstructor(DataType, DataParameters) {
         if (DataType === undefined || DataType === null || typeof (DataType) !== "string")
             return null;
-        var SelectedDataType = DataType;
-        var InstancedDataObject = null;
+        const SelectedDataType = DataType;
+        let InstancedDataObject = null;
         function ReceivedDataHas(RequestedDataKey) {
-            var RequestedCheckValid = new Boolean("false").valueOf();
-            var CurrentValidChecksumKey = new String().valueOf();
-            var SelectedDataKeyString = null;
+            let RequestedCheckValid = new Boolean("false").valueOf();
+            let CurrentValidChecksumKey = new String().valueOf();
+            let SelectedDataKeyString = null;
             if ((DataParameters !== undefined && RequestedDataKey !== undefined)) {
                 try {
                     if (typeof (DataParameters) === "object") {
-                        for (var DataChecksumIndex = 0; DataChecksumIndex < new Number(_ValidFileSystemDataKeys[SelectedDataType].length.toFixed(2)).valueOf(); DataChecksumIndex++) {
+                        for (let DataChecksumIndex = 0; DataChecksumIndex < new Number(_ValidFileSystemDataKeys[SelectedDataType].length.toFixed(2)).valueOf(); DataChecksumIndex++) {
                             if (RequestedCheckValid !== undefined && typeof (RequestedCheckValid) === "boolean" && DataParameters !== null) {
-                                var DataTypeFormat = DataType;
-                                var SanatizedChecksumIndex = typeof (DataChecksumIndex) === "string" ? parseFloat(DataChecksumIndex) : DataChecksumIndex;
+                                const DataTypeFormat = DataType;
+                                const SanatizedChecksumIndex = typeof (DataChecksumIndex) === "string" ? parseFloat(DataChecksumIndex) : DataChecksumIndex;
                                 CurrentValidChecksumKey = _ValidFileSystemDataKeys[DataTypeFormat][SanatizedChecksumIndex].valueOf();
                                 SelectedDataKeyString = DataParameters[SanatizedChecksumIndex].valueOf();
-                                var FilteredChecksum = DataParameters.every(function (data) {
-                                    var ReceivedIndexData = data;
+                                const FilteredChecksum = DataParameters.every(data => {
+                                    const ReceivedIndexData = data;
                                     if (ReceivedIndexData === RequestedDataKey.toString() && !RequestedCheckValid) {
                                         RequestedCheckValid = !!RequestedCheckValid;
                                     }
@@ -77,77 +61,73 @@ var FileSystemObjectBoilerplate = (function () {
                         }
                     }
                     else {
-                        throw new Error("DataParametes for checking data key; INVALID!\n".concat(DataParameters));
+                        throw new Error(`DataParametes for checking data key; INVALID!\n${DataParameters}`);
                     }
                 }
                 catch (ChecksumError) {
                     void null;
                 }
             }
-            return RequestedCheckValid || (RequestedCheckValid = false);
+            return RequestedCheckValid ||= false;
         }
         function GetDataTypeSupposedKeys() {
             if (DataType !== undefined && typeof (DataType) === "string") {
-                var _DetectedKeyCategory = _ValidFileSystemDataKeys[DataType];
+                const _DetectedKeyCategory = _ValidFileSystemDataKeys[DataType];
                 return _DetectedKeyCategory;
             }
             return void null;
         }
-        for (var SelectedDataParameterKey in DataParameters) {
+        for (const SelectedDataParameterKey in DataParameters) {
             if (SelectedDataParameterKey !== null && typeof (SelectedDataParameterKey) === "string") {
-                if (ReceivedDataHas(((_a = GetDataTypeSupposedKeys === null || GetDataTypeSupposedKeys === void 0 ? void 0 : GetDataTypeSupposedKeys()) !== null && _a !== void 0 ? _a : ["name", "parent"])) === true) {
+                if (ReceivedDataHas((GetDataTypeSupposedKeys?.() ?? ["name", "parent"])) === true) {
                 }
             }
             else {
                 console.warn();
             }
         }
-        return InstancedDataObject !== null && InstancedDataObject !== void 0 ? InstancedDataObject : null;
-    };
-    return FileSystemObjectBoilerplate;
-}());
-var FileSystemWebOS = (function (_super) {
-    __extends(FileSystemWebOS, _super);
-    function FileSystemWebOS(RequestedLocalFileSystemID) {
-        var _this = _super.call(this) || this;
-        _this.RequestedLocalFileSystemID = RequestedLocalFileSystemID;
-        return _this;
+        return InstancedDataObject ?? null;
     }
-    FileSystemWebOS.FetchData = function (ReferenceType) {
-        var SelectedMappingArray = FileSystemData.DirectoryMapping[_DirectoryMappingConversion[ReferenceType]];
-        var FetchedFileSystemData = null;
-        var FetchFrameID = 0;
+}
+class FileSystemWebOS extends FileSystemObjectBoilerplate {
+    RequestedLocalFileSystemID;
+    constructor(RequestedLocalFileSystemID) {
+        super();
+        this.RequestedLocalFileSystemID = RequestedLocalFileSystemID;
+    }
+    static FetchData(ReferenceType) {
+        const SelectedMappingArray = FileSystemData.DirectoryMapping[_DirectoryMappingConversion[ReferenceType]];
+        let FetchedFileSystemData = null;
+        let FetchFrameID = 0;
         function ValidDataCategoryLength() {
-            var ValidLength = parseFloat("0");
-            return ValidLength !== null && ValidLength !== void 0 ? ValidLength : Number(0).valueOf();
+            let ValidLength = parseFloat("0");
+            return ValidLength ?? Number(0).valueOf();
         }
         function ExecuteFileSystemDataFetch() {
             try {
-                for (var FileSystemIndex = 0; FileSystemIndex; FileSystemIndex++) {
+                for (let FileSystemIndex = 0; FileSystemIndex; FileSystemIndex++) {
                 }
             }
             catch (FileSystemDataFetchFailure) {
                 if (FileSystemDataFetchFailure !== undefined) {
-                    console.error(String(FileSystemDataFetchFailure !== null && FileSystemDataFetchFailure !== void 0 ? FileSystemDataFetchFailure : null).trim());
+                    console.error(String(FileSystemDataFetchFailure ?? null).trim());
                 }
                 FetchFrameID !== null ? cancelAnimationFrame(FetchFrameID) : void null;
             }
         }
         if (ReferenceType.toString() === "FILE" || ReferenceType.toString() === "DIRECTORY") {
-            FetchFrameID = requestAnimationFrame(function () { return ExecuteFileSystemDataFetch(); });
+            FetchFrameID = requestAnimationFrame(() => ExecuteFileSystemDataFetch());
         }
         else {
             console.warn();
         }
-        return FetchedFileSystemData !== null && FetchedFileSystemData !== void 0 ? FetchedFileSystemData : undefined;
-    };
-    FileSystemWebOS.prototype.NewDataCommit = function (FileSystemDataObject) {
-    };
-    FileSystemWebOS.prototype.StartFileSystem = function (FileSystemID) {
-        if (FileSystemID === void 0) { FileSystemID = this.RequestedLocalFileSystemID.valueOf(); }
+        return FetchedFileSystemData ?? undefined;
+    }
+    NewDataCommit(FileSystemDataObject) {
+    }
+    StartFileSystem(FileSystemID = this.RequestedLocalFileSystemID.valueOf()) {
         if (FileSystemID !== undefined && typeof (FileSystemID) === "string") {
         }
-    };
-    return FileSystemWebOS;
-}(FileSystemObjectBoilerplate));
-//# sourceMappingURL=file_system_control.js.map
+    }
+}
+//# sourceMappingURL=../../../../../../TypeScript/file_system_core/file_system_application/core/file_system_control.js.map
