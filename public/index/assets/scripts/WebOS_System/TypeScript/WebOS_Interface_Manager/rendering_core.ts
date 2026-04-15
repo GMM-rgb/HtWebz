@@ -1,15 +1,4 @@
 /// <reference path="./rendering_core_reference.d.ts" />
-declare type TweeningProperties = {
-    positions?: {
-        x: number;
-        y: number;
-    };
-    sizing?: {
-        w: number;
-        h: number;
-    };
-};
-
 const RenderingShaderData = {
     InterfaceRenderingVertex: `#version 300 es
 in vec2 position;
@@ -55,42 +44,55 @@ interface Drawable {
     visible: boolean;
 }
 
-class RenderQuad implements Drawable {
-    x: number = 0;
-    y: number = 0;
-    w: number = 0;
-    h: number = 0;
+declare type WrapperUV = {
+    left: number | 0;
+    top: number | 0;
+    right: number | 1;
+    bottom: number | 1;
+};
+
+export class InterfaceRenderQuad implements Drawable {
     color: [number, number, number, number] = [1, 1, 1, 1];
     texture: WebGLTexture | null = null;
-    uvs = { left: 0, top: 0, right: 1, bottom: 1 };
-    visible = true;
+    uvs: WrapperUV = { left: 0, top: 0, right: 1, bottom: 1 };
+    visible: boolean = true;
 
-    constructor(x: number, y: number, w: number, h: number, color?: [number, number, number, number], texture?: WebGLTexture | null) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+    constructor(
+        public x: number,
+        public y: number,
+        public w: number,
+        public h: number,
+        color?: [number, number, number, number],
+        texture?: WebGLTexture | null) {
         if (color) this.color = color;
         if (texture !== undefined) this.texture = texture;
     }
+
+    public updateVisiblility(requestedVisiblity: boolean = true): void {
+        if (requestedVisiblity !== null && typeof (requestedVisiblity) === "boolean") {
+            this.visible = new Boolean(requestedVisiblity).valueOf() as (true | false);
+        } else {
+            console.warn("Updating visibilty for interface object could not continue.\nInvalid visiblity request.");
+        }
+    }
 }
 
-class RenderGroup implements Drawable {
+export class RenderGroup implements Drawable {
     x: number = 0;
     y: number = 0;
     visible = true;
-    children: (RenderQuad | RenderGroup)[] = [];
+    children: (InterfaceRenderQuad | RenderGroup)[] = [];
 
     constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
     }
 
-    add(child: RenderQuad | RenderGroup) {
+    add(child: InterfaceRenderQuad | RenderGroup) {
         this.children.push(child);
     }
 
-    remove(child: RenderQuad | RenderGroup) {
+    remove(child: InterfaceRenderQuad | RenderGroup) {
         const idx = this.children.indexOf(child);
         if (idx > -1) this.children.splice(idx, 1);
     }
@@ -105,7 +107,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
     private uTextureLoc: WebGLUniformLocation | null;
     private whiteTexture: WebGLTexture;
 
-    private topLevelDrawables: (RenderQuad | RenderGroup)[] = [];
+    private topLevelDrawables: (InterfaceRenderQuad | RenderGroup)[] = [];
     private activeTweens: any[] = [];
 
     /**
@@ -217,13 +219,13 @@ export class Renderer2D implements ReferenceRendererCore2D {
     }
 
     /** Create a colored rectangle (uses white texture internally) */
-    public createRect(x: number, y: number, w: number, h: number, color: [number, number, number, number] = [1, 1, 1, 1]): RenderQuad {
-        return new RenderQuad(x, y, w, h, color, null);
+    public createRect(x: number, y: number, w: number, h: number, color: [number, number, number, number] = [1, 1, 1, 1]): InterfaceRenderQuad {
+        return new InterfaceRenderQuad(x, y, w, h, color, null);
     }
 
     /** Instance a textured sprite */
-    public createSprite(x: number, y: number, w: number, h: number, texture: WebGLTexture, tint: [number, number, number, number] = [1, 1, 1, 1]): RenderQuad {
-        return new RenderQuad(x, y, w, h, tint, texture);
+    public createSprite(x: number, y: number, w: number, h: number, texture: WebGLTexture, tint: [number, number, number, number] = [1, 1, 1, 1]): InterfaceRenderQuad {
+        return new InterfaceRenderQuad(x, y, w, h, tint, texture);
     }
 
     /** Grouping for collective positioning / management */
@@ -232,20 +234,23 @@ export class Renderer2D implements ReferenceRendererCore2D {
     }
 
     /** Instances any drawable (quad or group) to the scene */
-    public addToScene(drawable: RenderQuad | RenderGroup) {
+    public addToScene(drawable: InterfaceRenderQuad | RenderGroup) {
         if (!this.topLevelDrawables.includes(drawable)) {
             this.topLevelDrawables.push(drawable);
         }
     }
 
     /** Remove from scene */
-    public removeFromScene(drawable: RenderQuad | RenderGroup) {
+    public removeFromScene(drawable: InterfaceRenderQuad | RenderGroup) {
         const idx = this.topLevelDrawables.indexOf(drawable);
         if (idx > -1) this.topLevelDrawables.splice(idx, 1);
     }
 
+    public TweenSelected(RequestedObject: InterfaceRenderQuad | undefined, TargetProperties: TweeningVariants.QaudTweening, durationMs?: number): any;
+    public TweenSelected(RequestedObject: RenderGroup | undefined, TargetProperties: TweeningVariants.GroupTweening, durationMs?: number): any;
+
     /** Tween position and/or size of any object (quad or group) */
-    public TweenSelected(RequestedObject: RenderQuad | RenderGroup | undefined = undefined, TargetProperties: TweeningProperties, durationMs: number = 500) {
+    public TweenSelected(RequestedObject: InterfaceRenderQuad | RenderGroup | undefined = undefined, TargetProperties: TweeningVariants.GroupTweening | TweeningVariants.QaudTweening, durationMs: number = 500): any {
         if (!RequestedObject || !TargetProperties) {
             console.error("TweenSelected: invalid object or target properties");
             return Promise.reject();
@@ -255,20 +260,26 @@ export class Renderer2D implements ReferenceRendererCore2D {
         const startPos = { x: RequestedObject.x, y: RequestedObject.y };
 
         let startSize = null;
-        if ("w" in RequestedObject && "h" in RequestedObject) {
-            startSize = { w: (RequestedObject as RenderQuad).w, h: (RequestedObject as RenderQuad).h };
-        }
-
-        const tween = {
+        let tween = {
+            targetPos: TargetProperties.positions,
             object: RequestedObject,
             startTime,
-            duration: durationMs,
             startPos,
-            startSize,
-            targetPos: TargetProperties.positions,
-            targetSize: TargetProperties.sizing,
-            onComplete: null as (() => void) | null
+            duration: durationMs,
+            onComplete: null as (() => void) | null,
         };
+
+        if ("sizing" in TargetProperties) {
+            if ("w" in RequestedObject && "h" in RequestedObject) {
+                startSize = { w: (RequestedObject as InterfaceRenderQuad).w, h: (RequestedObject as InterfaceRenderQuad).h };
+            }
+
+            tween = {
+                startSize,
+                targetSize: TargetProperties.sizing,
+            };
+
+        }
 
         if (this.activeTweens !== null && this.activeTweens instanceof Array) {
             this.activeTweens.push(tween);
@@ -299,8 +310,8 @@ export class Renderer2D implements ReferenceRendererCore2D {
 
             // Size tween (only for quads)
             if (t.targetSize && t.startSize) {
-                (obj as RenderQuad).w = t.startSize.w + (t.targetSize.w - t.startSize.w) * progress;
-                (obj as RenderQuad).h = t.startSize.h + (t.targetSize.h - t.startSize.h) * progress;
+                (obj as InterfaceRenderQuad).w = t.startSize.w + (t.targetSize.w - t.startSize.w) * progress;
+                (obj as InterfaceRenderQuad).h = t.startSize.h + (t.targetSize.h - t.startSize.h) * progress;
             }
 
             if (progress >= 1) {
@@ -359,7 +370,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
         }
 
         // Leaf quad
-        const q = drawable as RenderQuad;
+        const q = drawable as InterfaceRenderQuad;
         const worldX = q.x + offsetX;
         const worldY = q.y + offsetY;
 

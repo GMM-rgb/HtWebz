@@ -36,27 +36,31 @@ void main() {
     outColor = texture(uTexture, vTexCoord) * vColor;
 }`
 };
-class RenderQuad {
+export class InterfaceRenderQuad {
     constructor(x, y, w, h, color, texture) {
-        this.x = 0;
-        this.y = 0;
-        this.w = 0;
-        this.h = 0;
-        this.color = [1, 1, 1, 1];
-        this.texture = null;
-        this.uvs = { left: 0, top: 0, right: 1, bottom: 1 };
-        this.visible = true;
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
+        this.color = [1, 1, 1, 1];
+        this.texture = null;
+        this.uvs = { left: 0, top: 0, right: 1, bottom: 1 };
+        this.visible = true;
         if (color)
             this.color = color;
         if (texture !== undefined)
             this.texture = texture;
     }
+    updateVisiblility(requestedVisiblity = true) {
+        if (requestedVisiblity !== null && typeof (requestedVisiblity) === "boolean") {
+            this.visible = new Boolean(requestedVisiblity).valueOf();
+        }
+        else {
+            console.warn("Updating visibilty for interface object could not continue.\nInvalid visiblity request.");
+        }
+    }
 }
-class RenderGroup {
+export class RenderGroup {
     constructor(x = 0, y = 0) {
         this.x = 0;
         this.y = 0;
@@ -155,10 +159,10 @@ export class Renderer2D {
         return texture;
     }
     createRect(x, y, w, h, color = [1, 1, 1, 1]) {
-        return new RenderQuad(x, y, w, h, color, null);
+        return new InterfaceRenderQuad(x, y, w, h, color, null);
     }
     createSprite(x, y, w, h, texture, tint = [1, 1, 1, 1]) {
-        return new RenderQuad(x, y, w, h, tint, texture);
+        return new InterfaceRenderQuad(x, y, w, h, tint, texture);
     }
     createGroup(x = 0, y = 0) {
         return new RenderGroup(x, y);

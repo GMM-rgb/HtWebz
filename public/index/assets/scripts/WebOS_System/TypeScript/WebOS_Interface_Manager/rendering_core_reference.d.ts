@@ -4,16 +4,24 @@
 //  (retained-mode, sprites, groups, tweening, animation loop)
 // -----------------------------------------------------------------------------
 
-declare type TweeningProperties = {
-    positions?: {
-        x?: number;
-        y?: number;
+declare namespace TweeningVariants {
+    type QaudTweening = {
+        positions?: {
+            x?: number;
+            y?: number;
+        };
+        sizing?: {
+            w?: number;
+            h?: number;
+        };
     };
-    sizing?: {
-        w?: number;
-        h?: number;
+    type GroupTweening = {
+        positions?: {
+            x?: number;
+            y?: number;
+        };
     };
-};
+}
 
 /** Base drawable that all render objects (quads & groups) share */
 declare interface Drawable {
@@ -86,7 +94,7 @@ declare abstract class ReferenceRendererCore2D {
      */
     TweenSelected(
         object: RenderQuad | RenderGroup | undefined,
-        target: TweeningProperties,
+        target: TweeningVariants.QaudTweening,
         durationMs?: number
     ): Promise<void>;
 

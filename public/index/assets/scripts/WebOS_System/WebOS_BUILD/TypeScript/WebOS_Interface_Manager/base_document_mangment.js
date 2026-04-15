@@ -1,4 +1,4 @@
-import { Renderer2D } from "./rendering_core.js";
+import { Renderer2D, InterfaceRenderQuad } from "./rendering_core.js";
 const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-machine-display-wrapper");
 let DisplayCanvasStyles = new String().valueOf();
 (() => {
@@ -91,23 +91,40 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
         if (canvas && canvas instanceof HTMLCanvasElement) {
             VirtualMachineWrapper?.appendChild(canvas);
             console.debug("Virtual-Machine display created successfully:", canvas.id);
-            const renderer = new Renderer2D(canvas, 1024);
-            const TerminalCursor = renderer.createRect(-50, 0, 15, 35, [0, 255, 0, 1]);
-            renderer.addToScene(TerminalCursor);
-            renderer.TweenSelected(TerminalCursor, {
+            const TerminalRenderer = new Renderer2D(canvas, 1024);
+            const TerminalCursor = TerminalRenderer.createRect(-50, 5, 5, 30, [0, 255, 0, 1]);
+            TerminalRenderer.addToScene(TerminalCursor);
+            TerminalRenderer.TweenSelected(TerminalCursor, {
                 sizing: {
-                    w: 15,
-                    h: 35,
+                    w: TerminalCursor.w,
+                    h: TerminalCursor.h,
                 },
                 positions: {
                     x: 5,
-                    y: 0,
+                    y: 5,
                 },
             });
-            renderer.startAnimationLoop(() => {
+            async function blinkCursor() {
+                if (TerminalCursor !== undefined && TerminalCursor instanceof InterfaceRenderQuad) {
+                    TerminalCursor.visible = !TerminalCursor.visible;
+                    console.debug(TerminalCursor.visible.valueOf());
+                }
+                else {
+                    console.warn("TerminalCursor is invalid or undefined!");
+                }
+            }
+            (async () => {
+                new Promise((ResolveCursorBlinking) => {
+                    setInterval(() => {
+                        console.debug("Blinking terminal cursor...");
+                        blinkCursor().then(() => ResolveCursorBlinking(null));
+                    }, 1000);
+                });
+            })();
+            TerminalRenderer.startAnimationLoop(() => {
                 const logicalW = Math.floor(new Number(canvas.clientWidth).valueOf());
                 const logicalH = Math.ceil(new Number(canvas.clientHeight).valueOf());
-                renderer.render(logicalW, logicalH);
+                TerminalRenderer.render(logicalW, logicalH);
             });
         }
     }).catch(err => console.error("Failed to create canvas:", err));
