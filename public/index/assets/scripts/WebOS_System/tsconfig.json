@@ -1,7 +1,7 @@
 {
     "buildOptions": {
         "verbose": true,
-        "traceResolution": false
+        "traceResolution": true
     },
     "compilerOptions": {
         "allowJs": true,
@@ -10,20 +10,20 @@
         "removeComments": true,
         "diagnostics": true,
         "sourceMap": true,
-        // "baseUrl": "~/",
+        "target": "ES2020",
+        "module": "ES2020",
+        "moduleResolution": "bundler",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        // Force no top-level exports (wraps in IIFE for browser compatibility)
+        "verbatimModuleSyntax": false,
         "sourceRoot": "./",
         "rootDir": "./",
-        "mapRoot": "../",
-        "module": "nodenext",
+        "mapRoot": "./",
         "outDir": "WebOS_BUILD",
-        "lib": [
-            "DOM",
-            "ES7",
-            "ES2020",
-            //"ES2015",
-        ],
-        //"typeRoots": [
-        //    "./file_system/",
-        //],
-    }
+        "noEmitOnError": false
+    },
+    "include": [
+        "**/*.ts"
+    ]
 }

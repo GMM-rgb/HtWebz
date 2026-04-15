@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="../index/assets/scripts/HtWebz_API_Core_Control/HtWebz_Core_API.js"></script>
+        <link rel="stylesheet" href="../index/assets/stylesheets/" />
         <title>WebOS</title>
+        <style>
+            *>body {
+                margin: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                font-family: Arial, Helvetica, sans-serif !important;
+            }
+        </style>
     </head>
     <body>
-        <script type="module" defer src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/base_document_mangment.js"></script>
+        <div class="virtual-machine-display-wrapper">
+            <h2 style="text-align: center;">WebOS Prototype BETA</h2>
+        </div>
+        <!-- <script charset="utf8" crossorigin="anonymous" src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/base_document_mangment.js.map"></script> -->
+        <script type="text/javascript" crossorigin="anonymous" src="../index/assets/scripts/WebOS_System/WebOS_BUILD/TypeScript/WebOS_Interface_Manager/base_document_mangment.js"></script>
     </body>
 </html>

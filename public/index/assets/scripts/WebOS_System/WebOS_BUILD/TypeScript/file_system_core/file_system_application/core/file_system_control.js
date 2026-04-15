@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 let FileSystemData = {
     SystemFolderCount: 0,
     SystemFileCount: 0,
@@ -68,7 +66,7 @@ class FileSystemObjectBoilerplate {
                     void null;
                 }
             }
-            return RequestedCheckValid ||= false;
+            return RequestedCheckValid || (RequestedCheckValid = false);
         }
         function GetDataTypeSupposedKeys() {
             if (DataType !== undefined && typeof (DataType) === "string") {
@@ -90,7 +88,6 @@ class FileSystemObjectBoilerplate {
     }
 }
 class FileSystemWebOS extends FileSystemObjectBoilerplate {
-    RequestedLocalFileSystemID;
     constructor(RequestedLocalFileSystemID) {
         super();
         this.RequestedLocalFileSystemID = RequestedLocalFileSystemID;
@@ -130,4 +127,4 @@ class FileSystemWebOS extends FileSystemObjectBoilerplate {
         }
     }
 }
-//# sourceMappingURL=../../../../../../TypeScript/file_system_core/file_system_application/core/file_system_control.js.map
+//# sourceMappingURL=../../../../../TypeScript/file_system_core/file_system_application/core/file_system_control.js.map

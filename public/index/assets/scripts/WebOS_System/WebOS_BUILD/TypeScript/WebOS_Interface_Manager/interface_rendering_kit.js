@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class WindowConstructor {
-    DataConstructors;
     constructor() {
         this.DataConstructors = new Object({
             InstanceWindowData: async function (TargetwindowTitle = "Untitled#Window", RequestedWindowDataInput) {
@@ -40,8 +37,6 @@ class UiRenderingSystem {
     }
 }
 class UiWebO extends WindowConstructor {
-    WindowConstructor;
-    CurrentWindows;
     static FormatWindowTitle(TargetWindow = undefined) {
         if (TargetWindow !== undefined && typeof (TargetWindow) === "object") {
         }
@@ -70,4 +65,5 @@ class UiWebO extends WindowConstructor {
         throw void null;
     }
 }
-//# sourceMappingURL=../../../../TypeScript/WebOS_Interface_Manager/interface_rendering_kit.js.map
+export {};
+//# sourceMappingURL=../../../TypeScript/WebOS_Interface_Manager/interface_rendering_kit.js.map
