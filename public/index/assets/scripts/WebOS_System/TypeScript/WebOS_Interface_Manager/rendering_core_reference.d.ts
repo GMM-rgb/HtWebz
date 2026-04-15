@@ -6,12 +6,12 @@
 
 declare type TweeningProperties = {
     positions?: {
-        x: number;
-        y: number;
+        x?: number;
+        y?: number;
     };
     sizing?: {
-        w: number;
-        h: number;
+        w?: number;
+        h?: number;
     };
 };
 

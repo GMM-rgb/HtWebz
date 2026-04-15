@@ -123,11 +123,23 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             console.debug("Virtual-Machine display created successfully:", canvas.id);
 
             const renderer = new Renderer2D(canvas, 1024);
-            renderer.addToScene(renderer.createRect(10, 10, 100, 50, [125, 125, 0, 1]));
+            const TerminalCursor = renderer.createRect(-50, 0, 15, 35, [0, 255, 0, 1]);
+            renderer.addToScene(TerminalCursor);
+
+            renderer.TweenSelected(TerminalCursor, {
+                sizing: {
+                    w: 15,
+                    h: 35,
+                },
+                positions: {
+                    x: 5,
+                    y: 0,
+                },
+            });
 
             renderer.startAnimationLoop(() => {
                 const logicalW = Math.floor(canvas.clientWidth);
-                const logicalH = Math.floor(canvas.clientHeight);
+                const logicalH = Math.ceil(canvas.clientHeight);
                 renderer.render(logicalW, logicalH);
             });
         }
