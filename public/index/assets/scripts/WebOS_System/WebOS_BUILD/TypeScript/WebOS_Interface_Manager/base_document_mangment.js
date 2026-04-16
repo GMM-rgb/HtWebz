@@ -92,18 +92,15 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             VirtualMachineWrapper?.appendChild(canvas);
             console.debug("Virtual-Machine display created successfully:", canvas.id);
             const TerminalRenderer = new Renderer2D(canvas, 1024);
-            const TerminalCursor = TerminalRenderer.createRect(-50, 5, 5, 30, [0, 255, 0, 1]);
+            const TerminalCursorGrouping = TerminalRenderer.createGroup(-50, 10);
+            const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             TerminalRenderer.addToScene(TerminalCursor);
             TerminalRenderer.TweenSelected(TerminalCursor, {
-                sizing: {
-                    w: TerminalCursor.w,
-                    h: TerminalCursor.h,
+                "positions": {
+                    "x": 10,
+                    "y": 10,
                 },
-                positions: {
-                    x: 5,
-                    y: 5,
-                },
-            });
+            }, parseFloat("425").valueOf());
             async function blinkCursor() {
                 if (TerminalCursor !== undefined && TerminalCursor instanceof InterfaceRenderQuad) {
                     TerminalCursor.visible = !TerminalCursor.visible;

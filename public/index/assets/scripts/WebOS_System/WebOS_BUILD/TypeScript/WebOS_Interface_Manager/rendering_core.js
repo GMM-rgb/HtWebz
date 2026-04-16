@@ -10,13 +10,9 @@ out vec4 vColor;
 out vec2 vTexCoord;
 
 void main() {
-    // convert from pixels to 0 1
     vec2 zeroToOne = position / uResolution;
-    // 0 1 → 0 2
     vec2 zeroToTwo = zeroToOne * 2.0;
-    // 0 2 → -1 1 (clip space)
     vec2 clip = zeroToTwo - 1.0;
-    // flip Y (canvas is top-left, clip is bottom-left)
     clip.y *= -1.0;
 
     gl_Position = vec4(clip, 0.0, 1.0);
@@ -46,6 +42,7 @@ export class InterfaceRenderQuad {
         this.texture = null;
         this.uvs = { left: 0, top: 0, right: 1, bottom: 1 };
         this.visible = true;
+        this.rotation = 0;
         if (color)
             this.color = color;
         if (texture !== undefined)
@@ -65,6 +62,7 @@ export class RenderGroup {
         this.x = 0;
         this.y = 0;
         this.visible = true;
+        this.rotation = 0;
         this.children = [];
         this.x = x;
         this.y = y;
@@ -158,6 +156,38 @@ export class Renderer2D {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         return texture;
     }
+    async loadSVGTexture(svgString, targetWidth = 512, targetHeight = 512) {
+        const gl = this.AttatchedRenderer;
+        const canvas = document.createElement("canvas");
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx)
+            throw new Error("Canvas 2D context not supported for SVG rasterization");
+        const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(svgBlob);
+        try {
+            const img = await new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(new Error("Failed to load SVG as image"));
+                image.src = url;
+            });
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+            const texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
+            gl.generateMipmap(gl.TEXTURE_2D);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            return texture;
+        }
+        finally {
+            URL.revokeObjectURL(url);
+        }
+    }
     createRect(x, y, w, h, color = [1, 1, 1, 1]) {
         return new InterfaceRenderQuad(x, y, w, h, color, null);
     }
@@ -184,25 +214,29 @@ export class Renderer2D {
         }
         const startTime = Date.now();
         const startPos = { x: RequestedObject.x, y: RequestedObject.y };
+        const startRotation = RequestedObject.rotation ?? 0;
         let startSize = null;
+        const targetRotation = TargetProperties?.rotation;
+        let tween = {
+            targetPos: TargetProperties.positions,
+            object: RequestedObject,
+            startTime,
+            startPos,
+            duration: durationMs,
+            startSize,
+            targetSize: TargetProperties.sizing,
+            startRotation,
+            targetRotation,
+            onComplete: null,
+        };
         if ("w" in RequestedObject && "h" in RequestedObject) {
             startSize = { w: RequestedObject.w, h: RequestedObject.h };
         }
-        const tween = {
-            object: RequestedObject,
-            startTime,
-            duration: durationMs,
-            startPos,
-            startSize,
-            targetPos: TargetProperties.positions,
-            targetSize: TargetProperties.sizing,
-            onComplete: null
-        };
         if (this.activeTweens !== null && this.activeTweens instanceof Array) {
             this.activeTweens.push(tween);
         }
         else {
-            console.warn("");
+            console.warn("activeTweens not initialized");
         }
         return new Promise(resolve => {
             tween.onComplete = resolve;
@@ -224,12 +258,26 @@ export class Renderer2D {
                 obj.w = t.startSize.w + (t.targetSize.w - t.startSize.w) * progress;
                 obj.h = t.startSize.h + (t.targetSize.h - t.startSize.h) * progress;
             }
+            if (typeof t.targetRotation === "number") {
+                obj.rotation = t.startRotation + (t.targetRotation - t.startRotation) * progress;
+            }
             if (progress >= 1) {
                 if (t.onComplete)
                     t.onComplete();
                 this.activeTweens.splice(i, 1);
             }
         }
+    }
+    rotatePoint(x, y, pivotX, pivotY, angleDeg) {
+        const rad = angleDeg * Math.PI / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const dx = x - pivotX;
+        const dy = y - pivotY;
+        return {
+            x: pivotX + (dx * cos - dy * sin),
+            y: pivotY + (dx * sin + dy * cos)
+        };
     }
     render(width, height) {
         const gl = this.AttatchedRenderer;
@@ -261,29 +309,65 @@ export class Renderer2D {
             return;
         if (drawable instanceof RenderGroup) {
             const g = drawable;
+            const groupPivotX = offsetX + g.x;
+            const groupPivotY = offsetY + g.y;
             for (const child of g.children) {
-                this.collectVertices(child, offsetX + g.x, offsetY + g.y, batchMap);
+                const rotatedRel = this.rotatePoint(child.x, child.y, 0, 0, g.rotation);
+                const childWorldX = groupPivotX + rotatedRel.x;
+                const childWorldY = groupPivotY + rotatedRel.y;
+                const childOffsetX = childWorldX - child.x;
+                const childOffsetY = childWorldY - child.y;
+                this.collectVertices(child, childOffsetX, childOffsetY, batchMap);
             }
             return;
         }
         const q = drawable;
-        const worldX = q.x + offsetX;
-        const worldY = q.y + offsetY;
+        let worldX = q.x + offsetX;
+        let worldY = q.y + offsetY;
         const tex = q.texture || this.whiteTexture;
         if (!batchMap.has(tex))
             batchMap.set(tex, []);
         const verts = batchMap.get(tex);
         const [r, g, b, a] = q.color;
-        const x1 = worldX, y1 = worldY;
-        const x2 = worldX + q.w, y2 = worldY + q.h;
         const u1 = q.uvs.left, v1 = q.uvs.top;
         const u2 = q.uvs.right, v2 = q.uvs.bottom;
-        verts.push(x1, y1, r, g, b, a, u1, v1);
-        verts.push(x2, y1, r, g, b, a, u2, v1);
-        verts.push(x1, y2, r, g, b, a, u1, v2);
-        verts.push(x1, y2, r, g, b, a, u1, v2);
-        verts.push(x2, y1, r, g, b, a, u2, v1);
-        verts.push(x2, y2, r, g, b, a, u2, v2);
+        if (q.rotation === 0) {
+            const x1 = worldX, y1 = worldY;
+            const x2 = worldX + q.w, y2 = worldY + q.h;
+            verts.push(x1, y1, r, g, b, a, u1, v1);
+            verts.push(x2, y1, r, g, b, a, u2, v1);
+            verts.push(x1, y2, r, g, b, a, u1, v2);
+            verts.push(x1, y2, r, g, b, a, u1, v2);
+            verts.push(x2, y1, r, g, b, a, u2, v1);
+            verts.push(x2, y2, r, g, b, a, u2, v2);
+        }
+        else {
+            const centerX = worldX + q.w / 2;
+            const centerY = worldY + q.h / 2;
+            const halfW = q.w / 2;
+            const halfH = q.h / 2;
+            const corners = [
+                { x: -halfW, y: -halfH },
+                { x: halfW, y: -halfH },
+                { x: -halfW, y: halfH },
+                { x: halfW, y: halfH }
+            ];
+            const rotated = corners.map(c => this.rotatePoint(c.x, c.y, 0, 0, q.rotation));
+            const x1 = centerX + rotated[0].x;
+            const y1 = centerY + rotated[0].y;
+            const x2 = centerX + rotated[1].x;
+            const y2 = centerY + rotated[1].y;
+            const x3 = centerX + rotated[2].x;
+            const y3 = centerY + rotated[2].y;
+            const x4 = centerX + rotated[3].x;
+            const y4 = centerY + rotated[3].y;
+            verts.push(x1, y1, r, g, b, a, u1, v1);
+            verts.push(x2, y2, r, g, b, a, u2, v1);
+            verts.push(x3, y3, r, g, b, a, u1, v2);
+            verts.push(x3, y3, r, g, b, a, u1, v2);
+            verts.push(x2, y2, r, g, b, a, u2, v1);
+            verts.push(x4, y4, r, g, b, a, u2, v2);
+        }
     }
     startAnimationLoop(onBeforeRender) {
         let last = performance.now();

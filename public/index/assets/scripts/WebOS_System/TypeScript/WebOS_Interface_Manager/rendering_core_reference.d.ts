@@ -1,115 +1,65 @@
-// -----------------------------------------------------------------------------
-//  rendering_core_reference.d.ts
-//  Updated TypeScript definitions for the improved Renderer2D
-//  (retained-mode, sprites, groups, tweening, animation loop)
-// -----------------------------------------------------------------------------
-
+// rendering_core_reference.d.ts
 declare namespace TweeningVariants {
     type QaudTweening = {
-        positions?: {
-            x?: number;
-            y?: number;
-        };
-        sizing?: {
-            w?: number;
-            h?: number;
-        };
+        positions?: { x?: number; y?: number };
+        sizing?: { w?: number; h?: number };
+        rotation?: number;
     };
     type GroupTweening = {
-        positions?: {
-            x?: number;
-            y?: number;
-        };
+        positions?: { x?: number; y?: number };
+        rotation?: number;
     };
 }
 
-/** Base drawable that all render objects (quads & groups) share */
 declare interface Drawable {
     x: number;
     y: number;
     visible: boolean;
+    rotation: number;
 }
 
-/** A single textured or colored rectangle/sprite */
-declare class RenderQuad implements Drawable {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
+declare class InterfaceRenderQuad implements Drawable {
+    x: number; y: number; w: number; h: number;
     color: [number, number, number, number];
     texture: WebGLTexture | null;
     visible: boolean;
-
-    // Internal UVs (you can change these for sprite-sheet slicing)
+    rotation: number;
     uvs: { left: number; top: number; right: number; bottom: number };
+    updateVisiblility(requestedVisiblity?: boolean): void;
 }
 
-/** Group for collective positioning of many children */
 declare class RenderGroup implements Drawable {
-    x: number;
-    y: number;
+    x: number; y: number;
     visible: boolean;
-    readonly children: (RenderQuad | RenderGroup)[];
-
-    add(child: RenderQuad | RenderGroup): void;
-    remove(child: RenderQuad | RenderGroup): void;
+    rotation: number;
+    readonly children: (InterfaceRenderQuad | RenderGroup)[];
+    add(child: InterfaceRenderQuad | RenderGroup): void;
+    remove(child: InterfaceRenderQuad | RenderGroup): void;
 }
 
-/** The main renderer – now implements the full modern API */
 declare abstract class ReferenceRendererCore2D {
-    /** Load an image (URL or HTMLImageElement) into a WebGL texture */
     loadTexture(source: string | HTMLImageElement): Promise<WebGLTexture>;
+    loadSVGTexture(svgString: string, targetWidth?: number, targetHeight?: number): Promise<WebGLTexture>;
 
-    /** Create a solid-colored rectangle */
-    createRect(
-        x: number,
-        y: number,
-        w: number,
-        h: number,
-        color?: [number, number, number, number]
-    ): RenderQuad;
-
-    /** Create a textured sprite */
-    createSprite(
-        x: number,
-        y: number,
-        w: number,
-        h: number,
-        texture: WebGLTexture,
-        tint?: [number, number, number, number]
-    ): RenderQuad;
-
-    /** Create a group that can hold other quads or groups */
+    createRect(x: number, y: number, w: number, h: number, color?: [number, number, number, number]): InterfaceRenderQuad;
+    createSprite(x: number, y: number, w: number, h: number, texture: WebGLTexture, tint?: [number, number, number, number]): InterfaceRenderQuad;
     createGroup(x?: number, y?: number): RenderGroup;
 
-    /** Add any drawable (quad or group) to the top-level scene */
-    addToScene(drawable: RenderQuad | RenderGroup): void;
+    addToScene(drawable: InterfaceRenderQuad | RenderGroup): void;
+    removeFromScene(drawable: InterfaceRenderQuad | RenderGroup): void;
 
-    /** Remove a drawable from the top-level scene */
-    removeFromScene(drawable: RenderQuad | RenderGroup): void;
-
-    /**
-     * Animate position and/or size of any object (quad or group).
-     * Returns a Promise that resolves when the tween finishes.
-     */
-    TweenSelected(
-        object: RenderQuad | RenderGroup | undefined,
-        target: TweeningVariants.QaudTweening,
+    // /** 
+    //  * Tween position and/or size of any object (quad or group)
+    //  * - For InterfaceRenderQuad: supports positions, sizing, rotation
+    //  * - For RenderGroup: supports positions, rotation only
+    //  */
+    TweenSelected<T extends InterfaceRenderQuad | RenderGroup>(
+        object: T | undefined,
+        target: T extends InterfaceRenderQuad ? TweeningVariants.QaudTweening : TweeningVariants.GroupTweening,
         durationMs?: number
-    ): Promise<void>;
+    ): any;
 
-    /** Call every frame to advance all active tweens/animations */
     update(): void;
-
-    /**
-     * Render the entire scene (clears, batches by texture, draws).
-     * Call this after update() in an animation loop.
-     */
     render(width: number, height: number): void;
-
-    /**
-     * OPTIONAL: start a **full** animation loop setup automatically (call this ONCE)     
-     * Pass a callback if running logic before render().
-     */
     startAnimationLoop(onBeforeRender?: (deltaMs: number) => void): void;
 }
