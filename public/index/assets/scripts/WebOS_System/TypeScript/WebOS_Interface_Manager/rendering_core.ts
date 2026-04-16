@@ -1,7 +1,7 @@
 /// <reference path="./rendering_core_reference.d.ts" />
 
-import fetch from "node-fetch";
-import { parse } from "path";
+// import fetch from "node-fetch";
+// import { parse } from "path";
 
 /**
  * Shader sources used by the renderer
@@ -555,24 +555,32 @@ class PrebuiltFontsReference implements RenderingTextFontStorage {
 
 export class RenderingFontabilityText extends PrebuiltFontsReference {
     SelectedFontFamilyLibraryName: string;
+    SelectedFontFamilyLibraryData: String | null;
     SelectedFontFamilyLibraryIndexAmount: number;
 
     constructor() {
         super()!;
         this.SelectedFontFamilyLibraryName ??= new String().valueOf();
+        this.SelectedFontFamilyLibraryData = new String();
         this.SelectedFontFamilyLibraryIndexAmount = 0;
         // === === === === === ===
-        function CalculateFontFamilyVariants(): number {
+        function CalculateFontFamilyVariants(SelectedFontLibraryData: typeof String.prototype): number {
             let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
             if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number") return 0;
 
             try {
+                // for () {
 
+                // }
             } catch (VariantCalculationError) {
                 VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
             }
 
             return (CalculatedVariants ?? 0);
+        }
+
+        if (this.SelectedFontFamilyLibraryData !== null && this.SelectedFontFamilyLibraryData instanceof String) {
+            this.SelectedFontFamilyLibraryIndexAmount = CalculateFontFamilyVariants?.(this.SelectedFontFamilyLibraryData !== null ? this.SelectedFontFamilyLibraryData : new String()) ?? 0;
         }
         // === === === === === ===
         new Promise(async () => {
