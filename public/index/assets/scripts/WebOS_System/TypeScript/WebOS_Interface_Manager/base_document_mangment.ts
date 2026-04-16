@@ -1,15 +1,22 @@
-import { Renderer2D, InterfaceRenderQuad } from "./rendering_core.js";
+import { Renderer2D, InterfaceRenderQuad, RenderGroup } from "./rendering_core.js";
 
 const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-machine-display-wrapper");
 let DisplayCanvasStyles = new String().valueOf();
 
 namespace TerminalCursorDirectionConstants {
     // Constants literal values
-    export let _RIGHT_MOVMENT: Readonly<number> = 32;
-    export let _LEFT_MOVMENT: Readonly<number> = -32;
+    export let _RIGHT_MOVMENT: Readonly<number> = -32 as const;
+    export let _LEFT_MOVMENT: Readonly<number> = 32 as const;
     // Constants value IDs
     export let LEFT = 1 as const;
     export let RIGHT = 2 as const;
+    // Conversion values
+    export const ArrowLeft = LEFT;
+    export const ArrowRight = RIGHT;
+    export let AbsoluteIDs: Readonly<("LEFT" | "RIGHT")[]> = [
+        "LEFT",
+        "RIGHT",
+    ] as const;
 }
 
 (() => {
@@ -135,7 +142,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             console.debug(VirtualMachineDisplayOutput.dataset ?? "Display output dataset NOT available.");
 
             let VirtualMachineFocused: boolean = false;
-            
+
             VirtualMachineDisplayOutput.addEventListener("click", (ClickEvent) => {
                 if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && !ClickEvent.isPrimary) {
                     if (VirtualMachineFocused !== null && typeof (VirtualMachineFocused) === "boolean") {
@@ -155,7 +162,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                 }
             }, { passive: true });
 
-            document.addEventListener("click", (ClickEvent) => {
+            self.window.document.addEventListener("click", (ClickEvent) => {
                 if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent) {
                     if (ClickEvent.target !== null && ClickEvent.target instanceof HTMLElement) {
                         if (!(ClickEvent.target instanceof HTMLCanvasElement)) {
@@ -177,9 +184,12 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             function translateTerminalCursor(targetDirection: TerminalCursorDirectionVariants, activeTerminalCursor: InterfaceRenderQuad): void {
                 if (targetDirection === undefined || activeTerminalCursor === undefined || !(activeTerminalCursor instanceof InterfaceRenderQuad)) return;
                 if (targetDirection !== TerminalCursorDirectionConstants.LEFT! && targetDirection !== TerminalCursorDirectionConstants.RIGHT!) return;
-                const FormatedValueKey = `_${targetDirection ?? new String(null).valueOf()}_MOVMENT` as ("_LEFT_MOVMENT" | "_RIGHT_MOVMENT");
+                const FormatedValueKey = `_${TerminalCursorDirectionConstants.AbsoluteIDs[targetDirection] ?? new String(null).valueOf()}_MOVMENT` as "_LEFT_MOVMENT" | "_RIGHT_MOVMENT";
                 const SelectedMovmentValueDirection = TerminalCursorDirectionConstants?.[FormatedValueKey] ?? undefined;
-                if (SelectedMovmentValueDirection === undefined) return void null;
+                console.info(FormatedValueKey);
+                console.info(SelectedMovmentValueDirection);
+                if (SelectedMovmentValueDirection === undefined || typeof (SelectedMovmentValueDirection) !== "number") return void null;
+                console.debug("OK");
                 return (TerminalRenderer.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
@@ -187,6 +197,17 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     },
                 }) ?? void null);
             }
+
+            self.window.addEventListener("keydown", (KeyboardPressEvent: KeyboardEvent) => {
+                if (KeyboardPressEvent !== undefined && KeyboardPressEvent instanceof KeyboardEvent) {
+                    const PressedKeyboardKeybind: string = KeyboardPressEvent?.key ?? null;
+                    console.debug(String(PressedKeyboardKeybind).trim());
+                    if (PressedKeyboardKeybind.valueOf() === "ArrowLeft" || PressedKeyboardKeybind.valueOf() === "ArrowRight") {
+                        console.debug("Valid terminal cursor keybind detected.");
+                        translateTerminalCursor(TerminalCursorDirectionConstants[PressedKeyboardKeybind as "ArrowLeft" | "ArrowRight"], TerminalCursor);
+                    }
+                }
+            }, { passive: true, capture: true });
 
             const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024) as typeof Renderer2D.prototype;
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);

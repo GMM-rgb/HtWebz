@@ -1,8 +1,5 @@
 /// <reference path="./rendering_core_reference.d.ts" />
 
-// import fetch from "node-fetch";
-// import { parse } from "path";
-
 /**
  * Shader sources used by the renderer
  */
@@ -568,13 +565,17 @@ export class RenderingFontabilityText extends PrebuiltFontsReference {
             let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
             if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number") return 0;
 
-            try {
-                // for () {
+            new Promise(async () => {
+                const TextFontVectorsFolder = await fetch("./Prebuilt_Text_Font_Vectors/");
 
-                // }
-            } catch (VariantCalculationError) {
-                VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
-            }
+                try {
+                    // for () {
+
+                    // }
+                } catch (VariantCalculationError) {
+                    VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
+                }
+            });
 
             return (CalculatedVariants ?? 0);
         }

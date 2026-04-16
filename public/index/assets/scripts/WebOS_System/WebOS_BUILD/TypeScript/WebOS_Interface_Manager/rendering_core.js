@@ -406,11 +406,14 @@ export class RenderingFontabilityText extends PrebuiltFontsReference {
             let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
             if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number")
                 return 0;
-            try {
-            }
-            catch (VariantCalculationError) {
-                VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
-            }
+            new Promise(async () => {
+                const TextFontVectorsFolder = await fetch("./Prebuilt_Text_Font_Vectors/");
+                try {
+                }
+                catch (VariantCalculationError) {
+                    VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
+                }
+            });
             return (CalculatedVariants ?? 0);
         }
         if (this.SelectedFontFamilyLibraryData !== null && this.SelectedFontFamilyLibraryData instanceof String) {

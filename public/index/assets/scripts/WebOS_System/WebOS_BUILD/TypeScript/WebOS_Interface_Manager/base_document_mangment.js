@@ -3,10 +3,16 @@ const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-
 let DisplayCanvasStyles = new String().valueOf();
 var TerminalCursorDirectionConstants;
 (function (TerminalCursorDirectionConstants) {
-    TerminalCursorDirectionConstants._RIGHT_MOVMENT = 32;
-    TerminalCursorDirectionConstants._LEFT_MOVMENT = -32;
+    TerminalCursorDirectionConstants._RIGHT_MOVMENT = -32;
+    TerminalCursorDirectionConstants._LEFT_MOVMENT = 32;
     TerminalCursorDirectionConstants.LEFT = 1;
     TerminalCursorDirectionConstants.RIGHT = 2;
+    TerminalCursorDirectionConstants.ArrowLeft = TerminalCursorDirectionConstants.LEFT;
+    TerminalCursorDirectionConstants.ArrowRight = TerminalCursorDirectionConstants.RIGHT;
+    TerminalCursorDirectionConstants.AbsoluteIDs = [
+        "LEFT",
+        "RIGHT",
+    ];
 })(TerminalCursorDirectionConstants || (TerminalCursorDirectionConstants = {}));
 (() => {
     function browserSupportsCSS() {
@@ -120,7 +126,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     console.warn("click invalid\n" + ClickEvent.isPrimary);
                 }
             }, { passive: true });
-            document.addEventListener("click", (ClickEvent) => {
+            self.window.document.addEventListener("click", (ClickEvent) => {
                 if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent) {
                     if (ClickEvent.target !== null && ClickEvent.target instanceof HTMLElement) {
                         if (!(ClickEvent.target instanceof HTMLCanvasElement)) {
@@ -137,10 +143,13 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     return;
                 if (targetDirection !== TerminalCursorDirectionConstants.LEFT && targetDirection !== TerminalCursorDirectionConstants.RIGHT)
                     return;
-                const FormatedValueKey = `_${targetDirection ?? new String(null).valueOf()}_MOVMENT`;
+                const FormatedValueKey = `_${TerminalCursorDirectionConstants.AbsoluteIDs[targetDirection] ?? new String(null).valueOf()}_MOVMENT`;
                 const SelectedMovmentValueDirection = TerminalCursorDirectionConstants?.[FormatedValueKey] ?? undefined;
-                if (SelectedMovmentValueDirection === undefined)
+                console.info(FormatedValueKey);
+                console.info(SelectedMovmentValueDirection);
+                if (SelectedMovmentValueDirection === undefined || typeof (SelectedMovmentValueDirection) !== "number")
                     return void null;
+                console.debug("OK");
                 return (TerminalRenderer.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
@@ -148,6 +157,16 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     },
                 }) ?? void null);
             }
+            self.window.addEventListener("keydown", (KeyboardPressEvent) => {
+                if (KeyboardPressEvent !== undefined && KeyboardPressEvent instanceof KeyboardEvent) {
+                    const PressedKeyboardKeybind = KeyboardPressEvent?.key ?? null;
+                    console.debug(String(PressedKeyboardKeybind).trim());
+                    if (PressedKeyboardKeybind.valueOf() === "ArrowLeft" && PressedKeyboardKeybind.valueOf() === "ArrowRight") {
+                        console.debug("Valid terminal cursor keybind detected.");
+                        translateTerminalCursor(TerminalCursorDirectionConstants[PressedKeyboardKeybind], TerminalCursor);
+                    }
+                }
+            }, { passive: true, capture: true });
             const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024);
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             TerminalRenderer.applyToRendering(TerminalCursor);
