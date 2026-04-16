@@ -1,6 +1,11 @@
 import { Renderer2D, InterfaceRenderQuad } from "./rendering_core.js";
 const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-machine-display-wrapper");
 let DisplayCanvasStyles = new String().valueOf();
+var TerminalCursorDirectionConstants;
+(function (TerminalCursorDirectionConstants) {
+    TerminalCursorDirectionConstants.LEFT = 1;
+    TerminalCursorDirectionConstants.RIGHT = 2;
+})(TerminalCursorDirectionConstants || (TerminalCursorDirectionConstants = {}));
 (() => {
     function browserSupportsCSS() {
         return typeof CSS !== "undefined" && typeof CSSStyleDeclaration !== "undefined";
@@ -90,13 +95,15 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
     VirtualMachineElementManager.InstanceCanvasRenderingElement().then(canvas => {
         if (canvas && canvas instanceof HTMLCanvasElement) {
             VirtualMachineWrapper?.appendChild(canvas);
-            console.debug("Virtual-Machine display created successfully:", canvas.id);
+            console.debug(("DISPLAY OUTPUT:\t" + (canvas.nodeName ?? "unknown")));
+            console.debug(canvas.dataset ?? "Display output dataset NOT available.");
+            function shiftCursor(targetDirection = TerminalCursorDirectionConstants.LEFT) {
+            }
             const TerminalRenderer = new Renderer2D(canvas, 1024);
-            const TerminalCursorGrouping = TerminalRenderer.createGroup(-50, 10);
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
-            TerminalRenderer.addToScene(TerminalCursor);
+            TerminalRenderer.applyToRendering(TerminalCursor);
             TerminalRenderer.TweenSelected(TerminalCursor, {
-                "positions": {
+                positions: {
                     "x": 10,
                     "y": 10,
                 },
@@ -104,25 +111,26 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             async function blinkCursor() {
                 if (TerminalCursor !== undefined && TerminalCursor instanceof InterfaceRenderQuad) {
                     TerminalCursor.visible = !TerminalCursor.visible;
-                    console.debug(TerminalCursor.visible.valueOf());
                 }
                 else {
                     console.warn("TerminalCursor is invalid or undefined!");
                 }
             }
-            (async () => {
-                new Promise((ResolveCursorBlinking) => {
-                    setInterval(() => {
-                        console.debug("Blinking terminal cursor...");
-                        blinkCursor().then(() => ResolveCursorBlinking(null));
-                    }, 1000);
-                });
-            })();
             TerminalRenderer.startAnimationLoop(() => {
                 const logicalW = Math.floor(new Number(canvas.clientWidth).valueOf());
                 const logicalH = Math.ceil(new Number(canvas.clientHeight).valueOf());
                 TerminalRenderer.render(logicalW, logicalH);
+                TerminalRenderer.update();
             });
+            (async () => {
+                let BlinkingInterval = null;
+                new Promise((ResolveCursorBlinking) => {
+                    BlinkingInterval !== null ? clearInterval(BlinkingInterval ?? undefined) : null;
+                    BlinkingInterval = setInterval(() => {
+                        blinkCursor().then(() => ResolveCursorBlinking(null));
+                    }, 500);
+                });
+            })();
         }
     }).catch(err => console.error("Failed to create canvas:", err));
     LoadEventValue.stopPropagation();

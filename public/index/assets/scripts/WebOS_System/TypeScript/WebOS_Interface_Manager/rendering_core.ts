@@ -292,7 +292,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
     }
 
     /** @inheritdoc */
-    public addToScene(drawable: InterfaceRenderQuad | RenderGroup) {
+    public applyToRendering(drawable: InterfaceRenderQuad | RenderGroup) {
         if (!this.topLevelDrawables.includes(drawable)) {
             this.topLevelDrawables.push(drawable);
         }

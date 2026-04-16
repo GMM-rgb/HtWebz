@@ -45,7 +45,7 @@ declare abstract class ReferenceRendererCore2D {
     createSprite(x: number, y: number, w: number, h: number, texture: WebGLTexture, tint?: [number, number, number, number]): InterfaceRenderQuad;
     createGroup(x?: number, y?: number): RenderGroup;
 
-    addToScene(drawable: InterfaceRenderQuad | RenderGroup): void;
+    applyToRendering(drawable: InterfaceRenderQuad | RenderGroup): void;
     removeFromScene(drawable: InterfaceRenderQuad | RenderGroup): void;
 
     // /** 

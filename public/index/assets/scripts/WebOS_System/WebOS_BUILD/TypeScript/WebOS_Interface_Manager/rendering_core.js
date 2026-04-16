@@ -197,7 +197,7 @@ export class Renderer2D {
     createGroup(x = 0, y = 0) {
         return new RenderGroup(x, y);
     }
-    addToScene(drawable) {
+    applyToRendering(drawable) {
         if (!this.topLevelDrawables.includes(drawable)) {
             this.topLevelDrawables.push(drawable);
         }
