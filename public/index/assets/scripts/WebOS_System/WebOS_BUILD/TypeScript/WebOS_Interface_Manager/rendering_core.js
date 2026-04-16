@@ -400,8 +400,9 @@ export class RenderingFontabilityText extends PrebuiltFontsReference {
     constructor() {
         super();
         this.SelectedFontFamilyLibraryName ?? (this.SelectedFontFamilyLibraryName = new String().valueOf());
+        this.SelectedFontFamilyLibraryData = new String();
         this.SelectedFontFamilyLibraryIndexAmount = 0;
-        function CalculateFontFamilyVariants() {
+        function CalculateFontFamilyVariants(SelectedFontLibraryData) {
             let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
             if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number")
                 return 0;
@@ -411,6 +412,9 @@ export class RenderingFontabilityText extends PrebuiltFontsReference {
                 VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
             }
             return (CalculatedVariants ?? 0);
+        }
+        if (this.SelectedFontFamilyLibraryData !== null && this.SelectedFontFamilyLibraryData instanceof String) {
+            this.SelectedFontFamilyLibraryIndexAmount = CalculateFontFamilyVariants?.(this.SelectedFontFamilyLibraryData !== null ? this.SelectedFontFamilyLibraryData : new String()) ?? 0;
         }
         new Promise(async () => {
             await (async () => {

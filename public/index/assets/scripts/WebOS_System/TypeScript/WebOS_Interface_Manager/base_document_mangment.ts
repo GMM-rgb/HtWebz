@@ -4,6 +4,10 @@ const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-
 let DisplayCanvasStyles = new String().valueOf();
 
 namespace TerminalCursorDirectionConstants {
+    // Constants literal values
+    export let _RIGHT_MOVMENT: Readonly<number> = 32;
+    export let _LEFT_MOVMENT: Readonly<number> = -32;
+    // Constants value IDs
     export let LEFT = 1 as const;
     export let RIGHT = 2 as const;
 }
@@ -123,21 +127,35 @@ declare type TerminalCursorDirectionVariants = typeof TerminalCursorDirectionCon
 
 // DOMContentLoaded
 window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
-    VirtualMachineElementManager.InstanceCanvasRenderingElement().then(canvas => {
-        if (canvas && canvas instanceof HTMLCanvasElement) {
-            VirtualMachineWrapper?.appendChild(canvas);
+    VirtualMachineElementManager.InstanceCanvasRenderingElement().then(VirtualMachineDisplayOutput => {
+        if (VirtualMachineDisplayOutput && VirtualMachineDisplayOutput instanceof HTMLCanvasElement) {
+            VirtualMachineWrapper?.appendChild(VirtualMachineDisplayOutput);
 
-            console.debug(("DISPLAY OUTPUT:\t" + (canvas.nodeName ?? "unknown")));
-            console.debug(canvas.dataset ?? "Display output dataset NOT available.");
+            console.debug(("DISPLAY OUTPUT:\t" + (VirtualMachineDisplayOutput.nodeName ?? "unknown")));
+            console.debug(VirtualMachineDisplayOutput.dataset ?? "Display output dataset NOT available.");
 
-            function shiftCursor(targetDirection: TerminalCursorDirectionVariants = TerminalCursorDirectionConstants.LEFT): void {
+            VirtualMachineDisplayOutput.addEventListener("click", (ClickEvent) => {
+                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && ClickEvent.isPrimary === true) {
 
+                }
+            }, { passive: true });
+
+            /**
+             * ---
+             * @param targetDirection 
+             * @param activeTerminalCursor 
+             * @returns 
+             */
+            function translateTerminalCursor(targetDirection: TerminalCursorDirectionVariants, activeTerminalCursor: InterfaceRenderQuad): void {
+                if (targetDirection === undefined || activeTerminalCursor === undefined || !(activeTerminalCursor instanceof InterfaceRenderQuad)) return;
+                if (targetDirection !== TerminalCursorDirectionConstants.LEFT! && targetDirection !== TerminalCursorDirectionConstants.RIGHT!) return;
+                const SelectedMovmentValueDirection = TerminalCursorDirectionConstants[`_${targetDirection}_MOVMENT` as ("_LEFT_MOVMENT" | "_RIGHT_MOVMENT")];
+                return;
             }
 
-            const TerminalRenderer = new Renderer2D(canvas, 1024) as typeof Renderer2D.prototype;
+            const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024) as typeof Renderer2D.prototype;
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             TerminalRenderer.applyToRendering(TerminalCursor);
-
             TerminalRenderer.TweenSelected(TerminalCursor, {
                 positions: {
                     "x": 10,
@@ -154,8 +172,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             }
 
             TerminalRenderer.startAnimationLoop(() => {
-                const logicalW = Math.floor(new Number(canvas.clientWidth).valueOf());
-                const logicalH = Math.ceil(new Number(canvas.clientHeight).valueOf());
+                const logicalW = Math.floor(new Number(VirtualMachineDisplayOutput.clientWidth).valueOf());
+                const logicalH = Math.ceil(new Number(VirtualMachineDisplayOutput.clientHeight).valueOf());
                 TerminalRenderer.render(logicalW, logicalH);
                 TerminalRenderer.update();
             });

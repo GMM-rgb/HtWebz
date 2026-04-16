@@ -92,14 +92,18 @@ var VirtualMachineElementManager;
     VirtualMachineElementManager.InstanceCanvasRenderingElement = InstanceCanvasRenderingElement;
 })(VirtualMachineElementManager || (VirtualMachineElementManager = {}));
 window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
-    VirtualMachineElementManager.InstanceCanvasRenderingElement().then(canvas => {
-        if (canvas && canvas instanceof HTMLCanvasElement) {
-            VirtualMachineWrapper?.appendChild(canvas);
-            console.debug(("DISPLAY OUTPUT:\t" + (canvas.nodeName ?? "unknown")));
-            console.debug(canvas.dataset ?? "Display output dataset NOT available.");
+    VirtualMachineElementManager.InstanceCanvasRenderingElement().then(VirtualMachineDisplayOutput => {
+        if (VirtualMachineDisplayOutput && VirtualMachineDisplayOutput instanceof HTMLCanvasElement) {
+            VirtualMachineWrapper?.appendChild(VirtualMachineDisplayOutput);
+            console.debug(("DISPLAY OUTPUT:\t" + (VirtualMachineDisplayOutput.nodeName ?? "unknown")));
+            console.debug(VirtualMachineDisplayOutput.dataset ?? "Display output dataset NOT available.");
+            VirtualMachineDisplayOutput.addEventListener("click", (ClickEvent) => {
+                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && ClickEvent.isPrimary === true) {
+                }
+            }, { passive: true });
             function shiftCursor(targetDirection = TerminalCursorDirectionConstants.LEFT) {
             }
-            const TerminalRenderer = new Renderer2D(canvas, 1024);
+            const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024);
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             TerminalRenderer.applyToRendering(TerminalCursor);
             TerminalRenderer.TweenSelected(TerminalCursor, {
@@ -117,8 +121,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                 }
             }
             TerminalRenderer.startAnimationLoop(() => {
-                const logicalW = Math.floor(new Number(canvas.clientWidth).valueOf());
-                const logicalH = Math.ceil(new Number(canvas.clientHeight).valueOf());
+                const logicalW = Math.floor(new Number(VirtualMachineDisplayOutput.clientWidth).valueOf());
+                const logicalH = Math.ceil(new Number(VirtualMachineDisplayOutput.clientHeight).valueOf());
                 TerminalRenderer.render(logicalW, logicalH);
                 TerminalRenderer.update();
             });
