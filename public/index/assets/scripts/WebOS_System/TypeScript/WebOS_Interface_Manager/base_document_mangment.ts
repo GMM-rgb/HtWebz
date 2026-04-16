@@ -134,11 +134,39 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             console.debug(("DISPLAY OUTPUT:\t" + (VirtualMachineDisplayOutput.nodeName ?? "unknown")));
             console.debug(VirtualMachineDisplayOutput.dataset ?? "Display output dataset NOT available.");
 
+            let VirtualMachineFocused: boolean = false;
+            
             VirtualMachineDisplayOutput.addEventListener("click", (ClickEvent) => {
-                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && ClickEvent.isPrimary === true) {
-
+                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && !ClickEvent.isPrimary) {
+                    if (VirtualMachineFocused !== null && typeof (VirtualMachineFocused) === "boolean") {
+                        (async () => {
+                            if (!VirtualMachineDisplayOutput.classList.contains("highlight-focused")) {
+                                VirtualMachineDisplayOutput.classList.add("highlight-focused");
+                            } else {
+                                console.info("Focused classlist already exists, skipping.");
+                            }
+                        })().then(() => {
+                            VirtualMachineFocused = true;
+                            console.debug(VirtualMachineFocused.valueOf());
+                        });
+                    }
+                } else {
+                    console.warn("click invalid\n" + ClickEvent.isPrimary);
                 }
             }, { passive: true });
+
+            document.addEventListener("click", (ClickEvent) => {
+                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent) {
+                    if (ClickEvent.target !== null && ClickEvent.target instanceof HTMLElement) {
+                        if (!(ClickEvent.target instanceof HTMLCanvasElement)) {
+                            if (VirtualMachineDisplayOutput.classList.contains("highlight-focused")) {
+                                VirtualMachineDisplayOutput.classList.remove("highlight-focused");
+                                VirtualMachineFocused = false;
+                            }
+                        }
+                    }
+                }
+            }, { passive: true, capture: true });
 
             /**
              * ---

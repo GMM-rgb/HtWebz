@@ -3,6 +3,8 @@ const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-
 let DisplayCanvasStyles = new String().valueOf();
 var TerminalCursorDirectionConstants;
 (function (TerminalCursorDirectionConstants) {
+    TerminalCursorDirectionConstants._RIGHT_MOVMENT = 32;
+    TerminalCursorDirectionConstants._LEFT_MOVMENT = -32;
     TerminalCursorDirectionConstants.LEFT = 1;
     TerminalCursorDirectionConstants.RIGHT = 2;
 })(TerminalCursorDirectionConstants || (TerminalCursorDirectionConstants = {}));
@@ -97,11 +99,54 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             VirtualMachineWrapper?.appendChild(VirtualMachineDisplayOutput);
             console.debug(("DISPLAY OUTPUT:\t" + (VirtualMachineDisplayOutput.nodeName ?? "unknown")));
             console.debug(VirtualMachineDisplayOutput.dataset ?? "Display output dataset NOT available.");
+            let VirtualMachineFocused = false;
             VirtualMachineDisplayOutput.addEventListener("click", (ClickEvent) => {
-                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && ClickEvent.isPrimary === true) {
+                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && !ClickEvent.isPrimary) {
+                    if (VirtualMachineFocused !== null && typeof (VirtualMachineFocused) === "boolean") {
+                        (async () => {
+                            if (!VirtualMachineDisplayOutput.classList.contains("highlight-focused")) {
+                                VirtualMachineDisplayOutput.classList.add("highlight-focused");
+                            }
+                            else {
+                                console.info("Focused classlist already exists, skipping.");
+                            }
+                        })().then(() => {
+                            VirtualMachineFocused = true;
+                            console.debug(VirtualMachineFocused.valueOf());
+                        });
+                    }
+                }
+                else {
+                    console.warn("click invalid\n" + ClickEvent.isPrimary);
                 }
             }, { passive: true });
-            function shiftCursor(targetDirection = TerminalCursorDirectionConstants.LEFT) {
+            document.addEventListener("click", (ClickEvent) => {
+                if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent) {
+                    if (ClickEvent.target !== null && ClickEvent.target instanceof HTMLElement) {
+                        if (!(ClickEvent.target instanceof HTMLCanvasElement)) {
+                            if (VirtualMachineDisplayOutput.classList.contains("highlight-focused")) {
+                                VirtualMachineDisplayOutput.classList.remove("highlight-focused");
+                                VirtualMachineFocused = false;
+                            }
+                        }
+                    }
+                }
+            }, { passive: true, capture: true });
+            function translateTerminalCursor(targetDirection, activeTerminalCursor) {
+                if (targetDirection === undefined || activeTerminalCursor === undefined || !(activeTerminalCursor instanceof InterfaceRenderQuad))
+                    return;
+                if (targetDirection !== TerminalCursorDirectionConstants.LEFT && targetDirection !== TerminalCursorDirectionConstants.RIGHT)
+                    return;
+                const FormatedValueKey = `_${targetDirection ?? new String(null).valueOf()}_MOVMENT`;
+                const SelectedMovmentValueDirection = TerminalCursorDirectionConstants?.[FormatedValueKey] ?? undefined;
+                if (SelectedMovmentValueDirection === undefined)
+                    return void null;
+                return (TerminalRenderer.TweenSelected?.(activeTerminalCursor, {
+                    positions: {
+                        x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
+                        y: parseFloat(activeTerminalCursor.y.toFixed(2)),
+                    },
+                }) ?? void null);
             }
             const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024);
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
