@@ -149,8 +149,15 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             function translateTerminalCursor(targetDirection: TerminalCursorDirectionVariants, activeTerminalCursor: InterfaceRenderQuad): void {
                 if (targetDirection === undefined || activeTerminalCursor === undefined || !(activeTerminalCursor instanceof InterfaceRenderQuad)) return;
                 if (targetDirection !== TerminalCursorDirectionConstants.LEFT! && targetDirection !== TerminalCursorDirectionConstants.RIGHT!) return;
-                const SelectedMovmentValueDirection = TerminalCursorDirectionConstants[`_${targetDirection}_MOVMENT` as ("_LEFT_MOVMENT" | "_RIGHT_MOVMENT")];
-                return;
+                const FormatedValueKey = `_${targetDirection ?? new String(null).valueOf()}_MOVMENT` as ("_LEFT_MOVMENT" | "_RIGHT_MOVMENT");
+                const SelectedMovmentValueDirection = TerminalCursorDirectionConstants?.[FormatedValueKey] ?? undefined;
+                if (SelectedMovmentValueDirection === undefined) return void null;
+                return (TerminalRenderer.TweenSelected?.(activeTerminalCursor, {
+                    positions: {
+                        x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
+                        y: parseFloat(activeTerminalCursor.y.toFixed(2)),
+                    },
+                }) ?? void null);
             }
 
             const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024) as typeof Renderer2D.prototype;
