@@ -63,3 +63,21 @@ declare abstract class ReferenceRendererCore2D {
     render(width: number, height: number): void;
     startAnimationLoop(onBeforeRender?: (deltaMs: number) => void): void;
 }
+
+declare type FontFamilyLetterVariants = { lower?: string; upper?: string; };
+declare type PreBuiltFontFamilyVectors = {
+    1: FontFamilyLetterVariants;
+    2: FontFamilyLetterVariants;
+};
+
+/**
+ * ---
+ * [...]
+ */
+declare abstract class RenderingTextFontStorage {
+    IntegratedFontFamilyVectors: PreBuiltFontFamilyVectors;
+}
+
+declare abstract class RenderingTextUtility {
+
+}

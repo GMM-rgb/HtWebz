@@ -134,7 +134,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
 
             }
 
-            const TerminalRenderer = new Renderer2D(canvas, 1024);
+            const TerminalRenderer = new Renderer2D(canvas, 1024) as typeof Renderer2D.prototype;
             const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             TerminalRenderer.applyToRendering(TerminalCursor);
 

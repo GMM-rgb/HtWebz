@@ -382,4 +382,43 @@ export class Renderer2D {
         requestAnimationFrame(loop);
     }
 }
+class PrebuiltFontsReference {
+    constructor() {
+        this.IntegratedFontFamilyVectors = {
+            1: {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            2: {
+                "lower": undefined,
+                "upper": undefined,
+            },
+        };
+    }
+}
+export class RenderingFontabilityText extends PrebuiltFontsReference {
+    constructor() {
+        super();
+        this.SelectedFontFamilyLibraryName ?? (this.SelectedFontFamilyLibraryName = new String().valueOf());
+        this.SelectedFontFamilyLibraryIndexAmount = 0;
+        function CalculateFontFamilyVariants() {
+            let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
+            if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number")
+                return 0;
+            try {
+            }
+            catch (VariantCalculationError) {
+                VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
+            }
+            return (CalculatedVariants ?? 0);
+        }
+        new Promise(async () => {
+            await (async () => {
+                for (let selectedFontLetter = 0; selectedFontLetter; selectedFontLetter++) {
+                }
+            })();
+            await Promise.resolve?.() ?? void null;
+        });
+    }
+}
 //# sourceMappingURL=../../../TypeScript/WebOS_Interface_Manager/rendering_core.js.map
