@@ -179,6 +179,14 @@ app.get('/', async (req, res) => {
 // This serves static files from the public folder
 app.use(express.static(serveDirectory));
 
+app.get("/WebOS", (SocketRequest, SocketResponse) => {
+  SocketResponse.sendFile(path.join(serveDirectory, 'WebOS', 'htwebz_webos.html'), (ResponseFatalError) => {
+    if (ResponseFatalError != null && ResponseFatalError instanceof Error) {
+      console.error(String(ResponseFatalError.stack.trim() + "\n" + ResponseFatalError.message))
+    }
+  });
+});
+
 // ===== ERROR HANDLING =====
 // 404 handler (no route matched)
 app.use((req, res) => {

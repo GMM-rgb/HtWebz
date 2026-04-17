@@ -1,10 +1,11 @@
 import { Renderer2D, InterfaceRenderQuad } from "./rendering_core.js";
+import { TextFontRendering as InterfaceTextRendering } from "./text_rendering_core.js";
 const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-machine-display-wrapper");
 let DisplayCanvasStyles = new String().valueOf();
 var TerminalCursorDirectionConstants;
 (function (TerminalCursorDirectionConstants) {
-    TerminalCursorDirectionConstants._RIGHT_MOVMENT = parseFloat("32");
-    TerminalCursorDirectionConstants._LEFT_MOVMENT = parseFloat("-32");
+    TerminalCursorDirectionConstants._RIGHT_MOVMENT = parseFloat("16");
+    TerminalCursorDirectionConstants._LEFT_MOVMENT = parseFloat("-16");
     TerminalCursorDirectionConstants._VALID_KEYS = [
         "ArrowLeft",
         "ArrowRight",
@@ -181,6 +182,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                 });
             }
             const InterfaceRendererPipeline = new Renderer2D(VirtualMachineDisplayOutput, 1024);
+            const TextRenderingInstance = new InterfaceTextRendering();
             const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             const TerminalCursor = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);

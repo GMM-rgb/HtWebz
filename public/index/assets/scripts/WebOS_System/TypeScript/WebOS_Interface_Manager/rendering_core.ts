@@ -1,5 +1,5 @@
 /// <reference path="./rendering_core_reference.d.ts" />
-
+import { TextFontRendering } from "./text_rendering_core";
 /**
  * Shader sources used by the renderer
  */
@@ -536,64 +536,5 @@ export class Renderer2D implements ReferenceRendererCore2D {
             requestAnimationFrame(loop);
         };
         requestAnimationFrame(loop);
-    }
-}
-
-class PrebuiltFontsReference implements RenderingTextFontStorage {
-    IntegratedFontFamilyVectors: PreBuiltFontFamilyVectors = {
-        1: {
-            "lower": undefined,
-            "upper": undefined,
-        },
-        2: {
-            "lower": undefined,
-            "upper": undefined,
-        },
-    };
-}
-
-export class RenderingFontabilityText extends PrebuiltFontsReference {
-    SelectedFontFamilyLibraryName: string;
-    SelectedFontFamilyLibraryData: String | null;
-    SelectedFontFamilyLibraryIndexAmount: number;
-
-    constructor() {
-        super()!;
-        this.SelectedFontFamilyLibraryName ??= new String().valueOf();
-        this.SelectedFontFamilyLibraryData = new String();
-        this.SelectedFontFamilyLibraryIndexAmount = 0;
-        // === === === === === ===
-        function CalculateFontFamilyVariants(SelectedFontLibraryData: typeof String.prototype): number {
-            let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
-            if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number") return 0;
-
-            new Promise(async () => {
-                const TextFontVectorsFolder = await fetch("./Prebuilt_Text_Font_Vectors/");
-
-                try {
-                    // for () {
-
-                    // }
-                } catch (VariantCalculationError) {
-                    VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
-                }
-            });
-
-            return (CalculatedVariants ?? 0);
-        }
-
-        if (this.SelectedFontFamilyLibraryData !== null && this.SelectedFontFamilyLibraryData instanceof String) {
-            this.SelectedFontFamilyLibraryIndexAmount = CalculateFontFamilyVariants?.(this.SelectedFontFamilyLibraryData !== null ? this.SelectedFontFamilyLibraryData : new String()) ?? 0;
-        }
-        // === === === === === ===
-        new Promise(async () => {
-            await (async () => {
-                for (let selectedFontLetter = 0; selectedFontLetter; selectedFontLetter++) {
-
-                }
-            })();
-            await Promise!.resolve?.() ?? void null;
-        });
-        // === === === === === ===
     }
 }
