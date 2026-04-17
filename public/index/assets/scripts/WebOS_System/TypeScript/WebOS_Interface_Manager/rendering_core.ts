@@ -5,37 +5,37 @@
  */
 const RenderingShaderData = {
     InterfaceRenderingVertex: `#version 300 es
-in vec2 position;
-in vec4 color;
-in vec2 texCoord;
+    in vec2 position;
+    in vec4 color;
+    in vec2 texCoord;
 
-uniform vec2 uResolution;
+    uniform vec2 uResolution;
 
-out vec4 vColor;
-out vec2 vTexCoord;
+    out vec4 vColor;
+    out vec2 vTexCoord;
 
-void main() {
-    vec2 zeroToOne = position / uResolution;
-    vec2 zeroToTwo = zeroToOne * 2.0;
-    vec2 clip = zeroToTwo - 1.0;
-    clip.y *= -1.0;
+    void main() {
+        vec2 zeroToOne = position / uResolution;
+        vec2 zeroToTwo = zeroToOne * 2.0;
+        vec2 clip = zeroToTwo - 1.0;
+        clip.y *= -1.0;
 
-    gl_Position = vec4(clip, 0.0, 1.0);
-    vColor = color;
-    vTexCoord = texCoord;
-}`,
+        gl_Position = vec4(clip, 0.0, 1.0);
+        vColor = color;
+        vTexCoord = texCoord;
+    }`,
     FragmentRendering: `#version 300 es
-precision mediump float;
+    precision mediump float;
 
-in vec4 vColor;
-in vec2 vTexCoord;
-uniform sampler2D uTexture;
+    in vec4 vColor;
+    in vec2 vTexCoord;
+    uniform sampler2D uTexture;
 
-out vec4 outColor;
+    out vec4 outColor;
 
-void main() {
-    outColor = texture(uTexture, vTexCoord) * vColor;
-}`
+    void main() {
+        outColor = texture(uTexture, vTexCoord) * vColor;
+    }`
 };
 
 interface Drawable {
@@ -196,7 +196,6 @@ export class Renderer2D implements ReferenceRendererCore2D {
 
     /** @inheritdoc */
     public async loadTexture(source: string | HTMLImageElement): Promise<WebGLTexture> {
-        // ... (unchanged)
         const gl = this.AttatchedRenderer;
         let img: HTMLImageElement;
 
@@ -225,18 +224,19 @@ export class Renderer2D implements ReferenceRendererCore2D {
     }
 
     /**
+     * ---
      * Create a WebGL texture directly from an inline SVG string.
-     * Perfect for circles, rounded rectangles, or any vector shape without exporting images.
      * 
+     * ---
      * @param svgString - Raw SVG XML string
      * @param targetWidth - Texture width in pixels (default 512)
      * @param targetHeight - Texture height in pixels (default 512)
-     * @returns WebGLTexture ready to use with createSprite
-     * 
+     * @returns 
      * @example
-     * const svgCircle = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+     * const svgCircle = 
+     * (`<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
      *   <circle cx="100" cy="100" r="90" fill="#ff0000" />
-     * </svg>`;
+     * </svg>`);
      * const tex = await renderer.loadSVGTexture(svgCircle, 256, 256);
      */
     public async loadSVGTexture(svgString: string, targetWidth: number = 512, targetHeight: number = 512): Promise<WebGLTexture> {
@@ -315,11 +315,12 @@ export class Renderer2D implements ReferenceRendererCore2D {
      * @param TargetProperties - Target values (type depends on the object passed)
      * @param durationMs - Animation duration in milliseconds
      */
-    public TweenSelected<T extends InterfaceRenderQuad | RenderGroup>(
+    public async TweenSelected<T extends InterfaceRenderQuad | RenderGroup>(
         RequestedObject: T | undefined = undefined,
         TargetProperties: T extends InterfaceRenderQuad ? TweeningVariants.QaudTweening : TweeningVariants.GroupTweening,
-        durationMs: number = 500
-    ): any {
+        threadFunction?: () => void,
+        durationMs: number = 500, 
+    ): Promise<void> {
         if (!RequestedObject || !TargetProperties) {
             console.error("TweenSelected: invalid object or target properties");
             return Promise.reject();
@@ -342,6 +343,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
             targetSize: (TargetProperties as any).sizing,
             startRotation,
             targetRotation,
+            activeThreadFunction: threadFunction !== undefined ? threadFunction?.() : null,
             onComplete: null as (() => void) | null,
         };
 

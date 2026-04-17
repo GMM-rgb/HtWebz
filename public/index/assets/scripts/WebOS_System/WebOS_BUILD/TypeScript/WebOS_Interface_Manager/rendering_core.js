@@ -1,36 +1,36 @@
 const RenderingShaderData = {
     InterfaceRenderingVertex: `#version 300 es
-in vec2 position;
-in vec4 color;
-in vec2 texCoord;
+    in vec2 position;
+    in vec4 color;
+    in vec2 texCoord;
 
-uniform vec2 uResolution;
+    uniform vec2 uResolution;
 
-out vec4 vColor;
-out vec2 vTexCoord;
+    out vec4 vColor;
+    out vec2 vTexCoord;
 
-void main() {
-    vec2 zeroToOne = position / uResolution;
-    vec2 zeroToTwo = zeroToOne * 2.0;
-    vec2 clip = zeroToTwo - 1.0;
-    clip.y *= -1.0;
+    void main() {
+        vec2 zeroToOne = position / uResolution;
+        vec2 zeroToTwo = zeroToOne * 2.0;
+        vec2 clip = zeroToTwo - 1.0;
+        clip.y *= -1.0;
 
-    gl_Position = vec4(clip, 0.0, 1.0);
-    vColor = color;
-    vTexCoord = texCoord;
-}`,
+        gl_Position = vec4(clip, 0.0, 1.0);
+        vColor = color;
+        vTexCoord = texCoord;
+    }`,
     FragmentRendering: `#version 300 es
-precision mediump float;
+    precision mediump float;
 
-in vec4 vColor;
-in vec2 vTexCoord;
-uniform sampler2D uTexture;
+    in vec4 vColor;
+    in vec2 vTexCoord;
+    uniform sampler2D uTexture;
 
-out vec4 outColor;
+    out vec4 outColor;
 
-void main() {
-    outColor = texture(uTexture, vTexCoord) * vColor;
-}`
+    void main() {
+        outColor = texture(uTexture, vTexCoord) * vColor;
+    }`
 };
 export class InterfaceRenderQuad {
     constructor(x, y, w, h, color, texture) {
@@ -207,7 +207,7 @@ export class Renderer2D {
         if (idx > -1)
             this.topLevelDrawables.splice(idx, 1);
     }
-    TweenSelected(RequestedObject = undefined, TargetProperties, durationMs = 500) {
+    async TweenSelected(RequestedObject = undefined, TargetProperties, threadFunction, durationMs = 500) {
         if (!RequestedObject || !TargetProperties) {
             console.error("TweenSelected: invalid object or target properties");
             return Promise.reject();
@@ -227,6 +227,7 @@ export class Renderer2D {
             targetSize: TargetProperties.sizing,
             startRotation,
             targetRotation,
+            activeThreadFunction: threadFunction !== undefined ? threadFunction?.() : null,
             onComplete: null,
         };
         if ("w" in RequestedObject && "h" in RequestedObject) {

@@ -56,6 +56,7 @@ declare abstract class ReferenceRendererCore2D {
     TweenSelected<T extends InterfaceRenderQuad | RenderGroup>(
         object: T | undefined,
         target: T extends InterfaceRenderQuad ? TweeningVariants.QaudTweening : TweeningVariants.GroupTweening,
+        threadFunction?: () => void,
         durationMs?: number
     ): any;
 

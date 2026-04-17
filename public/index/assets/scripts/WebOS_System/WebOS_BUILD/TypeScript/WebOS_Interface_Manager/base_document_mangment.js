@@ -3,8 +3,12 @@ const VirtualMachineWrapper = self.window.document.body.querySelector(".virtual-
 let DisplayCanvasStyles = new String().valueOf();
 var TerminalCursorDirectionConstants;
 (function (TerminalCursorDirectionConstants) {
-    TerminalCursorDirectionConstants._RIGHT_MOVMENT = -32;
-    TerminalCursorDirectionConstants._LEFT_MOVMENT = 32;
+    TerminalCursorDirectionConstants._RIGHT_MOVMENT = parseFloat("32");
+    TerminalCursorDirectionConstants._LEFT_MOVMENT = parseFloat("-32");
+    TerminalCursorDirectionConstants._VALID_KEYS = [
+        "ArrowLeft",
+        "ArrowRight",
+    ];
     TerminalCursorDirectionConstants.LEFT = 1;
     TerminalCursorDirectionConstants.RIGHT = 2;
     TerminalCursorDirectionConstants.ArrowLeft = TerminalCursorDirectionConstants.LEFT;
@@ -105,6 +109,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             VirtualMachineWrapper?.appendChild(VirtualMachineDisplayOutput);
             console.debug(("DISPLAY OUTPUT:\t" + (VirtualMachineDisplayOutput.nodeName ?? "unknown")));
             console.debug(VirtualMachineDisplayOutput.dataset ?? "Display output dataset NOT available.");
+            let VirtualMachineDisplayGeometricData = (VirtualMachineDisplayOutput?.getBoundingClientRect() ?? null);
             let VirtualMachineFocused = false;
             VirtualMachineDisplayOutput.addEventListener("click", (ClickEvent) => {
                 if (ClickEvent !== undefined && ClickEvent instanceof PointerEvent && !ClickEvent.isPrimary) {
@@ -138,44 +143,54 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     }
                 }
             }, { passive: true, capture: true });
+            self.window.addEventListener("keydown", (KeyboardPressEvent) => {
+                if (KeyboardPressEvent !== undefined && KeyboardPressEvent instanceof KeyboardEvent) {
+                    const PressedKeyboardKeybind = KeyboardPressEvent?.key ?? null;
+                    console.debug(String(PressedKeyboardKeybind).trim());
+                    if (PressedKeyboardKeybind.valueOf() === TerminalCursorDirectionConstants._VALID_KEYS[0].normalize("NFC") || PressedKeyboardKeybind.valueOf() === TerminalCursorDirectionConstants._VALID_KEYS[1].normalize("NFC")) {
+                        console.debug("Valid terminal cursor keybind detected.");
+                        translateTerminalCursor(TerminalCursorDirectionConstants[PressedKeyboardKeybind], TerminalCursor);
+                    }
+                    else {
+                        console.debug("invalid");
+                    }
+                }
+            }, { passive: true, capture: true });
             function translateTerminalCursor(targetDirection, activeTerminalCursor) {
                 if (targetDirection === undefined || activeTerminalCursor === undefined || !(activeTerminalCursor instanceof InterfaceRenderQuad))
                     return;
                 if (targetDirection !== TerminalCursorDirectionConstants.LEFT && targetDirection !== TerminalCursorDirectionConstants.RIGHT)
                     return;
-                const FormatedValueKey = `_${TerminalCursorDirectionConstants.AbsoluteIDs[targetDirection] ?? new String(null).valueOf()}_MOVMENT`;
+                const FormatedValueKey = `_${TerminalCursorDirectionConstants.AbsoluteIDs[Math.ceil(targetDirection.valueOf() - 1)] ?? new String(null).valueOf()}_MOVMENT`;
                 const SelectedMovmentValueDirection = TerminalCursorDirectionConstants?.[FormatedValueKey] ?? undefined;
                 console.info(FormatedValueKey);
                 console.info(SelectedMovmentValueDirection);
                 if (SelectedMovmentValueDirection === undefined || typeof (SelectedMovmentValueDirection) !== "number")
                     return void null;
-                console.debug("OK");
-                return (TerminalRenderer.TweenSelected?.(activeTerminalCursor, {
+                else {
+                    requestAnimationFrame(() => console.debug("OK"));
+                }
+                (InterfaceRendererPipeline.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
                         y: parseFloat(activeTerminalCursor.y.toFixed(2)),
                     },
-                }) ?? void null);
+                }, () => {
+                    console.debug("Tweening terminal cursor; translation position.");
+                }, 100) ?? (void null)).finally(() => {
+                });
             }
-            self.window.addEventListener("keydown", (KeyboardPressEvent) => {
-                if (KeyboardPressEvent !== undefined && KeyboardPressEvent instanceof KeyboardEvent) {
-                    const PressedKeyboardKeybind = KeyboardPressEvent?.key ?? null;
-                    console.debug(String(PressedKeyboardKeybind).trim());
-                    if (PressedKeyboardKeybind.valueOf() === "ArrowLeft" && PressedKeyboardKeybind.valueOf() === "ArrowRight") {
-                        console.debug("Valid terminal cursor keybind detected.");
-                        translateTerminalCursor(TerminalCursorDirectionConstants[PressedKeyboardKeybind], TerminalCursor);
-                    }
-                }
-            }, { passive: true, capture: true });
-            const TerminalRenderer = new Renderer2D(VirtualMachineDisplayOutput, 1024);
-            const TerminalCursor = TerminalRenderer.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
-            TerminalRenderer.applyToRendering(TerminalCursor);
-            TerminalRenderer.TweenSelected(TerminalCursor, {
+            const InterfaceRendererPipeline = new Renderer2D(VirtualMachineDisplayOutput, 1024);
+            const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
+            InterfaceRendererPipeline.applyToRendering(TerminalBackground);
+            const TerminalCursor = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
+            InterfaceRendererPipeline.applyToRendering(TerminalCursor);
+            InterfaceRendererPipeline.TweenSelected(TerminalCursor, {
                 positions: {
                     "x": 10,
                     "y": 10,
                 },
-            }, parseFloat("425").valueOf());
+            }, undefined, parseFloat("425").valueOf());
             async function blinkCursor() {
                 if (TerminalCursor !== undefined && TerminalCursor instanceof InterfaceRenderQuad) {
                     TerminalCursor.visible = !TerminalCursor.visible;
@@ -184,11 +199,22 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     console.warn("TerminalCursor is invalid or undefined!");
                 }
             }
-            TerminalRenderer.startAnimationLoop(() => {
+            InterfaceRendererPipeline.startAnimationLoop(() => {
+                VirtualMachineDisplayGeometricData = VirtualMachineDisplayOutput.getBoundingClientRect();
+                if (TerminalBackground !== undefined && TerminalBackground instanceof InterfaceRenderQuad) {
+                    if ((VirtualMachineDisplayGeometricData.height > TerminalBackground.h || VirtualMachineDisplayGeometricData.height < TerminalBackground.h)
+                        || (VirtualMachineDisplayGeometricData.width > TerminalBackground.w || VirtualMachineDisplayGeometricData.width < TerminalBackground.w)) {
+                        TerminalBackground.h = VirtualMachineDisplayGeometricData?.height?.valueOf() ?? 100;
+                        TerminalBackground.w = VirtualMachineDisplayGeometricData?.width?.valueOf() ?? 200;
+                    }
+                }
+                else {
+                    console.warn("");
+                }
+                InterfaceRendererPipeline.update();
                 const logicalW = Math.floor(new Number(VirtualMachineDisplayOutput.clientWidth).valueOf());
                 const logicalH = Math.ceil(new Number(VirtualMachineDisplayOutput.clientHeight).valueOf());
-                TerminalRenderer.render(logicalW, logicalH);
-                TerminalRenderer.update();
+                InterfaceRendererPipeline.render(logicalW, logicalH);
             });
             (async () => {
                 let BlinkingInterval = null;
