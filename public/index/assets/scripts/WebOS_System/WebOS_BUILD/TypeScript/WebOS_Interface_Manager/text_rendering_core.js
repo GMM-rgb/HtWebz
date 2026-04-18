@@ -30,7 +30,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
                 return 0;
             new Promise(async () => {
                 const TextFontVectorsFolder = await fetch("./Prebuilt_Text_Font_Vectors/");
-                const TextVectors = (await (TextFontVectorsFolder.blob ?? void null)?.()).stream().getReader();
+                const TextVectors = (await (TextFontVectorsFolder.blob ?? void null)?.() ?? console.warn("Failed to fetch text vector; font family folder!")).stream().getReader();
                 TextVectors.read().then((ReadDataVectors) => {
                     if (ReadDataVectors !== undefined && ReadDataVectors.done.valueOf() === true) {
                     }
@@ -53,19 +53,39 @@ export class TextFontRendering extends PrebuiltFontsReference {
             await (async () => {
                 for (let selectedFontLetter = 0; selectedFontLetter; selectedFontLetter++) {
                 }
-            })();
-            await Promise.resolve?.() ?? void null;
+            })().then(async () => {
+                await Promise.resolve?.() ?? void null;
+            });
         });
     }
     generateText(TargetGenerationText, textInterfaceObjectProperties) {
+        if ((textInterfaceObjectProperties !== undefined && textInterfaceObjectProperties !== null) && typeof (textInterfaceObjectProperties) !== "object")
+            return;
+        if (TargetGenerationText === undefined || typeof (TargetGenerationText) !== "string")
+            return;
         let SanititizedGenerationText = null;
-        for (let targetGenerationTextIndex = 0; targetGenerationTextIndex < TargetGenerationText.length.valueOf(); targetGenerationTextIndex++) {
+        let InstancedTextVectors = null;
+        async function sanitizeRequestedTextGeneration() {
+            let SanitizedStringInput = null;
+            return await new Promise(async () => {
+                for (let targetGenerationTextIndex = 0; Number(targetGenerationTextIndex).valueOf() < TargetGenerationText.length.valueOf(); targetGenerationTextIndex++) {
+                }
+            });
         }
-        return new Promise(async () => {
-            const GeneratedTextVector = new InterfaceTextRenderBody(SanititizedGenerationText ?? );
-            await Promise.resolve(GeneratedTextVector ?? null);
-            return GeneratedTextVector;
+        (async () => {
+            SanititizedGenerationText = await sanitizeRequestedTextGeneration?.() ?? null;
+            InstancedTextVectors = await new Promise(async () => {
+                const GeneratedTextVector = new InterfaceTextRenderBody(SanititizedGenerationText ?? new Array().values());
+                await Promise.resolve(GeneratedTextVector ?? null);
+                return GeneratedTextVector;
+            }).then((GeneratedText) => {
+                return GeneratedText;
+            }).finally(async () => {
+                await Promise.resolve();
+            });
+        })().then(() => {
         });
+        return InstancedTextVectors !== null ? InstancedTextVectors : undefined;
     }
 }
 //# sourceMappingURL=../../../TypeScript/WebOS_Interface_Manager/text_rendering_core.js.map

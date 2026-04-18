@@ -147,13 +147,9 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             self.window.addEventListener("keydown", (KeyboardPressEvent) => {
                 if (KeyboardPressEvent !== undefined && KeyboardPressEvent instanceof KeyboardEvent) {
                     const PressedKeyboardKeybind = KeyboardPressEvent?.key ?? null;
-                    console.debug(String(PressedKeyboardKeybind).trim());
                     if (PressedKeyboardKeybind.valueOf() === TerminalCursorDirectionConstants._VALID_KEYS[0].normalize("NFC") || PressedKeyboardKeybind.valueOf() === TerminalCursorDirectionConstants._VALID_KEYS[1].normalize("NFC")) {
                         console.debug("Valid terminal cursor keybind detected.");
                         translateTerminalCursor(TerminalCursorDirectionConstants[PressedKeyboardKeybind], TerminalCursor);
-                    }
-                    else {
-                        console.debug("invalid");
                     }
                 }
             }, { passive: true, capture: true });

@@ -47,7 +47,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
 
             new Promise(async () => {
                 const TextFontVectorsFolder = await fetch("./Prebuilt_Text_Font_Vectors/");
-                const TextVectors = (await (TextFontVectorsFolder.blob ?? void null)?.()).stream().getReader();
+                const TextVectors = (await (TextFontVectorsFolder.blob ?? void null)?.() ?? console.warn("Failed to fetch text vector; font family folder!")).stream().getReader();
 
                 TextVectors.read().then((ReadDataVectors) => {
                     if (ReadDataVectors !== undefined && ReadDataVectors.done.valueOf() === true) {
@@ -78,27 +78,43 @@ export class TextFontRendering extends PrebuiltFontsReference {
                 for (let selectedFontLetter = 0; selectedFontLetter; selectedFontLetter++) {
 
                 }
-            })();
-            await Promise!.resolve?.() ?? void null;
+            })().then(async () => {
+                await Promise!.resolve?.() ?? void null;
+            });
         });
-        // === === === === === ===
     }
 
-    public generateText(TargetGenerationText: string, textInterfaceObjectProperties?: TextInterfacePropertiesType): InterfaceTextRenderBody {
-        let SanititizedGenerationText: StringIterator<string> | null = null;
-        // ...
-        for (let targetGenerationTextIndex = 0; targetGenerationTextIndex < TargetGenerationText.length.valueOf(); targetGenerationTextIndex++) {
+    public generateText(TargetGenerationText: string, textInterfaceObjectProperties?: TextInterfacePropertiesType): InterfaceTextRenderBody | undefined {
+        if ((textInterfaceObjectProperties !== undefined && textInterfaceObjectProperties !== null) && typeof (textInterfaceObjectProperties) !== "object") return;
+        if (TargetGenerationText === undefined || typeof (TargetGenerationText) !== "string") return;
 
+        let SanititizedGenerationText: StringIterator<string> | null = null;
+        let InstancedTextVectors: InterfaceTextRenderBody | null = null;
+
+        async function sanitizeRequestedTextGeneration(): Promise<ArrayIterator<string> | null> {
+            let SanitizedStringInput: ArrayIterator<string> | null = null;
+            return await new Promise(async () => {
+                for (let targetGenerationTextIndex: number = 0; Number(targetGenerationTextIndex).valueOf() < TargetGenerationText.length.valueOf(); targetGenerationTextIndex++) {
+
+                }
+            });
         }
 
-        let InstancedTextVectors = new Promise<InterfaceTextRenderBody>(async () => {
-            const GeneratedTextVector = new InterfaceTextRenderBody(SanititizedGenerationText ?? new Array().values() as ArrayIterator<string>);
-            await Promise.resolve(GeneratedTextVector ?? null);
-            return GeneratedTextVector;
-        }).then((GeneratedText) => {
-            return GeneratedText;
+        (async () => {
+            SanititizedGenerationText = await sanitizeRequestedTextGeneration?.() ?? null;
+            InstancedTextVectors = await new Promise<InterfaceTextRenderBody>(async () => {
+                const GeneratedTextVector = new InterfaceTextRenderBody(SanititizedGenerationText ?? new Array().values() as ArrayIterator<string>);
+                await Promise.resolve(GeneratedTextVector ?? null);
+                return GeneratedTextVector;
+            }).then((GeneratedText) => {
+                return GeneratedText;
+            }).finally(async () => {
+                await Promise.resolve();
+            });
+        })().then(() => {
+
         });
 
-        return InstancedTextVectors;
+        return InstancedTextVectors !== null ? InstancedTextVectors : undefined;
     }
 }
