@@ -209,20 +209,20 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     requestAnimationFrame(() => console.debug("OK"));
                 }
 
-                (InterfaceRendererPipeline.TweenSelected?.(activeTerminalCursor, {
+                (InterfaceRendererPipeline!.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
                         y: parseFloat(activeTerminalCursor.y.toFixed(2)),
                     },
                 }, () => {
                     console.debug("Tweening terminal cursor; translation position.");
-                }, 100) ?? (void null)).finally(() => {
-
+                }, 125) ?? (void null)).finally(() => {
+                    console.info?.(`Tweening terminal cursor thread completed.`) ?? undefined;
                 });
             }
 
             const InterfaceRendererPipeline = new Renderer2D(VirtualMachineDisplayOutput, 1024) as typeof Renderer2D.prototype;
-            const TextRenderingInstance = new InterfaceTextRendering();
+            const TextRenderingInstance = new InterfaceTextRendering("monospace");
             // ...
             const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
