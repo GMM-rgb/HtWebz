@@ -175,7 +175,6 @@ export class TextFontRendering extends PrebuiltFontsReference {
             this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
             this.SelectedFontFamilyLibraryIndexAmount = await this.fetchFontFamilyVectorFiles(true);
             console.debug(this.SelectedFontFamilyLibraryIndexAmount.toString());
-            console.debug(this.FetchedFontFamilyVectorFiles);
         })();
     }
 
@@ -202,8 +201,8 @@ export class TextFontRendering extends PrebuiltFontsReference {
         }
 
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
-        console.debug(MappingFileExpressionResult?.index.toString());
-        console.debug(StreamedMappingTextData.normalize("NFC"));
+        // console.debug(MappingFileExpressionResult?.index.toString());
+        // console.debug(StreamedMappingTextData.normalize("NFC"));
 
         return await (async () => {
             SplittedExpressionDataResult?.forEach?.(async (SplicedValue: string, SpliceIndex: number) => {
@@ -218,7 +217,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
             await Promise.resolve();
         })().then(async () => {
             return CollectedFontFileResponseData ?? new Array(0);
-        });
+        }).finally(() => console.debug("Sucessfully fetched text vector files through mapping."));
     }
 
     private determineRequestedFontFamily(): String | undefined {
