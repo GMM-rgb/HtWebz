@@ -251,7 +251,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
         this.SelectedFontFamilyLibraryIndexAmount = 0;
         this.ActiveLanguageCharacters = LanguageConstantData[InstalledLanguages[LanguageNumericalIDs[__SelectedLanguage ?? "ENGLISH"]] ?? "ENGLISH"];
         // === === === === === ===
-        console.info("%c[%cINITIALIZING TEXT RENDERING OBJECT...%c]", 'color: magenta;', 'color: purple;', 'color: magenta;');
+        console.info("\n%c[%cINITIALIZING TEXT RENDERING OBJECT...%c]", 'color: magenta;', 'color: purple; font-weight: bolder;', 'color: magenta;');
         // === === === === === ===
         (async () => {
             this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
@@ -287,8 +287,8 @@ export class TextFontRendering extends FontsReferenceConstructor {
         }
 
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
-        // console.debug(MappingFileExpressionResult?.index.toString());
-        // console.debug(StreamedMappingTextData.normalize("NFC"));
+        console.debug(MappingFileExpressionResult?.index.toString());
+        console.debug(StreamedMappingTextData.normalize("NFC"));
 
         return await (async () => {
             SplittedExpressionDataResult?.forEach?.(async (SplicedValue: string, SpliceIndex: number) => {
@@ -309,6 +309,28 @@ export class TextFontRendering extends FontsReferenceConstructor {
     private determineRequestedFontFamily(): String | void {
         if (this.ActiveFontFamily === undefined) return undefined;
         return (new String());
+    }
+
+    /**
+     * ---
+     * Decodes a sliced segment of the file that is requested, lower or upper.
+     * 
+     * ---
+     * @returns 
+     */
+    private decodeFontVectorFile(VectorFileResponse: typeof Blob.prototype): string | null {
+        let DecodedVectorSegment = new String()?.valueOf?.().trim() ?? void null;
+        if (!VectorFileResponse || !(VectorFileResponse instanceof Blob)) return null;
+
+        try {
+
+        } catch (DecodingError) {
+
+        } finally {
+            
+        }
+
+        return DecodedVectorSegment !== null && typeof (DecodedVectorSegment) === "string" && DecodedVectorSegment.length >= 1 ? DecodedVectorSegment : null;
     }
 
     private generateTextVector(CharEnum: typeof this.__SelectedLanguage, textInterfaceObjectProperties?: TextInterfacePropertiesType): InterfaceTextRenderBody | undefined {
