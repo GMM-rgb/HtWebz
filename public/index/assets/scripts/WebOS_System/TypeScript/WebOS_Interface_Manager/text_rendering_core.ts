@@ -196,7 +196,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
         const SplittedExpressionDataResult: Array<string> | null = MappingFileExpressionResult.input.split("\n") ?? null;
 
         if (fetchVariantAmount !== undefined && typeof (fetchVariantAmount) === "boolean" && fetchVariantAmount?.valueOf() === true) {
-            return new Number(SplittedExpressionDataResult.length).valueOf();
+            return parseFloat(new String(SplittedExpressionDataResult.length).valueOf());
         }
 
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));

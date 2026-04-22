@@ -160,7 +160,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
         const MappingFileExpressionResult = new RegExp(/(\n+)/gim).exec(StreamedMappingTextData);
         const SplittedExpressionDataResult = MappingFileExpressionResult.input.split("\n") ?? null;
         if (fetchVariantAmount !== undefined && typeof (fetchVariantAmount) === "boolean" && fetchVariantAmount?.valueOf() === true) {
-            return new Number(SplittedExpressionDataResult.length).valueOf();
+            return parseFloat(new String(SplittedExpressionDataResult.length).valueOf());
         }
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
         return await (async () => {
