@@ -155,7 +155,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
     async fetchFontFamilyVectorFiles(fetchVariantAmount) {
         let CollectedFontFileResponseData = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
-        const FontVectorFileMapping = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.txt") ?? null);
+        const FontVectorFileMapping = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.s") ?? null);
         const StreamedMappingTextData = ((await (await FontVectorFileMapping.blob()).text()).trim());
         const MappingFileExpressionResult = new RegExp(/(\n+)/gim).exec(StreamedMappingTextData);
         const SplittedExpressionDataResult = MappingFileExpressionResult.input.split("\n") ?? null;

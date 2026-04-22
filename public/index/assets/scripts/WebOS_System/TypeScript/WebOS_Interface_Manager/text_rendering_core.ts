@@ -190,7 +190,7 @@ export class TextFontRendering extends PrebuiltFontsReference {
     protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: boolean): Promise<Array<Blob> | number> {
         let CollectedFontFileResponseData: Array<typeof Blob.prototype> = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
-        const FontVectorFileMapping: Response | null = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.txt") ?? null);
+        const FontVectorFileMapping: Response | null = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.s") ?? null);
         const StreamedMappingTextData: string = ((await (await FontVectorFileMapping.blob()).text()).trim());
         const MappingFileExpressionResult: RegExpExecArray = (new RegExp(/(\n+)/gim).exec(StreamedMappingTextData) as RegExpExecArray);
         const SplittedExpressionDataResult: Array<string> | null = MappingFileExpressionResult.input.split("\n") ?? null;
