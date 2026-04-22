@@ -181,8 +181,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             const InterfaceRendererPipeline = new Renderer2D(VirtualMachineDisplayOutput, 1024);
             const TextRenderingInstance = new InterfaceTextRendering("monospace");
             const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
-            InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             const TerminalCursor = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
+            InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             InterfaceRendererPipeline.applyToRendering(TerminalCursor);
             InterfaceRendererPipeline.TweenSelected(TerminalCursor, {
                 positions: {
