@@ -521,7 +521,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
 
     /**
      * Starts an automatic animation loop.
-     * Call this once after setting up your scene.
+     * Call this once after setting up the scene.
      * @param onBeforeRender - Optional callback called every frame before render()
      */
     public startAnimationLoop(onBeforeRender?: (deltaMs: number) => void) {

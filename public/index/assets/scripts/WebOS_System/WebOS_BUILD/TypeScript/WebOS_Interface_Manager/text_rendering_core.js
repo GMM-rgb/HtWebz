@@ -1,3 +1,15 @@
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage;
 export var AvailableFontFamilyEnums;
 (function (AvailableFontFamilyEnums) {
     AvailableFontFamilyEnums.LiteralConstructors = new globalThis.Array(0);
@@ -28,7 +40,7 @@ class FontFamilyEnumConstructor {
                 for (let FontEnumsIndex = 0; FontEnumsIndex < AvailableFontFamilyEnums.FontFamilyEnumIndexs.length; FontEnumsIndex += 1) {
                     if (FontEnumsIndex !== null && typeof (FontEnumsIndex.valueOf()) === "number") {
                         try {
-                            const FormatedExpressionInput = String(`/${this.getName()}/`).toString().trim();
+                            const FormatedExpressionInput = String(`/${this.getName()}/`).trim();
                             const ExpressionOverwriteCheck = new RegExp(FormatedExpressionInput, "gi");
                             const SelectedEnumString = AvailableFontFamilyEnums.FontFamilyEnumIndexs[Number(FontEnumsIndex)].valueOf();
                             const isPossibleOverwrite = new Boolean(ExpressionOverwriteCheck.test(SelectedEnumString)).valueOf();
@@ -44,10 +56,8 @@ class FontFamilyEnumConstructor {
                         }
                         finally {
                             await (async () => {
-                                console.debug(``);
-                            })();
-                            debugger;
-                            continue;
+                                console.debug("Validated overwrite check; no issues on attempt:\t" + (FontEnumsIndex.toString()));
+                            })().then(() => { debugger; });
                         }
                     }
                 }
@@ -57,66 +67,121 @@ class FontFamilyEnumConstructor {
     getName() {
         return this._fontName !== null ? this._fontName : new String(FontFamilyEnumConstructor.UnknownName).valueOf();
     }
+    fetchTextVectors() {
+        let FetchedTextVectors = [];
+        if (FetchedTextVectors === undefined || !(FetchedTextVectors instanceof Array))
+            return null;
+        return FetchedTextVectors;
+    }
 }
 FontFamilyEnumConstructor.UnknownName = "FontEnum_UNKNOWN";
 class PrebuiltFontsReference {
     constructor(requestedFontFamily) {
         this.requestedFontFamily = requestedFontFamily;
-        this.IntegratedFontFamilyVectors = {
-            1: {
+        _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage.set(this, {
+            "1": {
                 "lower": undefined,
                 "upper": undefined,
             },
-            2: {
+            "2": {
                 "lower": undefined,
                 "upper": undefined,
             },
-        };
+            "3": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "4": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "5": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "6": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "7": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "8": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "9": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "10": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "11": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "12": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+            "13": {
+                "lower": undefined,
+                "upper": undefined,
+            },
+        });
     }
+    get __IntegratedFontFamilyVectors() { return __classPrivateFieldGet(this, _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage, "f"); }
+    set __IntegratedFontFamilyVectors(value) { __classPrivateFieldSet(this, _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage, value, "f"); }
 }
+_PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage = new WeakMap();
 export class TextFontRendering extends PrebuiltFontsReference {
-    constructor(fontFamily) {
-        super(fontFamily !== undefined ? fontFamily : "monospace");
-        this.fontFamily = fontFamily;
+    constructor(ActiveFontFamily) {
+        super(ActiveFontFamily !== undefined ? ActiveFontFamily : "monospace");
+        this.ActiveFontFamily = ActiveFontFamily;
+        this.FetchedFontFamilyVectorFiles = undefined;
         this.SelectedFontFamilyLibraryName ?? (this.SelectedFontFamilyLibraryName = new String().valueOf());
-        this.SelectedFontFamilyLibraryData = new String();
+        this.SelectedFontFamilyLibraryData ?? (this.SelectedFontFamilyLibraryData = new String());
         this.SelectedFontFamilyLibraryIndexAmount = 0;
-        function CalculateFontFamilyVariants(SelectedFontLibraryData) {
-            let CalculatedVariants = parseFloat(new Number(0).toFixed(2));
-            if (CalculatedVariants === undefined || typeof (CalculatedVariants) !== "number")
-                return 0;
-            new Promise(async () => {
-                const TextFontVectorsFolder = await fetch("./Prebuilt_Text_Font_Vectors/");
-                const TextVectors = (await (TextFontVectorsFolder.blob ?? void null)?.()).stream().getReader();
-                TextVectors.read?.().then?.((ReadDataVectors) => {
-                    if (ReadDataVectors !== undefined && ReadDataVectors.done.valueOf() === true) {
-                    }
-                    else {
-                        console.error();
-                    }
-                }) ?? void null;
-                try {
-                }
-                catch (VariantCalculationError) {
-                    VariantCalculationError !== undefined ? console.error(String(VariantCalculationError)) : void null;
+        console.info("[INITIALIZING TEXT RENDERING...]");
+        (async () => {
+            this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
+            this.SelectedFontFamilyLibraryIndexAmount = await this.fetchFontFamilyVectorFiles(true);
+            console.debug(this.SelectedFontFamilyLibraryIndexAmount.toString());
+            console.debug(this.FetchedFontFamilyVectorFiles);
+        })();
+    }
+    async fetchFontFamilyVectorFiles(fetchVariantAmount) {
+        let CollectedFontFileResponseData = [];
+        const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
+        const FontVectorFileMapping = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.txt") ?? null);
+        const StreamedMappingTextData = ((await (await FontVectorFileMapping.blob()).text()).trim());
+        const MappingFileExpressionResult = new RegExp(/(\n+)/gim).exec(StreamedMappingTextData);
+        const SplittedExpressionDataResult = MappingFileExpressionResult.input.split("\n") ?? null;
+        if (fetchVariantAmount !== undefined && typeof (fetchVariantAmount) === "boolean" && fetchVariantAmount?.valueOf() === true) {
+            return new Number(SplittedExpressionDataResult.length).valueOf();
+        }
+        console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
+        console.debug(MappingFileExpressionResult?.index.toString());
+        console.debug(StreamedMappingTextData.normalize("NFC"));
+        return await (async () => {
+            SplittedExpressionDataResult?.forEach?.(async (SplicedValue, SpliceIndex) => {
+                if (SplicedValue !== null && typeof (SplicedValue) === "string") {
+                    const FetchedVectorFile = (await (fetch(FontFamilyDirectoryPath + String(SplicedValue))));
+                    FetchedVectorFile.ok ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
+                    console.debug(CollectedFontFileResponseData[Number(SpliceIndex)]);
+                    console.debug?.(new String(SplicedValue).trim()) ?? void null;
                 }
             });
-            return (CalculatedVariants ?? 0);
-        }
-        if (this.SelectedFontFamilyLibraryData !== null && this.SelectedFontFamilyLibraryData instanceof String) {
-            this.SelectedFontFamilyLibraryIndexAmount = CalculateFontFamilyVariants?.(this.SelectedFontFamilyLibraryData !== null ? this.SelectedFontFamilyLibraryData : new String()) ?? 0;
-        }
-        new Promise(async () => {
-            await (async () => {
-                for (let selectedFontLetter = 0; selectedFontLetter; selectedFontLetter++) {
-                }
-            })().then(async () => {
-                await Promise.resolve?.() ?? void null;
-            });
+            await Promise.resolve();
+        })().then(async () => {
+            return CollectedFontFileResponseData ?? new Array(0);
         });
     }
     determineRequestedFontFamily() {
-        if (this.fontFamily === undefined)
+        if (this.ActiveFontFamily === undefined)
             return undefined;
         return new String();
     }
