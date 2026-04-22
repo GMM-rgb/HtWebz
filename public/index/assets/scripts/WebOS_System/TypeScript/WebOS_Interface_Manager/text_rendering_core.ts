@@ -185,10 +185,9 @@ export class TextFontRendering extends PrebuiltFontsReference {
     //     return CalculatedVariants !== null && typeof (CalculatedVariants) === "number" ? CalculatedVariants : 0;
     // }
 
-    private async fetchFontFamilyVectorFiles(fetchVariantAmount?: true): Promise<number>;
-    private async fetchFontFamilyVectorFiles(fetchVariantAmount?: false | undefined): Promise<Array<Blob>>;
-
-    private async fetchFontFamilyVectorFiles(fetchVariantAmount?: boolean): Promise<Array<Blob> | number> {
+    protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: true): Promise<number>;
+    protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: false | undefined): Promise<Array<Blob>>;
+    protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: boolean): Promise<Array<Blob> | number> {
         let CollectedFontFileResponseData: Array<typeof Blob.prototype> = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
         const FontVectorFileMapping: Response | null = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.txt") ?? null);
