@@ -222,7 +222,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             }
 
             const InterfaceRendererPipeline = new Renderer2D(VirtualMachineDisplayOutput, 1024) as typeof Renderer2D.prototype;
-            const TextRenderingInstance = new InterfaceTextRendering("monospace");
+            const TextRenderingInstance = new InterfaceTextRendering("monospace", "ENGLISH");
             const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
             const TerminalCursor = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);

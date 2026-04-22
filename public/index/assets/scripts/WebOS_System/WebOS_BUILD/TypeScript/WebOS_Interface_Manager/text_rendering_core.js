@@ -9,12 +9,45 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage;
+var _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage;
 export var AvailableFontFamilyEnums;
 (function (AvailableFontFamilyEnums) {
     AvailableFontFamilyEnums.LiteralConstructors = new globalThis.Array(0);
     AvailableFontFamilyEnums.FontFamilyEnumIndexs = new globalThis.Array(0);
 })(AvailableFontFamilyEnums || (AvailableFontFamilyEnums = {}));
+const InstalledLanguages = ["ENGLISH"];
+const LanguageNumericalIDs = {
+    ENGLISH: 0,
+};
+var LanguageConstantData;
+(function (LanguageConstantData) {
+    LanguageConstantData.ENGLISH = {
+        "A": 1,
+        "B": 2,
+        "C": 3,
+        "D": 4,
+        "E": 5,
+        "F": 6,
+        "G": 7,
+        "H": 8,
+        "I": 9,
+        "J": 10,
+        "K": 11,
+        "L": 12,
+        "M": 13,
+        "N": 14,
+        "O": 15,
+        "P": 16,
+        "Q": 17,
+        "R": 18,
+        "S": 19,
+        "T": 20,
+        "W": 21,
+        "Y": 22,
+        "Z": 23,
+    };
+})(LanguageConstantData || (LanguageConstantData = {}));
+;
 class InterfaceTextRenderBody {
     constructor(requestedText) {
         this.requestedText = requestedText;
@@ -75,10 +108,10 @@ class FontFamilyEnumConstructor {
     }
 }
 FontFamilyEnumConstructor.UnknownName = "FontEnum_UNKNOWN";
-class PrebuiltFontsReference {
+class FontsReferenceConstructor {
     constructor(requestedFontFamily) {
         this.requestedFontFamily = requestedFontFamily;
-        _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage.set(this, {
+        _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage.set(this, {
             "1": {
                 "lower": undefined,
                 "upper": undefined,
@@ -133,19 +166,21 @@ class PrebuiltFontsReference {
             },
         });
     }
-    get __IntegratedFontFamilyVectors() { return __classPrivateFieldGet(this, _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage, "f"); }
-    set __IntegratedFontFamilyVectors(value) { __classPrivateFieldSet(this, _PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage, value, "f"); }
+    get __SelectedFontFamilyVectors() { return __classPrivateFieldGet(this, _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage, "f"); }
+    set __SelectedFontFamilyVectors(value) { __classPrivateFieldSet(this, _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage, value, "f"); }
 }
-_PrebuiltFontsReference___IntegratedFontFamilyVectors_accessor_storage = new WeakMap();
-export class TextFontRendering extends PrebuiltFontsReference {
-    constructor(ActiveFontFamily) {
+_FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage = new WeakMap();
+export class TextFontRendering extends FontsReferenceConstructor {
+    constructor(ActiveFontFamily, __SelectedLanguage = "ENGLISH") {
         super(ActiveFontFamily !== undefined ? ActiveFontFamily : "monospace");
         this.ActiveFontFamily = ActiveFontFamily;
+        this.__SelectedLanguage = __SelectedLanguage;
         this.FetchedFontFamilyVectorFiles = undefined;
         this.SelectedFontFamilyLibraryName ?? (this.SelectedFontFamilyLibraryName = new String().valueOf());
         this.SelectedFontFamilyLibraryData ?? (this.SelectedFontFamilyLibraryData = new String());
         this.SelectedFontFamilyLibraryIndexAmount = 0;
-        console.info("[INITIALIZING TEXT RENDERING...]");
+        this.ActiveLanguageCharacters = LanguageConstantData[InstalledLanguages[LanguageNumericalIDs[__SelectedLanguage ?? "ENGLISH"]] ?? "ENGLISH"];
+        console.info("%c[%cINITIALIZING TEXT RENDERING OBJECT...%c]", 'color: magenta;', 'color: purple;', 'color: magenta;');
         (async () => {
             this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
             this.SelectedFontFamilyLibraryIndexAmount = await this.fetchFontFamilyVectorFiles(true);
@@ -180,36 +215,26 @@ export class TextFontRendering extends PrebuiltFontsReference {
     determineRequestedFontFamily() {
         if (this.ActiveFontFamily === undefined)
             return undefined;
-        return new String();
+        return (new String());
     }
-    generateText(TargetGenerationText, textInterfaceObjectProperties) {
+    generateTextVector(CharEnum, textInterfaceObjectProperties) {
         if ((textInterfaceObjectProperties !== undefined && textInterfaceObjectProperties !== null) && typeof (textInterfaceObjectProperties) !== "object")
             return;
-        if (TargetGenerationText === undefined || typeof (TargetGenerationText) !== "string")
-            return;
-        let SanititizedGenerationText = null;
         let InstancedTextVectors = null;
-        async function sanitizeRequestedTextGeneration() {
-            let SanitizedStringInput = null;
-            return await new Promise(async () => {
-                for (let targetGenerationTextIndex = 0; Number(targetGenerationTextIndex).valueOf() < TargetGenerationText.length.valueOf(); targetGenerationTextIndex++) {
-                }
-            });
-        }
-        (async () => {
-            SanititizedGenerationText = await sanitizeRequestedTextGeneration?.() ?? null;
-            InstancedTextVectors = await new Promise(async () => {
-                const GeneratedTextVector = new InterfaceTextRenderBody(SanititizedGenerationText ?? new Array().values());
-                await Promise.resolve(GeneratedTextVector ?? null);
-                return GeneratedTextVector;
-            }).then((GeneratedText) => {
-                return GeneratedText;
-            }).finally(async () => {
-                await Promise.resolve();
-            });
-        })().then(() => {
-        });
         return InstancedTextVectors !== null ? InstancedTextVectors : undefined;
+    }
+    preBuildTextPositions(targetTextData) {
+        if (targetTextData === undefined || typeof (targetTextData) !== "string")
+            return undefined;
+    }
+    renderText() {
+        let CurrentTextRenderFrame = null;
+        new Promise(async (TextRenderFrameResolve) => {
+            if (CurrentTextRenderFrame !== null && typeof (CurrentTextRenderFrame) === "number")
+                globalThis.cancelAnimationFrame(CurrentTextRenderFrame);
+            CurrentTextRenderFrame = globalThis.requestAnimationFrame(() => {
+            }).valueOf();
+        });
     }
 }
 //# sourceMappingURL=../../../TypeScript/WebOS_Interface_Manager/text_rendering_core.js.map

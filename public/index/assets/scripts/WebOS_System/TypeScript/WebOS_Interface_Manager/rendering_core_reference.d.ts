@@ -66,7 +66,7 @@ declare abstract class ReferenceRendererCore2D {
 }
 
 declare type FontFamilyLetterVariants = { lower?: string; upper?: string; };
-declare type PreBuiltFontFamilyVectors = {
+declare type FontFamilyVectorHeiarchy = {
     "1": FontFamilyLetterVariants;
     "2": FontFamilyLetterVariants;
     "3": FontFamilyLetterVariants;
@@ -87,7 +87,7 @@ declare type PreBuiltFontFamilyVectors = {
  * [...]
  */
 declare abstract class RenderingTextFontStorage {
-    accessor __IntegratedFontFamilyVectors: PreBuiltFontFamilyVectors;
+    accessor __SelectedFontFamilyVectors: FontFamilyVectorHeiarchy;
 }
 
 declare abstract class RenderingTextUtility {

@@ -4,6 +4,86 @@ export namespace AvailableFontFamilyEnums {
     export var FontFamilyEnumIndexs: Array<string> = new globalThis.Array(0);
 }
 
+declare type Language_ID_Mapping = {
+    ENGLISH: number;
+};
+
+declare type LanguageInstallations = "ENGLISH";
+const InstalledLanguages: Readonly<LanguageInstallations[]> = ["ENGLISH"];
+const LanguageNumericalIDs: Language_ID_Mapping = {
+    ENGLISH: 0,
+};
+
+namespace LanguageConstantData {
+    export const ENGLISH: LanguageCharacterData["ENGLISH"] = {
+        "A": 1,
+        "B": 2,
+        "C": 3,
+        "D": 4,
+        "E": 5,
+        "F": 6,
+        "G": 7,
+        "H": 8,
+        "I": 9,
+        "J": 10,
+        "K": 11,
+        "L": 12,
+        "M": 13,
+        "N": 14,
+        "O": 15,
+        "P": 16,
+        "Q": 17,
+        "R": 18,
+        "S": 19,
+        "T": 20,
+        "W": 21,
+        "Y": 22,
+        "Z": 23,
+    }
+};
+
+declare interface LanguageCharacterData {
+    /**
+     * English alphabet enum dictionary
+     */
+    ENGLISH: Readonly<{
+        // Assigned numeric enum IDs
+        "A": 1,
+        "B": 2,
+        "C": 3,
+        "D": 4,
+        "E": 5,
+        "F": 6,
+        "G": 7,
+        "H": 8,
+        "I": 9,
+        "J": 10,
+        "K": 11,
+        "L": 12,
+        "M": 13,
+        "N": 14,
+        "O": 15,
+        "P": 16,
+        "Q": 17,
+        "R": 18,
+        "S": 19,
+        "T": 20,
+        "W": 21,
+        "Y": 22,
+        "Z": 23,
+    }>;
+}
+
+declare type TextGenerationPositions = [
+    {
+        CharacterData: {
+            "CHAR": string;
+            "UNICODE": string;
+            "ID": number;
+        },
+    },
+];
+
 declare type FontFamilyEnumValue = {
     fontName: string;
     actaulValue: number;
@@ -98,9 +178,9 @@ class FontFamilyEnumConstructor {
     }
 }
 
-class PrebuiltFontsReference implements RenderingTextFontStorage {
+class FontsReferenceConstructor implements RenderingTextFontStorage {
     constructor(private requestedFontFamily: string) { }
-    accessor __IntegratedFontFamilyVectors: PreBuiltFontFamilyVectors = {
+    accessor __SelectedFontFamilyVectors: FontFamilyVectorHeiarchy = {
         "1": {
             "lower": undefined,
             "upper": undefined,
@@ -156,20 +236,22 @@ class PrebuiltFontsReference implements RenderingTextFontStorage {
     };
 }
 
-export class TextFontRendering extends PrebuiltFontsReference {
-    FetchedFontFamilyVectorFiles: Blob[] | undefined;
-    SelectedFontFamilyLibraryName: string;
+export class TextFontRendering extends FontsReferenceConstructor {
+    ActiveLanguageCharacters: LanguageCharacterData[typeof this.__SelectedLanguage];
+    FetchedFontFamilyVectorFiles: Array<Blob> | undefined | null;
+    SelectedFontFamilyLibraryName: string | null;
     SelectedFontFamilyLibraryData: String | null;
-    SelectedFontFamilyLibraryIndexAmount: number;
+    SelectedFontFamilyLibraryIndexAmount: number | 0;
 
-    public constructor(public ActiveFontFamily: string) {
+    public constructor(public ActiveFontFamily: string, public __SelectedLanguage: LanguageInstallations = "ENGLISH") {
         super(ActiveFontFamily !== undefined ? ActiveFontFamily : "monospace");
         this.FetchedFontFamilyVectorFiles = undefined;
         this.SelectedFontFamilyLibraryName ??= new String().valueOf();
         this.SelectedFontFamilyLibraryData ??= new String();
         this.SelectedFontFamilyLibraryIndexAmount = 0;
+        this.ActiveLanguageCharacters = LanguageConstantData[InstalledLanguages[LanguageNumericalIDs[__SelectedLanguage ?? "ENGLISH"]] ?? "ENGLISH"];
         // === === === === === ===
-        console.info("[INITIALIZING TEXT RENDERING...]");
+        console.info("%c[%cINITIALIZING TEXT RENDERING OBJECT...%c]", 'color: magenta;', 'color: purple;', 'color: magenta;');
         // === === === === === ===
         (async () => {
             this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
@@ -187,6 +269,11 @@ export class TextFontRendering extends PrebuiltFontsReference {
 
     protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: true): Promise<number>;
     protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: false | undefined): Promise<Array<Blob>>;
+    /**
+     * ---
+     * @param fetchVariantAmount 
+     * @returns 
+     */
     protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: boolean): Promise<Array<Blob> | number> {
         let CollectedFontFileResponseData: Array<typeof Blob.prototype> = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
@@ -219,43 +306,30 @@ export class TextFontRendering extends PrebuiltFontsReference {
         }).finally(() => console.debug("Sucessfully fetched text vector files through mapping."));
     }
 
-    private determineRequestedFontFamily(): String | undefined {
-        if (this.ActiveFontFamily === undefined ) return undefined;
-
-        return new String();
+    private determineRequestedFontFamily(): String | void {
+        if (this.ActiveFontFamily === undefined) return undefined;
+        return (new String());
     }
 
-    public generateText(TargetGenerationText: string, textInterfaceObjectProperties?: TextInterfacePropertiesType): InterfaceTextRenderBody | undefined {
+    private generateTextVector(CharEnum: typeof this.__SelectedLanguage, textInterfaceObjectProperties?: TextInterfacePropertiesType): InterfaceTextRenderBody | undefined {
         if ((textInterfaceObjectProperties !== undefined && textInterfaceObjectProperties !== null) && typeof (textInterfaceObjectProperties) !== "object") return;
-        if (TargetGenerationText === undefined || typeof (TargetGenerationText) !== "string") return;
 
-        let SanititizedGenerationText: StringIterator<string> | null = null;
         let InstancedTextVectors: InterfaceTextRenderBody | null = null;
 
-        async function sanitizeRequestedTextGeneration(): Promise<ArrayIterator<string> | null> {
-            let SanitizedStringInput: ArrayIterator<string> | null = null;
-            return await new Promise(async () => {
-                for (let targetGenerationTextIndex: number = 0; Number(targetGenerationTextIndex).valueOf() < TargetGenerationText.length.valueOf(); targetGenerationTextIndex++) {
-
-                }
-            });
-        }
-
-        (async () => {
-            SanititizedGenerationText = await sanitizeRequestedTextGeneration?.() ?? null;
-            InstancedTextVectors = await new Promise<InterfaceTextRenderBody>(async () => {
-                const GeneratedTextVector = new InterfaceTextRenderBody(SanititizedGenerationText ?? new Array().values() as ArrayIterator<string>);
-                await Promise.resolve(GeneratedTextVector ?? null);
-                return GeneratedTextVector;
-            }).then((GeneratedText) => {
-                return GeneratedText;
-            }).finally(async () => {
-                await Promise.resolve();
-            });
-        })().then(() => {
-
-        });
-
         return InstancedTextVectors !== null ? InstancedTextVectors : undefined;
+    }
+
+    private preBuildTextPositions(targetTextData: string): TextGenerationPositions | undefined {
+        if (targetTextData === undefined || typeof (targetTextData) !== "string") return undefined;
+    }
+
+    public renderText(): void {
+        let CurrentTextRenderFrame: number | null = null;
+        new Promise(async (TextRenderFrameResolve: Function) => {
+            if (CurrentTextRenderFrame !== null && typeof (CurrentTextRenderFrame) === "number") globalThis.cancelAnimationFrame(CurrentTextRenderFrame);
+            CurrentTextRenderFrame = globalThis.requestAnimationFrame(() => {
+
+            }).valueOf();
+        });
     }
 }
