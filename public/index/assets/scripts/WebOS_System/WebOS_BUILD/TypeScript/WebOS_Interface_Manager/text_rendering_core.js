@@ -166,6 +166,8 @@ class FontsReferenceConstructor {
             },
         });
     }
+    generateFontFamilyMappingObject() {
+    }
     get __SelectedFontFamilyVectors() { return __classPrivateFieldGet(this, _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage, "f"); }
     set __SelectedFontFamilyVectors(value) { __classPrivateFieldSet(this, _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage, value, "f"); }
 }
@@ -220,6 +222,8 @@ export class TextFontRendering extends FontsReferenceConstructor {
         return (new String());
     }
     CalculateFetchedFileContentRows(VectorFiles) {
+        const _CleanupDataExpression = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
+        let CleanDataDescriptions = [];
         let ContentRowCalculationThread = null;
         console.debug("Running file break-point(s) calculation...");
         function FormatVectorFileText(FileContents = undefined) {
@@ -244,13 +248,11 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     throw void null;
                 }
             }
-            let CleanDataDescriptions = [];
-            async function CleanVectorFileSyntax() {
-            }
             function DecodeContentStatusDescriptions() {
                 if (CleanDataDescriptions === undefined && Array.isArray(CleanDataDescriptions).valueOf() !== true)
                     return;
                 let isCleanDataDescriptionValid = globalThis.Boolean ? new Boolean("true").valueOf() : true;
+                let SelectedDescriptionReportsClean = false;
                 throw (async () => (Array.from(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ?? (isCleanDataDescriptionValid = (typeof (isCleanDataDescriptionValid) === "boolean").valueOf()) : void null;
@@ -258,7 +260,8 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     else {
                         return void null;
                     }
-                })))().finally(() => {
+                })))().then(() => {
+                }).finally(async () => {
                     if (isCleanDataDescriptionValid.valueOf() === true) {
                         (new Boolean(!isCleanDataDescriptionValid.valueOf() ? CleanDataDescriptions.every((CleanStatus, StatusIndex, StatusArrayValues) => {
                             if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null)
@@ -267,12 +270,35 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                 return void null;
                             if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array))
                                 return void null;
+                            function validateIteratorValueResults(indexValue, statusValue) {
+                                var isValidResults = false;
+                                typeof (indexValue) === "number" && indexValue !== null ? isValidResults ?? (isValidResults = true) : isValidResults = false;
+                                typeof (statusValue) === "boolean" && statusValue !== null ? isValidResults ?? (isValidResults = true) : isValidResults = false;
+                                return new Boolean(isValidResults);
+                            }
                             const StatusEntries = StatusArrayValues.entries();
                             let ActiveEntryChecksum = new Array(0);
                             for (let StatusSelectionNumeric = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
-                                (ActiveEntryChecksum !== undefined ? ActiveEntryChecksum = Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0) ? Array.of(ActiveEntryChecksum) : []) : null);
+                                SelectedDescriptionReportsClean ?? (SelectedDescriptionReportsClean = new Boolean(CleanDataDescriptions[Number(StatusSelectionNumeric)]).valueOf());
+                                ((ActiveEntryChecksum !== undefined) ? ActiveEntryChecksum = (Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0)) ? Array.of(ActiveEntryChecksum) : Array.prototype) : void null);
+                                if (SelectedDescriptionReportsClean != null && (typeof (SelectedDescriptionReportsClean) === "boolean" && (!SelectedDescriptionReportsClean)))
+                                    return void undefined;
                                 if (ActiveEntryChecksum === undefined || (!(ActiveEntryChecksum instanceof Array) || !(ActiveEntryChecksum.length > 0)).valueOf())
                                     return void undefined;
+                                const EntryChecksumArrayIndex = ((ActiveEntryChecksum.includes([(StatusSelectionNumeric - 1), true]).valueOf()) ? (ActiveEntryChecksum[0])?.[0] : parseFloat("0"));
+                                const ChecksumBooleanValue = Boolean(ActiveEntryChecksum[0]?.[1]?.valueOf() ?? true);
+                                let CleanedResult = null;
+                                if (validateIteratorValueResults(EntryChecksumArrayIndex, ChecksumBooleanValue).valueOf()) {
+                                    if (CleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {
+                                        CleanedResult ?? (CleanedResult = new RegExp(_CleanupDataExpression.source, 'u').exec(String(CollectedChars[EntryChecksumArrayIndex.valueOf()]).normalize("NFKC").toString()));
+                                        CleanedResult?.flatMap(() => {
+                                            return Array.of();
+                                        });
+                                    }
+                                }
+                                else {
+                                    console.error(String(new Error("Checksum iterator result values are INVALID type format, OR have no value!").message ?? null));
+                                }
                             }
                         }) : (null)).valueOf());
                     }
@@ -287,14 +313,12 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 else
                     console.log("Selected text data character valid.");
                 var FilteredVectorFileContent = new String().normalize("NFKC").valueOf();
-                var CleanupDataExpression = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
-                if (!CleanupDataExpression || !(CleanupDataExpression instanceof RegExp))
+                if (!_CleanupDataExpression || !(_CleanupDataExpression instanceof RegExp))
                     return null;
-                const isDataClean = !(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                const isDataClean = !(_CleanupDataExpression.test(SelectedCharData["valueOf"]()));
                 console.debug(isDataClean.valueOf());
                 try {
-                    if (isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean)) {
-                    }
+                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? DecodeContentStatusDescriptions() : null;
                 }
                 catch (FormatCleaningError) {
                     FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
