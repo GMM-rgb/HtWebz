@@ -1,3 +1,4 @@
+import { Renderer2D } from './rendering_core';
 /// <reference path="./rendering_core_reference.d.ts" />
 export namespace AvailableFontFamilyEnums {
     export var LiteralConstructors: Array<FontFamilyEnumConstructor> = new globalThis.Array(0);
@@ -238,14 +239,14 @@ class FontsReferenceConstructor implements RenderingTextFontStorage {
 
 export class TextFontRendering extends FontsReferenceConstructor {
     ActiveLanguageCharacters: LanguageCharacterData[typeof this.__SelectedLanguage];
-    FetchedFontFamilyVectorFiles: Array<Blob> | undefined | null;
+    ConstructorFetchedFontFamilyVectorFiles: Array<Blob> | undefined | null;
     SelectedFontFamilyLibraryName: string | null;
     SelectedFontFamilyLibraryData: String | null;
     SelectedFontFamilyLibraryIndexAmount: number | 0;
 
-    public constructor(public ActiveFontFamily: string, public __SelectedLanguage: LanguageInstallations = "ENGLISH") {
+    public constructor(public ActiveFontFamily: string, public __SelectedLanguage: LanguageInstallations = "ENGLISH", public SelectedRenderingEngine: typeof Renderer2D.prototype) {
         super(ActiveFontFamily !== undefined ? ActiveFontFamily : "monospace");
-        this.FetchedFontFamilyVectorFiles = undefined;
+        this.ConstructorFetchedFontFamilyVectorFiles = undefined;
         this.SelectedFontFamilyLibraryName ??= new String().valueOf();
         this.SelectedFontFamilyLibraryData ??= new String();
         this.SelectedFontFamilyLibraryIndexAmount = 0;
@@ -254,9 +255,10 @@ export class TextFontRendering extends FontsReferenceConstructor {
         console.info("\n%c[%cINITIALIZING TEXT RENDERING OBJECT...%c]", 'color: magenta;', 'color: purple; font-weight: bolder;', 'color: magenta;');
         // === === === === === ===
         (async () => {
-            this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
+            this.ConstructorFetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
             this.SelectedFontFamilyLibraryIndexAmount = await this.fetchFontFamilyVectorFiles(true);
             console.debug(this.SelectedFontFamilyLibraryIndexAmount.toString());
+            this.CalculateFetchedFileContentRows(this.ConstructorFetchedFontFamilyVectorFiles);
         })();
     }
 
@@ -267,17 +269,17 @@ export class TextFontRendering extends FontsReferenceConstructor {
     //     return CalculatedVariants !== null && typeof (CalculatedVariants) === "number" ? CalculatedVariants : 0;
     // }
 
-    protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: true): Promise<number>;
-    protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: false | undefined): Promise<Array<Blob>>;
+    protected async fetchFontFamilyVectorFiles(fetchVariantAmount: true): Promise<number>;
+    protected async fetchFontFamilyVectorFiles(fetchVariantAmount: false): Promise<Array<Blob>>;
     /**
      * ---
      * @param fetchVariantAmount 
      * @returns 
      */
-    protected async fetchFontFamilyVectorFiles(fetchVariantAmount?: boolean): Promise<Array<Blob> | number> {
+    protected async fetchFontFamilyVectorFiles(fetchVariantAmount: boolean): Promise<Array<Blob> | number> {
         let CollectedFontFileResponseData: Array<typeof Blob.prototype> = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
-        const FontVectorFileMapping: Response | null = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.s") ?? null);
+        const FontVectorFileMapping: Response | null = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.bin") ?? null);
         const StreamedMappingTextData: string = ((await (await FontVectorFileMapping.blob()).text()).trim());
         const MappingFileExpressionResult: RegExpExecArray = (new RegExp(/(\n+)/gim).exec(StreamedMappingTextData) as RegExpExecArray);
         const SplittedExpressionDataResult: Array<string> | null = MappingFileExpressionResult.input.split("\n") ?? null;
@@ -287,23 +289,23 @@ export class TextFontRendering extends FontsReferenceConstructor {
         }
 
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
-        console.debug(MappingFileExpressionResult?.index.toString());
-        console.debug(StreamedMappingTextData.normalize("NFC"));
+        // console.debug(MappingFileExpressionResult?.index.toString());
+        // console.debug(StreamedMappingTextData.normalize("NFC"));
 
         return await (async () => {
             SplittedExpressionDataResult?.forEach?.(async (SplicedValue: string, SpliceIndex: number) => {
                 if (SplicedValue !== null && typeof (SplicedValue) === "string") {
                     const FetchedVectorFile = (await (fetch(FontFamilyDirectoryPath + String(SplicedValue))));
                     FetchedVectorFile.ok ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
-                    console.debug(CollectedFontFileResponseData[Number(SpliceIndex)!]);
                     console.debug?.(new String(SplicedValue).trim()) ?? void null;
+                    console.debug(CollectedFontFileResponseData[Number(SpliceIndex)!]);
                 }
             });
 
             await Promise.resolve();
         })().then(async () => {
             return CollectedFontFileResponseData ?? new Array(0);
-        }).finally(() => console.debug("Sucessfully fetched text vector files through mapping."));
+        }).finally(() => console.debug("Executed fetch for font vector files through mapping."));
     }
 
     private determineRequestedFontFamily(): String | void {
@@ -313,21 +315,124 @@ export class TextFontRendering extends FontsReferenceConstructor {
 
     /**
      * ---
+     * Calculates every invidual vector file simultaneously in sepperated tasks. 
+     * 
+     * ---
+     * @param VectorFiles 
+     * @returns 
+     */
+    private CalculateFetchedFileContentRows(VectorFiles: Array<Blob>): typeof Number.prototype {
+        let ContentRowCalculationThread: any = null;
+        // === === === === === === ===
+        console.debug("Running file break-points calculation...");
+        /**
+         * 
+         * @param FileContents 
+         * @returns 
+         */
+        function FormatVectorFileText(FileContents: string | undefined = undefined): string | null {
+            if (FileContents === undefined || typeof (FileContents) !== "string") return null;
+            // ===-===-===-===-===-===-===
+            var FormatedFileContents: string | null = null;
+            var CollectedChars: Array<String> = [];
+            // ===-===-===-===-===-===-===
+            for (let VectorFileStreamTextIndex: number = 0; (VectorFileStreamTextIndex < FileContents.length) === true; VectorFileStreamTextIndex++) {
+                const StringCorrectedIndex: typeof Number.EPSILON = Math.ceil((VectorFileStreamTextIndex - 1).valueOf());
+                const SelectedTextCharacter: string | null = String(FileContents).charAt(Number(StringCorrectedIndex)) ?? null;
+                if (SelectedTextCharacter === null || typeof (SelectedTextCharacter) !== "string") return null;
+                if (((CollectedChars !== undefined) && (Array.isArray(CollectedChars).valueOf() === true))) {
+                    CollectedChars.push(SelectedTextCharacter.valueOf());
+                } else if (CollectedChars !== undefined && (!(new Boolean(Array?.isArray?.(CollectedChars) ?? false).valueOf()))) {
+                    console.warn("Collected text characters variable supposed array; reference was invalid instance!");
+                } else {
+                    console.error();
+                    throw void null;
+                }
+            }
+            // ===-===-===-===-===-===-===
+            console.info("Finalizing vector data file raw text...");
+            // ===-===-===-===-===-===-===
+            CollectedChars.forEach(function(SelectedCharData: String): string | null {
+                if (SelectedCharData === null || SelectedCharData === undefined) {
+                    console.warn("Selected text data character is an invalid value.");
+                    return null;
+                } else console.log("Selected text data character valid.");
+                var FilteredVectorFileContent: string = new String().normalize("NFKC").trim().valueOf();
+                var CleanupDataExpression: Readonly<RegExp> = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
+                if (!CleanupDataExpression || !(CleanupDataExpression instanceof RegExp)) return null;
+                // ===-===-===-===-===-===-===
+                console.debug(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                // ===-===-===-===-===-===-===
+                return FilteredVectorFileContent !== null ? FilteredVectorFileContent : null;
+            });
+            // ===-===-===-===-===-===-===
+            console.debug(CollectedChars.toLocaleString());
+            // ===-===-===-===-===-===-===
+            return FormatedFileContents ?? null;
+        }
+
+        const TotalLineCount = Number((function() {
+            console.debug("Initalizing calculation tasks...");
+            var ProgressCalculation = new Number(0);
+            var CalculationTasks: Array<typeof Promise.prototype> = [];
+            for (let SelectedVectorFileIndex: number = 0; Boolean(SelectedVectorFileIndex.valueOf() < Number(VectorFiles.length)) === true; SelectedVectorFileIndex++) {
+                if (SelectedVectorFileIndex !== undefined && typeof (SelectedVectorFileIndex) === "number") {
+                    console.debug("Calculation Task Index:\t" + String((CalculationTasks.push(new Promise(async () => {
+                        const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text()) ?? null);
+                        const DataContentLineBreaks = new RegExp((/[^\b\t+\b]+(.+)/gu)).exec(VectorFileDataContents.toString());
+                        FormatVectorFileText(VectorFileDataContents ?? undefined);
+                        if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
+                            for (let DataLineBreakIndex: number = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))) === true; DataLineBreakIndex++) {
+                                // console.debug(String(DataContentLineBreaks[Number().valueOf()]).trim()) ?? void null;
+                                // console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
+                                // console.debug(DataContentLineBreaks);
+                            }
+                        } else {
+                            console.warn("INVALID multiline break contextual data!");
+                        }
+                    }))['valueOf']?.().toPrecision(2))));
+                } else { continue; }
+            }
+            // === === === === === === === ===
+            return ProgressCalculation.valueOf();
+        })().valueOf());
+        // === === === === === === === ===
+        return TotalLineCount !== undefined && typeof (TotalLineCount) === "number" ? parseFloat(String(TotalLineCount).trim()) : 0;
+    }
+
+    /**
+     * ---
      * Decodes a sliced segment of the file that is requested, lower or upper.
      * 
      * ---
      * @returns 
      */
-    private decodeFontVectorFile(VectorFileResponse: typeof Blob.prototype): string | null {
-        let DecodedVectorSegment = new String()?.valueOf?.().trim() ?? void null;
+    private DecodeFontVectorFile(VectorFileResponse: typeof Blob.prototype): string | null {
         if (!VectorFileResponse || !(VectorFileResponse instanceof Blob)) return null;
+        // === === === === === === ===
+        let DecodedVectorSegment = new String()?.valueOf?.().trim() ?? void null;
 
         try {
-
+            if (DecodedVectorSegment !== undefined && Object.getOwnPropertySymbols(DecodedVectorSegment).find((selectedObjectSymbol: Symbol) => {
+                if (selectedObjectSymbol.valueOf().toString() === "valueOf") {
+                    return true["valueOf"]?.() ?? void null;
+                } else return false["valueOf"]?.() ?? void null;
+            }, "valueOf") != null && typeof (DecodedVectorSegment) === "string") {
+                if (this.ConstructorFetchedFontFamilyVectorFiles !== undefined && this.ConstructorFetchedFontFamilyVectorFiles instanceof Array && Math.floor(this.ConstructorFetchedFontFamilyVectorFiles.length) > 0) {
+                    
+                }
+            } else {
+                var ConstructedInvalidError = new Error("");
+                ConstructedInvalidError.name = "String_Instance_Invalid";
+                throw ConstructedInvalidError ?? undefined;
+            }
         } catch (DecodingError) {
-
+            const isDecodingErrorValid: boolean = Boolean(DecodingError !== undefined && DecodingError instanceof Error ? "true" : "false");
+            if (isDecodingErrorValid !== undefined && typeof (isDecodingErrorValid) === "boolean" && isDecodingErrorValid.valueOf() === true) {
+                console.error(String(`${(DecodingError as typeof Error.prototype).name}\n${(DecodingError as typeof Error.prototype).message}`).trim());
+            }
         } finally {
-            
+            console.debug();
         }
 
         return DecodedVectorSegment !== null && typeof (DecodedVectorSegment) === "string" && DecodedVectorSegment.length >= 1 ? DecodedVectorSegment : null;

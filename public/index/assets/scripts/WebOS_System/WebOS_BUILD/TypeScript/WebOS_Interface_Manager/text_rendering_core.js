@@ -171,26 +171,28 @@ class FontsReferenceConstructor {
 }
 _FontsReferenceConstructor___SelectedFontFamilyVectors_accessor_storage = new WeakMap();
 export class TextFontRendering extends FontsReferenceConstructor {
-    constructor(ActiveFontFamily, __SelectedLanguage = "ENGLISH") {
+    constructor(ActiveFontFamily, __SelectedLanguage = "ENGLISH", SelectedRenderingEngine) {
         super(ActiveFontFamily !== undefined ? ActiveFontFamily : "monospace");
         this.ActiveFontFamily = ActiveFontFamily;
         this.__SelectedLanguage = __SelectedLanguage;
-        this.FetchedFontFamilyVectorFiles = undefined;
+        this.SelectedRenderingEngine = SelectedRenderingEngine;
+        this.ConstructorFetchedFontFamilyVectorFiles = undefined;
         this.SelectedFontFamilyLibraryName ?? (this.SelectedFontFamilyLibraryName = new String().valueOf());
         this.SelectedFontFamilyLibraryData ?? (this.SelectedFontFamilyLibraryData = new String());
         this.SelectedFontFamilyLibraryIndexAmount = 0;
         this.ActiveLanguageCharacters = LanguageConstantData[InstalledLanguages[LanguageNumericalIDs[__SelectedLanguage ?? "ENGLISH"]] ?? "ENGLISH"];
         console.info("\n%c[%cINITIALIZING TEXT RENDERING OBJECT...%c]", 'color: magenta;', 'color: purple; font-weight: bolder;', 'color: magenta;');
         (async () => {
-            this.FetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
+            this.ConstructorFetchedFontFamilyVectorFiles = await this.fetchFontFamilyVectorFiles(false);
             this.SelectedFontFamilyLibraryIndexAmount = await this.fetchFontFamilyVectorFiles(true);
             console.debug(this.SelectedFontFamilyLibraryIndexAmount.toString());
+            this.CalculateFetchedFileContentRows(this.ConstructorFetchedFontFamilyVectorFiles);
         })();
     }
     async fetchFontFamilyVectorFiles(fetchVariantAmount) {
         let CollectedFontFileResponseData = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
-        const FontVectorFileMapping = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.s") ?? null);
+        const FontVectorFileMapping = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.bin") ?? null);
         const StreamedMappingTextData = ((await (await FontVectorFileMapping.blob()).text()).trim());
         const MappingFileExpressionResult = new RegExp(/(\n+)/gim).exec(StreamedMappingTextData);
         const SplittedExpressionDataResult = MappingFileExpressionResult.input.split("\n") ?? null;
@@ -198,36 +200,123 @@ export class TextFontRendering extends FontsReferenceConstructor {
             return parseFloat(new String(SplittedExpressionDataResult.length).valueOf());
         }
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
-        console.debug(MappingFileExpressionResult?.index.toString());
-        console.debug(StreamedMappingTextData.normalize("NFC"));
         return await (async () => {
             SplittedExpressionDataResult?.forEach?.(async (SplicedValue, SpliceIndex) => {
                 if (SplicedValue !== null && typeof (SplicedValue) === "string") {
                     const FetchedVectorFile = (await (fetch(FontFamilyDirectoryPath + String(SplicedValue))));
                     FetchedVectorFile.ok ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
-                    console.debug(CollectedFontFileResponseData[Number(SpliceIndex)]);
                     console.debug?.(new String(SplicedValue).trim()) ?? void null;
+                    console.debug(CollectedFontFileResponseData[Number(SpliceIndex)]);
                 }
             });
             await Promise.resolve();
         })().then(async () => {
             return CollectedFontFileResponseData ?? new Array(0);
-        }).finally(() => console.debug("Sucessfully fetched text vector files through mapping."));
+        }).finally(() => console.debug("Executed fetch for font vector files through mapping."));
     }
     determineRequestedFontFamily() {
         if (this.ActiveFontFamily === undefined)
             return undefined;
         return (new String());
     }
-    decodeFontVectorFile(VectorFileResponse) {
-        let DecodedVectorSegment = new String()?.valueOf?.().trim() ?? void null;
+    CalculateFetchedFileContentRows(VectorFiles) {
+        let ContentRowCalculationThread = null;
+        console.debug("Running file break-points calculation...");
+        function FormatVectorFileText(FileContents = undefined) {
+            if (FileContents === undefined || typeof (FileContents) !== "string")
+                return null;
+            var FormatedFileContents = null;
+            var CollectedChars = [];
+            for (let VectorFileStreamTextIndex = 0; (VectorFileStreamTextIndex < FileContents.length) === true; VectorFileStreamTextIndex++) {
+                const StringCorrectedIndex = Math.ceil((VectorFileStreamTextIndex - 1).valueOf());
+                const SelectedTextCharacter = String(FileContents).charAt(Number(StringCorrectedIndex)) ?? null;
+                if (SelectedTextCharacter === null || typeof (SelectedTextCharacter) !== "string")
+                    return null;
+                if (((CollectedChars !== undefined) && (Array.isArray(CollectedChars).valueOf() === true))) {
+                    CollectedChars.push(SelectedTextCharacter.valueOf());
+                }
+                else if (CollectedChars !== undefined && (!(new Boolean(Array?.isArray?.(CollectedChars) ?? false).valueOf()))) {
+                    console.warn("Collected text characters variable supposed array; reference was invalid instance!");
+                }
+                else {
+                    console.error();
+                    throw void null;
+                }
+            }
+            console.info("Finalizing vector data file raw text...");
+            CollectedChars.forEach(function (SelectedCharData) {
+                if (SelectedCharData === null || SelectedCharData === undefined) {
+                    console.warn("Selected text data character is an invalid value.");
+                    return null;
+                }
+                else
+                    console.log("Selected text data character valid.");
+                var FilteredVectorFileContent = new String().normalize("NFKC").trim().valueOf();
+                var CleanupDataExpression = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
+                if (!CleanupDataExpression || !(CleanupDataExpression instanceof RegExp))
+                    return null;
+                console.debug(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                return FilteredVectorFileContent !== null ? FilteredVectorFileContent : null;
+            });
+            console.debug(CollectedChars.toLocaleString());
+            return FormatedFileContents ?? null;
+        }
+        const TotalLineCount = Number((function () {
+            console.debug("Initalizing calculation tasks...");
+            var ProgressCalculation = new Number(0);
+            var CalculationTasks = [];
+            for (let SelectedVectorFileIndex = 0; Boolean(SelectedVectorFileIndex.valueOf() < Number(VectorFiles.length)) === true; SelectedVectorFileIndex++) {
+                if (SelectedVectorFileIndex !== undefined && typeof (SelectedVectorFileIndex) === "number") {
+                    console.debug("Calculation Task Index:\t" + String((CalculationTasks.push(new Promise(async () => {
+                        const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text()) ?? null);
+                        const DataContentLineBreaks = new RegExp((/[^\b\t+\b]+(.+)/gu)).exec(VectorFileDataContents.toString());
+                        FormatVectorFileText(VectorFileDataContents ?? undefined);
+                        if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
+                            for (let DataLineBreakIndex = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))) === true; DataLineBreakIndex++) {
+                            }
+                        }
+                        else {
+                            console.warn("INVALID multiline break contextual data!");
+                        }
+                    }))['valueOf']?.().toPrecision(2))));
+                }
+                else {
+                    continue;
+                }
+            }
+            return ProgressCalculation.valueOf();
+        })().valueOf());
+        return TotalLineCount !== undefined && typeof (TotalLineCount) === "number" ? parseFloat(String(TotalLineCount).trim()) : 0;
+    }
+    DecodeFontVectorFile(VectorFileResponse) {
         if (!VectorFileResponse || !(VectorFileResponse instanceof Blob))
             return null;
+        let DecodedVectorSegment = new String()?.valueOf?.().trim() ?? void null;
         try {
+            if (DecodedVectorSegment !== undefined && Object.getOwnPropertySymbols(DecodedVectorSegment).find((selectedObjectSymbol) => {
+                if (selectedObjectSymbol.valueOf().toString() === "valueOf") {
+                    return true["valueOf"]?.() ?? void null;
+                }
+                else
+                    return false["valueOf"]?.() ?? void null;
+            }, "valueOf") != null && typeof (DecodedVectorSegment) === "string") {
+                if (this.ConstructorFetchedFontFamilyVectorFiles !== undefined && this.ConstructorFetchedFontFamilyVectorFiles instanceof Array && Math.floor(this.ConstructorFetchedFontFamilyVectorFiles.length) > 0) {
+                }
+            }
+            else {
+                var ConstructedInvalidError = new Error("");
+                ConstructedInvalidError.name = "String_Instance_Invalid";
+                throw ConstructedInvalidError ?? undefined;
+            }
         }
         catch (DecodingError) {
+            const isDecodingErrorValid = Boolean(DecodingError !== undefined && DecodingError instanceof Error ? "true" : "false");
+            if (isDecodingErrorValid !== undefined && typeof (isDecodingErrorValid) === "boolean" && isDecodingErrorValid.valueOf() === true) {
+                console.error(String(`${DecodingError.name}\n${DecodingError.message}`).trim());
+            }
         }
         finally {
+            console.debug();
         }
         return DecodedVectorSegment !== null && typeof (DecodedVectorSegment) === "string" && DecodedVectorSegment.length >= 1 ? DecodedVectorSegment : null;
     }

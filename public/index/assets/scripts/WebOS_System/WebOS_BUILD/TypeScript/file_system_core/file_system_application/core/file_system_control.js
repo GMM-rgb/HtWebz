@@ -1,4 +1,3 @@
-"use strict";
 let FileSystemData = {
     SystemFolderCount: 0,
     SystemFileCount: 0,
