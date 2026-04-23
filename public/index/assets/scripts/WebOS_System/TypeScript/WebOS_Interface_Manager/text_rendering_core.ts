@@ -180,7 +180,14 @@ class FontFamilyEnumConstructor {
 }
 
 class FontsReferenceConstructor implements RenderingTextFontStorage {
-    constructor(private requestedFontFamily: string) { }
+    constructor(private requestedFontFamily: string) {
+
+    }
+
+    private generateFontFamilyMappingObject(): void {
+        
+    }
+
     accessor __SelectedFontFamilyVectors: FontFamilyVectorHeiarchy = {
         "1": {
             "lower": undefined,
@@ -364,19 +371,29 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ??= (typeof (isCleanDataDescriptionValid) === "boolean").valueOf() : void null;
                     } else { return void null; }
-                })))().finally((): void => {
+                })))().finally(async (): Promise<void> => {
                     if (isCleanDataDescriptionValid.valueOf() === true) {
                         (new Boolean(!isCleanDataDescriptionValid.valueOf() ? CleanDataDescriptions.every((CleanStatus: boolean, StatusIndex: number, StatusArrayValues: boolean[]): void => {
                             if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null) return void null;
                             if (typeof (CleanStatus) !== "boolean" || typeof (StatusIndex) !== "number" || typeof (StatusArrayValues) !== "object") return void null;
                             if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array)) return void null;
-                            const StatusEntries: ArrayIterator<[number, boolean]> = StatusArrayValues.entries();
+                            // ===-===-===-===-===-===-===
+                            function validateIteratorValueResults(indexValue: unknown, statusValue: unknown): (typeof Boolean.prototype) {
+                                var isValidResults: boolean = false;
+                                typeof (indexValue) === "number" && indexValue !== null ? isValidResults ??= true : isValidResults = false;
+                                typeof (statusValue) === "boolean" && statusValue !== null ? isValidResults ??= true : isValidResults = false;
+                                return new Boolean(isValidResults);
+                            }
+                            // ===-===-===-===-===-===-===
+                            const StatusEntries: Readonly<ArrayIterator<[number, boolean]>> = StatusArrayValues.entries() as ArrayIterator<[number, boolean]>;
                             let ActiveEntryChecksum: Array<[number, boolean] | undefined> = new Array(0);
                             // ===-===-===-===-===-===-===
                             for (let StatusSelectionNumeric: number = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
                                 (ActiveEntryChecksum !== undefined ? ActiveEntryChecksum = Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0) ? Array.of(ActiveEntryChecksum) : []) : null);
                                 if (ActiveEntryChecksum === undefined || (!(ActiveEntryChecksum instanceof Array) || !(ActiveEntryChecksum.length > 0)).valueOf()) return void undefined;
                                 const EntryChecksumArrayIndex = ((ActiveEntryChecksum.includes([(StatusSelectionNumeric - 1), true]).valueOf()) ? (ActiveEntryChecksum[0])?.[0] : parseFloat("0"));
+                                const ChecksumBooleanValue = Boolean(ActiveEntryChecksum[0]?.[1]?.valueOf() ?? true);
+                                if (validateIteratorValueResults(EntryChecksumArrayIndex, ChecksumBooleanValue).valueOf()) {}
                             }
                         }) : (null)).valueOf());
                     }
