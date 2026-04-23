@@ -324,7 +324,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
     private CalculateFetchedFileContentRows(VectorFiles: Array<Blob>): typeof Number.prototype {
         let ContentRowCalculationThread: any = null;
         // === === === === === === ===
-        console.debug("Running file break-points calculation...");
+        console.debug("Running file break-point(s) calculation...");
         /**
          * 
          * @param FileContents 
@@ -334,6 +334,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
             if (FileContents === undefined || typeof (FileContents) !== "string") return null;
             // ===-===-===-===-===-===-===
             var FormatedFileContents: string | null = null;
+            var ClearedContents: Array<String> | null = [];
             var CollectedChars: Array<String> = [];
             // ===-===-===-===-===-===-===
             for (let VectorFileStreamTextIndex: number = 0; (VectorFileStreamTextIndex < FileContents.length) === true; VectorFileStreamTextIndex++) {
@@ -350,28 +351,60 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 }
             }
             // ===-===-===-===-===-===-===
+            let CleanDataDescriptions: Array<boolean> = [];
+            // ===-===-===-===-===-===-===
+            function DecodeContentStatusDescriptions(): void {
+                if (CleanDataDescriptions === undefined && Array.isArray(CleanDataDescriptions).valueOf() !== true) return;
+                var isCleanDataDescriptionValid: boolean = globalThis.Boolean!! ? new Boolean("true").valueOf() : true;
+                var IndexInvalidDescriptions: Array<number> = [];
+                throw (async (): Promise<void> => (Array.from<boolean>(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue: any) => {
+                    if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
+                        isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ??= (typeof (isCleanDataDescriptionValid) === "boolean").valueOf() : void null;
+                    } else { return void null; }
+                })))().finally(() => {
+                    if (isCleanDataDescriptionValid.valueOf() === true) {
+                        (new Boolean(!isCleanDataDescriptionValid.valueOf() ? CleanDataDescriptions.every((CleanStatus: boolean, StatusIndex: number, StatusArrayValues: boolean[]): void => {
+                            if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null) return void null;
+                            if (typeof (CleanStatus) !== "boolean" || typeof (StatusIndex) !== "number" || typeof (StatusArrayValues) !== "object") return void null;
+                            if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array)) return void null;
+                            // TODO //
+                        }) : (null)).valueOf());
+                    }
+                });
+            }
+            // ===-===-===-===-===-===-===
             console.info("Finalizing vector data file raw text...");
             // ===-===-===-===-===-===-===
-            CollectedChars.forEach(function(SelectedCharData: String): string | null {
+            CollectedChars.forEach?.(function (SelectedCharData: String): string | null {
                 if (SelectedCharData === null || SelectedCharData === undefined) {
                     console.warn("Selected text data character is an invalid value.");
                     return null;
                 } else console.log("Selected text data character valid.");
-                var FilteredVectorFileContent: string = new String().normalize("NFKC").trim().valueOf();
+                var FilteredVectorFileContent: string = new String().normalize("NFKC").valueOf();
                 var CleanupDataExpression: Readonly<RegExp> = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
                 if (!CleanupDataExpression || !(CleanupDataExpression instanceof RegExp)) return null;
+                const isDataClean: Readonly<typeof Boolean.prototype> = !(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
                 // ===-===-===-===-===-===-===
-                console.debug(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                console.debug(isDataClean.valueOf());
+                // ===-===-===-===-===-===-===
+                try {
+                    if (isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean)) {
+
+                    }
+                } catch (FormatCleaningError) {
+                    FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
+                    console.error(String(FormatCleaningError).toString().trim());
+                }
                 // ===-===-===-===-===-===-===
                 return FilteredVectorFileContent !== null ? FilteredVectorFileContent : null;
-            });
+            }) ?? void null;
             // ===-===-===-===-===-===-===
             console.debug(CollectedChars.toLocaleString());
             // ===-===-===-===-===-===-===
             return FormatedFileContents ?? null;
         }
 
-        const TotalLineCount = Number((function() {
+        const TotalLineCount = Number((function () {
             console.debug("Initalizing calculation tasks...");
             var ProgressCalculation = new Number(0);
             var CalculationTasks: Array<typeof Promise.prototype> = [];
@@ -384,7 +417,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                         if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
                             for (let DataLineBreakIndex: number = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))) === true; DataLineBreakIndex++) {
                                 // console.debug(String(DataContentLineBreaks[Number().valueOf()]).trim()) ?? void null;
-                                // console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
+                                console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
                                 // console.debug(DataContentLineBreaks);
                             }
                         } else {
@@ -419,7 +452,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 } else return false["valueOf"]?.() ?? void null;
             }, "valueOf") != null && typeof (DecodedVectorSegment) === "string") {
                 if (this.ConstructorFetchedFontFamilyVectorFiles !== undefined && this.ConstructorFetchedFontFamilyVectorFiles instanceof Array && Math.floor(this.ConstructorFetchedFontFamilyVectorFiles.length) > 0) {
-                    
+
                 }
             } else {
                 var ConstructedInvalidError = new Error("");

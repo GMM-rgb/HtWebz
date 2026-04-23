@@ -221,11 +221,12 @@ export class TextFontRendering extends FontsReferenceConstructor {
     }
     CalculateFetchedFileContentRows(VectorFiles) {
         let ContentRowCalculationThread = null;
-        console.debug("Running file break-points calculation...");
+        console.debug("Running file break-point(s) calculation...");
         function FormatVectorFileText(FileContents = undefined) {
             if (FileContents === undefined || typeof (FileContents) !== "string")
                 return null;
             var FormatedFileContents = null;
+            var ClearedContents = [];
             var CollectedChars = [];
             for (let VectorFileStreamTextIndex = 0; (VectorFileStreamTextIndex < FileContents.length) === true; VectorFileStreamTextIndex++) {
                 const StringCorrectedIndex = Math.ceil((VectorFileStreamTextIndex - 1).valueOf());
@@ -243,21 +244,56 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     throw void null;
                 }
             }
+            let CleanDataDescriptions = [];
+            function DecodeContentStatusDescriptions() {
+                if (CleanDataDescriptions === undefined && Array.isArray(CleanDataDescriptions).valueOf() !== true)
+                    return;
+                var isCleanDataDescriptionValid = globalThis.Boolean ? new Boolean("true").valueOf() : true;
+                var IndexInvalidDescriptions = [];
+                throw (async () => (Array.from(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue) => {
+                    if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
+                        isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ?? (isCleanDataDescriptionValid = (typeof (isCleanDataDescriptionValid) === "boolean").valueOf()) : void null;
+                    }
+                    else {
+                        return void null;
+                    }
+                })))().finally(() => {
+                    if (isCleanDataDescriptionValid.valueOf() === true) {
+                        (new Boolean(!isCleanDataDescriptionValid.valueOf() ? CleanDataDescriptions.every((CleanStatus, StatusIndex, StatusArrayValues) => {
+                            if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null)
+                                return void null;
+                            if (typeof (CleanStatus) !== "boolean" || typeof (StatusIndex) !== "number" || typeof (StatusArrayValues) !== "object")
+                                return void null;
+                            if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array))
+                                return void null;
+                        }) : (null)).valueOf());
+                    }
+                });
+            }
             console.info("Finalizing vector data file raw text...");
-            CollectedChars.forEach(function (SelectedCharData) {
+            CollectedChars.forEach?.(function (SelectedCharData) {
                 if (SelectedCharData === null || SelectedCharData === undefined) {
                     console.warn("Selected text data character is an invalid value.");
                     return null;
                 }
                 else
                     console.log("Selected text data character valid.");
-                var FilteredVectorFileContent = new String().normalize("NFKC").trim().valueOf();
+                var FilteredVectorFileContent = new String().normalize("NFKC").valueOf();
                 var CleanupDataExpression = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
                 if (!CleanupDataExpression || !(CleanupDataExpression instanceof RegExp))
                     return null;
-                console.debug(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                const isDataClean = !(CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                console.debug(isDataClean.valueOf());
+                try {
+                    if (isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean)) {
+                    }
+                }
+                catch (FormatCleaningError) {
+                    FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
+                    console.error(String(FormatCleaningError).toString().trim());
+                }
                 return FilteredVectorFileContent !== null ? FilteredVectorFileContent : null;
-            });
+            }) ?? void null;
             console.debug(CollectedChars.toLocaleString());
             return FormatedFileContents ?? null;
         }
@@ -273,6 +309,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                         FormatVectorFileText(VectorFileDataContents ?? undefined);
                         if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
                             for (let DataLineBreakIndex = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))) === true; DataLineBreakIndex++) {
+                                console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
                             }
                         }
                         else {
