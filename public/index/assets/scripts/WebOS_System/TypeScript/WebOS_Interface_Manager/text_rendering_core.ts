@@ -353,21 +353,31 @@ export class TextFontRendering extends FontsReferenceConstructor {
             // ===-===-===-===-===-===-===
             let CleanDataDescriptions: Array<boolean> = [];
             // ===-===-===-===-===-===-===
+            async function CleanVectorFileSyntax(): Promise<void> {
+
+            }
+            // ===-===-===-===-===-===-===
             function DecodeContentStatusDescriptions(): void {
                 if (CleanDataDescriptions === undefined && Array.isArray(CleanDataDescriptions).valueOf() !== true) return;
-                var isCleanDataDescriptionValid: boolean = globalThis.Boolean!! ? new Boolean("true").valueOf() : true;
-                var IndexInvalidDescriptions: Array<number> = [];
+                let isCleanDataDescriptionValid: boolean = globalThis.Boolean!! ? new Boolean("true").valueOf() : true;
                 throw (async (): Promise<void> => (Array.from<boolean>(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue: any) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ??= (typeof (isCleanDataDescriptionValid) === "boolean").valueOf() : void null;
                     } else { return void null; }
-                })))().finally(() => {
+                })))().finally((): void => {
                     if (isCleanDataDescriptionValid.valueOf() === true) {
                         (new Boolean(!isCleanDataDescriptionValid.valueOf() ? CleanDataDescriptions.every((CleanStatus: boolean, StatusIndex: number, StatusArrayValues: boolean[]): void => {
                             if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null) return void null;
                             if (typeof (CleanStatus) !== "boolean" || typeof (StatusIndex) !== "number" || typeof (StatusArrayValues) !== "object") return void null;
                             if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array)) return void null;
-                            // TODO //
+                            const StatusEntries: ArrayIterator<[number, boolean]> = StatusArrayValues.entries();
+                            let ActiveEntryChecksum: Array<[number, boolean] | undefined> = new Array(0);
+                            // ===-===-===-===-===-===-===
+                            for (let StatusSelectionNumeric: number = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
+                                (ActiveEntryChecksum !== undefined ? ActiveEntryChecksum = Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0) ? Array.of(ActiveEntryChecksum) : []) : null);
+                                if (ActiveEntryChecksum === undefined || (!(ActiveEntryChecksum instanceof Array) || !(ActiveEntryChecksum.length > 0)).valueOf()) return void undefined;
+                                const EntryChecksumArrayIndex = ((ActiveEntryChecksum.includes([(StatusSelectionNumeric - 1), true]).valueOf()) ? (ActiveEntryChecksum[0])?.[0] : parseFloat("0"));
+                            }
                         }) : (null)).valueOf());
                     }
                 });

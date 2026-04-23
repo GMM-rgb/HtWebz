@@ -245,11 +245,12 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 }
             }
             let CleanDataDescriptions = [];
+            async function CleanVectorFileSyntax() {
+            }
             function DecodeContentStatusDescriptions() {
                 if (CleanDataDescriptions === undefined && Array.isArray(CleanDataDescriptions).valueOf() !== true)
                     return;
-                var isCleanDataDescriptionValid = globalThis.Boolean ? new Boolean("true").valueOf() : true;
-                var IndexInvalidDescriptions = [];
+                let isCleanDataDescriptionValid = globalThis.Boolean ? new Boolean("true").valueOf() : true;
                 throw (async () => (Array.from(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ?? (isCleanDataDescriptionValid = (typeof (isCleanDataDescriptionValid) === "boolean").valueOf()) : void null;
@@ -266,6 +267,13 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                 return void null;
                             if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array))
                                 return void null;
+                            const StatusEntries = StatusArrayValues.entries();
+                            let ActiveEntryChecksum = new Array(0);
+                            for (let StatusSelectionNumeric = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
+                                (ActiveEntryChecksum !== undefined ? ActiveEntryChecksum = Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0) ? Array.of(ActiveEntryChecksum) : []) : null);
+                                if (ActiveEntryChecksum === undefined || (!(ActiveEntryChecksum instanceof Array) || !(ActiveEntryChecksum.length > 0)).valueOf())
+                                    return void undefined;
+                            }
                         }) : (null)).valueOf());
                     }
                 });
