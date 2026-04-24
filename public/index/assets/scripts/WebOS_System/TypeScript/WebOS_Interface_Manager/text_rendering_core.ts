@@ -287,20 +287,21 @@ export class TextFontRendering extends FontsReferenceConstructor {
         let CollectedFontFileResponseData: Array<typeof Blob.prototype> = [];
         const FontFamilyDirectoryPath = "/index/assets/scripts/WebOS_System/TypeScript/WebOS_Interface_Manager/Prebuilt_Text_Font_Vectors/text_characters/";
         const FontVectorFileMapping: Response | null = (await fetch(FontFamilyDirectoryPath.toString() + "font_mapping.bin") ?? null);
-        const StreamedMappingTextData: string = ((await (await FontVectorFileMapping.blob()).text()).trim());
-        const MappingFileExpressionResult: RegExpExecArray = (new RegExp(/(\n+)/gim).exec(StreamedMappingTextData) as RegExpExecArray);
-        const SplittedExpressionDataResult: Array<string> | null = MappingFileExpressionResult.input.split("\n") ?? null;
+        const StreamedMappingTextData: string | undefined = (((await (await FontVectorFileMapping.blob()).text()).trim()));
+        const MappingFileExpressionResult: RegExpExecArray | null = (new RegExp(/(^[^\n]+)/g).exec(StreamedMappingTextData) as RegExpExecArray);
+        const SplittedExpressionDataResult: Array<string> | null = MappingFileExpressionResult?.[0]?.split("\n") ?? null;
 
         if (fetchVariantAmount !== undefined && typeof (fetchVariantAmount) === "boolean" && fetchVariantAmount?.valueOf() === true) {
-            return parseFloat(new String(SplittedExpressionDataResult.length).valueOf());
+            return parseFloat(new String(MappingFileExpressionResult?.length).valueOf());
         }
 
+        console.debug(MappingFileExpressionResult);
         console.info("OK:\t" + (String(FontVectorFileMapping?.ok ?? "UNKNOWN")));
         // console.debug(MappingFileExpressionResult?.index.toString());
         // console.debug(StreamedMappingTextData.normalize("NFC"));
 
         return await (async () => {
-            SplittedExpressionDataResult?.forEach?.(async (SplicedValue: string, SpliceIndex: number) => {
+            MappingFileExpressionResult?.forEach?.(async (SplicedValue: string, SpliceIndex: number) => {
                 if (SplicedValue !== null && typeof (SplicedValue) === "string") {
                     const FetchedVectorFile = (await (fetch(FontFamilyDirectoryPath + String(SplicedValue))));
                     FetchedVectorFile.ok ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
@@ -329,7 +330,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
      * @returns 
      */
     private CalculateFetchedFileContentRows(VectorFiles: Array<Blob>): typeof Number.prototype {
-        const _CleanupDataExpression: Readonly<RegExp> = new globalThis.RegExp(/(^[^<|>|/>]{1,}$)\t+|\s+\1/, 'gi');
+        const _CleanupDataExpression: Readonly<RegExp> = new globalThis.RegExp(/^(?![^<]*>)[ \t]+/, 'g');
         // === === === === === === ===
         let CleanDataDescriptions: Array<boolean> = [];
         let ContentRowCalculationThread: any = null;
@@ -399,10 +400,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                 if (validateIteratorValueResults(EntryChecksumArrayIndex, ChecksumBooleanValue).valueOf()) {
                                     if (CleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {
                                         CleanedResult ??= new RegExp(_CleanupDataExpression.source, 'u').exec(String(CollectedChars[EntryChecksumArrayIndex.valueOf()]).normalize("NFKC").toString());
-                                        CleanedResult?.flatMap((): Array<any> => {
-
-                                            return Array.of();
-                                        });
+                                        console.debug((CleanedResult?.[0])?.trim());
                                     }
                                 } else {
                                     console.error(String(new Error("Checksum iterator result values are INVALID type format, OR have no value!").message ?? null));
@@ -415,7 +413,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
             // ===-===-===-===-===-===-===
             console.info("Finalizing vector data file raw text...");
             // ===-===-===-===-===-===-===
-            CollectedChars.forEach?.(function (SelectedCharData: String): string | null {
+            CollectedChars.forEach?.(function (SelectedCharData: String, DataIndex): string | null {
                 if (SelectedCharData === null || SelectedCharData === undefined) {
                     console.warn("Selected text data character is an invalid value.");
                     return null;
@@ -425,11 +423,12 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 const isDataClean: Readonly<typeof Boolean.prototype> = !(_CleanupDataExpression.test(SelectedCharData["valueOf"]()));
                 // ===-===-===-===-===-===-===
                 console.debug(isDataClean.valueOf());
+                console.debug((String("Text Character Numerical Index:\t" + DataIndex).trim().toString()));
                 // ===-===-===-===-===-===-===
                 try {
                     isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? DecodeContentStatusDescriptions() : null;
                 } catch (FormatCleaningError) {
-                    FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
+                    // FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
                     console.error(String(FormatCleaningError).toString().trim());
                 }
                 // ===-===-===-===-===-===-===
@@ -448,11 +447,18 @@ export class TextFontRendering extends FontsReferenceConstructor {
             for (let SelectedVectorFileIndex: number = 0; Boolean(SelectedVectorFileIndex.valueOf() < Number(VectorFiles.length)) === true; SelectedVectorFileIndex++) {
                 if (SelectedVectorFileIndex !== undefined && typeof (SelectedVectorFileIndex) === "number") {
                     console.debug("Calculation Task Index:\t" + String((CalculationTasks.push(new Promise(async () => {
-                        const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text()) ?? null);
-                        const DataContentLineBreaks = new RegExp((/[^\b\t+\b]+(.+)/gu)).exec(VectorFileDataContents.toString());
+                        const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text().then((ResponseText: string): string => {
+                            if (ResponseText !== null && typeof (ResponseText) === "string" && ResponseText.length > 0) {
+                                return ResponseText.toString().trim().valueOf();
+                            } else return new String("\s").trimEnd().valueOf();
+                        })));
+                        // ===-===-===-===-===-===-===
+                        const DataContentLineBreaks: RegExpMatchArray | null = VectorFileDataContents.match(String(new RegExp(/[\s\S]/giy).source));
+                        // ===-===-===-===-===-===-===
                         FormatVectorFileText(VectorFileDataContents ?? undefined);
+                        // ===-===-===-===-===-===-===
                         if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
-                            for (let DataLineBreakIndex: number = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))) === true; DataLineBreakIndex++) {
+                            for (let DataLineBreakIndex: number = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))).valueOf() === true; DataLineBreakIndex++) {
                                 // console.debug(String(DataContentLineBreaks[Number().valueOf()]).trim()) ?? void null;
                                 console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
                                 // console.debug(DataContentLineBreaks);

@@ -1,5 +1,5 @@
 /// <reference path="./rendering_core_reference.d.ts" />
-import { TextFontRendering } from "./text_rendering_core";
+// import { TextFontRendering } from "./text_rendering_core";
 /**
  * Shader sources used by the renderer
  */
