@@ -254,24 +254,25 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     return;
                 let isCleanDataDescriptionValid = globalThis.Boolean ? new Boolean("true").valueOf() : true;
                 let SelectedDescriptionReportsClean = false;
-                (async () => (Array.from(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue) => {
+                (async () => (CleanDataDescriptions?.forEach?.((_CleanDescriptionValue) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ?? (isCleanDataDescriptionValid = (typeof (isCleanDataDescriptionValid) === "boolean").valueOf()) : void null;
                         console.info("Data Description Valid:\t" + isCleanDataDescriptionValid);
                     }
                     else {
-                        return void null;
+                        console.warn("No VALUE Data Description!");
                     }
-                })))().then(() => {
-                }).finally(async () => {
+                })) ?? console.warn("Failed to construct description Array reference.\n" + Array(CleanDataDescriptions.entries()) + "\n" + Number(CleanDataDescriptions.length) + "\n" + Array.isArray(CleanDataDescriptions).valueOf()))().finally(async () => {
+                    console.debug(`ALL data descriptions VALID?\t%c${isCleanDataDescriptionValid.valueOf()}`, 'color: violet;');
+                }).then(async () => {
                     if (isCleanDataDescriptionValid.valueOf() === true) {
-                        (new Boolean(!isCleanDataDescriptionValid.valueOf() ? CleanDataDescriptions.every((CleanStatus, StatusIndex, StatusArrayValues) => {
+                        !(isCleanDataDescriptionValid.valueOf()) === false ? CleanDataDescriptions.every((CleanStatus, StatusIndex, StatusArrayValues) => {
                             if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null)
-                                return void null;
+                                return;
                             if (typeof (CleanStatus) !== "boolean" || typeof (StatusIndex) !== "number" || typeof (StatusArrayValues) !== "object")
-                                return void null;
+                                return;
                             if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array))
-                                return void null;
+                                return;
                             function validateIteratorValueResults(indexValue, statusValue) {
                                 var isValidResults = false;
                                 typeof (indexValue) === "number" && indexValue !== null ? isValidResults ?? (isValidResults = true) : isValidResults = false;
@@ -281,6 +282,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                             const StatusEntries = StatusArrayValues.entries();
                             let ActiveEntryChecksum = new Array(0);
                             for (let StatusSelectionNumeric = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
+                                console.log(StatusSelectionNumeric);
                                 SelectedDescriptionReportsClean ?? (SelectedDescriptionReportsClean = new Boolean(CleanDataDescriptions[Number(StatusSelectionNumeric)]).valueOf());
                                 ((ActiveEntryChecksum !== undefined) ? ActiveEntryChecksum = (Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0)) ? Array.of(ActiveEntryChecksum) : Array.prototype) : void null);
                                 if (SelectedDescriptionReportsClean != null && (typeof (SelectedDescriptionReportsClean) === "boolean" && (!SelectedDescriptionReportsClean)))
@@ -307,7 +309,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                     console.error(String(new Error("Checksum iterator result values are INVALID type format, OR have no value!").message ?? null));
                                 }
                             }
-                        }) : (null)).valueOf());
+                        }) : null;
                     }
                 });
             }
@@ -325,10 +327,11 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 if (!_CleanupDataExpression || !(_CleanupDataExpression instanceof RegExp))
                     return null;
                 const isDataClean = !(_CleanupDataExpression.test(SelectedCharData["valueOf"]()));
-                console.debug(isDataClean.valueOf());
-                console.debug((String("Text Character Numerical Index:\t" + DataIndex).trim().toString()));
                 try {
-                    isDataClean !== undefined && (typeof (isDataClean) === "boolean").valueOf() === true ? DecodeContentStatusDescriptions.bind(DescriptionDecodingBindThread)() : null;
+                    if (isDataClean !== undefined && typeof (isDataClean) === "boolean") {
+                        CleanDataDescriptions.push(new Boolean(isDataClean).valueOf());
+                        DecodeContentStatusDescriptions.bind(DescriptionDecodingBindThread)();
+                    }
                 }
                 catch (FormatCleaningError) {
                     console.error(String(FormatCleaningError).toString().trim());
