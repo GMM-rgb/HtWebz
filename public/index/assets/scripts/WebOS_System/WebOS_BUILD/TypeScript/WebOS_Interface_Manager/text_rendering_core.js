@@ -206,8 +206,18 @@ export class TextFontRendering extends FontsReferenceConstructor {
         return await (async () => {
             MappingFileExpressionResult?.forEach?.(async (SplicedValue, SpliceIndex) => {
                 if (SplicedValue !== null && typeof (SplicedValue) === "string") {
+                    let PreviousBlobCheck = null;
                     const FetchedVectorFile = (await (fetch(FontFamilyDirectoryPath + String(SplicedValue))));
-                    FetchedVectorFile.ok ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
+                    const VectorFileBlobExists = ((this.ConstructorFetchedFontFamilyVectorFiles?.filter(async (FilterSelectedVectorFileBlob, FilterVectorFileIndex, FilteringVectorArray = undefined) => {
+                        if ((FilterSelectedVectorFileBlob != null && FilterSelectedVectorFileBlob instanceof Blob) && (FilterVectorFileIndex !== null && typeof (FilterVectorFileIndex) === "number") && (FilteringVectorArray !== undefined && typeof (FilteringVectorArray) === "object" && Array.isArray(FilteringVectorArray).valueOf())) {
+                            PreviousBlobCheck ?? (PreviousBlobCheck = FilterSelectedVectorFileBlob ?? null);
+                            const ChecksumReferenceVectorFile = await FetchedVectorFile.blob();
+                            FilteringVectorArray.includes(ChecksumReferenceVectorFile, FilterVectorFileIndex) && FilteringVectorArray.includes(ChecksumReferenceVectorFile, Math.floor(FilterVectorFileIndex - 1));
+                            FilteringVectorArray !== undefined ? FilteringVectorArray?.splice(FilterVectorFileIndex, 1) : null;
+                        }
+                    }) ?? "UNKNOWN") === new String(SplicedValue).valueOf());
+                    console.debug(VectorFileBlobExists);
+                    FetchedVectorFile.ok === true ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
                     console.debug?.(new String(SplicedValue).trim()) ?? void null;
                     console.debug(CollectedFontFileResponseData[Number(SpliceIndex)]);
                 }
@@ -225,14 +235,13 @@ export class TextFontRendering extends FontsReferenceConstructor {
     CalculateFetchedFileContentRows(VectorFiles) {
         const _CleanupDataExpression = new globalThis.RegExp(/^(?![^<]*>)[ \t]+/, 'g');
         let CleanDataDescriptions = [];
-        let ContentRowCalculationThread = null;
         console.debug("Running file break-point(s) calculation...");
         function FormatVectorFileText(FileContents = undefined) {
             if (FileContents === undefined || typeof (FileContents) !== "string")
                 return null;
-            var FormatedFileContents = null;
-            var ClearedContents = [];
-            var CollectedChars = [];
+            let FormatedFileContents = null;
+            let ClearedContents = [];
+            let CollectedChars = [];
             for (let VectorFileStreamTextIndex = 0; (VectorFileStreamTextIndex < FileContents.length) === true; VectorFileStreamTextIndex++) {
                 const StringCorrectedIndex = Math.ceil((VectorFileStreamTextIndex - 1).valueOf());
                 const SelectedTextCharacter = String(FileContents).charAt(Number(StringCorrectedIndex)) ?? null;
@@ -257,7 +266,6 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 (async () => (CleanDataDescriptions?.forEach?.((_CleanDescriptionValue) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ?? (isCleanDataDescriptionValid = (typeof (isCleanDataDescriptionValid) === "boolean").valueOf()) : void null;
-                        console.info("Data Description Valid:\t" + isCleanDataDescriptionValid);
                     }
                     else {
                         console.warn("No VALUE Data Description!");
@@ -282,7 +290,8 @@ export class TextFontRendering extends FontsReferenceConstructor {
                             const StatusEntries = StatusArrayValues.entries();
                             let ActiveEntryChecksum = new Array(0);
                             for (let StatusSelectionNumeric = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
-                                console.log(StatusSelectionNumeric);
+                                console.info(StatusArrayValues.length);
+                                console.debug("Description Selection Index:\t" + String(StatusSelectionNumeric.toPrecision(2)).valueOf());
                                 SelectedDescriptionReportsClean ?? (SelectedDescriptionReportsClean = new Boolean(CleanDataDescriptions[Number(StatusSelectionNumeric)]).valueOf());
                                 ((ActiveEntryChecksum !== undefined) ? ActiveEntryChecksum = (Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0)) ? Array.of(ActiveEntryChecksum) : Array.prototype) : void null);
                                 if (SelectedDescriptionReportsClean != null && (typeof (SelectedDescriptionReportsClean) === "boolean" && (!SelectedDescriptionReportsClean)))
@@ -309,7 +318,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                     console.error(String(new Error("Checksum iterator result values are INVALID type format, OR have no value!").message ?? null));
                                 }
                             }
-                        }) : null;
+                        }) : (void undefined);
                     }
                 });
             }
@@ -334,6 +343,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     }
                 }
                 catch (FormatCleaningError) {
+                    FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
                     console.error(String(FormatCleaningError).toString().trim());
                 }
                 return FilteredVectorFileContent !== null ? FilteredVectorFileContent : null;
@@ -347,7 +357,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
             var CalculationTasks = [];
             for (let SelectedVectorFileIndex = 0; Boolean(SelectedVectorFileIndex.valueOf() < Number(VectorFiles.length)) === true; SelectedVectorFileIndex++) {
                 if (SelectedVectorFileIndex !== undefined && typeof (SelectedVectorFileIndex) === "number") {
-                    console.debug("Calculation Task Index:\t" + String((CalculationTasks.push(new Promise(async () => {
+                    String((CalculationTasks.push(new Promise(async () => {
                         const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text().then((ResponseText) => {
                             if (ResponseText !== null && typeof (ResponseText) === "string" && ResponseText.length > 0) {
                                 return ResponseText.toString().trim().valueOf();
@@ -365,7 +375,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                         else {
                             console.warn("INVALID multiline break contextual data!");
                         }
-                    }))['valueOf']?.().toPrecision(2))));
+                    }))['valueOf']?.().toPrecision(2)));
                 }
                 else {
                     continue;

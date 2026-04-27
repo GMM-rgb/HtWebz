@@ -303,8 +303,18 @@ export class TextFontRendering extends FontsReferenceConstructor {
         return await (async () => {
             MappingFileExpressionResult?.forEach?.(async (SplicedValue: string, SpliceIndex: number) => {
                 if (SplicedValue !== null && typeof (SplicedValue) === "string") {
+                    let PreviousBlobCheck: Blob | null = null;
                     const FetchedVectorFile = (await (fetch(FontFamilyDirectoryPath + String(SplicedValue))));
-                    FetchedVectorFile.ok ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
+                    const VectorFileBlobExists = ((this.ConstructorFetchedFontFamilyVectorFiles?.filter(async (FilterSelectedVectorFileBlob: Blob, FilterVectorFileIndex: number, FilteringVectorArray: Blob[] | null | undefined = undefined) => {
+                        if ((FilterSelectedVectorFileBlob != null && FilterSelectedVectorFileBlob instanceof Blob) && (FilterVectorFileIndex !== null && typeof (FilterVectorFileIndex) === "number") && (FilteringVectorArray !== undefined && typeof (FilteringVectorArray) === "object" && Array.isArray(FilteringVectorArray).valueOf())) {
+                            PreviousBlobCheck ??= (FilterSelectedVectorFileBlob ?? null);
+                            const ChecksumReferenceVectorFile = await FetchedVectorFile.blob();
+                            FilteringVectorArray.includes(ChecksumReferenceVectorFile, FilterVectorFileIndex) && FilteringVectorArray.includes(ChecksumReferenceVectorFile, Math.floor(FilterVectorFileIndex - 1));
+                            FilteringVectorArray !== undefined ? FilteringVectorArray?.splice(FilterVectorFileIndex, 1) : null;
+                        }
+                    }) ?? "UNKNOWN") === new String(SplicedValue).valueOf());
+                    console.debug(VectorFileBlobExists);
+                    FetchedVectorFile.ok === true ? CollectedFontFileResponseData.push(await FetchedVectorFile.blob()) : null;
                     console.debug?.(new String(SplicedValue).trim()) ?? void null;
                     console.debug(CollectedFontFileResponseData[Number(SpliceIndex)!]);
                 }
@@ -333,7 +343,6 @@ export class TextFontRendering extends FontsReferenceConstructor {
         const _CleanupDataExpression: Readonly<RegExp> = new globalThis.RegExp(/^(?![^<]*>)[ \t]+/, 'g');
         // === === === === === === ===
         let CleanDataDescriptions: Array<boolean> = [];
-        let ContentRowCalculationThread: any = null;
         // === === === === === === ===
         console.debug("Running file break-point(s) calculation...");
         /**
@@ -344,9 +353,9 @@ export class TextFontRendering extends FontsReferenceConstructor {
         function FormatVectorFileText(FileContents: string | undefined = undefined): string | null {
             if (FileContents === undefined || typeof (FileContents) !== "string") return null;
             // ===-===-===-===-===-===-===
-            var FormatedFileContents: string | null = null;
-            var ClearedContents: Array<String> | null = [];
-            var CollectedChars: Array<String> = [];
+            let FormatedFileContents: string | null = null;
+            let ClearedContents: Array<String> | null = [];
+            let CollectedChars: Array<String> = [];
             // ===-===-===-===-===-===-===
             for (let VectorFileStreamTextIndex: number = 0; (VectorFileStreamTextIndex < FileContents.length) === true; VectorFileStreamTextIndex++) {
                 const StringCorrectedIndex: typeof Number.EPSILON = Math.ceil((VectorFileStreamTextIndex - 1).valueOf());
@@ -370,7 +379,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 (async (): Promise<void> => (CleanDataDescriptions?.forEach?.((_CleanDescriptionValue?: boolean) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ??= (typeof (isCleanDataDescriptionValid) === "boolean").valueOf() : void null;
-                        console.info("Data Description Valid:\t" + isCleanDataDescriptionValid);
+                        // console.info("Data Description Valid:\t" + isCleanDataDescriptionValid);
                     } else { console.warn("No VALUE Data Description!"); }
                 })) ?? console.warn("Failed to construct description Array reference.\n" + Array(CleanDataDescriptions.entries()) + "\n" + Number(CleanDataDescriptions.length) + "\n" + Array.isArray(CleanDataDescriptions).valueOf()))().finally(async (): Promise<void> => {
                     console.debug(`ALL data descriptions VALID?\t%c${isCleanDataDescriptionValid.valueOf()}`, 'color: violet;');
@@ -392,7 +401,8 @@ export class TextFontRendering extends FontsReferenceConstructor {
                             let ActiveEntryChecksum: Array<[number, boolean]> = new Array(0) as any[];
                             // ===-===-===-===-===-===-===
                             for (let StatusSelectionNumeric: number = 0; Boolean((Number(StatusSelectionNumeric) < StatusArrayValues.length)).valueOf() === true; StatusSelectionNumeric += 1) {
-                                console.log(StatusSelectionNumeric);
+                                console.info(StatusArrayValues.length);
+                                console.debug("Description Selection Index:\t" + String(StatusSelectionNumeric.toPrecision(2)).valueOf());
                                 SelectedDescriptionReportsClean ??= (new Boolean(CleanDataDescriptions[Number(StatusSelectionNumeric)]).valueOf());
                                 ((ActiveEntryChecksum !== undefined) ? ActiveEntryChecksum = (Array(StatusEntries.next().value) ?? ((ActiveEntryChecksum.length > 0)) ? Array.of(ActiveEntryChecksum) : Array.prototype) : void null);
                                 if (SelectedDescriptionReportsClean != null && (typeof (SelectedDescriptionReportsClean) === "boolean" && (!SelectedDescriptionReportsClean))) return void undefined;
@@ -415,7 +425,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                     console.error(String(new Error("Checksum iterator result values are INVALID type format, OR have no value!").message ?? null));
                                 }
                             }
-                        }) : null;
+                        }) : (void undefined);
                     }
                 });
             }
@@ -441,7 +451,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                         DecodeContentStatusDescriptions.bind(DescriptionDecodingBindThread)();
                     }
                 } catch (FormatCleaningError) {
-                    // FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
+                    FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
                     console.error(String(FormatCleaningError).toString().trim());
                 }
                 // ===-===-===-===-===-===-===
@@ -459,7 +469,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
             var CalculationTasks: Array<typeof Promise.prototype> = [];
             for (let SelectedVectorFileIndex: number = 0; Boolean(SelectedVectorFileIndex.valueOf() < Number(VectorFiles.length)) === true; SelectedVectorFileIndex++) {
                 if (SelectedVectorFileIndex !== undefined && typeof (SelectedVectorFileIndex) === "number") {
-                    console.debug("Calculation Task Index:\t" + String((CalculationTasks.push(new Promise(async () => {
+                    /*console.debug("Calculation Task Index:\t" + */String((CalculationTasks.push(new Promise(async () => {
                         const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text().then((ResponseText: string): string => {
                             if (ResponseText !== null && typeof (ResponseText) === "string" && ResponseText.length > 0) {
                                 return ResponseText.toString().trim().valueOf();
@@ -479,7 +489,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                         } else {
                             console.warn("INVALID multiline break contextual data!");
                         }
-                    }))['valueOf']?.().toPrecision(2))));
+                    }))['valueOf']?.().toPrecision(2)))/*)*/;
                 } else { continue; }
             }
             // === === === === === === === ===
