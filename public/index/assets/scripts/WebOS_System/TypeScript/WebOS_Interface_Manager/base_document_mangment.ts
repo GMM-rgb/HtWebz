@@ -229,7 +229,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             const TerminalCursorQaud = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
             const TerminalCursorFade = InterfaceRendererPipeline.createRect(10, TerminalCursorQaud.y, TerminalCursorQaud.w, TerminalCursorQaud.h, [255, 0, 255, 1]);
 
-            const LoadingSpinner = InterfaceRendererPipeline.loadSVGTexture(String(``));
+            // const LoadingSpinner = InterfaceRendererPipeline.loadSVGTexture(String(``));
             
             InterfaceRendererPipeline.applyToRendering(TerminalCursorObjectInterface);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
@@ -244,7 +244,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     "x": 10,
                     "y": 10,
                 },
-            }, (undefined), Number(parseFloat("425").valueOf())).finally((): void => {
+            }, undefined, Number(parseFloat("425").valueOf())).finally(async (): Promise<void> => {
                 TerminalCursorObjectInterface.remove(TerminalCursorFade);
                 (TerminalCursorFade.visible !== false ? TerminalCursorFade.updateVisiblility(false) : null);
             });

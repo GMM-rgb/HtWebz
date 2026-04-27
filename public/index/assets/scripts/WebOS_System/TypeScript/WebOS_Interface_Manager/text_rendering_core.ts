@@ -366,9 +366,11 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 if (CleanDataDescriptions === undefined && Array.isArray(CleanDataDescriptions).valueOf() !== true) return;
                 let isCleanDataDescriptionValid: boolean = globalThis.Boolean!! ? new Boolean("true").valueOf() : true;
                 let SelectedDescriptionReportsClean: boolean = false;
-                throw (async (): Promise<void> => (Array.from<boolean>(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue: any) => {
+                
+                (async (): Promise<void> => (Array.from<boolean>(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue: any) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ??= (typeof (isCleanDataDescriptionValid) === "boolean").valueOf() : void null;
+                        console.info("Data Description Valid:\t" + isCleanDataDescriptionValid);
                     } else { return void null; }
                 })))().then<void>((): void => {
 
@@ -404,7 +406,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                             let SanitizedResult: string = new String('\s').trim().toString();
                                             if ((SanitizedResult === undefined || typeof (SanitizedResult) !== "string").valueOf() === new Boolean("true").valueOf()) return void null;
                                             if (InvalidExtraChar === null || (!(typeof (InvalidExtraChar) === "string") && !!(InvalidExtraChar instanceof String).valueOf())) return void null;
-                                            // TODO //
+                                            console.debug(String(InvalidExtraChar).toString());
                                         });
                                         // console.debug((NotCleanedResult?.[0])?.trim());
                                     }
@@ -420,19 +422,20 @@ export class TextFontRendering extends FontsReferenceConstructor {
             console.info("Finalizing vector data file raw text...");
             // ===-===-===-===-===-===-===
             CollectedChars.forEach?.(function (SelectedCharData: String, DataIndex): string | null {
+                let FilteredVectorFileContent: string = new String().normalize("NFKC").valueOf();
+                let DescriptionDecodingBindThread: void | null = null;
                 if (SelectedCharData === null || SelectedCharData === undefined) {
                     console.warn("Selected text data character is an invalid value.");
                     return null;
-                } else console.log("Selected text data character valid.");
-                var FilteredVectorFileContent: string = new String().normalize("NFKC").valueOf();
+                } else { console.log("Selected text data character valid."); }
                 if (!_CleanupDataExpression || !(_CleanupDataExpression instanceof RegExp)) return null;
-                const isDataClean: Readonly<typeof Boolean.prototype> = !(_CleanupDataExpression.test(SelectedCharData["valueOf"]()));
+                const isDataClean: Readonly<boolean> = !(_CleanupDataExpression.test(SelectedCharData["valueOf"]()));
                 // ===-===-===-===-===-===-===
                 console.debug(isDataClean.valueOf());
                 console.debug((String("Text Character Numerical Index:\t" + DataIndex).trim().toString()));
                 // ===-===-===-===-===-===-===
                 try {
-                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? (() => DecodeContentStatusDescriptions())() : null;
+                    isDataClean !== undefined && (typeof (isDataClean) === "boolean").valueOf() === true ? DecodeContentStatusDescriptions.bind(DescriptionDecodingBindThread)() : null;
                 } catch (FormatCleaningError) {
                     // FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
                     console.error(String(FormatCleaningError).toString().trim());

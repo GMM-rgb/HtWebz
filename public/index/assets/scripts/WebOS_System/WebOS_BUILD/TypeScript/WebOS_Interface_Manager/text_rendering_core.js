@@ -254,9 +254,10 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     return;
                 let isCleanDataDescriptionValid = globalThis.Boolean ? new Boolean("true").valueOf() : true;
                 let SelectedDescriptionReportsClean = false;
-                throw (async () => (Array.from(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue) => {
+                (async () => (Array.from(CleanDataDescriptions.values()).forEach((_CleanDescriptionValue) => {
                     if (_CleanDescriptionValue != null && typeof (_CleanDescriptionValue) !== "undefined") {
                         isCleanDataDescriptionValid === true ? isCleanDataDescriptionValid ?? (isCleanDataDescriptionValid = (typeof (isCleanDataDescriptionValid) === "boolean").valueOf()) : void null;
+                        console.info("Data Description Valid:\t" + isCleanDataDescriptionValid);
                     }
                     else {
                         return void null;
@@ -298,6 +299,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                                 return void null;
                                             if (InvalidExtraChar === null || (!(typeof (InvalidExtraChar) === "string") && !!(InvalidExtraChar instanceof String).valueOf()))
                                                 return void null;
+                                            console.debug(String(InvalidExtraChar).toString());
                                         });
                                     }
                                 }
@@ -311,20 +313,22 @@ export class TextFontRendering extends FontsReferenceConstructor {
             }
             console.info("Finalizing vector data file raw text...");
             CollectedChars.forEach?.(function (SelectedCharData, DataIndex) {
+                let FilteredVectorFileContent = new String().normalize("NFKC").valueOf();
+                let DescriptionDecodingBindThread = null;
                 if (SelectedCharData === null || SelectedCharData === undefined) {
                     console.warn("Selected text data character is an invalid value.");
                     return null;
                 }
-                else
+                else {
                     console.log("Selected text data character valid.");
-                var FilteredVectorFileContent = new String().normalize("NFKC").valueOf();
+                }
                 if (!_CleanupDataExpression || !(_CleanupDataExpression instanceof RegExp))
                     return null;
                 const isDataClean = !(_CleanupDataExpression.test(SelectedCharData["valueOf"]()));
                 console.debug(isDataClean.valueOf());
                 console.debug((String("Text Character Numerical Index:\t" + DataIndex).trim().toString()));
                 try {
-                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? (() => DecodeContentStatusDescriptions())() : null;
+                    isDataClean !== undefined && (typeof (isDataClean) === "boolean").valueOf() === true ? DecodeContentStatusDescriptions.bind(DescriptionDecodingBindThread)() : null;
                 }
                 catch (FormatCleaningError) {
                     console.error(String(FormatCleaningError).toString().trim());
