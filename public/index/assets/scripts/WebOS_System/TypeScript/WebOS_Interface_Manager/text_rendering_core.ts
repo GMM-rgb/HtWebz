@@ -396,11 +396,17 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                 if (ActiveEntryChecksum === undefined || (!(ActiveEntryChecksum instanceof Array) || !(ActiveEntryChecksum.length > 0)).valueOf()) return void undefined;
                                 const EntryChecksumArrayIndex: number = ((ActiveEntryChecksum.includes([(StatusSelectionNumeric - 1), true]).valueOf()) ? (ActiveEntryChecksum[0])?.[0] : parseFloat("0"));
                                 const ChecksumBooleanValue: boolean = Boolean(ActiveEntryChecksum[0]?.[1]?.valueOf() ?? true);
-                                let CleanedResult: RegExpExecArray | null = null;
+                                let NotCleanedResult: RegExpExecArray | null = null;
                                 if (validateIteratorValueResults(EntryChecksumArrayIndex, ChecksumBooleanValue).valueOf()) {
-                                    if (CleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {
-                                        CleanedResult ??= new RegExp(_CleanupDataExpression.source, 'u').exec(String(CollectedChars[EntryChecksumArrayIndex.valueOf()]).normalize("NFKC").toString());
-                                        console.debug((CleanedResult?.[0])?.trim());
+                                    if (NotCleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {
+                                        NotCleanedResult ??= new RegExp(_CleanupDataExpression.source, 'u').exec(String(CollectedChars[EntryChecksumArrayIndex.valueOf()]).normalize("NFKC").toString());
+                                        NotCleanedResult?.forEach((InvalidExtraChar: string | typeof String.prototype): void => {
+                                            let SanitizedResult: string = new String('\s').trim().toString();
+                                            if ((SanitizedResult === undefined || typeof (SanitizedResult) !== "string").valueOf() === new Boolean("true").valueOf()) return void null;
+                                            if (InvalidExtraChar === null || (!(typeof (InvalidExtraChar) === "string") && !!(InvalidExtraChar instanceof String).valueOf())) return void null;
+                                            // TODO //
+                                        });
+                                        // console.debug((NotCleanedResult?.[0])?.trim());
                                     }
                                 } else {
                                     console.error(String(new Error("Checksum iterator result values are INVALID type format, OR have no value!").message ?? null));
@@ -426,7 +432,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 console.debug((String("Text Character Numerical Index:\t" + DataIndex).trim().toString()));
                 // ===-===-===-===-===-===-===
                 try {
-                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? DecodeContentStatusDescriptions() : null;
+                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? (() => DecodeContentStatusDescriptions())() : null;
                 } catch (FormatCleaningError) {
                     // FormatCleaningError !== undefined && FormatCleaningError instanceof Error ? null : void null;
                     console.error(String(FormatCleaningError).toString().trim());

@@ -288,11 +288,17 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                     return void undefined;
                                 const EntryChecksumArrayIndex = ((ActiveEntryChecksum.includes([(StatusSelectionNumeric - 1), true]).valueOf()) ? (ActiveEntryChecksum[0])?.[0] : parseFloat("0"));
                                 const ChecksumBooleanValue = Boolean(ActiveEntryChecksum[0]?.[1]?.valueOf() ?? true);
-                                let CleanedResult = null;
+                                let NotCleanedResult = null;
                                 if (validateIteratorValueResults(EntryChecksumArrayIndex, ChecksumBooleanValue).valueOf()) {
-                                    if (CleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {
-                                        CleanedResult ?? (CleanedResult = new RegExp(_CleanupDataExpression.source, 'u').exec(String(CollectedChars[EntryChecksumArrayIndex.valueOf()]).normalize("NFKC").toString()));
-                                        console.debug((CleanedResult?.[0])?.trim());
+                                    if (NotCleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {
+                                        NotCleanedResult ?? (NotCleanedResult = new RegExp(_CleanupDataExpression.source, 'u').exec(String(CollectedChars[EntryChecksumArrayIndex.valueOf()]).normalize("NFKC").toString()));
+                                        NotCleanedResult?.forEach((InvalidExtraChar) => {
+                                            let SanitizedResult = new String('\s').trim().toString();
+                                            if ((SanitizedResult === undefined || typeof (SanitizedResult) !== "string").valueOf() === new Boolean("true").valueOf())
+                                                return void null;
+                                            if (InvalidExtraChar === null || (!(typeof (InvalidExtraChar) === "string") && !!(InvalidExtraChar instanceof String).valueOf()))
+                                                return void null;
+                                        });
                                     }
                                 }
                                 else {
@@ -318,7 +324,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                 console.debug(isDataClean.valueOf());
                 console.debug((String("Text Character Numerical Index:\t" + DataIndex).trim().toString()));
                 try {
-                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? DecodeContentStatusDescriptions() : null;
+                    isDataClean !== undefined && (typeof (isDataClean) === "boolean" || isDataClean instanceof Boolean) ? (() => DecodeContentStatusDescriptions())() : null;
                 }
                 catch (FormatCleaningError) {
                     console.error(String(FormatCleaningError).toString().trim());

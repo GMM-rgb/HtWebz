@@ -231,7 +231,6 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
 
             const LoadingSpinner = InterfaceRendererPipeline.loadSVGTexture(String(``));
             
-
             InterfaceRendererPipeline.applyToRendering(TerminalCursorObjectInterface);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             InterfaceRendererPipeline.applyToRendering(TerminalCursorFade);
@@ -245,7 +244,10 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     "x": 10,
                     "y": 10,
                 },
-            }, undefined, parseFloat("425").valueOf());
+            }, (undefined), Number(parseFloat("425").valueOf())).finally((): void => {
+                TerminalCursorObjectInterface.remove(TerminalCursorFade);
+                (TerminalCursorFade.visible !== false ? TerminalCursorFade.updateVisiblility(false) : null);
+            });
 
             async function blinkCursor(): Promise<void> {
                 if (TerminalCursorQaud !== undefined && TerminalCursorQaud instanceof InterfaceRenderQuad) {
