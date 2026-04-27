@@ -185,7 +185,7 @@ class FontsReferenceConstructor implements RenderingTextFontStorage {
     }
 
     private generateFontFamilyMappingObject(): void {
-        
+
     }
 
     accessor __SelectedFontFamilyVectors: FontFamilyVectorHeiarchy = {
@@ -308,8 +308,8 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     const VectorFileBlobExists = ((this.ConstructorFetchedFontFamilyVectorFiles?.filter(async (FilterSelectedVectorFileBlob: Blob, FilterVectorFileIndex: number, FilteringVectorArray: Blob[] | null | undefined = undefined) => {
                         if ((FilterSelectedVectorFileBlob != null && FilterSelectedVectorFileBlob instanceof Blob) && (FilterVectorFileIndex !== null && typeof (FilterVectorFileIndex) === "number") && (FilteringVectorArray !== undefined && typeof (FilteringVectorArray) === "object" && Array.isArray(FilteringVectorArray).valueOf())) {
                             PreviousBlobCheck ??= (FilterSelectedVectorFileBlob ?? null);
-                            const ChecksumReferenceVectorFile = await FetchedVectorFile.blob();
-                            FilteringVectorArray.includes(ChecksumReferenceVectorFile, FilterVectorFileIndex) && FilteringVectorArray.includes(ChecksumReferenceVectorFile, Math.floor(FilterVectorFileIndex - 1));
+                            const ChecksumReferenceVectorFile: Blob = await FetchedVectorFile.blob();
+                            const hasMemmoryDuplicates: boolean | undefined = (FilteringVectorArray?.includes(ChecksumReferenceVectorFile, FilterVectorFileIndex) && FilteringVectorArray.includes(ChecksumReferenceVectorFile, Math.floor(FilterVectorFileIndex - 1)))?.valueOf();
                             FilteringVectorArray !== undefined ? FilteringVectorArray?.splice(FilterVectorFileIndex, 1) : null;
                         }
                     }) ?? "UNKNOWN") === new String(SplicedValue).valueOf());
@@ -385,7 +385,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                     console.debug(`ALL data descriptions VALID?\t%c${isCleanDataDescriptionValid.valueOf()}`, 'color: violet;');
                 }).then<void>(async (): Promise<void> => {
                     if (isCleanDataDescriptionValid.valueOf() === true) {
-                        !(isCleanDataDescriptionValid.valueOf()) === false ?CleanDataDescriptions.every((CleanStatus: boolean, StatusIndex: number, StatusArrayValues: boolean[]): void => {
+                        !(isCleanDataDescriptionValid.valueOf()) === false ? CleanDataDescriptions.every((CleanStatus: boolean, StatusIndex: number, StatusArrayValues: boolean[]): void => {
                             if (CleanStatus === null || StatusIndex === null || StatusArrayValues === null) return;
                             if (typeof (CleanStatus) !== "boolean" || typeof (StatusIndex) !== "number" || typeof (StatusArrayValues) !== "object") return;
                             if (!Array.isArray(StatusArrayValues).valueOf() || !(StatusArrayValues instanceof Array)) return;
@@ -470,26 +470,26 @@ export class TextFontRendering extends FontsReferenceConstructor {
             for (let SelectedVectorFileIndex: number = 0; Boolean(SelectedVectorFileIndex.valueOf() < Number(VectorFiles.length)) === true; SelectedVectorFileIndex++) {
                 if (SelectedVectorFileIndex !== undefined && typeof (SelectedVectorFileIndex) === "number") {
                     /*console.debug("Calculation Task Index:\t" + */String((CalculationTasks.push(new Promise(async () => {
-                        const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text().then((ResponseText: string): string => {
-                            if (ResponseText !== null && typeof (ResponseText) === "string" && ResponseText.length > 0) {
-                                return ResponseText.toString().trim().valueOf();
-                            } else return new String("\s").trimEnd().valueOf();
-                        })));
-                        // ===-===-===-===-===-===-===
-                        const DataContentLineBreaks: RegExpMatchArray | null = VectorFileDataContents.match(String(new RegExp(/[\s\S]/giy).source));
-                        // ===-===-===-===-===-===-===
-                        FormatVectorFileText(VectorFileDataContents ?? undefined);
-                        // ===-===-===-===-===-===-===
-                        if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
-                            for (let DataLineBreakIndex: number = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))).valueOf() === true; DataLineBreakIndex++) {
-                                // console.debug(String(DataContentLineBreaks[Number().valueOf()]).trim()) ?? void null;
-                                console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
-                                // console.debug(DataContentLineBreaks);
-                            }
-                        } else {
-                            console.warn("INVALID multiline break contextual data!");
+                    const VectorFileDataContents = ((await (VectorFiles[Number(SelectedVectorFileIndex)]).text().then((ResponseText: string): string => {
+                        if (ResponseText !== null && typeof (ResponseText) === "string" && ResponseText.length > 0) {
+                            return ResponseText.toString().trim().valueOf();
+                        } else return new String("\s").trimEnd().valueOf();
+                    })));
+                    // ===-===-===-===-===-===-===
+                    const DataContentLineBreaks: RegExpMatchArray | null = VectorFileDataContents.match(String(new RegExp(/[\s\S]/giy).source));
+                    // ===-===-===-===-===-===-===
+                    FormatVectorFileText(VectorFileDataContents ?? undefined);
+                    // ===-===-===-===-===-===-===
+                    if (DataContentLineBreaks !== null && Object.is(DataContentLineBreaks, DataContentLineBreaks).valueOf() === true) {
+                        for (let DataLineBreakIndex: number = 0; (DataLineBreakIndex < (DataContentLineBreaks?.length ?? parseFloat("1"))).valueOf() === true; DataLineBreakIndex++) {
+                            // console.debug(String(DataContentLineBreaks[Number().valueOf()]).trim()) ?? void null;
+                            console.debug("Line Break Index:\t" + Number(DataLineBreakIndex));
+                            // console.debug(DataContentLineBreaks);
                         }
-                    }))['valueOf']?.().toPrecision(2)))/*)*/;
+                    } else {
+                        console.warn("INVALID multiline break contextual data!");
+                    }
+                }))['valueOf']?.().toPrecision(2)))/*)*/;
                 } else { continue; }
             }
             // === === === === === === === ===

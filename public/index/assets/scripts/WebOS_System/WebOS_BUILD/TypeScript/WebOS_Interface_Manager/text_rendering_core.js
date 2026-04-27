@@ -212,7 +212,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                         if ((FilterSelectedVectorFileBlob != null && FilterSelectedVectorFileBlob instanceof Blob) && (FilterVectorFileIndex !== null && typeof (FilterVectorFileIndex) === "number") && (FilteringVectorArray !== undefined && typeof (FilteringVectorArray) === "object" && Array.isArray(FilteringVectorArray).valueOf())) {
                             PreviousBlobCheck ?? (PreviousBlobCheck = FilterSelectedVectorFileBlob ?? null);
                             const ChecksumReferenceVectorFile = await FetchedVectorFile.blob();
-                            FilteringVectorArray.includes(ChecksumReferenceVectorFile, FilterVectorFileIndex) && FilteringVectorArray.includes(ChecksumReferenceVectorFile, Math.floor(FilterVectorFileIndex - 1));
+                            const hasMemmoryDuplicates = (FilteringVectorArray?.includes(ChecksumReferenceVectorFile, FilterVectorFileIndex) && FilteringVectorArray.includes(ChecksumReferenceVectorFile, Math.floor(FilterVectorFileIndex - 1)))?.valueOf();
                             FilteringVectorArray !== undefined ? FilteringVectorArray?.splice(FilterVectorFileIndex, 1) : null;
                         }
                     }) ?? "UNKNOWN") === new String(SplicedValue).valueOf());

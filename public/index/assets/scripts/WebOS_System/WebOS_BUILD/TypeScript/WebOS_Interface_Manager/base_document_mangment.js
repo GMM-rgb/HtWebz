@@ -169,6 +169,14 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                 else {
                     requestAnimationFrame(() => console.debug("OK"));
                 }
+                if (TerminalCursorFade !== undefined && TerminalCursorFade instanceof InterfaceRenderQuad) {
+                    !(TerminalCursorFade.visible) ? TerminalCursorFade.updateVisiblility(true) : void null;
+                    TerminalCursorFade.x = TerminalCursorFade.x + SelectedMovmentValueDirection.valueOf();
+                    TerminalCursorFade.y = activeTerminalCursor.y;
+                }
+                else {
+                    console.warn("Fading shadow element is undefined for terminal cursor!");
+                }
                 (InterfaceRendererPipeline.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
@@ -198,8 +206,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     "y": 10,
                 },
             }, undefined, Number(parseFloat("425").valueOf())).finally(async () => {
-                TerminalCursorObjectInterface.remove(TerminalCursorFade);
                 (TerminalCursorFade.visible !== false ? TerminalCursorFade.updateVisiblility(false) : null);
+                TerminalCursorObjectInterface.remove(TerminalCursorFade);
             });
             async function blinkCursor() {
                 if (TerminalCursorQaud !== undefined && TerminalCursorQaud instanceof InterfaceRenderQuad) {

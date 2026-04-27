@@ -210,6 +210,12 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     requestAnimationFrame(() => console.debug("OK"));
                 }
 
+                if (TerminalCursorFade !== undefined && TerminalCursorFade instanceof InterfaceRenderQuad) {
+                    !(TerminalCursorFade.visible) ? TerminalCursorFade.updateVisiblility(true) : void null;
+                    TerminalCursorFade.x = TerminalCursorFade.x + SelectedMovmentValueDirection.valueOf();
+                    TerminalCursorFade.y = activeTerminalCursor.y;
+                } else { console.warn("Fading shadow element is undefined for terminal cursor!"); }
+
                 (InterfaceRendererPipeline!.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
@@ -230,7 +236,7 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             const TerminalCursorFade = InterfaceRendererPipeline.createRect(10, TerminalCursorQaud.y, TerminalCursorQaud.w, TerminalCursorQaud.h, [255, 0, 255, 1]);
 
             // const LoadingSpinner = InterfaceRendererPipeline.loadSVGTexture(String(``));
-            
+
             InterfaceRendererPipeline.applyToRendering(TerminalCursorObjectInterface);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             InterfaceRendererPipeline.applyToRendering(TerminalCursorFade);
@@ -245,8 +251,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                     "y": 10,
                 },
             }, undefined, Number(parseFloat("425").valueOf())).finally(async (): Promise<void> => {
-                TerminalCursorObjectInterface.remove(TerminalCursorFade);
                 (TerminalCursorFade.visible !== false ? TerminalCursorFade.updateVisiblility(false) : null);
+                TerminalCursorObjectInterface.remove(TerminalCursorFade);
             });
 
             async function blinkCursor(): Promise<void> {
@@ -263,8 +269,8 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                 if (TerminalBackground !== undefined && TerminalBackground instanceof InterfaceRenderQuad) {
                     if ((VirtualMachineDisplayGeometricData.height > TerminalBackground.h || VirtualMachineDisplayGeometricData.height < TerminalBackground.h)
                         || (VirtualMachineDisplayGeometricData.width > TerminalBackground.w || VirtualMachineDisplayGeometricData.width < TerminalBackground.w)) {
-                            TerminalBackground.h = VirtualMachineDisplayGeometricData?.height?.valueOf() ?? 100;
-                            TerminalBackground.w = VirtualMachineDisplayGeometricData?.width?.valueOf() ?? 200;
+                        TerminalBackground.h = VirtualMachineDisplayGeometricData?.height?.valueOf() ?? 100;
+                        TerminalBackground.w = VirtualMachineDisplayGeometricData?.width?.valueOf() ?? 200;
                     }
                 } else {
                     console.warn("");
