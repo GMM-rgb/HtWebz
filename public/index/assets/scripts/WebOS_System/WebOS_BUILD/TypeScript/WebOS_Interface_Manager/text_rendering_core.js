@@ -299,7 +299,7 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                 if (ActiveEntryChecksum === undefined || (!(ActiveEntryChecksum instanceof Array) || !(ActiveEntryChecksum.length > 0)).valueOf())
                                     return void undefined;
                                 const EntryChecksumArrayIndex = ((ActiveEntryChecksum.includes([(StatusSelectionNumeric - 1), true]).valueOf()) ? (ActiveEntryChecksum[0])?.[0] : parseFloat("0"));
-                                const ChecksumBooleanValue = Boolean(ActiveEntryChecksum[0]?.[1]?.valueOf() ?? true);
+                                const ChecksumBooleanValue = Boolean(ActiveEntryChecksum[0]?.[1]?.valueOf?.() ?? true);
                                 let NotCleanedResult = null;
                                 if (validateIteratorValueResults(EntryChecksumArrayIndex, ChecksumBooleanValue).valueOf()) {
                                     if (NotCleanedResult !== undefined && (CollectedChars !== null && (Array.isArray(CollectedChars).valueOf() && CollectedChars instanceof Array))) {

@@ -10,12 +10,11 @@ const RenderingShaderData = {
     out vec2 vTexCoord;
 
     void main() {
-        vec2 zeroToOne = position / uResolution;
-        vec2 zeroToTwo = zeroToOne * 2.0;
-        vec2 clip = zeroToTwo - 1.0;
-        clip.y *= -1.0;
+        // Convert pixel coordinates to clip space (-1 to 1)
+        vec2 clipSpace = (position / uResolution) * 2.0 - 1.0;
+        clipSpace.y = -clipSpace.y;        // Flip Y so (0,0) is top-left
 
-        gl_Position = vec4(clip, 0.0, 1.0);
+        gl_Position = vec4(clipSpace, 0.0, 1.0);
         vColor = color;
         vTexCoord = texCoord;
     }`,
@@ -33,7 +32,7 @@ const RenderingShaderData = {
     }`
 };
 export class InterfaceRenderQuad {
-    constructor(x, y, w, h, color, texture) {
+    constructor(x, y, w, h, color, texture = null) {
         this.x = x;
         this.y = y;
         this.w = w;
@@ -45,8 +44,7 @@ export class InterfaceRenderQuad {
         this.rotation = 0;
         if (color)
             this.color = color;
-        if (texture !== undefined)
-            this.texture = texture;
+        this.texture = texture;
     }
     updateVisiblility(requestedVisiblity = true) {
         if (requestedVisiblity !== null && typeof (requestedVisiblity) === "boolean") {
@@ -149,8 +147,7 @@ export class Renderer2D {
         const texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-        gl.generateMipmap(gl.TEXTURE_2D);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -161,24 +158,29 @@ export class Renderer2D {
         const canvas = document.createElement("canvas");
         canvas.width = targetWidth;
         canvas.height = targetHeight;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { alpha: true });
         if (!ctx)
-            throw new Error("Canvas 2D context not supported for SVG rasterization");
-        const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+            throw new Error("Failed to get 2D context");
+        let cleanSvg = svgString.trim();
+        if (!cleanSvg.includes('xmlns=')) {
+            cleanSvg = cleanSvg.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        const svgBlob = new Blob([cleanSvg], { type: "image/svg+xml;charset=utf-8" });
         const url = URL.createObjectURL(svgBlob);
         try {
             const img = await new Promise((resolve, reject) => {
                 const image = new Image();
+                image.crossOrigin = "anonymous";
                 image.onload = () => resolve(image);
-                image.onerror = () => reject(new Error("Failed to load SVG as image"));
+                image.onerror = () => reject(new Error("SVG load failed"));
                 image.src = url;
             });
+            ctx.clearRect(0, 0, targetWidth, targetHeight);
             ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
             const texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
-            gl.generateMipmap(gl.TEXTURE_2D);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -189,9 +191,12 @@ export class Renderer2D {
         }
     }
     createRect(x, y, w, h, color = [1, 1, 1, 1]) {
-        return new InterfaceRenderQuad(x, y, w, h, color, null);
+        return new InterfaceRenderQuad(x, y, w, h, color);
     }
     createSprite(x, y, w, h, texture, tint = [1, 1, 1, 1]) {
+        if (!texture) {
+            console.warn("createSprite called with null texture");
+        }
         return new InterfaceRenderQuad(x, y, w, h, tint, texture);
     }
     createGroup(x = 0, y = 0) {
@@ -285,6 +290,10 @@ export class Renderer2D {
         gl.viewport(0, 0, width, height);
         gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        if (!this.program)
+            return;
         gl.useProgram(this.program);
         gl.uniform2f(this.uResolutionLoc, width, height);
         const batchMap = new Map();
@@ -293,15 +302,17 @@ export class Renderer2D {
         }
         gl.bindVertexArray(this.VertexArrayBuffer);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.RenderingBuffer);
-        for (const [texture, vertList] of batchMap) {
+        for (const [textureKey, vertList] of batchMap) {
             if (vertList.length === 0)
                 continue;
+            const numVertices = vertList.length / 8;
             const batchData = new Float32Array(vertList);
             gl.bufferData(gl.ARRAY_BUFFER, batchData, gl.DYNAMIC_DRAW);
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, texture);
+            const toBind = (textureKey instanceof WebGLTexture) ? textureKey : this.whiteTexture;
+            gl.bindTexture(gl.TEXTURE_2D, toBind);
             gl.uniform1i(this.uTextureLoc, 0);
-            gl.drawArrays(gl.TRIANGLES, 0, batchData.length / 8);
+            gl.drawArrays(gl.TRIANGLES, 0, numVertices);
         }
         gl.bindVertexArray(null);
     }
@@ -316,22 +327,32 @@ export class Renderer2D {
                 const rotatedRel = this.rotatePoint(child.x, child.y, 0, 0, g.rotation);
                 const childWorldX = groupPivotX + rotatedRel.x;
                 const childWorldY = groupPivotY + rotatedRel.y;
-                const childOffsetX = childWorldX - child.x;
-                const childOffsetY = childWorldY - child.y;
-                this.collectVertices(child, childOffsetX, childOffsetY, batchMap);
+                this.collectVertices(child, childWorldX - child.x, childWorldY - child.y, batchMap);
             }
             return;
         }
         const q = drawable;
-        let worldX = q.x + offsetX;
-        let worldY = q.y + offsetY;
-        const tex = q.texture || this.whiteTexture;
-        if (!batchMap.has(tex))
-            batchMap.set(tex, []);
-        const verts = batchMap.get(tex);
-        const [r, g, b, a] = q.color;
-        const u1 = q.uvs.left, v1 = q.uvs.top;
-        const u2 = q.uvs.right, v2 = q.uvs.bottom;
+        const worldX = q.x + offsetX;
+        const worldY = q.y + offsetY;
+        const textureToUse = (q.texture instanceof WebGLTexture) ? q.texture : this.whiteTexture;
+        if (!batchMap.has(textureToUse)) {
+            batchMap.set(textureToUse, []);
+        }
+        const verts = batchMap.get(textureToUse);
+        let r = q.color[0];
+        let g = q.color[1];
+        let b = q.color[2];
+        let a = q.color[3];
+        if (r > 1 || g > 1 || b > 1) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+        }
+        a = Math.max(0, Math.min(1, a));
+        const u1 = typeof q.uvs.left === 'number' ? q.uvs.left : 0;
+        const v1 = typeof q.uvs.top === 'number' ? q.uvs.top : 0;
+        const u2 = typeof q.uvs.right === 'number' ? q.uvs.right : 1;
+        const v2 = typeof q.uvs.bottom === 'number' ? q.uvs.bottom : 1;
         if (q.rotation === 0) {
             const x1 = worldX, y1 = worldY;
             const x2 = worldX + q.w, y2 = worldY + q.h;

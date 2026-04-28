@@ -15,15 +15,15 @@ const RenderingShaderData = {
     out vec2 vTexCoord;
 
     void main() {
-        vec2 zeroToOne = position / uResolution;
-        vec2 zeroToTwo = zeroToOne * 2.0;
-        vec2 clip = zeroToTwo - 1.0;
-        clip.y *= -1.0;
+        // Convert pixel coordinates to clip space (-1 to 1)
+        vec2 clipSpace = (position / uResolution) * 2.0 - 1.0;
+        clipSpace.y = -clipSpace.y;        // Flip Y so (0,0) is top-left
 
-        gl_Position = vec4(clip, 0.0, 1.0);
+        gl_Position = vec4(clipSpace, 0.0, 1.0);
         vColor = color;
         vTexCoord = texCoord;
     }`,
+
     FragmentRendering: `#version 300 es
     precision mediump float;
 
@@ -67,9 +67,9 @@ export class InterfaceRenderQuad implements Drawable {
         public w: number,
         public h: number,
         color?: [number, number, number, number],
-        texture?: WebGLTexture | null) {
+        texture: WebGLTexture | null = null) {
         if (color) this.color = color;
-        if (texture !== undefined) this.texture = texture;
+        this.texture = texture;
     }
 
     /**
@@ -213,12 +213,17 @@ export class Renderer2D implements ReferenceRendererCore2D {
 
         const texture = gl.createTexture()!;
         gl.bindTexture(gl.TEXTURE_2D, texture);
+
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-        gl.generateMipmap(gl.TEXTURE_2D);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+
+        // Safe parameters for UI textures
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+        // Remove generateMipmap for now — it often causes black textures on NPOT images
+        // gl.generateMipmap(gl.TEXTURE_2D);
 
         return texture;
     }
@@ -245,27 +250,36 @@ export class Renderer2D implements ReferenceRendererCore2D {
         const canvas = document.createElement("canvas");
         canvas.width = targetWidth;
         canvas.height = targetHeight;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) throw new Error("Canvas 2D context not supported for SVG rasterization");
+        const ctx = canvas.getContext("2d", { alpha: true });
+        if (!ctx) throw new Error("Failed to get 2D context");
 
-        const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+        // Ensure SVG has proper namespace
+        let cleanSvg = svgString.trim();
+        if (!cleanSvg.includes('xmlns=')) {
+            cleanSvg = cleanSvg.replace(/<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+
+        const svgBlob = new Blob([cleanSvg], { type: "image/svg+xml;charset=utf-8" });
         const url = URL.createObjectURL(svgBlob);
 
         try {
-            const img: HTMLImageElement = await new Promise((resolve, reject) => {
+            const img = await new Promise<HTMLImageElement>((resolve, reject) => {
                 const image = new Image();
+                image.crossOrigin = "anonymous";
                 image.onload = () => resolve(image);
-                image.onerror = () => reject(new Error("Failed to load SVG as image"));
+                image.onerror = () => reject(new Error("SVG load failed"));
                 image.src = url;
             });
 
+            ctx.clearRect(0, 0, targetWidth, targetHeight);
             ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
             const texture = gl.createTexture()!;
             gl.bindTexture(gl.TEXTURE_2D, texture);
+
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
-            gl.generateMipmap(gl.TEXTURE_2D);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -278,11 +292,14 @@ export class Renderer2D implements ReferenceRendererCore2D {
 
     /** @inheritdoc */
     public createRect(x: number, y: number, w: number, h: number, color: [number, number, number, number] = [1, 1, 1, 1]): InterfaceRenderQuad {
-        return new InterfaceRenderQuad(x, y, w, h, color, null);
+        return new InterfaceRenderQuad(x, y, w, h, color);   // expect 0-1
     }
 
     /** @inheritdoc */
     public createSprite(x: number, y: number, w: number, h: number, texture: WebGLTexture, tint: [number, number, number, number] = [1, 1, 1, 1]): InterfaceRenderQuad {
+        if (!texture) {
+            console.warn("createSprite called with null texture");
+        }
         return new InterfaceRenderQuad(x, y, w, h, tint, texture);
     }
 
@@ -319,7 +336,7 @@ export class Renderer2D implements ReferenceRendererCore2D {
         RequestedObject: T | undefined = undefined,
         TargetProperties: T extends InterfaceRenderQuad ? TweeningVariants.QaudTweening : TweeningVariants.GroupTweening,
         threadFunction?: () => void,
-        durationMs: number = 500, 
+        durationMs: number = 500,
     ): Promise<void> {
         if (!RequestedObject || !TargetProperties) {
             console.error("TweenSelected: invalid object or target properties");
@@ -405,12 +422,17 @@ export class Renderer2D implements ReferenceRendererCore2D {
         };
     }
 
-    /** Main render call – clears, batches by texture, and draws everything with rotation support */
+    /** Main render call - extra defensive */
     public render(width: number, height: number) {
         const gl = this.AttatchedRenderer;
         gl.viewport(0, 0, width, height);
         gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
+
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        if (!this.program) return;
 
         gl.useProgram(this.program);
         gl.uniform2f(this.uResolutionLoc, width, height);
@@ -424,17 +446,26 @@ export class Renderer2D implements ReferenceRendererCore2D {
         gl.bindVertexArray(this.VertexArrayBuffer);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.RenderingBuffer);
 
-        for (const [texture, vertList] of batchMap) {
+        // console.log(`=== RENDER FRAME === Total batches: ${batchMap.size}`);
+
+        for (const [textureKey, vertList] of batchMap) {
             if (vertList.length === 0) continue;
+
+            const numVertices = vertList.length / 8;
+            // console.log(`Batch: ${numVertices} vertices | Texture: ${textureKey instanceof WebGLTexture ? 'VALID' : 'INVALID'}`);
 
             const batchData = new Float32Array(vertList);
             gl.bufferData(gl.ARRAY_BUFFER, batchData, gl.DYNAMIC_DRAW);
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, texture);
+            const toBind = (textureKey instanceof WebGLTexture) ? textureKey : this.whiteTexture;
+            gl.bindTexture(gl.TEXTURE_2D, toBind);
             gl.uniform1i(this.uTextureLoc, 0);
 
-            gl.drawArrays(gl.TRIANGLES, 0, batchData.length / 8);
+            gl.drawArrays(gl.TRIANGLES, 0, numVertices);
+
+            // Extra safety
+            // console.log(`Drew ${numVertices} verts for this texture`);
         }
 
         gl.bindVertexArray(null);
@@ -452,27 +483,46 @@ export class Renderer2D implements ReferenceRendererCore2D {
                 const rotatedRel = this.rotatePoint(child.x, child.y, 0, 0, g.rotation);
                 const childWorldX = groupPivotX + rotatedRel.x;
                 const childWorldY = groupPivotY + rotatedRel.y;
-
-                const childOffsetX = childWorldX - child.x;
-                const childOffsetY = childWorldY - child.y;
-
-                this.collectVertices(child, childOffsetX, childOffsetY, batchMap);
+                this.collectVertices(child, childWorldX - child.x, childWorldY - child.y, batchMap);
             }
             return;
         }
 
+        // ===================== QUAD =====================
         const q = drawable as InterfaceRenderQuad;
-        let worldX = q.x + offsetX;
-        let worldY = q.y + offsetY;
+        const worldX = q.x + offsetX;
+        const worldY = q.y + offsetY;
 
-        const tex = q.texture || this.whiteTexture;
-        if (!batchMap.has(tex)) batchMap.set(tex, []);
+        // console.log(`Quad at: (${worldX.toFixed(1)}, ${worldY.toFixed(1)})  size: ${q.w}×${q.h}  rot: ${q.rotation}°`);
 
-        const verts = batchMap.get(tex)!;
-        const [r, g, b, a] = q.color;
+        const textureToUse: WebGLTexture = (q.texture instanceof WebGLTexture) ? q.texture : this.whiteTexture;
 
-        const u1 = q.uvs.left, v1 = q.uvs.top;
-        const u2 = q.uvs.right, v2 = q.uvs.bottom;
+        if (!batchMap.has(textureToUse)) {
+            batchMap.set(textureToUse, []);
+        }
+
+        const verts = batchMap.get(textureToUse)!;
+
+        // COLOR FIX - Support [255, 0, 0, 0.5] format (RGB 0-255, Alpha 0.0-1.0)
+        let r = q.color[0];
+        let g = q.color[1];
+        let b = q.color[2];
+        let a = q.color[3];
+
+        // Normalize RGB from 0-255 to 0.0-1.0, but leave Alpha as-is (0.0-1.0)
+        if (r > 1 || g > 1 || b > 1) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+        }
+
+        // Clamp alpha
+        a = Math.max(0, Math.min(1, a));
+
+        const u1 = typeof q.uvs.left === 'number' ? q.uvs.left : 0;
+        const v1 = typeof q.uvs.top === 'number' ? q.uvs.top : 0;
+        const u2 = typeof q.uvs.right === 'number' ? q.uvs.right : 1;
+        const v2 = typeof q.uvs.bottom === 'number' ? q.uvs.bottom : 1;
 
         if (q.rotation === 0) {
             const x1 = worldX, y1 = worldY;
@@ -518,11 +568,11 @@ export class Renderer2D implements ReferenceRendererCore2D {
             verts.push(x4, y4, r, g, b, a, u2, v2);
         }
     }
-
+    
     /**
      * Starts an automatic animation loop.
-     * Call this once after setting up the scene.
-     * @param onBeforeRender - Optional callback called every frame before render()
+     * Call once after setting up the rendering scene.
+     * @param onBeforeRender
      */
     public startAnimationLoop(onBeforeRender?: (deltaMs: number) => void) {
         let last = performance.now();

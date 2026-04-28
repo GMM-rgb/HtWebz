@@ -105,7 +105,7 @@ var VirtualMachineElementManager;
     VirtualMachineElementManager.InstanceCanvasRenderingElement = InstanceCanvasRenderingElement;
 })(VirtualMachineElementManager || (VirtualMachineElementManager = {}));
 window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
-    VirtualMachineElementManager.InstanceCanvasRenderingElement().then(VirtualMachineDisplayOutput => {
+    VirtualMachineElementManager.InstanceCanvasRenderingElement().then(async (VirtualMachineDisplayOutput) => {
         if (VirtualMachineDisplayOutput && VirtualMachineDisplayOutput instanceof HTMLCanvasElement) {
             VirtualMachineWrapper?.appendChild(VirtualMachineDisplayOutput);
             console.debug(("DISPLAY OUTPUT:\t" + (VirtualMachineDisplayOutput.nodeName ?? "unknown")));
@@ -169,31 +169,59 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
                 else {
                     requestAnimationFrame(() => console.debug("OK"));
                 }
-                if (TerminalCursorFade !== undefined && TerminalCursorFade instanceof InterfaceRenderQuad) {
-                    !(TerminalCursorFade.visible) ? TerminalCursorFade.updateVisiblility(true) : void null;
-                    TerminalCursorFade.x = TerminalCursorFade.x + SelectedMovmentValueDirection.valueOf();
-                    TerminalCursorFade.y = activeTerminalCursor.y;
-                }
-                else {
-                    console.warn("Fading shadow element is undefined for terminal cursor!");
-                }
                 (InterfaceRendererPipeline.TweenSelected?.(activeTerminalCursor, {
                     positions: {
                         x: Number(activeTerminalCursor.x + SelectedMovmentValueDirection.valueOf()),
-                        y: parseFloat(activeTerminalCursor.y.toFixed(2)),
+                        y: parseFloat(activeTerminalCursor.y.toPrecision(2)),
                     },
-                }, () => {
-                    console.debug("Tweening terminal cursor; translation position.");
-                }, 125) ?? (void null)).finally(() => {
-                    console.info?.(`Tweening terminal cursor thread completed.`) ?? undefined;
+                }, function () {
+                    if (TerminalCursorFade !== undefined && TerminalCursorFade instanceof InterfaceRenderQuad) {
+                        !(TerminalCursorFade.visible) ? TerminalCursorFade.updateVisiblility(true) : void null;
+                        TerminalCursorFade.x = TerminalCursorFade.x + SelectedMovmentValueDirection.valueOf();
+                        TerminalCursorFade.y = activeTerminalCursor.y;
+                    }
+                    else {
+                        console.warn("Fading shadow element is undefined for terminal cursor!");
+                    }
+                }, 125) ?? (void null))?.finally(() => {
+                    TerminalCursorFade.visible ? TerminalCursorFade.updateVisiblility(false) : null;
+                    if ((activeTerminalCursor.x !== TerminalCursorFade.x).valueOf() === true) {
+                        (activeTerminalCursor.x = TerminalCursorFade?.x.valueOf() ?? 10);
+                        (activeTerminalCursor.x === TerminalCursorFade.x ? console.debug("Respositioned delayed terminal cursor position successfully.") : null);
+                    }
                 });
             }
             const InterfaceRendererPipeline = new Renderer2D(VirtualMachineDisplayOutput, 1024);
             const TextRenderingInstance = new InterfaceTextRendering("monospace", "ENGLISH", InterfaceRendererPipeline ?? null);
             const TerminalCursorObjectInterface = InterfaceRendererPipeline.createGroup(VirtualMachineDisplayOutput.clientWidth / 2, VirtualMachineDisplayOutput.clientHeight / 2);
             const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
-            const TerminalCursorQaud = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 255, 0, 1]);
+            const TerminalCursorQaud = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 100, 150, 1]);
             const TerminalCursorFade = InterfaceRendererPipeline.createRect(10, TerminalCursorQaud.y, TerminalCursorQaud.w, TerminalCursorQaud.h, [255, 0, 255, 1]);
+            const LoadingSpinnerTexture = await InterfaceRendererPipeline.loadSVGTexture(String(`
+            <svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <clipPath id="spinnerCutout">
+                        <rect width="200" height="200" />
+                        <rect x="88" y="8" width="32" height="78" fill="black" />
+                    </clipPath>
+                </defs>
+
+                <g id="spinnerGroup" style="transform-origin: 100px 100px;">
+                    <!-- Outer dark outline -->
+                    <circle cx="100" cy="100" r="79" fill="none" stroke="#0d5329" stroke-width="24" />
+                    <!-- Main lime ring -->
+                    <g clip-path="url(#spinnerCutout)">
+                        <circle cx="100" cy="100" r="67" fill="none" stroke="#22c55e" stroke-width="17" stroke-linecap="round" />
+                        <circle cx="100" cy="100" r="67" fill="none" stroke="#1e9e4f" stroke-width="17" stroke-linecap="round"
+                            stroke-dasharray="340 120" stroke-dashoffset="25" />
+                    </g>
+
+                    <circle cx="100" cy="100" r="55" fill="none" stroke="#0f2a1a" stroke-width="10" />
+                </g>
+            </svg>`));
+            const LoadingSpinner = InterfaceRendererPipeline.createSprite(100, 100, 100, 100, LoadingSpinnerTexture, [1, 1, 1, 1]);
+            console.info(LoadingSpinner.texture);
+            InterfaceRendererPipeline.applyToRendering(LoadingSpinner);
             InterfaceRendererPipeline.applyToRendering(TerminalCursorObjectInterface);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             InterfaceRendererPipeline.applyToRendering(TerminalCursorFade);
