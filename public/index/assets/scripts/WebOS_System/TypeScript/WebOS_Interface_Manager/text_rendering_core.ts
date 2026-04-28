@@ -417,7 +417,12 @@ export class TextFontRendering extends FontsReferenceConstructor {
                                             let SanitizedResult: string = new String('\s').trim().toString();
                                             if ((SanitizedResult === undefined || typeof (SanitizedResult) !== "string").valueOf() === new Boolean("true").valueOf()) return void null;
                                             if (InvalidExtraChar === null || (!(typeof (InvalidExtraChar) === "string") && !!(InvalidExtraChar instanceof String).valueOf())) return void null;
-                                            console.debug(String(InvalidExtraChar).toString());
+                                            console.debug(String("INVALID\sFile\sCharacter:\t" + (InvalidExtraChar ?? null)).toString());
+                                            const CharInvalidCleaningExpression = new RegExp(String(/([^\w+\&]{0,})\1/).normalize("NFC").valueOf(), (/./g).flags).exec(InvalidExtraChar.toString());
+                                            CharInvalidCleaningExpression?.filter((UncleanStringValue: string) => {
+                                                const FilteringStringValid: boolean = new Boolean(UncleanStringValue !== undefined && typeof (UncleanStringValue) === "string" ? "true" : "false").valueOf();
+                                                if (typeof (FilteringStringValid) !== "boolean" || !FilteringStringValid) return void undefined;
+                                            });
                                         });
                                         // console.debug((NotCleanedResult?.[0])?.trim());
                                     }

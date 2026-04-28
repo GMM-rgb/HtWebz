@@ -197,31 +197,6 @@ window.addEventListener("DOMContentLoaded", (LoadEventValue) => {
             const TerminalBackground = InterfaceRendererPipeline.createRect(0, 0, VirtualMachineDisplayGeometricData.width, VirtualMachineDisplayGeometricData.height, [0, 0, 0, 1]);
             const TerminalCursorQaud = InterfaceRendererPipeline.createRect(-50, 10, 5, 30, [0, 100, 150, 1]);
             const TerminalCursorFade = InterfaceRendererPipeline.createRect(10, TerminalCursorQaud.y, TerminalCursorQaud.w, TerminalCursorQaud.h, [255, 0, 255, 1]);
-            const LoadingSpinnerTexture = await InterfaceRendererPipeline.loadSVGTexture(String(`
-            <svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <clipPath id="spinnerCutout">
-                        <rect width="200" height="200" />
-                        <rect x="88" y="8" width="32" height="78" fill="black" />
-                    </clipPath>
-                </defs>
-
-                <g id="spinnerGroup" style="transform-origin: 100px 100px;">
-                    <!-- Outer dark outline -->
-                    <circle cx="100" cy="100" r="79" fill="none" stroke="#0d5329" stroke-width="24" />
-                    <!-- Main lime ring -->
-                    <g clip-path="url(#spinnerCutout)">
-                        <circle cx="100" cy="100" r="67" fill="none" stroke="#22c55e" stroke-width="17" stroke-linecap="round" />
-                        <circle cx="100" cy="100" r="67" fill="none" stroke="#1e9e4f" stroke-width="17" stroke-linecap="round"
-                            stroke-dasharray="340 120" stroke-dashoffset="25" />
-                    </g>
-
-                    <circle cx="100" cy="100" r="55" fill="none" stroke="#0f2a1a" stroke-width="10" />
-                </g>
-            </svg>`));
-            const LoadingSpinner = InterfaceRendererPipeline.createSprite(100, 100, 100, 100, LoadingSpinnerTexture, [1, 1, 1, 1]);
-            console.info(LoadingSpinner.texture);
-            InterfaceRendererPipeline.applyToRendering(LoadingSpinner);
             InterfaceRendererPipeline.applyToRendering(TerminalCursorObjectInterface);
             InterfaceRendererPipeline.applyToRendering(TerminalBackground);
             InterfaceRendererPipeline.applyToRendering(TerminalCursorFade);
