@@ -1,4 +1,5 @@
 /// <reference path="window_docker_system_types/window_dock_objects.d.ts" />
+
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
@@ -18,15 +19,33 @@ class HtWebzDockWindow implements WindowDockPrimative {
     }
 
     public setMinimized(NewMinimizedStatus: boolean): void {
-        let SelectedDockWindowElementChild: (null | ChildNode | (typeof Element.prototype)) = null;
-        const StyleSelectorMapout: StylePropertyMapReadOnly = this.WindowDockShadowElement.computedStyleMap();
-        if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return;
+        // const StyleSelectorMapout = this.WindowDockShadowElement.computedStyleMap();
+        if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return undefined;
         if (this.WindowDockShadowElement !== null && this.WindowDockShadowElement.hasChildNodes() === true) {
-            for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
-                SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.childNodes?.item(Number(WindowDockShadowIndex)) ?? null;
-                if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false") as string).valueOf() !== true) break;
-                const ElementChildFetch = String(SelectedDockWindowElementChild.parentElement?.className);
-            }
+            this.WindowDockShadowElement.childNodes.forEach((SelectedElementNode, _ElementNodeIndex, NodeGroupList): void => {
+                if (SelectedElementNode != null && (SelectedElementNode instanceof Node).valueOf()) {
+                    const ElementNodeRootValue: typeof Node.prototype.nodeValue = (SelectedElementNode.getRootNode({"composed": false}).nodeValue);
+                    const ElementNodeType: typeof Node.prototype.nodeName = SelectedElementNode.nodeName.toLowerCase().trim().toString();
+                    let ReferenceProperElement = new globalThis.window.Document().createElement(String(ElementNodeType));
+                    ReferenceProperElement.nodeValue ??= ((ElementNodeRootValue ?? new Node().nodeValue) ?? (null));
+                    ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
+                    const ContentVisualStyle: CSSStyleValue = CSSStyleValue.parse("display", "none") as typeof CSSStyleValue.prototype;
+                    const DockerContentElement: HTMLElement | null = globalThis.document.querySelector(`.${this.WindowDockShadowElement.className} .${ReferenceProperElement.className.trim()}`);
+                    if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement)) return undefined;
+                    DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
+                }
+            });
+            
+            //for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
+            //    SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.childNodes?.item(Number(WindowDockShadowIndex)) ?? null;
+            //    if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false") as string).valueOf() !== true) break;
+            //    const ComputationStyleValid: boolean = Boolean(StyleSelectorMapout.has("display") === true ? "true" : "false");
+            //    const ElementChildFetch = globalThis.document.querySelector("." + String(SelectedDockWindowElementChild.parentElement?.className));
+            //    if ((ComputationStyleValid.valueOf() && ElementChildFetch !== null && (ElementChildFetch instanceof HTMLElement)) === true) {
+            //    } else {
+            //        (async () => console.error())();
+            //    }
+            //}
         }
     }
 
