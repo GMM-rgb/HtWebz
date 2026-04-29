@@ -18,6 +18,8 @@
         "outDir": "WindowDockerBuild",
         "rootDir": "./Window_Docker_TypeScript",
         "mapRoot": "././Window_Docker_TypeScript/",
-        "typeRoots": [],
+        "typeRoots": [
+            "./Window_Docker_TypeScript/window_docker_system_types/",
+        ],
     }
 }

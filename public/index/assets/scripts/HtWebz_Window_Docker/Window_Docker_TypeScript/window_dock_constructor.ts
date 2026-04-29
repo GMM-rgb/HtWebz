@@ -1,4 +1,4 @@
-/// <reference path="window_dock_objects.d.ts" />
+/// <reference path="window_docker_system_types/window_dock_objects.d.ts" />
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
@@ -18,12 +18,14 @@ class HtWebzDockWindow implements WindowDockPrimative {
     }
 
     public setMinimized(NewMinimizedStatus: boolean): void {
-        let SelectedDockWindowElementChild: Element | null = null;
+        let SelectedDockWindowElementChild: (null | ChildNode | (typeof Element.prototype)) = null;
         const StyleSelectorMapout: StylePropertyMapReadOnly = this.WindowDockShadowElement.computedStyleMap();
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return;
-        if (this.WindowDockShadowElement.hasChildNodes() === true) {
+        if (this.WindowDockShadowElement !== null && this.WindowDockShadowElement.hasChildNodes() === true) {
             for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
-                SelectedDockWindowElementChild ??= this.WindowDockShadowElement.children.item(WindowDockShadowIndex);
+                SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.childNodes?.item(Number(WindowDockShadowIndex)) ?? null;
+                if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false") as string).valueOf() !== true) break;
+                const ElementChildFetch = String(SelectedDockWindowElementChild.parentElement?.className);
             }
         }
     }
