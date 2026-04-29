@@ -1,0 +1,23 @@
+{
+    "buildOptions": {
+        "verbose": true,
+        "traceResolution": true,
+    },
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "pretty": true,
+        "sourceMap": true,
+        "diagnostics": true,
+        "alwaysStrict": true,
+        "removeComments": true,
+        "allowUmdGlobalAccess": true,
+        "moduleResolution": "bundler",
+        "module": "es2020",
+        "target": "es2021",
+        "outDir": "WindowDockerBuild",
+        "rootDir": "./Window_Docker_TypeScript",
+        "mapRoot": "././Window_Docker_TypeScript/",
+        "typeRoots": [],
+    }
+}
