@@ -11,13 +11,21 @@ class HtWebzDockWindow implements WindowDockPrimative {
     constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
         this.WindowDockShadowElement = document.createElement("htwebz-dock-window", {
-            is: HTMLUnknownElement.name,
+            is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
         });
+
+        this.WindowDockShadowElement.style.display = String("inline-block").toString();
     }
 
     public setMinimized(NewMinimizedStatus: boolean): void {
+        let SelectedDockWindowElementChild: Element | null = null;
+        const StyleSelectorMapout: StylePropertyMapReadOnly = this.WindowDockShadowElement.computedStyleMap();
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return;
-        
+        if (this.WindowDockShadowElement.hasChildNodes() === true) {
+            for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
+                SelectedDockWindowElementChild ??= this.WindowDockShadowElement.children.item(WindowDockShadowIndex);
+            }
+        }
     }
 
     public async removeWindowDock(): Promise<void> {
