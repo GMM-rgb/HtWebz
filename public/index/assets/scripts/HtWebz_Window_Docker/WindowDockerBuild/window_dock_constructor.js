@@ -15,16 +15,23 @@ class HtWebzDockWindow {
         this.WindowDockShadowElement.style.display = String("inline-block").toString();
     }
     setMinimized(NewMinimizedStatus) {
-        let SelectedDockWindowElementChild = null;
-        const StyleSelectorMapout = this.WindowDockShadowElement.computedStyleMap();
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean"))
-            return;
+            return undefined;
         if (this.WindowDockShadowElement !== null && this.WindowDockShadowElement.hasChildNodes() === true) {
-            for (let WindowDockShadowIndex = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
-                SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.children?.item(Number(WindowDockShadowIndex)) ?? null;
-                if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false")).valueOf() !== true)
-                    break;
-            }
+            this.WindowDockShadowElement.childNodes.forEach((SelectedElementNode, _ElementNodeIndex, NodeGroupList) => {
+                if (SelectedElementNode != null && (SelectedElementNode instanceof Node).valueOf()) {
+                    const ElementNodeRootValue = (SelectedElementNode.getRootNode({ "composed": false }).nodeValue);
+                    const ElementNodeType = SelectedElementNode.nodeName.toLowerCase().trim().toString();
+                    let ReferenceProperElement = new globalThis.window.Document().createElement(String(ElementNodeType));
+                    ReferenceProperElement.nodeValue ??= ((ElementNodeRootValue ?? new Node().nodeValue) ?? (null));
+                    ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
+                    const ContentVisualStyle = CSSStyleValue.parse("display", "none");
+                    const DockerContentElement = globalThis.document.querySelector(`.${this.WindowDockShadowElement.className} .${ReferenceProperElement.className.trim()}`);
+                    if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement))
+                        return undefined;
+                    DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
+                }
+            });
         }
     }
     async removeWindowDock() {
@@ -36,6 +43,15 @@ class HtWebzDockWindow {
                 return void undefined;
             console.error(String("Crticial ERROR in closing WindowDock:\n" + "WindowDockName:\t" + new String(this.WindowDockName ?? undefined).trim() + "\n" + "Error Message:\t" + (DockClosingError.message ?? null)).trim().toString());
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
+    }
+    computeNewSizeConstraints() {
+    }
+    updateDockWindowSizeConstraints(targetWidth, targetHeight, transformFromOrigin = ["LEFT", "TOP"]) {
+        let ConstraintsChangeInfo = {
+            changeIncrements: {},
+            changes: {},
+        };
+        return ConstraintsChangeInfo;
     }
 }
 //# sourceMappingURL=../Window_Docker_TypeScript/Window_Docker_TypeScript/window_dock_constructor.js.map

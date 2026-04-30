@@ -1,8 +1,28 @@
 /// <reference path="window_docker_system_types/window_dock_objects.d.ts" />
-
+///
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
+}
+
+declare namespace WindowDockSizeConstraints {
+    export type WindowDockSizeConstraintAbstract = {
+        WIDTH_CONSTRAINT: typeof DOMRect.prototype.width;
+        HEIGHT_CONSTRAINT: typeof DOMRect.prototype.height;
+    };
+
+    export type WindowDockSizeConstraintsChange = {
+        changes: {
+            height?: boolean;
+            width?: boolean;
+        };
+        changeIncrements: {
+            heightDifference?: number;
+            widthDifference?: number;
+        };
+    };
+
+    export type TransformConstraintOrigins = ("LEFT" | "TOP" | "RIGHT" | "BOTTOM")[];
 }
 
 class HtWebzDockWindow implements WindowDockPrimative {
@@ -19,12 +39,11 @@ class HtWebzDockWindow implements WindowDockPrimative {
     }
 
     public setMinimized(NewMinimizedStatus: boolean): void {
-        // const StyleSelectorMapout = this.WindowDockShadowElement.computedStyleMap();
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return undefined;
         if (this.WindowDockShadowElement !== null && this.WindowDockShadowElement.hasChildNodes() === true) {
             this.WindowDockShadowElement.childNodes.forEach((SelectedElementNode, _ElementNodeIndex, NodeGroupList): void => {
                 if (SelectedElementNode != null && (SelectedElementNode instanceof Node).valueOf()) {
-                    const ElementNodeRootValue: typeof Node.prototype.nodeValue = (SelectedElementNode.getRootNode({"composed": false}).nodeValue);
+                    const ElementNodeRootValue: typeof Node.prototype.nodeValue = (SelectedElementNode.getRootNode({ "composed": false }).nodeValue);
                     const ElementNodeType: typeof Node.prototype.nodeName = SelectedElementNode.nodeName.toLowerCase().trim().toString();
                     let ReferenceProperElement = new globalThis.window.Document().createElement(String(ElementNodeType));
                     ReferenceProperElement.nodeValue ??= ((ElementNodeRootValue ?? new Node().nodeValue) ?? (null));
@@ -35,7 +54,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                     DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
                 }
             });
-            
+
             //for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
             //    SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.childNodes?.item(Number(WindowDockShadowIndex)) ?? null;
             //    if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false") as string).valueOf() !== true) break;
@@ -58,5 +77,18 @@ class HtWebzDockWindow implements WindowDockPrimative {
             if (DockClosingError == null || !(DockClosingError instanceof Error).valueOf()) return void undefined;
             console.error(String("Crticial ERROR in closing WindowDock:\n" + "WindowDockName:\t" + new String(this.WindowDockName ?? undefined).trim() + "\n" + "Error Message:\t" + (DockClosingError.message ?? null)).trim().toString());
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
+    }
+
+    private computeNewSizeConstraints(): undefined {
+
+    }
+
+    public updateDockWindowSizeConstraints(targetWidth: number, targetHeight: number, transformFromOrigin: WindowDockSizeConstraints.TransformConstraintOrigins = ["LEFT", "TOP"]): WindowDockSizeConstraints.WindowDockSizeConstraintsChange {
+        let ConstraintsChangeInfo: WindowDockSizeConstraints.WindowDockSizeConstraintsChange = {
+            changeIncrements: {},
+            changes: {},
+        }; 
+
+        return ConstraintsChangeInfo;
     }
 }
