@@ -1,4 +1,5 @@
 {
-    "svg.preview.background": "dark-transparent"
+    "svg.preview.background": "dark-transparent",
+    "editor.fontSize": 11
     
 }

@@ -7,49 +7,58 @@ namespace HtWebzDockWindowStatistics {
 
 declare namespace WindowDockSizeConstraints {
     export type WindowDockSizeConstraintAbstract = {
-        WIDTH_CONSTRAINT: typeof DOMRect.prototype.width;
-        HEIGHT_CONSTRAINT: typeof DOMRect.prototype.height;
+        ASPECT_CONSTRAINT_DIAGONAL?: ArrayIterator<typeof Number.prototype>;
+        GeneralSizingConstraints?: {
+            WIDTH_CONSTRAINT: typeof DOMRect.prototype.width;
+            HEIGHT_CONSTRAINT: typeof DOMRect.prototype.height;
+        };
     };
 
     export type WindowDockSizeConstraintsChange = {
-        changes: {
+        changedProperties: {
             height?: boolean;
             width?: boolean;
         };
-        changeIncrements: {
+        newIncrementValues: {
             heightDifference?: number;
             widthDifference?: number;
         };
     };
 
-    export type TransformConstraintOrigins = ("LEFT" | "TOP" | "RIGHT" | "BOTTOM")[];
+    export type ComputationParameterObject = {
+        readonly RequestedComputationHeight: number;
+        readonly RequestedComputationWidth: number;
+        readonly TargetOriginReference: WindowDockSizeConstraints.TransformConstraintOrigins;
+    };
+
+    export type TransformConstraintOrigins = Array<("LEFT" | "TOP" | "RIGHT" | "BOTTOM")>;
 }
 
 class HtWebzDockWindow implements WindowDockPrimative {
     public WindowMenuMinimized: boolean;
-    private WindowDockShadowElement: HTMLUnknownElement | HTMLElement;
+    private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
 
     constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
-        this.WindowDockShadowElement = document.createElement("htwebz-dock-window", {
+        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
             is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
         });
 
-        this.WindowDockShadowElement.style.display = String("inline-block").toString();
+        this.WindowDockCoreElement.style.display = String("inline-block").toString();
     }
 
-    public setMinimized(NewMinimizedStatus: boolean): void {
+    public SetMinimized(NewMinimizedStatus: boolean): void {
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return undefined;
-        if (this.WindowDockShadowElement !== null && this.WindowDockShadowElement.hasChildNodes() === true) {
-            this.WindowDockShadowElement.childNodes.forEach((SelectedElementNode, _ElementNodeIndex, NodeGroupList): void => {
+        if (this.WindowDockCoreElement !== null && this.WindowDockCoreElement.hasChildNodes() === true) {
+            this.WindowDockCoreElement.childNodes.forEach((SelectedElementNode, _ElementNodeIndex, NodeGroupList): void => {
                 if (SelectedElementNode != null && (SelectedElementNode instanceof Node).valueOf()) {
                     const ElementNodeRootValue: typeof Node.prototype.nodeValue = (SelectedElementNode.getRootNode({ "composed": false }).nodeValue);
                     const ElementNodeType: typeof Node.prototype.nodeName = SelectedElementNode.nodeName.toLowerCase().trim().toString();
-                    let ReferenceProperElement = new globalThis.window.Document().createElement(String(ElementNodeType));
+                    let ReferenceProperElement = (new (globalThis.window.Document)()).createElement(String(ElementNodeType));
                     ReferenceProperElement.nodeValue ??= ((ElementNodeRootValue ?? new Node().nodeValue) ?? (null));
                     ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
                     const ContentVisualStyle: CSSStyleValue = CSSStyleValue.parse("display", "none") as typeof CSSStyleValue.prototype;
-                    const DockerContentElement: HTMLElement | null = globalThis.document.querySelector(`.${this.WindowDockShadowElement.className} .${ReferenceProperElement.className.trim()}`);
+                    const DockerContentElement: HTMLElement | null = globalThis.document.querySelector(`.${this.WindowDockCoreElement.className} .${ReferenceProperElement.className.trim()}`);
                     if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement)) return undefined;
                     DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
                 }
@@ -68,27 +77,49 @@ class HtWebzDockWindow implements WindowDockPrimative {
         }
     }
 
-    public async removeWindowDock(): Promise<void> {
+    public async RemoveWindowDock(): Promise<void> {
         return new Promise<(void)>((): void => {
-            if (this.WindowDockShadowElement !== undefined && Object.is(this.WindowDockShadowElement.nodeName, "htwebz-dock-window")) {
+            if (this.WindowDockCoreElement !== undefined && Object.is(this.WindowDockCoreElement.nodeName, "htwebz-dock-window")) {
 
             }
         }).catch((DockClosingError: Error) => {
             if (DockClosingError == null || !(DockClosingError instanceof Error).valueOf()) return void undefined;
-            console.error(String("Crticial ERROR in closing WindowDock:\n" + "WindowDockName:\t" + new String(this.WindowDockName ?? undefined).trim() + "\n" + "Error Message:\t" + (DockClosingError.message ?? null)).trim().toString());
+            console.error(String("Fatal ERROR in closing WindowDock:\n" + "WindowDockName:\t" + new String(this.WindowDockName ?? undefined).trim() + "\n" + "Error Message:\t" + (DockClosingError.message ?? null)).trim().toString());
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
 
-    private computeNewSizeConstraints(): undefined {
+    private computeNewSizeConstraints(TargetComputationData: WindowDockSizeConstraints.ComputationParameterObject): WindowDockSizeConstraints.WindowDockSizeConstraintAbstract | undefined {
+        /**
+         * Computed sizing constraint info data for finalized display managment statistics.
+         */
+        let InstanceComputedConstraintInfo: WindowDockSizeConstraints.WindowDockSizeConstraintAbstract = {};
+        const DockWindowBoundingBoxDimensions = (this?.WindowDockCoreElement?.getBoundingClientRect() ?? null);
 
+        if (TargetComputationData === undefined || typeof (TargetComputationData) !== "object" || this.WindowDockCoreElement === null) return undefined;
+        if ((DockWindowBoundingBoxDimensions === null || !(DockWindowBoundingBoxDimensions instanceof DOMRect)).valueOf() === true) return undefined;
+
+        const BoundingBoxPropertySymbols = Array.of(DockWindowBoundingBoxDimensions).values();
+
+        for (let BoundingBoxSymbolIndex: number = 0; BoundingBoxSymbolIndex < ) {
+
+        }
+
+        return InstanceComputedConstraintInfo ?? undefined;
     }
 
-    public updateDockWindowSizeConstraints(targetWidth: number, targetHeight: number, transformFromOrigin: WindowDockSizeConstraints.TransformConstraintOrigins = ["LEFT", "TOP"]): WindowDockSizeConstraints.WindowDockSizeConstraintsChange {
+    public RefactorDockWindowSizeConstraints(ConstraintData: WindowDockSizeConstraints.ComputationParameterObject): WindowDockSizeConstraints.WindowDockSizeConstraintsChange | null {
         let ConstraintsChangeInfo: WindowDockSizeConstraints.WindowDockSizeConstraintsChange = {
-            changeIncrements: {},
-            changes: {},
-        }; 
+            newIncrementValues: {},
+            changedProperties: {},
+        };
 
-        return ConstraintsChangeInfo;
+        const NewComputedConstraints = this.computeNewSizeConstraints({
+            TargetOriginReference: Array.from(ConstraintData["TargetOriginReference"]),
+            RequestedComputationWidth: (parseFloat(Number().toPrecision(2)) ?? 0),
+            RequestedComputationHeight: (parseFloat(Number().toPrecision(2)) ?? 0),
+        });
+
+        const isConstraintsChangeInfoDataValid: boolean = (ConstraintsChangeInfo !== null && typeof (ConstraintsChangeInfo) === "object").valueOf();
+        return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
