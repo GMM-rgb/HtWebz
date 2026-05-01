@@ -109,23 +109,38 @@ class HtWebzDockWindow implements WindowDockPrimative {
         const ParameterComputationRelation = Object.create(TargetComputationData ?? null) as WindowDockSizeConstraints.ComputationParameterObject;
         const AvailableComputationEntries = Object.entries(ParameterComputationRelation);
         const ComputationValueIterator = (AvailableComputationEntries?.values() ?? null);
-        let IteratedComputationValue = null;
+        let IteratedComputationValue: Iterator<[string, number | WindowDockSizeConstraints.TransformConstraintOrigins], undefined> | undefined;
         let ObjectParameterCount: number = 0;
 
-        Object.keys(ParameterComputationRelation).forEach(async (ParameterObjectKey): Promise<void> => {
-            if (ParameterObjectKey !== void undefined && typeof (ParameterObjectKey) === "string") {
+        Object.keys(ParameterComputationRelation).forEach((ParameterObjectKey, KeyIndex, _ObjectValueArray): void => {
+            if (ParameterObjectKey !== void undefined && typeof (ParameterObjectKey) === "string" && KeyIndex !== null && typeof (KeyIndex) === "number") {
                 ObjectParameterCount !== undefined && typeof (ObjectParameterCount) === "number" ? (ObjectParameterCount++) : null;
-            }/*else {
-                console.error();
-            }*/
+            }
         });
 
-        (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (() => {
+        function ScanParameterObjectValues(IteratorThread: Function, ScanningThread?: Function): void {
+            if (!IteratorThread || !(IteratorThread instanceof Function)) return void null;
+            
+            let ThreadingRoots = {
+                IteratorThreadRoot: null,
+                ScanningThreadRoot: null,
+            };
+
+            (async () => {
+                (() => IteratorThread.bind(ThreadingRoots["IteratorThreadRoot"]))();
+                if (ScanningThread && (ScanningThread instanceof Function)) { (() => ScanningThread.bind(ThreadingRoots["ScanningThreadRoot"], []))(); }
+            })();
+        }
+
+        (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (async (): Promise<void> => {
             for (let ComputationEntryIndex: number = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
-                IteratedComputationValue ??= ComputationValueIterator.next();
+                ScanParameterObjectValues(function() {
+                    IteratedComputationValue ??= ComputationValueIterator.next();
+                });
+
                 if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
                     if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
-                        let QeuriedComputationEntry: Readonly<string | null> = IteratedComputationValue.value?.[0] ?? null;
+                        const QeuriedComputationEntry: Readonly<number | WindowDockSizeComputationQueries | null> = IteratedComputationValue.value?.[1] ?? null;
                     }
                 }
             }
