@@ -26,13 +26,19 @@ declare namespace WindowDockSizeConstraints {
     };
 
     export type ComputationParameterObject = {
-        readonly RequestedComputationHeight: number;
-        readonly RequestedComputationWidth: number;
-        readonly TargetOriginReference: WindowDockSizeConstraints.TransformConstraintOrigins;
+        readonly "RequestedComputationHeight": number;
+        readonly "RequestedComputationWidth": number;
+        readonly "TargetOriginReference": WindowDockSizeConstraints.TransformConstraintOrigins;
     };
 
     export type TransformConstraintOrigins = Array<("LEFT" | "TOP" | "RIGHT" | "BOTTOM")>;
 }
+
+declare type WindowDockSizeComputationQueries = (
+    WindowDockSizeConstraints.ComputationParameterObject["TargetOriginReference"] | 
+    WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationHeight"] | 
+    WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationWidth"]
+);
 
 class HtWebzDockWindow implements WindowDockPrimative {
     public WindowMenuMinimized: boolean;
@@ -98,11 +104,32 @@ class HtWebzDockWindow implements WindowDockPrimative {
         if (TargetComputationData === undefined || typeof (TargetComputationData) !== "object" || this.WindowDockCoreElement === null) return undefined;
         if ((DockWindowBoundingBoxDimensions === null || !(DockWindowBoundingBoxDimensions instanceof DOMRect)).valueOf() === true) return undefined;
 
-        const BoundingBoxPropertySymbols = Array.of(DockWindowBoundingBoxDimensions).values();
+        const ActiveConstraintHeight = Math.floor(Math.abs(DockWindowBoundingBoxDimensions.height));
+        const ActiveConstraintWidth = Math.ceil(Math.abs(DockWindowBoundingBoxDimensions.width));
+        const ParameterComputationRelation = Object.create(TargetComputationData ?? null) as WindowDockSizeConstraints.ComputationParameterObject;
+        const AvailableComputationEntries = Object.entries(ParameterComputationRelation);
+        const ComputationValueIterator = (AvailableComputationEntries?.values() ?? null);
+        let IteratedComputationValue = null;
+        let ObjectParameterCount: number = 0;
 
-        for (let BoundingBoxSymbolIndex: number = 0; BoundingBoxSymbolIndex < ) {
+        Object.keys(ParameterComputationRelation).forEach(async (ParameterObjectKey): Promise<void> => {
+            if (ParameterObjectKey !== void undefined && typeof (ParameterObjectKey) === "string") {
+                ObjectParameterCount !== undefined && typeof (ObjectParameterCount) === "number" ? (ObjectParameterCount++) : null;
+            }/*else {
+                console.error();
+            }*/
+        });
 
-        }
+        (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (() => {
+            for (let ComputationEntryIndex: number = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
+                IteratedComputationValue ??= ComputationValueIterator.next();
+                if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
+                    if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
+                        let QeuriedComputationEntry: Readonly<string | null> = IteratedComputationValue.value?.[0] ?? null;
+                    }
+                }
+            }
+        })() : null);
 
         return InstanceComputedConstraintInfo ?? undefined;
     }

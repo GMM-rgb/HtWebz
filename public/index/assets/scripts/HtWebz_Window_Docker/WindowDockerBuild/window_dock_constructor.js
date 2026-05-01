@@ -45,10 +45,34 @@ class HtWebzDockWindow {
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
     computeNewSizeConstraints(TargetComputationData) {
+        let InstanceComputedConstraintInfo = {};
+        const DockWindowBoundingBoxDimensions = (this?.WindowDockCoreElement?.getBoundingClientRect() ?? null);
         if (TargetComputationData === undefined || typeof (TargetComputationData) !== "object" || this.WindowDockCoreElement === null)
             return undefined;
-        let InstanceComputedConstraintInfo = {};
-        const BoundingBoxDimensions = (this.WindowDockCoreElement.getBoundingClientRect() ?? new DOMRect(0, 0, 0, 0));
+        if ((DockWindowBoundingBoxDimensions === null || !(DockWindowBoundingBoxDimensions instanceof DOMRect)).valueOf() === true)
+            return undefined;
+        const ActiveConstraintHeight = Math.floor(Math.abs(DockWindowBoundingBoxDimensions.height));
+        const ActiveConstraintWidth = Math.ceil(Math.abs(DockWindowBoundingBoxDimensions.width));
+        const ParameterComputationRelation = Object.create(TargetComputationData ?? null);
+        const AvailableComputationEntries = Object.entries(ParameterComputationRelation);
+        const ComputationValueIterator = (AvailableComputationEntries?.values() ?? null);
+        let IteratedComputationValue = null;
+        let ObjectParameterCount = 0;
+        Object.keys(ParameterComputationRelation).forEach(async (ParameterObjectKey) => {
+            if (ParameterObjectKey !== void undefined && typeof (ParameterObjectKey) === "string") {
+                ObjectParameterCount !== undefined && typeof (ObjectParameterCount) === "number" ? (ObjectParameterCount++) : null;
+            }
+        });
+        (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (() => {
+            for (let ComputationEntryIndex = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
+                IteratedComputationValue ??= ComputationValueIterator.next();
+                if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
+                    if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
+                        let QeuriedComputationEntry = IteratedComputationValue.value?.[0] ?? null;
+                    }
+                }
+            }
+        })() : null);
         return InstanceComputedConstraintInfo ?? undefined;
     }
     RefactorDockWindowSizeConstraints(ConstraintData) {
