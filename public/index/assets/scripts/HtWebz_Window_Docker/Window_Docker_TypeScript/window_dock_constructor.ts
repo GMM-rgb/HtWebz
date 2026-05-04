@@ -53,20 +53,26 @@ class HtWebzDockWindow implements WindowDockPrimative {
     private async ConstructWindowContents(): Promise<void> {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
 
-        HtWebzDockWindow.WindowContentsConstructionDataTemplate.forEach((TemplateValue: string) => {
+        HtWebzDockWindow.WindowContentsConstructionDataTemplate?.forEach((TemplateValue: string) => {
             (TemplateValue !== null ? this.WindowConstructionData.push(TemplateValue.trim().toString()) : null);
-        });
+        }) ?? null;
 
         const ImplementedConstructionData = this.WindowConstructionData.filter((RawTemplateValue: string | undefined = undefined) => {
             try {
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
-
-                } else {
-                    throw new Error(``);
+                    const ReplacementExpression: RegExp = new globalThis.RegExp(/(^\b{name}\b$)\1?\r/, "gy");
+                    const IncludesReplacmentValues: boolean = new Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
+                    (typeof (IncludesReplacmentValues) === "boolean" && IncludesReplacmentValues === true ? (async (): Promise<void> => {
+                        ReplacementExpression.exec(RawTemplateValue);
+                    })() : void null);
                 }
             } catch (DataImplementationError) {
                 if (DataImplementationError === null || !(DataImplementationError instanceof Error)) return;
                 console.error(new String(DataImplementationError.message).trim());
+            } finally {
+                console.groupCollapsed("Constructing Window Content Debug");
+                console.debug(String(``).normalize("NFKC").valueOf());
+                console.groupEnd();
             }
         });
     }
@@ -135,7 +141,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                                         const AnimationMatchesRequest: boolean = new Boolean((FinishedAnimation.animationName === RemovingKeyframesAnimationName.trim())).valueOf();
                                         (typeof (AnimationMatchesRequest) === "boolean" && AnimationMatchesRequest === true ? (this.WindowDockCoreElement?.remove() ?? undefined) : void null);
                                     }
-                                }, { once: true }));
+                                }, { once: true, passive: true }));
                             }
                         });
                     } else throw new globalThis.Error(`Required property key located within "WindowDockCoreElement" function method 'remove()' has no value!\nProperty Absolute Value:\t${(globalThis.String(RemovingPropteryKey).trim().toString())}`).message.valueOf();

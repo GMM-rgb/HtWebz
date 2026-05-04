@@ -6,7 +6,25 @@ var HtWebzDockWindowStatistics;
 })(HtWebzDockWindowStatistics || (HtWebzDockWindowStatistics = {}));
 class HtWebzDockWindow {
     async ConstructWindowContents() {
-        this.WindowConstructionData.push();
+        if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData)))
+            return undefined;
+        HtWebzDockWindow.WindowContentsConstructionDataTemplate?.forEach((TemplateValue) => {
+            (TemplateValue !== null ? this.WindowConstructionData.push(TemplateValue.trim().toString()) : null);
+        }) ?? null;
+        const ImplementedConstructionData = this.WindowConstructionData.filter((RawTemplateValue = undefined) => {
+            try {
+                if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
+                    const ReplacementExpression = new globalThis.RegExp(/(^\b{name}\b$)\1?/);
+                }
+            }
+            catch (DataImplementationError) {
+                if (DataImplementationError === null || !(DataImplementationError instanceof Error))
+                    return;
+                console.error(new String(DataImplementationError.message).trim());
+            }
+            finally {
+            }
+        });
     }
     constructor(WindowDockName, StartMinimized = false) {
         this.WindowDockName = WindowDockName;
@@ -58,7 +76,7 @@ class HtWebzDockWindow {
                                         const AnimationMatchesRequest = new Boolean((FinishedAnimation.animationName === RemovingKeyframesAnimationName.trim())).valueOf();
                                         (typeof (AnimationMatchesRequest) === "boolean" && AnimationMatchesRequest === true ? (this.WindowDockCoreElement?.remove() ?? undefined) : void null);
                                     }
-                                }, { once: true }));
+                                }, { once: true, passive: true }));
                             }
                         });
                     }
@@ -147,5 +165,7 @@ class HtWebzDockWindow {
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
-HtWebzDockWindow.WindowContentsConstructionDataTemplate = [];
+HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
+    "{name}-toolbar",
+];
 //# sourceMappingURL=../Window_Docker_TypeScript/Window_Docker_TypeScript/window_dock_constructor.js.map
