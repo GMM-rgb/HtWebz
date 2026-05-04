@@ -42,15 +42,51 @@ declare type WindowDockSizeComputationQueries = ((
 
 class HtWebzDockWindow implements WindowDockPrimative {
     public WindowMenuMinimized: boolean;
+    ///
     private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
+    private WindowConstructionData: Array<string> = [];
+    ///
+    static WindowContentsConstructionDataTemplate: Array<string> = [
+        "{name}-toolbar",
+    ] as const;
 
-    protected constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
+    private async ConstructWindowContents(): Promise<void> {
+        if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
+
+        HtWebzDockWindow.WindowContentsConstructionDataTemplate.forEach((TemplateValue: string) => {
+            (TemplateValue !== null ? this.WindowConstructionData.push(TemplateValue.trim().toString()) : null);
+        });
+
+        const ImplementedConstructionData = this.WindowConstructionData.filter((RawTemplateValue: string | undefined = undefined) => {
+            try {
+                if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
+
+                } else {
+                    throw new Error(``);
+                }
+            } catch (DataImplementationError) {
+                if (DataImplementationError === null || !(DataImplementationError instanceof Error)) return;
+                console.error(new String(DataImplementationError.message).trim());
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param WindowDockName 
+     * @param StartMinimized 
+     */
+    public constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
+        let DockWindowContentConstructionThread = null;
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
         this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
             is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
         });
-
+        ///
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
+        this.WindowDockCoreElement !== null ? (async () => {
+            await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
+        }) : (void null);
     }
 
     public SetMinimized(NewMinimizedStatus: boolean): void {
@@ -86,7 +122,24 @@ class HtWebzDockWindow implements WindowDockPrimative {
     public async RemoveWindowDock(): Promise<void> {
         return new Promise<(void)>((): void => {
             if (this.WindowDockCoreElement !== undefined && Object.is(this.WindowDockCoreElement.nodeName, "htwebz-dock-window")) {
-
+                const RemovingKeyframesAnimationName = "RemovingDockWindowKeyframes";
+                const RemovingPropteryKey = (Object.getOwnPropertyDescriptor(this.WindowDockCoreElement, "remove")?.value) ?? (undefined);
+                const PropertyKeyValid: boolean = Boolean((RemovingPropteryKey ?? undefined) !== undefined ? true : false);
+                (PropertyKeyValid === true ? ((() => {
+                    if (this.WindowDockCoreElement.hasOwnProperty(RemovingPropteryKey)) {
+                        this.WindowDockCoreElement.classList.add("modifying", "removing-status");
+                        this.WindowDockCoreElement.getAnimations({ subtree: true }).flat(Infinity).forEach((ActiveCoreAnimation: Animation | undefined = undefined) => {
+                            if (ActiveCoreAnimation !== undefined && ActiveCoreAnimation instanceof Animation) {
+                                (ActiveCoreAnimation.addEventListener("finish", (FinishedAnimation) => {
+                                    if (FinishedAnimation !== null && FinishedAnimation instanceof AnimationEvent) {
+                                        const AnimationMatchesRequest: boolean = new Boolean((FinishedAnimation.animationName === RemovingKeyframesAnimationName.trim())).valueOf();
+                                        (typeof (AnimationMatchesRequest) === "boolean" && AnimationMatchesRequest === true ? (this.WindowDockCoreElement?.remove() ?? undefined) : void null);
+                                    }
+                                }, { once: true }));
+                            }
+                        });
+                    } else throw new globalThis.Error(`Required property key located within "WindowDockCoreElement" function method 'remove()' has no value!\nProperty Absolute Value:\t${(globalThis.String(RemovingPropteryKey).trim().toString())}`).message.valueOf();
+                })()) : globalThis?.Promise.reject(new globalThis.Error("").stack ?? undefined));
             }
         }).catch((DockClosingError: Error) => {
             if (DockClosingError == null || !(DockClosingError instanceof Error).valueOf()) return void undefined;
@@ -94,7 +147,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
 
-    private computeNewSizeConstraints(TargetComputationData: WindowDockSizeConstraints.ComputationParameterObject): WindowDockSizeConstraints.WindowDockSizeConstraintAbstract | undefined {
+    protected computeNewSizeConstraints(TargetComputationData: WindowDockSizeConstraints.ComputationParameterObject | undefined = undefined): WindowDockSizeConstraints.WindowDockSizeConstraintAbstract | undefined {
         /**
          * Computed sizing constraint info data for finalized display managment statistics.
          */
@@ -109,6 +162,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
         const ParameterComputationRelation = Object.seal(TargetComputationData ?? null) as WindowDockSizeConstraints.ComputationParameterObject;
         const AvailableComputationEntries = Object.entries(ParameterComputationRelation);
         const ComputationValueIterator = (AvailableComputationEntries.reverse().values() ?? null);
+
         let IteratedComputationValue = ComputationValueIterator.next();
         let ObjectParameterCount: number = 0;
 
@@ -145,13 +199,11 @@ class HtWebzDockWindow implements WindowDockPrimative {
                             const SelectedValueComputation = ParameterComputationRelation[
                                 Object.getOwnPropertyNames(ParameterComputationRelation)
                                 [((QeuriedComputationEntry ?? "TargetOriginReference") as any)]
-                                .valueOf() as keyof WindowDockSizeConstraints.ComputationParameterObject
+                                    .valueOf() as keyof WindowDockSizeConstraints.ComputationParameterObject
                             ].valueOf();
-                            ///
-                            const PackagedComputationSelection = Object.isSealed(SelectedValueComputation).valueOf() !== true ? Object.seal(SelectedValueComputation).valueOf() : SelectedValueComputation as object;
-                            ///
+
                             if (SelectedValueComputation !== null && typeof (SelectedValueComputation) === "object" && !(Object.isExtensible(SelectedValueComputation).valueOf() === true)) {
-                                SelectedValueComputation;
+                                const PackagedComputationSelection = Object.isSealed(SelectedValueComputation).valueOf() !== true ? Object.seal(SelectedValueComputation).valueOf() : SelectedValueComputation as object;
                             } else {
                                 (() => {
                                     console.error(String((new Error().message?.trim)?.() ?? null).toString());
@@ -161,7 +213,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                     }
                 });
             }
-        })() : null);
+        })() : (null));
 
         return InstanceComputedConstraintInfo ?? undefined;
     }

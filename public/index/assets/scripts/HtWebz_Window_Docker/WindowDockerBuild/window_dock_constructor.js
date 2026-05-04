@@ -5,14 +5,22 @@ var HtWebzDockWindowStatistics;
     HtWebzDockWindowStatistics.MinimizedDockWindows = [];
 })(HtWebzDockWindowStatistics || (HtWebzDockWindowStatistics = {}));
 class HtWebzDockWindow {
+    async ConstructWindowContents() {
+        this.WindowConstructionData.push();
+    }
     constructor(WindowDockName, StartMinimized = false) {
         this.WindowDockName = WindowDockName;
         this.StartMinimized = StartMinimized;
+        this.WindowConstructionData = [];
+        let DockWindowContentConstructionThread = null;
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
         this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
             is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
         });
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
+        this.WindowDockCoreElement !== null ? (async () => {
+            await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
+        }) : (void null);
     }
     SetMinimized(NewMinimizedStatus) {
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean"))
@@ -37,6 +45,26 @@ class HtWebzDockWindow {
     async RemoveWindowDock() {
         return new Promise(() => {
             if (this.WindowDockCoreElement !== undefined && Object.is(this.WindowDockCoreElement.nodeName, "htwebz-dock-window")) {
+                const RemovingKeyframesAnimationName = "RemovingDockWindowKeyframes";
+                const RemovingPropteryKey = (Object.getOwnPropertyDescriptor(this.WindowDockCoreElement, "remove")?.value) ?? (undefined);
+                const PropertyKeyValid = Boolean((RemovingPropteryKey ?? undefined) !== undefined ? true : false);
+                (PropertyKeyValid === true ? ((() => {
+                    if (this.WindowDockCoreElement.hasOwnProperty(RemovingPropteryKey)) {
+                        this.WindowDockCoreElement.classList.add("modifying", "removing-status");
+                        this.WindowDockCoreElement.getAnimations({ subtree: true }).flat(Infinity).forEach((ActiveCoreAnimation = undefined) => {
+                            if (ActiveCoreAnimation !== undefined && ActiveCoreAnimation instanceof Animation) {
+                                (ActiveCoreAnimation.addEventListener("finish", (FinishedAnimation) => {
+                                    if (FinishedAnimation !== null && FinishedAnimation instanceof AnimationEvent) {
+                                        const AnimationMatchesRequest = new Boolean((FinishedAnimation.animationName === RemovingKeyframesAnimationName.trim())).valueOf();
+                                        (typeof (AnimationMatchesRequest) === "boolean" && AnimationMatchesRequest === true ? (this.WindowDockCoreElement?.remove() ?? undefined) : void null);
+                                    }
+                                }, { once: true }));
+                            }
+                        });
+                    }
+                    else
+                        throw new globalThis.Error(`Required property key located within "WindowDockCoreElement" function method 'remove()' has no value!\nProperty Absolute Value:\t${(globalThis.String(RemovingPropteryKey).trim().toString())}`).message.valueOf();
+                })()) : globalThis?.Promise.reject(new globalThis.Error("").stack ?? undefined));
             }
         }).catch((DockClosingError) => {
             if (DockClosingError == null || !(DockClosingError instanceof Error).valueOf())
@@ -44,7 +72,7 @@ class HtWebzDockWindow {
             console.error(String("Fatal ERROR in closing WindowDock:\n" + "WindowDockName:\t" + new String(this.WindowDockName ?? undefined).trim() + "\n" + "Error Message:\t" + (DockClosingError.message ?? null)).trim().toString());
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
-    computeNewSizeConstraints(TargetComputationData) {
+    computeNewSizeConstraints(TargetComputationData = undefined) {
         let InstanceComputedConstraintInfo = {};
         const DockWindowBoundingBoxDimensions = (this?.WindowDockCoreElement?.getBoundingClientRect() ?? null);
         if (TargetComputationData === undefined || typeof (TargetComputationData) !== "object" || this.WindowDockCoreElement === null)
@@ -86,9 +114,10 @@ class HtWebzDockWindow {
                     if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
                         if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
                             const QeuriedComputationEntry = IteratedComputationValue?.value?.[0].valueOf() ?? null;
-                            const SelectedValueComputation = ParameterComputationRelation[Object.getOwnPropertyNames(ParameterComputationRelation)[(QeuriedComputationEntry ?? "TargetOriginReference")].valueOf()].valueOf();
-                            const SealedComputationSelection = Object.isSealed(SelectedValueComputation).valueOf() !== true ? Object.seal(SelectedValueComputation).valueOf() : SelectedValueComputation;
-                            if (SelectedValueComputation !== null && typeof (SelectedValueComputation) === "object" && !Object.isExtensible(SelectedValueComputation)) {
+                            const SelectedValueComputation = ParameterComputationRelation[Object.getOwnPropertyNames(ParameterComputationRelation)[(QeuriedComputationEntry ?? "TargetOriginReference")]
+                                .valueOf()].valueOf();
+                            if (SelectedValueComputation !== null && typeof (SelectedValueComputation) === "object" && !(Object.isExtensible(SelectedValueComputation).valueOf() === true)) {
+                                const PackagedComputationSelection = Object.isSealed(SelectedValueComputation).valueOf() !== true ? Object.seal(SelectedValueComputation).valueOf() : SelectedValueComputation;
                             }
                             else {
                                 (() => {
@@ -99,7 +128,7 @@ class HtWebzDockWindow {
                     }
                 });
             }
-        })() : null);
+        })() : (null));
         return InstanceComputedConstraintInfo ?? undefined;
     }
     RefactorDockWindowSizeConstraints(ConstraintData) {
@@ -107,13 +136,16 @@ class HtWebzDockWindow {
             newIncrementValues: {},
             changedProperties: {},
         };
-        const NewComputedConstraints = this.computeNewSizeConstraints({
-            TargetOriginReference: Array.from(ConstraintData["TargetOriginReference"]),
-            RequestedComputationWidth: (parseFloat(Number().toPrecision(2)) ?? 0),
-            RequestedComputationHeight: (parseFloat(Number().toPrecision(2)) ?? 0),
-        });
+        const NewComputedConstraints = (async () => {
+            return await new Promise(async () => await this.computeNewSizeConstraints({
+                TargetOriginReference: Array.from(ConstraintData["TargetOriginReference"]),
+                RequestedComputationWidth: (parseFloat(Number().toPrecision(2)) ?? 0),
+                RequestedComputationHeight: (parseFloat(Number().toPrecision(2)) ?? 0),
+            }));
+        })();
         const isConstraintsChangeInfoDataValid = (ConstraintsChangeInfo !== null && typeof (ConstraintsChangeInfo) === "object").valueOf();
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
+HtWebzDockWindow.WindowContentsConstructionDataTemplate = [];
 //# sourceMappingURL=../Window_Docker_TypeScript/Window_Docker_TypeScript/window_dock_constructor.js.map
