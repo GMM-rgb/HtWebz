@@ -1,5 +1,5 @@
 /// <reference path="window_docker_system_types/window_dock_objects.d.ts" />
-///
+
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
@@ -26,25 +26,25 @@ declare namespace WindowDockSizeConstraints {
     };
 
     export type ComputationParameterObject = {
-        readonly "RequestedComputationHeight": number;
-        readonly "RequestedComputationWidth": number;
-        readonly "TargetOriginReference": WindowDockSizeConstraints.TransformConstraintOrigins;
+        readonly ["RequestedComputationHeight"]: number;
+        readonly ["RequestedComputationWidth"]: number;
+        readonly ["TargetOriginReference"]: WindowDockSizeConstraints.TransformConstraintOrigins;
     };
 
     export type TransformConstraintOrigins = Array<("LEFT" | "TOP" | "RIGHT" | "BOTTOM")>;
 }
 
-declare type WindowDockSizeComputationQueries = (
-    WindowDockSizeConstraints.ComputationParameterObject["TargetOriginReference"] | 
-    WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationHeight"] | 
+declare type WindowDockSizeComputationQueries = ((
+    WindowDockSizeConstraints.ComputationParameterObject["TargetOriginReference"] |
+    WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationHeight"] |
     WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationWidth"]
-);
+));
 
 class HtWebzDockWindow implements WindowDockPrimative {
     public WindowMenuMinimized: boolean;
     private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
 
-    constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
+    protected constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
         this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
             is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
@@ -106,10 +106,10 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
         const ActiveConstraintHeight = Math.floor(Math.abs(DockWindowBoundingBoxDimensions.height));
         const ActiveConstraintWidth = Math.ceil(Math.abs(DockWindowBoundingBoxDimensions.width));
-        const ParameterComputationRelation = Object.create(TargetComputationData ?? null) as WindowDockSizeConstraints.ComputationParameterObject;
+        const ParameterComputationRelation = Object.seal(TargetComputationData ?? null) as WindowDockSizeConstraints.ComputationParameterObject;
         const AvailableComputationEntries = Object.entries(ParameterComputationRelation);
-        const ComputationValueIterator = (AvailableComputationEntries?.values() ?? null);
-        let IteratedComputationValue: Iterator<[string, number | WindowDockSizeConstraints.TransformConstraintOrigins], undefined> | undefined;
+        const ComputationValueIterator = (AvailableComputationEntries.reverse().values() ?? null);
+        let IteratedComputationValue = ComputationValueIterator.next();
         let ObjectParameterCount: number = 0;
 
         Object.keys(ParameterComputationRelation).forEach((ParameterObjectKey, KeyIndex, _ObjectValueArray): void => {
@@ -120,29 +120,46 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
         function ScanParameterObjectValues(IteratorThread: Function, ScanningThread?: Function): void {
             if (!IteratorThread || !(IteratorThread instanceof Function)) return void null;
-            
+
             let ThreadingRoots = {
-                IteratorThreadRoot: null,
-                ScanningThreadRoot: null,
+                IteratorThreadRoot: null as ((typeof Function.prototype) | null),
+                ScanningThreadRoot: null as ((typeof Function.prototype) | null),
             };
 
             (async () => {
-                (() => IteratorThread.bind(ThreadingRoots["IteratorThreadRoot"]))();
-                if (ScanningThread && (ScanningThread instanceof Function)) { (() => ScanningThread.bind(ThreadingRoots["ScanningThreadRoot"], []))(); }
+                (async () => await (IteratorThread.bind(ThreadingRoots["IteratorThreadRoot"])).caller())();
+                if (ScanningThread && (ScanningThread instanceof Function)) { (() => ScanningThread.call(ThreadingRoots["ScanningThreadRoot"], []))(); }
             })();
         }
 
         (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (async (): Promise<void> => {
-            for (let ComputationEntryIndex: number = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
-                ScanParameterObjectValues(function() {
-                    IteratedComputationValue ??= ComputationValueIterator.next();
-                });
+            async function NextIterate(): Promise<void> {
+                IteratedComputationValue ??= ComputationValueIterator.next();
+            }
 
-                if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
-                    if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
-                        const QeuriedComputationEntry: Readonly<number | WindowDockSizeComputationQueries | null> = IteratedComputationValue.value?.[1] ?? null;
+            for (let ComputationEntryIndex: number = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
+                ScanParameterObjectValues((NextIterate as typeof Function.prototype), () => {
+                    if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
+                        if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
+                            const QeuriedComputationEntry: WindowDockSizeComputationQueries | null = IteratedComputationValue?.value?.[0].valueOf() as WindowDockSizeComputationQueries | undefined ?? null;
+                            const SelectedValueComputation = ParameterComputationRelation[
+                                Object.getOwnPropertyNames(ParameterComputationRelation)
+                                [((QeuriedComputationEntry ?? "TargetOriginReference") as any)]
+                                .valueOf() as keyof WindowDockSizeConstraints.ComputationParameterObject
+                            ].valueOf();
+                            ///
+                            const PackagedComputationSelection = Object.isSealed(SelectedValueComputation).valueOf() !== true ? Object.seal(SelectedValueComputation).valueOf() : SelectedValueComputation as object;
+                            ///
+                            if (SelectedValueComputation !== null && typeof (SelectedValueComputation) === "object" && !(Object.isExtensible(SelectedValueComputation).valueOf() === true)) {
+                                SelectedValueComputation;
+                            } else {
+                                (() => {
+                                    console.error(String((new Error().message?.trim)?.() ?? null).toString());
+                                })();
+                            }
+                        }
                     }
-                }
+                });
             }
         })() : null);
 
@@ -155,11 +172,13 @@ class HtWebzDockWindow implements WindowDockPrimative {
             changedProperties: {},
         };
 
-        const NewComputedConstraints = this.computeNewSizeConstraints({
-            TargetOriginReference: Array.from(ConstraintData["TargetOriginReference"]),
-            RequestedComputationWidth: (parseFloat(Number().toPrecision(2)) ?? 0),
-            RequestedComputationHeight: (parseFloat(Number().toPrecision(2)) ?? 0),
-        });
+        const NewComputedConstraints = (async (): Promise<WindowDockSizeConstraints.WindowDockSizeConstraintAbstract> => {
+            return await new Promise(async () => await this.computeNewSizeConstraints({
+                TargetOriginReference: Array.from(ConstraintData["TargetOriginReference"]),
+                RequestedComputationWidth: (parseFloat(Number().toPrecision(2)) ?? 0),
+                RequestedComputationHeight: (parseFloat(Number().toPrecision(2)) ?? 0),
+            }));
+        })();
 
         const isConstraintsChangeInfoDataValid: boolean = (ConstraintsChangeInfo !== null && typeof (ConstraintsChangeInfo) === "object").valueOf();
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;

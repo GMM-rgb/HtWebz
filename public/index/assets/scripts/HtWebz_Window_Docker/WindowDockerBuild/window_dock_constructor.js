@@ -53,24 +53,51 @@ class HtWebzDockWindow {
             return undefined;
         const ActiveConstraintHeight = Math.floor(Math.abs(DockWindowBoundingBoxDimensions.height));
         const ActiveConstraintWidth = Math.ceil(Math.abs(DockWindowBoundingBoxDimensions.width));
-        const ParameterComputationRelation = Object.create(TargetComputationData ?? null);
+        const ParameterComputationRelation = Object.seal(TargetComputationData ?? null);
         const AvailableComputationEntries = Object.entries(ParameterComputationRelation);
-        const ComputationValueIterator = (AvailableComputationEntries?.values() ?? null);
-        let IteratedComputationValue = null;
+        const ComputationValueIterator = (AvailableComputationEntries.reverse().values() ?? null);
+        let IteratedComputationValue = ComputationValueIterator.next();
         let ObjectParameterCount = 0;
-        Object.keys(ParameterComputationRelation).forEach(async (ParameterObjectKey) => {
-            if (ParameterObjectKey !== void undefined && typeof (ParameterObjectKey) === "string") {
+        Object.keys(ParameterComputationRelation).forEach((ParameterObjectKey, KeyIndex, _ObjectValueArray) => {
+            if (ParameterObjectKey !== void undefined && typeof (ParameterObjectKey) === "string" && KeyIndex !== null && typeof (KeyIndex) === "number") {
                 ObjectParameterCount !== undefined && typeof (ObjectParameterCount) === "number" ? (ObjectParameterCount++) : null;
             }
         });
-        (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (() => {
-            for (let ComputationEntryIndex = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
-                IteratedComputationValue ??= ComputationValueIterator.next();
-                if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
-                    if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
-                        let QeuriedComputationEntry = IteratedComputationValue.value?.[0] ?? null;
-                    }
+        function ScanParameterObjectValues(IteratorThread, ScanningThread) {
+            if (!IteratorThread || !(IteratorThread instanceof Function))
+                return void null;
+            let ThreadingRoots = {
+                IteratorThreadRoot: null,
+                ScanningThreadRoot: null,
+            };
+            (async () => {
+                (async () => await (IteratorThread.bind(ThreadingRoots["IteratorThreadRoot"])).caller())();
+                if (ScanningThread && (ScanningThread instanceof Function)) {
+                    (() => ScanningThread.call(ThreadingRoots["ScanningThreadRoot"], []))();
                 }
+            })();
+        }
+        (ObjectParameterCount !== undefined && (typeof (ObjectParameterCount) === "number") ? (async () => {
+            async function NextIterate() {
+                IteratedComputationValue ??= ComputationValueIterator.next();
+            }
+            for (let ComputationEntryIndex = 0; Boolean(ComputationEntryIndex < parseFloat(Number(ObjectParameterCount).toPrecision(2))).valueOf() === true; ComputationEntryIndex++) {
+                ScanParameterObjectValues(NextIterate, () => {
+                    if (IteratedComputationValue !== undefined && IteratedComputationValue.done !== undefined && IteratedComputationValue.done.valueOf() === true) {
+                        if ((IteratedComputationValue.value !== undefined && Array.isArray(IteratedComputationValue.value).valueOf()) === true) {
+                            const QeuriedComputationEntry = IteratedComputationValue?.value?.[0].valueOf() ?? null;
+                            const SelectedValueComputation = ParameterComputationRelation[Object.getOwnPropertyNames(ParameterComputationRelation)[(QeuriedComputationEntry ?? "TargetOriginReference")].valueOf()].valueOf();
+                            const SealedComputationSelection = Object.isSealed(SelectedValueComputation).valueOf() !== true ? Object.seal(SelectedValueComputation).valueOf() : SelectedValueComputation;
+                            if (SelectedValueComputation !== null && typeof (SelectedValueComputation) === "object" && !Object.isExtensible(SelectedValueComputation)) {
+                            }
+                            else {
+                                (() => {
+                                    console.error(String((new Error().message?.trim)?.() ?? null).toString());
+                                })();
+                            }
+                        }
+                    }
+                });
             }
         })() : null);
         return InstanceComputedConstraintInfo ?? undefined;
