@@ -16,12 +16,7 @@
         
         /* FIX 2: Explicitly define where the build goes */
         "outDir": "WindowDockerBuild",
-        
-        // /* FIX 3: Use paths instead of rootDirs for file mapping */
-        // "paths": {
-        //     "*": ["*", "node_modules/*"]
-        // },
-        
+                
         "typeRoots": [
             "./window_docker_system_types/"
         ]

@@ -18,9 +18,24 @@ class HtWebzDockWindow {
             try {
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
                     const ReplacementExpression = new globalThis.RegExp(/(^\b{name}\b$)\1?\r/, "gy");
-                    const IncludesReplacmentValues = new Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
+                    const IncludesReplacmentValues = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     (typeof (IncludesReplacmentValues) === "boolean" && IncludesReplacmentValues === true ? (async () => {
-                        ReplacementExpression.exec(RawTemplateValue);
+                        (ReplacementExpression instanceof RegExp ? ReplacementExpression.exec(RawTemplateValue)?.every((TrackedReplacmentValue) => {
+                            const isTrackingValueValid = (TrackedReplacmentValue !== null && typeof (TrackedReplacmentValue) === "string").valueOf();
+                            ///
+                            if (!isTrackingValueValid)
+                                return void null;
+                            else {
+                                const SplicedReplacmentValues = RawTemplateValue.matchAll(new RegExp(String(TrackedReplacmentValue.trim().toString()), 'g'));
+                                ///
+                                for (let DetectedReplacmentValueIndex = 0; (!(isNaN(DetectedReplacmentValueIndex)) && DetectedReplacmentValueIndex < parseFloat((SplicedReplacmentValues.return?.length ?? 0).toPrecision(2))); DetectedReplacmentValueIndex++) {
+                                    const IteratedReplacmentValue = SplicedReplacmentValues !== undefined ? SplicedReplacmentValues.next() : null;
+                                    const ExplicitReplacmentValue = IteratedReplacmentValue?.done === true ? IteratedReplacmentValue.value : undefined;
+                                    if (ExplicitReplacmentValue === undefined || typeof (ExplicitReplacmentValue) !== "string")
+                                        return void null;
+                                }
+                            }
+                        }) : undefined);
                     })() : void null);
                 }
             }
@@ -198,4 +213,7 @@ class HtWebzDockWindow {
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     "{name}-toolbar",
 ];
+self.window.document.addEventListener("DOMContentLoaded", () => {
+    Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
+}, { once: true, passive: false });
 //# sourceMappingURL=window_dock_constructor.js.map

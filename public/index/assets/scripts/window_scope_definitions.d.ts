@@ -66,6 +66,10 @@ declare global {
              * @returns 
              */
             debug: (RequestedDebugMessage?: string[]) => {};
+            /**
+             * 
+             */
+            HtWebzDockWindow: typeof HtWebzDockWindow;
         }
 
         /**

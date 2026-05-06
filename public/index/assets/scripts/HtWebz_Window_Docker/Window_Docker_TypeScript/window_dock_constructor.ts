@@ -1,6 +1,7 @@
 // ././HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
 /// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
 /// <reference path="./../../window_scope_definitions.d.ts" />
+
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
@@ -62,9 +63,22 @@ class HtWebzDockWindow implements WindowDockPrimative {
             try {
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
                     const ReplacementExpression: RegExp = new globalThis.RegExp(/(^\b{name}\b$)\1?\r/, "gy");
-                    const IncludesReplacmentValues: boolean = new Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
+                    const IncludesReplacmentValues: boolean = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     (typeof (IncludesReplacmentValues) === "boolean" && IncludesReplacmentValues === true ? (async (): Promise<void> => {
-                        ReplacementExpression.exec(RawTemplateValue);
+                        (ReplacementExpression instanceof RegExp ? ReplacementExpression.exec(RawTemplateValue)?.every((TrackedReplacmentValue: string) => {
+                            const isTrackingValueValid: boolean = (TrackedReplacmentValue !== null && typeof (TrackedReplacmentValue) === "string").valueOf();
+                            ///
+                            if (!isTrackingValueValid!!) return void null; else {
+                                const SplicedReplacmentValues = RawTemplateValue.matchAll(new RegExp(String(TrackedReplacmentValue.trim().toString()), 'g'));
+                                ///
+                                for (let DetectedReplacmentValueIndex: number = 0; (!(isNaN(DetectedReplacmentValueIndex)) && DetectedReplacmentValueIndex < parseFloat((SplicedReplacmentValues.return?.length ?? 0).toPrecision(2))); DetectedReplacmentValueIndex++) {
+                                    const IteratedReplacmentValue: IteratorResult<RegExpExecArray, undefined> | null = SplicedReplacmentValues !== undefined ? SplicedReplacmentValues.next() : null;
+                                    const ExplicitReplacmentValue: string | undefined = IteratedReplacmentValue?.done === true ? IteratedReplacmentValue.value : undefined;
+                                    if (ExplicitReplacmentValue === undefined || typeof (ExplicitReplacmentValue) !== "string") return void null;
+
+                                }
+                            }
+                        }) : undefined);
                     })() : void null);
                 }
             } catch (DataImplementationError) {
@@ -243,3 +257,9 @@ class HtWebzDockWindow implements WindowDockPrimative {
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
+
+((self !== undefined && self instanceof Window).valueOf() === true ? self.window.document.addEventListener("DOMContentLoaded", () => {
+    if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
+        Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
+    }
+}, { once: true, passive: false }) : (void null));
