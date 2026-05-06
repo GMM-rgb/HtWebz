@@ -213,7 +213,9 @@ class HtWebzDockWindow {
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     "{name}-toolbar",
 ];
-self.window.document.addEventListener("DOMContentLoaded", () => {
-    Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
-}, { once: true, passive: false });
+((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
+    if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
+        Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
+    }
+}, { once: true, passive: false }) ?? undefined : (void null));
 //# sourceMappingURL=window_dock_constructor.js.map
