@@ -3,7 +3,7 @@
 // scope_definitions.d.ts
 //
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
-import * as NotifyUtility from "notification_system/notification_utility_modules/notification_main_interface";
+import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
 import { Socket } from "socket.io";
 // ...
 declare type VariableReactionEventResult = [...any];
@@ -32,10 +32,11 @@ declare global {
 }
 
 declare global {
-    var socket = Socket.prototype as const;
-}
-
-declare global {
+    var HtWebzAPIs: HtWebzAPIs.HtWebzCore & { HtWebzEngine: HtWebzAPIs.HtWebzEngine };
+    var HtWebzUtility: HtWebzAPIs.HtWebzUtility;
+    var HtWebzAccountManager: HtWebzAccountManager.AccountServerCommunication;
+    var HtWebzEfficencyEngine: HtWebzEfficencyEngine.EasyLoader;
+    
     namespace HtWebzAPIs {
         /**
          * ---
@@ -113,7 +114,7 @@ declare global {
     namespace HtWebzEfficencyEngine {
         interface EasyLoader {
             JavaScriptLoader: {
-                InjectJavaScriptObject: (TargetFileName?: string, ExecuteOnLoad: boolean) => void;
+                InjectJavaScriptObject: (TargetFileName?: string, ExecuteOnLoad?: boolean) => void;
             };
         }
     }

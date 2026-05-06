@@ -1,5 +1,6 @@
-/// <reference path="window_docker_system_types/window_dock_objects.d.ts" />
-
+// ././HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
+/// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
+/// <reference path="./../../window_scope_definitions.d.ts" />
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];

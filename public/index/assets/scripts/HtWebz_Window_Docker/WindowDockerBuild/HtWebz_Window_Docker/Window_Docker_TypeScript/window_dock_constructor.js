@@ -1,4 +1,7 @@
 "use strict";
+// ././HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
+/// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
+/// <reference path="./../../window_scope_definitions.d.ts" />
 var HtWebzDockWindowStatistics;
 (function (HtWebzDockWindowStatistics) {
     HtWebzDockWindowStatistics.ActiveDockWindows = [];
@@ -33,6 +36,11 @@ class HtWebzDockWindow {
             }
         });
     }
+    /**
+     *
+     * @param WindowDockName
+     * @param StartMinimized
+     */
     constructor(WindowDockName, StartMinimized = false) {
         this.WindowDockName = WindowDockName;
         this.StartMinimized = StartMinimized;
@@ -42,6 +50,7 @@ class HtWebzDockWindow {
         this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
             is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
         });
+        ///
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
         this.WindowDockCoreElement !== null ? (async () => {
             await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
@@ -65,6 +74,16 @@ class HtWebzDockWindow {
                     DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
                 }
             });
+            //for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
+            //    SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.childNodes?.item(Number(WindowDockShadowIndex)) ?? null;
+            //    if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false") as string).valueOf() !== true) break;
+            //    const ComputationStyleValid: boolean = Boolean(StyleSelectorMapout.has("display") === true ? "true" : "false");
+            //    const ElementChildFetch = globalThis.document.querySelector("." + String(SelectedDockWindowElementChild.parentElement?.className));
+            //    if ((ComputationStyleValid.valueOf() && ElementChildFetch !== null && (ElementChildFetch instanceof HTMLElement)) === true) {
+            //    } else {
+            //        (async () => console.error())();
+            //    }
+            //}
         }
     }
     async RemoveWindowDock() {
@@ -98,6 +117,9 @@ class HtWebzDockWindow {
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
     computeNewSizeConstraints(TargetComputationData = undefined) {
+        /**
+         * Computed sizing constraint info data for finalized display managment statistics.
+         */
         let InstanceComputedConstraintInfo = {};
         const DockWindowBoundingBoxDimensions = (this?.WindowDockCoreElement?.getBoundingClientRect() ?? null);
         if (TargetComputationData === undefined || typeof (TargetComputationData) !== "object" || this.WindowDockCoreElement === null)
@@ -172,8 +194,8 @@ class HtWebzDockWindow {
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
+///
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     "{name}-toolbar",
 ];
-globalThis.HtWebzAPIs.HtWebzEngine[String(HtWebzDockWindow.name)] = HtWebzDockWindow;
-//# sourceMappingURL=../Window_Docker_TypeScript/Window_Docker_TypeScript/window_dock_constructor.js.map
+//# sourceMappingURL=window_dock_constructor.js.map
