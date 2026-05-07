@@ -222,17 +222,20 @@ class HtWebzDockWindow {
 }
 ///
 HtWebzDockWindow.WindowContentElementMutationReference = {
-    ["...-toolbar"]: {
+    ["...-toolbar-component"]: {
         ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
+        ELEMENT_STYLE_CLASS: ["toolbar"],
     },
     ["...-content-control-dropdown"]: {
-        ELEMENT_TYPE: { "div": HTMLDivElement.prototype }
+        ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
+        ELEMENT_STYLE_CLASS: ["dropdown-content"],
     },
 };
 ///
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
-    "{name}-toolbar",
-    "{name}-content-control-dropdown",
+    '{name}-toolbar-component',
+    '{name}-dock-container-component',
+    '{name}-content-control-dropdown',
 ];
 ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
     if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
