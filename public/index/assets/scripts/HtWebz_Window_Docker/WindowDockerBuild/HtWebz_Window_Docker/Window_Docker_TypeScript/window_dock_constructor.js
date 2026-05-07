@@ -16,12 +16,16 @@ class HtWebzDockWindow {
         }) ?? null;
         const ImplementedConstructionData = this.WindowConstructionData.filter((RawTemplateValue = undefined) => {
             try {
+                console.debug("Attempting attribute name replacment process...");
+                ///
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
                     const ReplacementExpression = new globalThis.RegExp(/(^\b{name}\b$)\1?\r/, "gy");
                     const IncludesReplacmentValues = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     (typeof (IncludesReplacmentValues) === "boolean" && IncludesReplacmentValues === true ? (async () => {
                         (ReplacementExpression instanceof RegExp ? ReplacementExpression.exec(RawTemplateValue)?.every((TrackedReplacmentValue) => {
                             const isTrackingValueValid = (TrackedReplacmentValue !== null && typeof (TrackedReplacmentValue) === "string").valueOf();
+                            ///
+                            console.debug(String(TrackedReplacmentValue).toString());
                             ///
                             if (!isTrackingValueValid)
                                 return void null;
@@ -33,6 +37,7 @@ class HtWebzDockWindow {
                                     const ExplicitReplacmentValue = IteratedReplacmentValue?.done === true ? IteratedReplacmentValue.value : undefined;
                                     if (ExplicitReplacmentValue === undefined || typeof (ExplicitReplacmentValue) !== "string")
                                         return void null;
+                                    /* **TODO** */
                                 }
                             }
                         }) : undefined);
@@ -45,10 +50,15 @@ class HtWebzDockWindow {
                 console.error(new String(DataImplementationError.message).trim());
             }
             finally {
-                console.groupCollapsed("Constructing Window Content Debug");
+                console.groupCollapsed("Constructed Window Content!");
                 console.debug(String(``).normalize("NFKC").valueOf());
                 console.groupEnd();
             }
+        });
+        ImplementedConstructionData.forEach((ElementAssigningAttribute = new String().valueOf()) => {
+            const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
+            ((typeof ElementOvervieNameValid === "boolean" && ElementOvervieNameValid) ? Function.prototype.bind(() => {
+            }, (undefined)) : null);
         });
     }
     /**
@@ -67,9 +77,9 @@ class HtWebzDockWindow {
         });
         ///
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
-        this.WindowDockCoreElement !== null ? (async () => {
-            await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
-        }) : (void null);
+        // this.WindowDockCoreElement !== null ? (async () => {
+        //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
+        // }) : (void null);
     }
     SetMinimized(NewMinimizedStatus) {
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean"))
@@ -210,12 +220,23 @@ class HtWebzDockWindow {
     }
 }
 ///
+HtWebzDockWindow.WindowContentElementMutationReference = {
+    ["...-toolbar"]: {
+        ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
+    },
+    ["...-content-control-dropdown"]: {
+        ELEMENT_TYPE: { "div": HTMLDivElement.prototype }
+    },
+};
+///
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     "{name}-toolbar",
+    "{name}-content-control-dropdown",
 ];
-((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
-    if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
-        Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
-    }
-}, { once: true, passive: false }) ?? undefined : (void null));
+// ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
+//     if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
+//         Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
+//     }
+// }, { once: true, passive: false }) ?? undefined : (void null));
+globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;
 //# sourceMappingURL=window_dock_constructor.js.map

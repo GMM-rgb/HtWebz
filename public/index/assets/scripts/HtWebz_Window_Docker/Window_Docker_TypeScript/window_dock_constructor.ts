@@ -44,6 +44,8 @@ declare type WindowDockSizeComputationQueries = ((
 
 declare type MutationElementDefinition = {
     ELEMENT_TYPE: HTMLElementTagNameMap;
+    ELEMENT_INSTANCING_ORDER: number;
+    ELEMENT_PARENTING_NAME: string;
 };
 
 class HtWebzDockWindow implements WindowDockPrimative {
@@ -54,19 +56,19 @@ class HtWebzDockWindow implements WindowDockPrimative {
     ///
     static WindowContentElementMutationReference = {
         ["...-toolbar"]: ({
-            ELEMENT_TYPE: {"div": {}},
+            ELEMENT_TYPE: {"div": HTMLDivElement.prototype},
         } as MutationElementDefinition),
-
         ["...-content-control-dropdown"]: ({
-
+            ELEMENT_TYPE: {"div": HTMLDivElement.prototype}
         } as MutationElementDefinition),
     } as const;
     ///
     static WindowContentsConstructionDataTemplate = [
         "{name}-toolbar",
+        "{name}-content-control-dropdown",
     ] as readonly string[];
 
-    private async ConstructWindowContents(): Promise<void> {
+    public async ConstructWindowContents(): Promise<void> {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
 
         HtWebzDockWindow.WindowContentsConstructionDataTemplate?.forEach((TemplateValue: string) => {
@@ -75,12 +77,16 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
         const ImplementedConstructionData = this.WindowConstructionData.filter((RawTemplateValue: string | undefined = undefined) => {
             try {
+                console.debug("Attempting attribute name replacment process...");
+                ///
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
                     const ReplacementExpression: RegExp = new globalThis.RegExp(/(^\b{name}\b$)\1?\r/, "gy");
                     const IncludesReplacmentValues: boolean = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     (typeof (IncludesReplacmentValues) === "boolean" && IncludesReplacmentValues === true ? (async (): Promise<void> => {
                         (ReplacementExpression instanceof RegExp ? ReplacementExpression.exec(RawTemplateValue)?.every((TrackedReplacmentValue: string) => {
                             const isTrackingValueValid: boolean = (TrackedReplacmentValue !== null && typeof (TrackedReplacmentValue) === "string").valueOf();
+                            ///
+                            console.debug(String(TrackedReplacmentValue).toString());
                             ///
                             if (!isTrackingValueValid!!) return void null; else {
                                 const SplicedReplacmentValues = RawTemplateValue.matchAll(new RegExp(String(TrackedReplacmentValue.trim().toString()), 'g'));
@@ -89,7 +95,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                                     const IteratedReplacmentValue: IteratorResult<RegExpExecArray, undefined> | null = SplicedReplacmentValues !== undefined ? SplicedReplacmentValues.next() : null;
                                     const ExplicitReplacmentValue: string | undefined = IteratedReplacmentValue?.done === true ? IteratedReplacmentValue.value : undefined;
                                     if (ExplicitReplacmentValue === undefined || typeof (ExplicitReplacmentValue) !== "string") return void null;
-
+                                    /* **TODO** */
                                 }
                             }
                         }) : undefined);
@@ -99,7 +105,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                 if (DataImplementationError === null || !(DataImplementationError instanceof Error)) return;
                 console.error(new String(DataImplementationError.message).trim());
             } finally {
-                console.groupCollapsed("Constructing Window Content Debug");
+                console.groupCollapsed("Constructed Window Content!");
                 console.debug(String(``).normalize("NFKC").valueOf());
                 console.groupEnd();
             }
@@ -107,7 +113,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
         ImplementedConstructionData.forEach((ElementAssigningAttribute: string = new String().valueOf()): void => {
             const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
-            (ElementOvervieNameValid === true ? Function.prototype.bind(() => {
+            ((typeof ElementOvervieNameValid === "boolean" && ElementOvervieNameValid) ? Function.prototype.bind(() => {
 
             }, (undefined)) : null);
         });
@@ -126,9 +132,9 @@ class HtWebzDockWindow implements WindowDockPrimative {
         });
         ///
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
-        this.WindowDockCoreElement !== null ? (async () => {
-            await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
-        }) : (void null);
+        // this.WindowDockCoreElement !== null ? (async () => {
+        //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
+        // }) : (void null);
     }
 
     public SetMinimized(NewMinimizedStatus: boolean): void {
@@ -279,8 +285,10 @@ class HtWebzDockWindow implements WindowDockPrimative {
     }
 }
 
-((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
-    if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
-        Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
-    }
-}, { once: true, passive: false }) ?? undefined : (void null));
+// ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
+//     if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
+//         Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
+//     }
+// }, { once: true, passive: false }) ?? undefined : (void null));
+
+globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;

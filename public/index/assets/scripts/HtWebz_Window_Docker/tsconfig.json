@@ -1,4 +1,9 @@
 {
+    "buildOptions": {
+        "verbose": true,
+        "force": false,
+        "traceResolution": true,
+    },
     "compilerOptions": {
         "target": "es2021",
         "module": "es2020",
@@ -10,13 +15,8 @@
         "sourceMap": true,
         "alwaysStrict": true,
         "diagnostics": true,
-        
-        /* FIX 1: Move rootDir to the common parent of both sub-projects */
         "rootDir": "../", 
-        
-        /* FIX 2: Explicitly define where the build goes */
-        "outDir": "WindowDockerBuild",
-                
+        "outDir": "WindowDockerBuild",  
         "typeRoots": [
             "./window_docker_system_types/"
         ]
