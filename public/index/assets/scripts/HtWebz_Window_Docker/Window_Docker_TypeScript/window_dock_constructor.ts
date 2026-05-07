@@ -42,15 +42,29 @@ declare type WindowDockSizeComputationQueries = ((
     WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationWidth"]
 ));
 
+declare type MutationElementDefinition = {
+    ELEMENT_TYPE: HTMLElementTagNameMap;
+};
+
 class HtWebzDockWindow implements WindowDockPrimative {
     public WindowMenuMinimized: boolean;
     ///
     private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
     private WindowConstructionData: Array<string> = [];
     ///
-    static WindowContentsConstructionDataTemplate: Array<string> = [
+    static WindowContentElementMutationReference = {
+        ["...-toolbar"]: ({
+            ELEMENT_TYPE: {"div": {}},
+        } as MutationElementDefinition),
+
+        ["...-content-control-dropdown"]: ({
+
+        } as MutationElementDefinition),
+    } as const;
+    ///
+    static WindowContentsConstructionDataTemplate = [
         "{name}-toolbar",
-    ] as const;
+    ] as readonly string[];
 
     private async ConstructWindowContents(): Promise<void> {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
@@ -89,6 +103,13 @@ class HtWebzDockWindow implements WindowDockPrimative {
                 console.debug(String(``).normalize("NFKC").valueOf());
                 console.groupEnd();
             }
+        });
+
+        ImplementedConstructionData.forEach((ElementAssigningAttribute: string = new String().valueOf()): void => {
+            const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
+            (ElementOvervieNameValid === true ? Function.prototype.bind(() => {
+
+            }, (undefined)) : null);
         });
     }
 

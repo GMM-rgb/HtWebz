@@ -1,5 +1,12 @@
 {
     "svg.preview.background": "dark-transparent",
-    "editor.fontSize": 12
-    
+    "editor.fontSize": 14,
+    "[typescript]": {
+        "editor.folding": true,
+        "editor.quickSuggestions": {
+            "other": "on",
+            "comments": "on",
+            "strings": "off"
+        }
+    }
 }
