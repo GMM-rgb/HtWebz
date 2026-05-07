@@ -1,3 +1,8 @@
+.utility-bar-container::shadow {
+    --dock-toolbar-background: rgba(5, 134, 227, 0.75);
+    --dock-toolbar-border: #ccc;
+}
+
 .utility-bar-container {
     top: 5px;
     left: 0;
@@ -10,4 +15,12 @@
 .utility-bar-container.disabled {
     -webkit-backdrop-filter: saturate(-12.5%) !important;
     backdrop-filter: saturate(-12.5%) !important;
+}
+
+.utility-bar-container .toolbar {
+    position: relative;
+    background: var(--dock-toolbar-background);
+    border: 2px solid var(--dock-toolbar-border);
+    border-radius: 15px;
+    margin: auto;
 }

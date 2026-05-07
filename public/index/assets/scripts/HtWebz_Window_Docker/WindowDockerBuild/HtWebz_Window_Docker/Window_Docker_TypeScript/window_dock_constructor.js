@@ -1,5 +1,5 @@
 "use strict";
-// ././HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
+// **./*/HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
 /// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
 /// <reference path="./../../window_scope_definitions.d.ts" />
 var HtWebzDockWindowStatistics;
@@ -58,6 +58,7 @@ class HtWebzDockWindow {
         ImplementedConstructionData.forEach((ElementAssigningAttribute = new String().valueOf()) => {
             const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
             ((typeof ElementOvervieNameValid === "boolean" && ElementOvervieNameValid) ? Function.prototype.bind(() => {
+                console.info(String(ElementAssigningAttribute));
             }, (undefined)) : null);
         });
     }
@@ -233,10 +234,9 @@ HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     "{name}-toolbar",
     "{name}-content-control-dropdown",
 ];
-// ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
-//     if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
-//         Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
-//     }
-// }, { once: true, passive: false }) ?? undefined : (void null));
-globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;
+((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
+    if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
+        globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;
+    }
+}, { once: true, passive: true }) ?? undefined : (void null));
 //# sourceMappingURL=window_dock_constructor.js.map

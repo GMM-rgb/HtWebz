@@ -1,4 +1,4 @@
-// ././HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
+// **./*/HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
 /// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
 /// <reference path="./../../window_scope_definitions.d.ts" />
 
@@ -42,7 +42,10 @@ declare type WindowDockSizeComputationQueries = ((
     WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationWidth"]
 ));
 
+declare type WindowComponentNames = ("dock-core-component" | "toolbar" | "dropdown-content")[];
+
 declare type MutationElementDefinition = {
+    ELEMENT_STYLE_CLASS: WindowComponentNames;
     ELEMENT_TYPE: HTMLElementTagNameMap;
     ELEMENT_INSTANCING_ORDER: number;
     ELEMENT_PARENTING_NAME: string;
@@ -55,18 +58,21 @@ class HtWebzDockWindow implements WindowDockPrimative {
     private WindowConstructionData: Array<string> = [];
     ///
     static WindowContentElementMutationReference = {
-        ["...-toolbar"]: ({
+        ["...-toolbar-component"]: ({
             ELEMENT_TYPE: {"div": HTMLDivElement.prototype},
+            ELEMENT_STYLE_CLASS: ["toolbar"],
         } as MutationElementDefinition),
         ["...-content-control-dropdown"]: ({
-            ELEMENT_TYPE: {"div": HTMLDivElement.prototype}
+            ELEMENT_TYPE: {"div": HTMLDivElement.prototype},
+            ELEMENT_STYLE_CLASS: ["dropdown-content"],
         } as MutationElementDefinition),
     } as const;
     ///
     static WindowContentsConstructionDataTemplate = [
-        "{name}-toolbar",
-        "{name}-content-control-dropdown",
-    ] as readonly string[];
+        '{name}-toolbar-component',
+        '{name}-dock-container-component',
+        '{name}-content-control-dropdown',
+    ] as Readonly<Array<string>>;
 
     public async ConstructWindowContents(): Promise<void> {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
@@ -114,7 +120,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
         ImplementedConstructionData.forEach((ElementAssigningAttribute: string = new String().valueOf()): void => {
             const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
             ((typeof ElementOvervieNameValid === "boolean" && ElementOvervieNameValid) ? Function.prototype.bind(() => {
-
+                console.info(String(ElementAssigningAttribute));
             }, (undefined)) : null);
         });
     }
@@ -285,10 +291,8 @@ class HtWebzDockWindow implements WindowDockPrimative {
     }
 }
 
-// ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
-//     if (HtWebzDockWindow !== null && HtWebzDockWindow.prototype instanceof HtWebzDockWindow && typeof (HtWebzDockWindow) !== "undefined") {
-//         Object.defineProperty(globalThis.HtWebzAPIs.HtWebzEngine, new String(HtWebzDockWindow.name).toString(), HtWebzDockWindow);
-//     }
-// }, { once: true, passive: false }) ?? undefined : (void null));
-
-globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;
+((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
+    if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
+        globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;
+    }
+}, { once: true, passive: true }) ?? undefined : (void null));
