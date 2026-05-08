@@ -7,10 +7,30 @@ var HtWebzDockWindowStatistics;
     HtWebzDockWindowStatistics.ActiveDockWindows = [];
     HtWebzDockWindowStatistics.MinimizedDockWindows = [];
 })(HtWebzDockWindowStatistics || (HtWebzDockWindowStatistics = {}));
+/**
+ * ---
+ *
+ */
+var HtWebzWindowDockerExternalManagment;
+(function (HtWebzWindowDockerExternalManagment) {
+    let NamingManagment;
+    (function (NamingManagment) {
+        NamingManagment.getPlaceholderName = function (PassedWindowConstructor) {
+            (PassedWindowConstructor !== undefined && PassedWindowConstructor instanceof HtWebzDockWindow ? (() => {
+                if (Object.getOwnPropertyDescriptor(PassedWindowConstructor, "prototype")?.value != null && typeof Symbol.unscopables.description !== "undefined") {
+                    let PrototypeNameExists = (Object.keys(Object.getPrototypeOf(PassedWindowConstructor)).includes("WindowDockName").valueOf() === true);
+                }
+                else
+                    global.console.error(``);
+            })() : void global.parseInt("0", 2));
+        };
+    })(NamingManagment = HtWebzWindowDockerExternalManagment.NamingManagment || (HtWebzWindowDockerExternalManagment.NamingManagment = {}));
+})(HtWebzWindowDockerExternalManagment || (HtWebzWindowDockerExternalManagment = {}));
 class HtWebzDockWindow {
     async ConstructWindowContents() {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData)))
             return undefined;
+        let RelatedDockerAttributeNames = [];
         HtWebzDockWindow.WindowContentsConstructionDataTemplate?.forEach((TemplateValue) => {
             (TemplateValue !== null ? this.WindowConstructionData.push(TemplateValue.trim().toString()) : null);
         }) ?? null;
@@ -58,16 +78,49 @@ class HtWebzDockWindow {
         ImplementedConstructionData.forEach((ElementAssigningAttribute = new String().valueOf()) => {
             const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
             ((typeof ElementOvervieNameValid === "boolean" && ElementOvervieNameValid) ? Function.prototype.bind(() => {
-                console.info(String(ElementAssigningAttribute));
-            }, (undefined)) : null);
+                global.console.debug(String(ElementAssigningAttribute).trim());
+                for (let SelectedClassAttribute in HtWebzDockWindow.WindowContentElementMutationReference) {
+                    ((SelectedClassAttribute !== null && typeof SelectedClassAttribute === "string") ? ((NextComputationProcess) => {
+                        new globalThis.Promise(async () => {
+                            if (NextComputationProcess !== undefined && typeof NextComputationProcess === "function") {
+                                await new Promise(NextComputationProcess.bind(this));
+                            }
+                        });
+                        const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]\b)\1/gi));
+                        let CorrelatedAttributeClass = null;
+                        for (let ReplacmentSymbolIndex = 0; (ReplacmentSymbolIndex < (MatchedReplacmentSymbols.return?.length?.valueOf() ?? 0)); ReplacmentSymbolIndex++) {
+                            if (ReplacmentSymbolIndex != null && Object.is(new Number(ReplacmentSymbolIndex), new Number("0")).valueOf() === true) {
+                                const IteratedReplacmentSymbolComputation = MatchedReplacmentSymbols.next?.() ?? new Array().values().next();
+                                const PulledReplacmentSymbol = String(IteratedReplacmentSymbolComputation.done ? IteratedReplacmentSymbolComputation : null);
+                            }
+                            else {
+                                let ReplacmentSymbolError = new Error("");
+                                ReplacmentSymbolError.name ??= new String("Window-Docker-Classname-Symbol-Error").trim().valueOf();
+                                throw ReplacmentSymbolError ?? void parseInt("0", 2);
+                            }
+                        }
+                    })?.(async function () {
+                    }) ?? global.console.warn() : void null);
+                }
+            }, undefined) : null);
         });
+        async function ComposeWindowComponent(SelectedComponent) {
+        }
+        /**
+         *
+         * @returns
+         */
+        function PostObjectElements() {
+            let PostedWindowDockerContents = [];
+            return PostedWindowDockerContents ?? [];
+        }
     }
     /**
      *
      * @param WindowDockName
      * @param StartMinimized
      */
-    constructor(WindowDockName, StartMinimized = false) {
+    constructor(WindowDockName = "New Window (1)", StartMinimized = false) {
         this.WindowDockName = WindowDockName;
         this.StartMinimized = StartMinimized;
         this.WindowConstructionData = [];
@@ -78,6 +131,8 @@ class HtWebzDockWindow {
         });
         ///
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
+        ///
+        ///
         // this.WindowDockCoreElement !== null ? (async () => {
         //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
         // }) : (void null);
@@ -220,7 +275,6 @@ class HtWebzDockWindow {
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
-///
 HtWebzDockWindow.WindowContentElementMutationReference = {
     ["...-toolbar-component"]: {
         ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
@@ -231,7 +285,6 @@ HtWebzDockWindow.WindowContentElementMutationReference = {
         ELEMENT_STYLE_CLASS: ["dropdown-content"],
     },
 };
-///
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     '{name}-toolbar-component',
     '{name}-dock-container-component',

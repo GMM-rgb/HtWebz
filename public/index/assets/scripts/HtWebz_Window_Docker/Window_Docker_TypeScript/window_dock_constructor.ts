@@ -9,12 +9,23 @@ namespace HtWebzDockWindowStatistics {
 
 /**
  * ---
- * 
+ * External process container providing managment utilitys towards all windows within the active rendering document.
+ * @author @GMM-rgb -> Maximus F.
+ * @namespace
  */
 namespace HtWebzWindowDockerExternalManagment {
     export namespace NamingManagment {
-        export const getPlaceholderName = function() {
+        export const getPlaceholderName = function(PassedWindowConstructor: HtWebzDockWindow) {
+            (PassedWindowConstructor !== undefined && PassedWindowConstructor instanceof HtWebzDockWindow ? (() => {
+                if (Object.getOwnPropertyDescriptor(PassedWindowConstructor, "prototype")?.value != null && Symbol.unscopables.description !== undefined) {
+                    let PrototypeNameExists: boolean = (Object.keys(Object.getPrototypeOf(PassedWindowConstructor)).includes("WindowDockName").valueOf() === true);
+                    PrototypeNameExists ? new global.Promise(async () => {
+                        HtWebzDockWindowStatistics?.ActiveDockWindows?.some((SelectedDockWindowConstructor: typeof HtWebzDockWindow.prototype) => {
 
+                        }) ?? global.console.warn(String().toString());
+                    }) : globalThis.Promise.reject();
+                } else global.console.error(``);
+            })() : void global.parseInt("0", 2));
         }
     }
 }
