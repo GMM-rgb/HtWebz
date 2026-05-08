@@ -4,7 +4,7 @@
 //
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
 import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
-import { Socket } from "socket.io";
+import { Socket, RemoteSocket } from "socket.io";
 // ...
 declare type VariableReactionEventResult = [...any];
 // ...
@@ -29,6 +29,10 @@ declare global {
             onfinally?: (() => void) | null
         ): Promise<T>;
     }
+}
+
+declare global {
+    let socket: (typeof Socket.prototype.client.conn.request.socket);
 }
 
 declare global {

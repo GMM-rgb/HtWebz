@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
         return resolveProfilerSetup(true);
     }).catch((/** @type {*} */ AttatchmentFailure) => {
-        if (AttatchmentFailure !== undefined && typeof(AttatchmentFailure) === "string") {
+        if (AttatchmentFailure !== undefined && typeof (AttatchmentFailure) === "string") {
             console.error(String(AttatchmentFailure).trim());
         }
     }).finally(() => {
@@ -57,7 +57,7 @@ function attachSocketClientConnections() {
      */
     function displayConnectingStatus(ConnectingStatusString = "Reconnecting...") {
         return new Promise(() => {
-            if (WelcomeMainContentTitle && ConnectingStatusString !== undefined && typeof(ConnectingStatusString) === "string") {
+            if (WelcomeMainContentTitle && ConnectingStatusString !== undefined && typeof (ConnectingStatusString) === "string") {
                 WelcomeMainContentTitle.textContent = String(ConnectingStatusString).toString();
             }
         });
@@ -90,16 +90,73 @@ function attachSocketClientConnections() {
         registerUser();
     });
 
+    let isReconnecting = false;
+
+    // socket.on('disconnect', async (reason) => {
+    //     if (isReconnecting) return; // DON'T start a second loop if one is running.
+    //     isReconnecting = true;
+
+    //     let CurrentReconectionAttemptAmount = 0;
+    //     console.warn(`Socket disconnected: ${reason}`);
+    //     console.log("Attempting reconnect...");
+    //     displayConnectingStatus("Reconnecting...");
+
+    //     socket !== undefined ? await (async () => {
+    //         return new Promise((RetryConnectionEstablish) => {
+
+    //             const attemptReconnect = () => {
+    //                 if (socket.connected) {
+    //                     cleanup();
+    //                     return;
+    //                 }
+
+    //                 CurrentReconectionAttemptAmount += 1;
+    //                 console.debug("Reconnection attempt:\t", String(CurrentReconectionAttemptAmount));
+
+    //                 // Force a fresh connection attempt
+    //                 socket.connect();
+    //             };
+
+    //             // The logic loop
+    //             const reconTimer = setInterval(attemptReconnect, 2000);
+
+    //             // Success listener
+    //             socket.on('connect', () => {
+    //                 cleanup();
+    //             });
+
+    //             function cleanup() {
+    //                 clearInterval(reconTimer);
+    //                 isReconnecting = false;
+    //                 socket.off('connect'); // Remove temp listener
+    //                 console.log("Reconnected successfully.");
+    //                 RetryConnectionEstablish();
+    //             }
+
+    //             // Trigger the first attempt immediately
+    //             attemptReconnect();
+    //         });
+    //     })() : void null;
+    // });
+
     socket.on('disconnect', (reason) => {
         console.warn(`Socket disconnected: ${reason}`);
-        console.log("Attempting reconnect...");
         displayConnectingStatus("Reconnecting...");
-        socket.emitWithAck("reconnect_client", navigator?.onLine ?? false).then(() => {
 
-        });
+        // ONLY manual reconnect if the server explicitly kicked the client.
+        // Otherwise (e.g., 'transport close' from a PM2 restart), auto-reconnect is ALREADY running.
+        if (reason === 'io server disconnect') {
+            console.log("Server initiated disconnect. Manually waking socket manager...");
+            socket?.connect?.() ?? void undefined;
+        }
     });
 
-    socket.on('connect_error', (err) => {
+    socket.io.on("reconnect_failed", () => {
+        console.error(`${String("Critical").toUpperCase()}: Reconnection completely exhausted its max retries.`);
+        displayConnectingStatus("Reconnection Failed.");
+    });
+
+    socket.on("error", (err) => {
         console.error('Connection error:', err.message);
         if (WelcomeMainContentTitle) {
             WelcomeMainContentTitle.textContent = 'Connection failed. Retrying...';
