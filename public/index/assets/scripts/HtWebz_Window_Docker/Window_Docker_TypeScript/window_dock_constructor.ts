@@ -7,6 +7,18 @@ namespace HtWebzDockWindowStatistics {
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
 }
 
+/**
+ * ---
+ * 
+ */
+namespace HtWebzWindowDockerExternalManagment {
+    export namespace NamingManagment {
+        export const getPlaceholderName = function() {
+
+        }
+    }
+}
+
 declare namespace WindowDockSizeConstraints {
     export type WindowDockSizeConstraintAbstract = {
         ASPECT_CONSTRAINT_DIAGONAL?: ArrayIterator<typeof Number.prototype>;
@@ -42,32 +54,33 @@ declare type WindowDockSizeComputationQueries = ((
     WindowDockSizeConstraints.ComputationParameterObject["RequestedComputationWidth"]
 ));
 
-declare type WindowComponentNames = ("dock-core-component" | "toolbar" | "dropdown-content")[];
-
-declare type MutationElementDefinition = {
-    ELEMENT_STYLE_CLASS: WindowComponentNames;
-    ELEMENT_TYPE: HTMLElementTagNameMap;
-    ELEMENT_INSTANCING_ORDER: number;
-    ELEMENT_PARENTING_NAME: string;
-};
+declare namespace WindowComponents {
+    export type WindowComponentNames = Array<"dock-core-component" | "dropdown-content" | "toolbar">;
+    export type MutationElementDefinition = {
+        ELEMENT_STYLE_CLASS: WindowComponentNames;
+        ELEMENT_TYPE: HTMLElementTagNameMap;
+        ELEMENT_INSTANCING_ORDER: number;
+        ELEMENT_PARENTING_NAME: string;
+    };
+}
 
 class HtWebzDockWindow implements WindowDockPrimative {
     public WindowMenuMinimized: boolean;
-    ///
+
     private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
     private WindowConstructionData: Array<string> = [];
-    ///
+
     static WindowContentElementMutationReference = {
         ["...-toolbar-component"]: ({
-            ELEMENT_TYPE: {"div": HTMLDivElement.prototype},
+            ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
             ELEMENT_STYLE_CLASS: ["toolbar"],
-        } as MutationElementDefinition),
+        } as WindowComponents.MutationElementDefinition),
         ["...-content-control-dropdown"]: ({
-            ELEMENT_TYPE: {"div": HTMLDivElement.prototype},
+            ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
             ELEMENT_STYLE_CLASS: ["dropdown-content"],
-        } as MutationElementDefinition),
+        } as WindowComponents.MutationElementDefinition),
     } as const;
-    ///
+
     static WindowContentsConstructionDataTemplate = [
         '{name}-toolbar-component',
         '{name}-dock-container-component',
@@ -76,6 +89,11 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
     public async ConstructWindowContents(): Promise<void> {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
+
+        let RelatedDockerAttributeNames: Array<string> = [];
+
+        type WindowDockerPostingResult = Array<Node | HTMLElement>;
+        type ModifiedComponentNames = typeof RelatedDockerAttributeNames;
 
         HtWebzDockWindow.WindowContentsConstructionDataTemplate?.forEach((TemplateValue: string) => {
             (TemplateValue !== null ? this.WindowConstructionData.push(TemplateValue.trim().toString()) : null);
@@ -120,9 +138,50 @@ class HtWebzDockWindow implements WindowDockPrimative {
         ImplementedConstructionData.forEach((ElementAssigningAttribute: string = new String().valueOf()): void => {
             const ElementOvervieNameValid = new Boolean(typeof ElementAssigningAttribute === "string").valueOf();
             ((typeof ElementOvervieNameValid === "boolean" && ElementOvervieNameValid) ? Function.prototype.bind(() => {
-                console.info(String(ElementAssigningAttribute));
-            }, (undefined)) : null);
+                global.console.debug(String(ElementAssigningAttribute).trim());
+                for (let SelectedClassAttribute in HtWebzDockWindow.WindowContentElementMutationReference) {
+                    ((SelectedClassAttribute !== null && typeof SelectedClassAttribute === "string") ? ((NextComputationProcess?: Function) => {
+                        new globalThis.Promise(async () => {
+                            if (NextComputationProcess !== undefined && typeof NextComputationProcess === "function") {
+                                await new Promise(NextComputationProcess.bind(this) as AsyncGeneratorFunction);
+                            }
+                        });
+
+                        const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]\b)\1/gi));
+                        let CorrelatedAttributeClass: string | null = null;
+                                
+                        for (let ReplacmentSymbolIndex: number = 0; (ReplacmentSymbolIndex < (MatchedReplacmentSymbols.return?.length?.valueOf() ?? 0)); ReplacmentSymbolIndex++) {
+                            if (ReplacmentSymbolIndex != null && Object.is(new Number(ReplacmentSymbolIndex), new Number("0")).valueOf() === true) {
+                                const IteratedReplacmentSymbolComputation = MatchedReplacmentSymbols.next?.() ?? new Array().values().next();
+                                const PulledReplacmentSymbol = String(IteratedReplacmentSymbolComputation.done ? IteratedReplacmentSymbolComputation : null);
+                            } else {
+                                let ReplacmentSymbolError: typeof Error.prototype = new Error("");
+                                ReplacmentSymbolError.name ??= new String("Window-Docker-Classname-Symbol-Error").trim().valueOf();
+                                throw ReplacmentSymbolError ?? void parseInt("0", 2);
+                            }
+                        }
+                    })?.(async function (): Promise<void> {
+
+                    }) ?? global.console.warn() : void null);
+                }
+            }, undefined) : null);
         });
+
+        async function ComposeWindowComponent(SelectedComponent: WindowComponents.WindowComponentNames): Promise<void> {
+
+        }
+
+        /**
+         * 
+         * @returns 
+         */
+        function PostObjectElements(): WindowDockerPostingResult {
+            let PostedWindowDockerContents: WindowDockerPostingResult = [];
+
+
+
+            return PostedWindowDockerContents ?? [] as WindowDockerPostingResult;
+        }
     }
 
     /**
@@ -130,7 +189,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
      * @param WindowDockName 
      * @param StartMinimized 
      */
-    public constructor(public WindowDockName: string, private StartMinimized: boolean = false) {
+    public constructor(public WindowDockName: string = "New Window (1)", private StartMinimized: boolean = false) {
         let DockWindowContentConstructionThread = null;
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
         this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
@@ -138,6 +197,9 @@ class HtWebzDockWindow implements WindowDockPrimative {
         });
         ///
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
+        ///
+        
+        ///
         // this.WindowDockCoreElement !== null ? (async () => {
         //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
         // }) : (void null);

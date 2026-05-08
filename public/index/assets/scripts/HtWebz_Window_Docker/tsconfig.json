@@ -1,30 +1,32 @@
 {
     "buildOptions": {
         "verbose": true,
-        "force": false,
         "traceResolution": true,
+        "incremental": true
     },
     "compilerOptions": {
         "target": "es2021",
         "module": "es2020",
         "moduleResolution": "bundler",
         "allowUmdGlobalAccess": true,
+        "experimentalDecorators": true,
         "allowJs": true,
         "checkJs": false,
         "pretty": true,
         "sourceMap": true,
-        "alwaysStrict": true,
         "diagnostics": true,
-        "rootDir": "../", 
-        "outDir": "WindowDockerBuild",  
+        "alwaysStrict": true,
+        "rootDir": "../",
+        "outDir": "WindowDockerBuild",
+        "generateCpuProfile": "profile.cpuprofile",
         "typeRoots": [
             "./window_docker_system_types/"
         ]
     },
     "include": [
-        "**/*",                                       /* Current project */
-        "../notification_system/**/*",                /* The sibling project */
-        "../../window_scope_definitions.d.ts"         /* Global definitions */
+        "**/*", /* Current project */
+        "../notification_system/**/*", /* The sibling project */
+        "../../window_scope_definitions.d.ts" /* Global definitions */
     ],
     "exclude": [
         "node_modules",
