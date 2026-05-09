@@ -9,20 +9,39 @@ var HtWebzDockWindowStatistics;
 })(HtWebzDockWindowStatistics || (HtWebzDockWindowStatistics = {}));
 /**
  * ---
- *
+ * External process container providing managment utilitys towards all windows within the active rendering document.
+ * @author @GMM-rgb -> Maximus F.
+ * @namespace
  */
 var HtWebzWindowDockerExternalManagment;
 (function (HtWebzWindowDockerExternalManagment) {
     let NamingManagment;
     (function (NamingManagment) {
+        function windowConstructorValid(WindowDockConstructor = undefined) {
+            return new Boolean(WindowDockConstructor !== undefined && WindowDockConstructor instanceof HtWebzDockWindow).valueOf();
+        }
         NamingManagment.getPlaceholderName = function (PassedWindowConstructor) {
             (PassedWindowConstructor !== undefined && PassedWindowConstructor instanceof HtWebzDockWindow ? (() => {
-                if (Object.getOwnPropertyDescriptor(PassedWindowConstructor, "prototype")?.value != null && typeof Symbol.unscopables.description !== "undefined") {
+                if (Object.getOwnPropertyDescriptor(PassedWindowConstructor, "prototype")?.value != null && Symbol.unscopables.description !== undefined) {
                     let PrototypeNameExists = (Object.keys(Object.getPrototypeOf(PassedWindowConstructor)).includes("WindowDockName").valueOf() === true);
+                    let ActiveWindowDockNames = new Array().flat(new Number(Infinity).valueOf());
+                    typeof PrototypeNameExists === "boolean" && PrototypeNameExists.valueOf() === true ? new global.Promise(async () => {
+                        HtWebzDockWindowStatistics?.ActiveDockWindows?.filter((SelectedDockWindowConstructor) => {
+                            if (windowConstructorValid !== undefined && typeof windowConstructorValid === "function") {
+                                windowConstructorValid(SelectedDockWindowConstructor) === true ? (() => {
+                                    if (ActiveWindowDockNames === undefined || !Array.isArray(ActiveWindowDockNames))
+                                        return void null;
+                                    ActiveWindowDockNames?.push(SelectedDockWindowConstructor.WindowDockName) ?? console.warn("Placeholder name fetch failure, couldn't insert active dock name into Array!");
+                                })() : (void ((globalThis.Number("0") ?? null)?.valueOf() ?? 0));
+                            }
+                            else
+                                global?.console?.warn() ?? void null;
+                        }) ?? global?.console?.warn?.() ?? void null;
+                    }) : global?.Promise?.reject?.() ?? void null;
                 }
                 else
-                    global.console.error(``);
-            })() : void global.parseInt("0", 2));
+                    global?.console?.error(``) ?? void null;
+            })() : void globalThis.parseInt("0", 2));
         };
     })(NamingManagment = HtWebzWindowDockerExternalManagment.NamingManagment || (HtWebzWindowDockerExternalManagment.NamingManagment = {}));
 })(HtWebzWindowDockerExternalManagment || (HtWebzWindowDockerExternalManagment = {}));

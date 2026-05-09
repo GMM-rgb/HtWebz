@@ -127,6 +127,7 @@ head {
     #mainLogo {
         /* margin: auto 10px auto 25px !important; */
         transform: scale(0.825) !important;
+        box-shadow: none !important;
         /* left: 50% !important; */
     }
 
@@ -161,7 +162,7 @@ head {
     height: 60px;
     display: inline-block;
     vertical-align: middle;
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
     background: rgba(5, 134, 227, 0.75);
     border: 3px solid #0586e3;
     border-radius: 1cm;
@@ -266,8 +267,10 @@ head {
     #appMenuOpen,
     #settingsQuick,
     #resourcesMenuOpen,
+    #accountExpandInfo,
     #gamesMenuOpen {
         transform: scale(0.825) !important;
+        box-shadow: none !important;
     }
 
     #appMenuOpen:hover,
@@ -282,6 +285,10 @@ head {
     #resourcesMenuOpen:active,
     #gamesMenuOpen:active {
         transform: scale(0.775) !important;
+    }
+
+    #resourcesMenuOpen {
+        padding: calc(10px - 2.5px) !important;
     }
 
     .settings-quick-text,
@@ -379,7 +386,7 @@ head {
     flex: none !important;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
     object-fit: contain;
     outline: 4px double transparent;
     outline-offset: -4px;
@@ -511,7 +518,7 @@ head {
     width: inherit;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
 }
 
 #appMenuOpen:hover {
@@ -576,7 +583,7 @@ head {
     width: fit-content;
     -webkit-backdrop-filter: blur(1.1px);
     backdrop-filter: blur(0.1px);
-    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375), inset 0 0 17.5px rgba(0, 0, 0, 0.45);
 }
 
 #settingsQuick:hover {

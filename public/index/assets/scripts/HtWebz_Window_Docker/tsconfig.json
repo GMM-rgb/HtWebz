@@ -25,7 +25,7 @@
     },
     "include": [
         "**/*", /* Current project */
-        "../notification_system/**/*", /* The sibling project */
+        "../notification_system/**/*", /* Sibling project */
         "../../window_scope_definitions.d.ts" /* Global definitions */
     ],
     "exclude": [

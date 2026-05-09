@@ -31,6 +31,7 @@
   overflow-x: hidden;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
   order: 1 !important;
+  contain: paint, content;
   gap: 8px;
 }
 
@@ -302,8 +303,9 @@
   border: 2px solid #ccc;
   border-radius: 15px;
   background: #80b5db;
-  padding-inline: 3.5px;
-  padding-block: 6.5px;
+  /* padding-inline: 3.5px;
+  padding-block: 3.75px; */
+  padding: 3.5px;
   box-sizing: border-box;
   transition: all 0.65s ease;
   background: var(--theme-secondary);
@@ -338,7 +340,7 @@
   text-box-trim: trim-end;
   background: var(--theme-buttonBackground);
   border-color: var(--theme-border);
-  transition: all 0.3s ease !important;
+  transition: all 0.3s cubic-bezier(0.6, -0.28, 0.735, 1.28) !important;
   /* Smooth transition for background and color */
 }
 
@@ -357,7 +359,7 @@
   /* Fallback to white if var is not set */
   box-shadow: 0 2px 8.5px rgba(0, 0, 0, 0.375);
   border-color: rgb(179, 179, 179) !important;
-  border-radius: var(--borderRadius);
+  border-radius: calc(var(--borderRadius) / 1.25);
 }
 
 #appListFooter {

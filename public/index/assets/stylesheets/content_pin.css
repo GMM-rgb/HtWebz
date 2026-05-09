@@ -1,4 +1,4 @@
-:root {
+html:root {
   --radius-subtle: 16px / 14px;
   /* gentle bubble */
   --radius-medium: 20px / 15px;
@@ -11,6 +11,7 @@
 .pinned-content-title {
   cursor: default;
   position: sticky;
+  display: inline-flex;
   /* Sticks right at the top of the parent element */
   margin-top: -12.5px;
   margin-bottom: 27.5px;
@@ -22,23 +23,24 @@
   padding-inline: 12.5px;
 
   /* Appearance */
-  background: white;
-  backdrop-filter: blur(8px);
-  border: 2px solid #ccc;
-  border-radius: var(--radius-liquid);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  background: ghostwhite;
+  border-radius: var(--radius-liquid);
+  border: 2px solid #ccc;
 
   /* Text Styles */
   font-size: 2em;
-  font-weight: 700;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: black;
-  -webkit-text-stroke: 0.5px darkslategray;
+  font-weight: bolder;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, fantasy; */
+  font-family: 'Arial', 'sans-serif' !important;
+  -webkit-text-stroke: 1px #333;
   -webkit-text-fill-color: rgb(94, 143, 192);
   text-overflow: ellipsis !important;
   text-indent: 2.5px;
   white-space: nowrap;
+  color: black;
 
   /* Transition for hover and sticky-active states */
   transition: all 0.3s ease;
@@ -46,7 +48,7 @@
   /* If we need to center it based on design */
   text-align: center;
   line-height: 1.125;
-  letter-spacing: 2.5px;
+  /* letter-spacing: 2.5px; */
 
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
@@ -56,14 +58,61 @@
   overflow-y: hidden;
 
   text-wrap-mode: wrap;
-  text-wrap-style: stable;
+  text-wrap-style: pretty;
   word-wrap: normal;
+
+  place-content: center;
+  justify-content: safe;
+  align-items: center;
 }
+
+#pinnedContentTitle>span {
+  transform-origin: center center;
+  container-type: anchored scroll-state;
+  transition: cubic-bezier(0.175, 0.885, 0.2125, 1.375) 0.5s;
+}
+
+.pinned-content-title:hover #pinnedContentTitle>span {
+  /* transform: scale(1.125) !important; */
+  font-size: calc(0.9em + 0.15em) !important;
+}
+
+/* #pinnedContentTitle:root:read-only {
+  --letters-border-color: #ccc;
+}
+
+#pinnedContentTitle>span::before {
+  content: "";
+  position: absolute;
+  border-color: var(--letters-border-color);
+}
+
+.pinned-content-title #pinnedContentTitle>span {
+  box-sizing: content-box;
+  transition: all 0.3s ease-out;
+  transform-origin: center center;
+  background: rgb(133, 194, 255, 0.5);
+  border-color: inherit, #ccc;
+  border-block-style: solid;
+  border-block-width: 2px;
+  min-width: max-content;
+  contain: paint;
+}
+
+#pinnedContentTitle>span:last-child {
+  border-inline-end: 2px solid var(--letters-border-color, #ccc);
+  border-radius: 0 0 calc(15px / 2) 0 !important;
+  padding-inline-end: 5px;
+}
+
+#pinnedContentTitle>span:first-child {
+  border-inline-start: 2px solid var(--letters-border-color, #ccc);
+} */
 
 .pinned-content-title.sticky-active {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   background: rgba(255, 255, 255, 0.98);
-  border-bottom: 3px solid #ccc;
+  border-bottom: 3px solid inherit;
 }
 
 /* Hover effects */
@@ -73,6 +122,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25),
     inset 0 0 20px rgba(0, 99, 87, 0.65);
   border-radius: var(--radius-medium);
+  letter-spacing: 3.25px !important;
 }
 
 /* Mobile adjustments */
