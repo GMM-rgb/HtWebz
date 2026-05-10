@@ -3,11 +3,12 @@ const { stdout, stdin, platform } = require('process');
 const express = require('express');
 const path = require('path');
 const fs = require("fs");
-const http = require('http');
+const http2 = require('http2');
 const socketIO = require('socket.io');
 const readline = require('readline');
 const picocolors = require('picocolors');
 const bodyParser = require('body-parser');
+
 // Critical Project Modules
 const AutoUpdater = require('./backend/mainifest_server_auto_update');
 // Core Resource Modules
@@ -18,19 +19,26 @@ const DataStoreModle = require('./backend/datastore_backend_system');
 const ErrorReportUtility = require("./backend/error_report_system/reporter_utility");
 const ChatSystemMain = require("./backend/chat_system/chat_system_main");
 // const ClientSearchHandler = require("./backend/server_search_system/client_search_handler");
+
 // Pre-configured; unathorized message variable
 const UnauthorizedMessage = `<span style="font-family:Arial;color:red;">Unauthorized to view requested resource.</span>`;
-//
+
+///
 picocolors.createColors({ useColor: true });
 process.env.FORCE_COLOR = '3';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+/** Toggle between HTTP and HTTPS */
+const useHTTPS = false;   // ← Set to false until nameservers + SSL are fully ready
+
 /**
  * Determines if any of the required directorys that are missing were just fixed.
  * @type {boolean}
  */
 let FixedMissingDirectorys = false;
+
 // Inital setup
 (async () => {
   FixedMissingDirectorys = await ErrorReportUtility.ErrorReportValidation.ValidateReports();
@@ -48,6 +56,14 @@ const TARGET_DOMAIN = 'htwebz.com';
 
 // Define the directory to serve (the HtWebz/public folder only)
 const serveDirectory = path.resolve(__dirname, 'public');
+
+// ===== SSL CERTIFICATES =====
+const SSL_OPTIONS = {
+  key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs', 'fullchain.pem')),
+  allowHTTP1: true
+};
+
 /*
  * Middleware: domain forwarding
 */
@@ -66,7 +82,6 @@ if (ENABLE_DOMAIN_FORWARDING) {
         req.secure || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
       const redirectUrl = `${protocol}://${TARGET_DOMAIN}${req.originalUrl}`;
 
-      console.log(`Redirecting from ${hostname} to ${TARGET_DOMAIN}`);
       return res.redirect(301, redirectUrl);
     }
 
@@ -200,44 +215,15 @@ app.use((err, req, res, next) => {
 });
 
 // ===== SERVER CREATION =====
-const server = http.createServer(app, async (req, res) => {
-  try {
-    if (req !== null && (req instanceof http.IncomingMessage)) {
-      if (req.method === "GET") {
-        
-      } else if (req.method === "POST") {
-        var ClientRequestData = "".normalize("NFC");
-        // Chunks together the data, that is actively being recieved through the DataStream.
-        req.on("data", (RequestDataByte) => {
-          if (ClientRequestData && (ClientRequestData instanceof String)) {
-            ClientRequestData += RequestDataByte;
-          }
-        })
-        req.on("error", (DataRequestError) => {
-          if (DataRequestError && (DataRequestError instanceof Error)) {
-            console.error(`Server Encountered an Error when recieving data stream; from client.\n\tRequest Error:\t${DataRequestError.message.toString()}`);
-          }
-        });
-        // Finalize the RequestData
-        req.on("end", () => {
-          if (ClientRequestData !== null && ClientRequestData instanceof String && ClientRequestData.length.valueOf() > 0) {
-            
-          }
-        });
-      } else {
-        res.writeHead(405, { 'Content-Type': 'text/plain' });
-        res.end('Method Not Allowed\n');
-      }
-    } else {
-      console.warn(picocolors.yellowBright().toString().trimStart());
-    }
-  } catch (ServerError) {
-    console.log(picocolors.redBright("The Server Encountered a FATAL Error!\nShutting down...\n"));
-    console.error(`${picocolors.red("Error Info:").toString()}\n${ServerError.toString()}`);
-    process.emit("SIGINT", "Failsafe Error");
-    console.log(picocolors.greenBright(`Server was shutdown on failsafe.`).toString());
-  }
-});
+let server;
+
+if (useHTTPS) {
+  server = http2.createSecureServer(SSL_OPTIONS, app);
+} else {
+  const http = require('http');
+  server = http.createServer(app);
+}
+
 // Attatches the SocketIO to Server
 const io = socketIO(server);
 //
@@ -250,8 +236,6 @@ const updater = new AutoUpdater({
 
 io.on("ClientErrorReport", async (msg, feedback) => {
   if ((typeof msg !== "string") || (typeof feedback !== "boolean")) return;
-
-  
 });
 
 // Attach socket handlers for APIs' lifecycle
@@ -261,10 +245,11 @@ UserManagmentModule.attachSocketHandlers(io);
 
 // Start the server
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running and serving the HtWebz/public folder on http://localhost:${PORT}`);
+  const protocol = useHTTPS ? 'https' : 'http';
+  console.log(`Server is running and serving the HtWebz/public folder on ${protocol}://localhost:${PORT}`);
   console.log(
     ENABLE_DOMAIN_FORWARDING
-      ? `Domain forwarding enabled: redirecting to http://${TARGET_DOMAIN}`
+      ? `Domain forwarding enabled: redirecting to https://${TARGET_DOMAIN}`
       : 'Domain forwarding disabled > development mode'
   );
   console.log('\n', picocolors.cyan(`\t\t\t      W e l c o m e  T o `), picocolors.blueBright(`
