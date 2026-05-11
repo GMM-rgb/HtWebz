@@ -25,12 +25,12 @@ namespace HtWebzWindowDockerExternalManagment {
                     let PrototypeNameExists: boolean = (Object.keys(Object.getPrototypeOf(PassedWindowConstructor)).includes("WindowDockName").valueOf() === true);
                     let ActiveWindowDockNames: Array<HtWebzDockWindow["WindowDockName"]> = new Array().flat(new Number(Infinity).valueOf());
                     typeof PrototypeNameExists === "boolean" && PrototypeNameExists.valueOf() === true ? new global.Promise(async () => {
-                        HtWebzDockWindowStatistics?.ActiveDockWindows?.filter((SelectedDockWindowConstructor: typeof HtWebzDockWindow.prototype) => {
+                        HtWebzDockWindowStatistics?.ActiveDockWindows?.forEach((SelectedDockWindowConstructor: typeof HtWebzDockWindow.prototype) => {
                             if (windowConstructorValid !== undefined && typeof windowConstructorValid === "function") {
-                                windowConstructorValid(SelectedDockWindowConstructor) === true ? (() => {
+                                windowConstructorValid(SelectedDockWindowConstructor) === true ? ((): void => {
                                     if (ActiveWindowDockNames === undefined || !Array.isArray(ActiveWindowDockNames)) return void null;
                                     ActiveWindowDockNames?.push(SelectedDockWindowConstructor.WindowDockName) ?? console.warn("Placeholder name fetch failure, couldn't insert active dock name into Array!");
-                                })() : (void ((globalThis.Number("0") ?? null)?.valueOf() ?? 0));
+                                })() : (void ((parseFloat(globalThis.Number("0").toPrecision(2)) ?? null)?.valueOf() ?? 0));
                             } else global?.console?.warn() ?? void null;
                         }) ?? global?.console?.warn?.() ?? void null;
                     }) : global?.Promise?.reject?.() ?? void null;

@@ -26,7 +26,7 @@ var HtWebzWindowDockerExternalManagment;
                     let PrototypeNameExists = (Object.keys(Object.getPrototypeOf(PassedWindowConstructor)).includes("WindowDockName").valueOf() === true);
                     let ActiveWindowDockNames = new Array().flat(new Number(Infinity).valueOf());
                     typeof PrototypeNameExists === "boolean" && PrototypeNameExists.valueOf() === true ? new global.Promise(async () => {
-                        HtWebzDockWindowStatistics?.ActiveDockWindows?.filter((SelectedDockWindowConstructor) => {
+                        HtWebzDockWindowStatistics?.ActiveDockWindows?.forEach((SelectedDockWindowConstructor) => {
                             if (windowConstructorValid !== undefined && typeof windowConstructorValid === "function") {
                                 windowConstructorValid(SelectedDockWindowConstructor) === true ? (() => {
                                     if (ActiveWindowDockNames === undefined || !Array.isArray(ActiveWindowDockNames))
