@@ -32,7 +32,7 @@ var HtWebzWindowDockerExternalManagment;
                                     if (ActiveWindowDockNames === undefined || !Array.isArray(ActiveWindowDockNames))
                                         return void null;
                                     ActiveWindowDockNames?.push(SelectedDockWindowConstructor.WindowDockName) ?? console.warn("Placeholder name fetch failure, couldn't insert active dock name into Array!");
-                                })() : (void ((globalThis.Number("0") ?? null)?.valueOf() ?? 0));
+                                })() : (void ((parseFloat(globalThis.Number("0").toPrecision(2)) ?? null)?.valueOf() ?? 0));
                             }
                             else
                                 global?.console?.warn() ?? void null;
@@ -105,7 +105,7 @@ class HtWebzDockWindow {
                                 await new Promise(NextComputationProcess.bind(this));
                             }
                         });
-                        const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]\b)\1/gi));
+                        const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]+\b)\1/gi));
                         let CorrelatedAttributeClass = null;
                         for (let ReplacmentSymbolIndex = 0; (ReplacmentSymbolIndex < (MatchedReplacmentSymbols.return?.length?.valueOf() ?? 0)); ReplacmentSymbolIndex++) {
                             if (ReplacmentSymbolIndex != null && Object.is(new Number(ReplacmentSymbolIndex), new Number("0")).valueOf() === true) {
@@ -145,12 +145,10 @@ class HtWebzDockWindow {
         this.WindowConstructionData = [];
         let DockWindowContentConstructionThread = null;
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
-        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
-            is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
-        });
-        ///
+        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", HtWebzDockWindow.WindowElementConfiguration);
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
-        ///
+        this.WindowComponentNames = {};
+        this.StoredPositions ??= {};
         ///
         // this.WindowDockCoreElement !== null ? (async () => {
         //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
@@ -169,6 +167,8 @@ class HtWebzDockWindow {
                     ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
                     const ContentVisualStyle = CSSStyleValue.parse("display", "none");
                     const DockerContentElement = globalThis.document.querySelector(`.${this.WindowDockCoreElement.className} .${ReferenceProperElement.className.trim()}`);
+                    global.console.debug(String(ContentVisualStyle).trim());
+                    global.console.debug(DockerContentElement ?? undefined);
                     if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement))
                         return undefined;
                     DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
@@ -185,6 +185,11 @@ class HtWebzDockWindow {
             //    }
             //}
         }
+    }
+    RevertMinimizeProcess() {
+        const isWindowCoreElementValid = (this.WindowDockCoreElement !== null && this.WindowDockCoreElement instanceof HTMLElement).valueOf();
+        typeof isWindowCoreElementValid === "boolean" && isWindowCoreElementValid !== false ? (() => {
+        })() : void 0;
     }
     async RemoveWindowDock() {
         return new Promise(() => {
@@ -294,6 +299,10 @@ class HtWebzDockWindow {
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
+/**
+ * ---
+ *
+ */
 HtWebzDockWindow.WindowContentElementMutationReference = {
     ["...-toolbar-component"]: {
         ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
@@ -304,11 +313,19 @@ HtWebzDockWindow.WindowContentElementMutationReference = {
         ELEMENT_STYLE_CLASS: ["dropdown-content"],
     },
 };
+/**
+ * ---
+ * Static reference property for computing component names,
+ * which implements from the object name into each core descriptor.
+ */
 HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
     '{name}-toolbar-component',
     '{name}-dock-container-component',
     '{name}-content-control-dropdown',
 ];
+HtWebzDockWindow.WindowElementConfiguration = {
+    is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us"))
+};
 ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
     if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
         globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;

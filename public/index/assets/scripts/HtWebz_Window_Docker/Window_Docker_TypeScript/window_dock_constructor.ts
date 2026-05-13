@@ -85,12 +85,27 @@ declare namespace WindowComponents {
     };
 }
 
-class HtWebzDockWindow implements WindowDockPrimative {
-    public WindowMenuMinimized: boolean;
+declare type MinimizationPositionStorage = {
 
+};
+
+declare type ComponentRuntimeNames = {
+
+};
+
+class HtWebzDockWindow implements WindowDockPrimative {
+    /// Runtime accessable variables outside of scope
+    public WindowComponentNames: ComponentRuntimeNames;
+    public WindowMenuMinimized: boolean | true | false;
+    /// Private Constructor Variables
+    private StoredPositions: MinimizationPositionStorage;
     private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
     private WindowConstructionData: Array<string> = [];
 
+    /**
+     * ---
+     * 
+     */
     static WindowContentElementMutationReference = {
         ["...-toolbar-component"]: ({
             ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
@@ -102,6 +117,11 @@ class HtWebzDockWindow implements WindowDockPrimative {
         } as WindowComponents.MutationElementDefinition),
     } as const;
 
+    /**
+     * --- 
+     * Static reference property for computing component names,  
+     * which implements from the object name into each core descriptor.  
+     */
     static WindowContentsConstructionDataTemplate = [
         '{name}-toolbar-component',
         '{name}-dock-container-component',
@@ -168,7 +188,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                             }
                         });
 
-                        const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]\b)\1/gi));
+                        const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]+\b)\1/gi));
                         let CorrelatedAttributeClass: string | null = null;
                                 
                         for (let ReplacmentSymbolIndex: number = 0; (ReplacmentSymbolIndex < (MatchedReplacmentSymbols.return?.length?.valueOf() ?? 0)); ReplacmentSymbolIndex++) {
@@ -205,6 +225,10 @@ class HtWebzDockWindow implements WindowDockPrimative {
         }
     }
 
+    static WindowElementConfiguration = {
+        is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us"))
+    };
+
     /**
      * 
      * @param WindowDockName 
@@ -213,13 +237,12 @@ class HtWebzDockWindow implements WindowDockPrimative {
     public constructor(public WindowDockName: string = "New Window (1)", private StartMinimized: boolean = false) {
         let DockWindowContentConstructionThread = null;
         this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
-        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", {
-            is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us")),
-        });
-        ///
+        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", HtWebzDockWindow.WindowElementConfiguration);
         this.WindowDockCoreElement.style.display = String("inline-block").toString();
-        ///
-        
+        this.WindowComponentNames = {};
+        this.StoredPositions ??= {
+
+        };
         ///
         // this.WindowDockCoreElement !== null ? (async () => {
         //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
@@ -238,6 +261,8 @@ class HtWebzDockWindow implements WindowDockPrimative {
                     ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
                     const ContentVisualStyle: CSSStyleValue = CSSStyleValue.parse("display", "none") as typeof CSSStyleValue.prototype;
                     const DockerContentElement: HTMLElement | null = globalThis.document.querySelector(`.${this.WindowDockCoreElement.className} .${ReferenceProperElement.className.trim()}`);
+                    global.console.debug(String(ContentVisualStyle).trim());
+                    global.console.debug(DockerContentElement ?? undefined);
                     if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement)) return undefined;
                     DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
                 }
@@ -254,6 +279,13 @@ class HtWebzDockWindow implements WindowDockPrimative {
             //    }
             //}
         }
+    }
+
+    public RevertMinimizeProcess(): void {
+        const isWindowCoreElementValid = (this.WindowDockCoreElement !== null && this.WindowDockCoreElement instanceof HTMLElement).valueOf();
+        typeof isWindowCoreElementValid === "boolean" && isWindowCoreElementValid !== false ? ((): void => {
+
+        })() : void 0;
     }
 
     public async RemoveWindowDock(): Promise<void> {
