@@ -144,12 +144,17 @@ class HtWebzDockWindow {
         this.StartMinimized = StartMinimized;
         this.WindowConstructionData = [];
         let DockWindowContentConstructionThread = null;
-        this.WindowMenuMinimized = new Boolean(StartMinimized ?? "false").valueOf();
+        this.WindowComponentsConstructed = false;
+        this.WindowMenuMinimized = (new Boolean(StartMinimized ?? "false")).valueOf() ?? false;
         this.WindowDockCoreElement = document.createElement("htwebz-docking-window", HtWebzDockWindow.WindowElementConfiguration);
-        this.WindowDockCoreElement.style.display = String("inline-block").toString();
-        this.WindowComponentNames = {};
-        this.StoredPositions ??= {};
-        ///
+        this.WindowDockCoreElement.style.display ??= (new String("inline-block")).toString().toLocaleLowerCase(Intl.getCanonicalLocales("EN-US"));
+        this.WindowComponentNames = Array.from((new Array(globalThis.parseInt("0", Number(10.00)))).values());
+        this._StoredPositions ??= {
+            ProcessingPositions: {},
+            CurrentPositions: {
+                PositionFromOrigin: {},
+            },
+        };
         // this.WindowDockCoreElement !== null ? (async () => {
         //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
         // }) : (void null);
@@ -162,34 +167,31 @@ class HtWebzDockWindow {
                 if (SelectedElementNode != null && (SelectedElementNode instanceof Node).valueOf()) {
                     const ElementNodeRootValue = (SelectedElementNode.getRootNode({ "composed": false }).nodeValue);
                     const ElementNodeType = SelectedElementNode.nodeName.toLowerCase().trim().toString();
-                    let ReferenceProperElement = (new (globalThis.window.Document)()).createElement(String(ElementNodeType));
+                    let ReferenceProperElement = globalThis.document.createElement(String(ElementNodeType));
                     ReferenceProperElement.nodeValue ??= ((ElementNodeRootValue ?? new Node().nodeValue) ?? (null));
                     ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
-                    const ContentVisualStyle = CSSStyleValue.parse("display", "none");
-                    const DockerContentElement = globalThis.document.querySelector(`.${this.WindowDockCoreElement.className} .${ReferenceProperElement.className.trim()}`);
-                    global.console.debug(String(ContentVisualStyle).trim());
-                    global.console.debug(DockerContentElement ?? undefined);
-                    if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement))
-                        return undefined;
-                    DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
+                    // const ContentVisualStyle: CSSStyleValue = CSSStyleValue.parse("display", "none") as typeof CSSStyleValue.prototype;
+                    // const DockerContentElement: HTMLElement | null = globalThis.document.querySelector(`.${this.WindowDockCoreElement.className} .${ReferenceProperElement.className.trim()}`);
+                    // global.console.debug(String(ContentVisualStyle).trim());
+                    // global.console.debug(DockerContentElement ?? undefined);
+                    // if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement)) return undefined;
+                    // DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
+                    function toggleMinimizedStatusInto(RequestStatus = false, WindowCore = undefined) {
+                        const ConvertedStatusValue = typeof RequestStatus === 'number' ? new Boolean(RequestStatus).valueOf() : false;
+                        if (ConvertedStatusValue === undefined || typeof ConvertedStatusValue !== 'boolean')
+                            return undefined;
+                        if (typeof WindowCore === 'undefined' || !(WindowCore instanceof HTMLElement))
+                            return;
+                        ConvertedStatusValue === true ? (Function.prototype.call(() => {
+                        })) : void null;
+                    }
+                    const HasMinimizedAttribute = ReferenceProperElement.classList.contains('minimizer-collapsed');
+                    typeof HasMinimizedAttribute === 'boolean' && HasMinimizedAttribute !== undefined ? (() => {
+                        toggleMinimizedStatusInto();
+                    })() : void console.warn("");
                 }
             });
-            //for (let WindowDockShadowIndex: number = 0; (WindowDockShadowIndex.valueOf() < (this.WindowDockShadowElement.childNodes.length)).valueOf(); WindowDockShadowIndex++) {
-            //    SelectedDockWindowElementChild ??= this.WindowDockShadowElement?.childNodes?.item(Number(WindowDockShadowIndex)) ?? null;
-            //    if (new Boolean(((SelectedDockWindowElementChild instanceof Element).valueOf() ? "true" : "false") as string).valueOf() !== true) break;
-            //    const ComputationStyleValid: boolean = Boolean(StyleSelectorMapout.has("display") === true ? "true" : "false");
-            //    const ElementChildFetch = globalThis.document.querySelector("." + String(SelectedDockWindowElementChild.parentElement?.className));
-            //    if ((ComputationStyleValid.valueOf() && ElementChildFetch !== null && (ElementChildFetch instanceof HTMLElement)) === true) {
-            //    } else {
-            //        (async () => console.error())();
-            //    }
-            //}
         }
-    }
-    RevertMinimizeProcess() {
-        const isWindowCoreElementValid = (this.WindowDockCoreElement !== null && this.WindowDockCoreElement instanceof HTMLElement).valueOf();
-        typeof isWindowCoreElementValid === "boolean" && isWindowCoreElementValid !== false ? (() => {
-        })() : void 0;
     }
     async RemoveWindowDock() {
         return new Promise(() => {
