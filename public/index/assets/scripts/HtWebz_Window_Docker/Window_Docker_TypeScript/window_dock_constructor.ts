@@ -2,6 +2,10 @@
 /// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
 /// <reference path="./../../window_scope_definitions.d.ts" />
 
+//let HtWebzEngineObjectAssignEvent = new Event("", {
+// 
+//});
+
 namespace HtWebzDockWindowStatistics {
     export let ActiveDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
     export let MinimizedDockWindows: Array<typeof HtWebzDockWindow.prototype> = [];
@@ -148,49 +152,64 @@ class HtWebzDockWindow implements WindowDockPrimative {
     ] as Readonly<Array<string>>;
 
     public async ConstructWindowContents(): Promise<void> {
-        if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) return undefined;
+        if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) {
+            return undefined;
+        }
 
-        let RelatedDockerAttributeNames: Array<string> = [];
-
+        let RelatedDockerAttributeNames: Array<string> = Array.prototype as string[];
         type WindowDockerPostingResult = Array<Node | HTMLElement>;
-        type ModifiedComponentNames = typeof RelatedDockerAttributeNames;
 
         HtWebzDockWindow.WindowContentsConstructionDataTemplate?.forEach((TemplateValue: string) => {
             (TemplateValue !== null ? this.WindowConstructionData.push(TemplateValue.trim().toString()) : null);
-        }) ?? null;
+        }) ?? void null;
 
         this.WindowConstructionData.forEach((RawTemplateValue: string | undefined = undefined) => {
             try {
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
+                    /// @ts-nocheck
                     globalThis.console.debug("Attempting attribute name replacment in progress...");
-                    const ReplacementExpression: RegExp = new globalThis.RegExp(/(?<![a-zA-Z0-9_])\{name\}(?![a-zA-Z0-9_])/gi);
+                    /// @ts-check
+                    const ReplacementExpression: RegExp = new globalThis.RegExp(/(([^\n|\r]+)((?<![a-zA-Z0-9_])\{name\}(?![a-zA-Z0-9_])))/gi);
                     const IncludesReplacmentValues: boolean = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     const ReplacementValuesExecution: RegExpExecArray | null = ReplacementExpression.exec(RawTemplateValue);
+                    const ReplacmentAbsolute = ReplacementValuesExecution !== null ? ReplacementValuesExecution?.values() : null;
+                    const ReplacementEntries = ReplacementValuesExecution !== null ? ReplacementValuesExecution?.entries() : undefined;
 
                     globalThis.console.debug(IncludesReplacmentValues.valueOf());
                     globalThis.console.debug(String(ReplacementExpression.source).trim());
                     globalThis.console.debug(RawTemplateValue?.toString() ?? null);
 
-                    (typeof (IncludesReplacmentValues) === "boolean" && IncludesReplacmentValues === true ? (async (): Promise<void> => {
-                        (ReplacementExpression instanceof RegExp ? ReplacementExpression.exec(RawTemplateValue)?.every((TrackedReplacmentValue: string) => {
-                            const isTrackingValueValid: boolean = (TrackedReplacmentValue !== null && typeof (TrackedReplacmentValue) === "string").valueOf();
-                            console.debug(String(TrackedReplacmentValue).toString());
-                            if (!isTrackingValueValid!!.valueOf()) {
-                                return void null;
-                            } else if (typeof isTrackingValueValid === "boolean" && isTrackingValueValid.valueOf()) {
-                                const SplicedReplacmentValues = RawTemplateValue.matchAll(new RegExp(String(TrackedReplacmentValue.trim().toString()), 'g'));
-                                for (let DetectedReplacmentValueIndex: number = 0; (!(isNaN(DetectedReplacmentValueIndex)) && DetectedReplacmentValueIndex < parseFloat((SplicedReplacmentValues.return?.length ?? 0).toPrecision(2))); DetectedReplacmentValueIndex++) {
-                                    const IteratedReplacmentValue: IteratorResult<RegExpExecArray, undefined> | null = SplicedReplacmentValues !== undefined ? SplicedReplacmentValues.next() : null;
-                                    const ExplicitReplacmentValue: string | undefined = IteratedReplacmentValue?.done === true ? IteratedReplacmentValue.value : undefined;
-                                    if (ExplicitReplacmentValue === undefined || typeof (ExplicitReplacmentValue) !== "string") return void null;
-                                    RelatedDockerAttributeNames.push(ExplicitReplacmentValue);
-                                    /* **TODO** */
-                                }
+                    let DataConstructionLocalizedThread: unknown = undefined;
+
+                    for (let ExpressionExecutionIndex: number = 0; Boolean(ExpressionExecutionIndex < (ReplacementEntries?.return?.length ?? 0)).valueOf() === true; ExpressionExecutionIndex++) {
+                        const ExecutionIndexExpectedRange: boolean = (ExpressionExecutionIndex !== undefined && typeof ExpressionExecutionIndex === 'number' && ExpressionExecutionIndex >= 1).valueOf();
+                        const IteratedScanningReplacment: IteratorResult<string | undefined> | null | undefined = ReplacmentAbsolute !== undefined ? ReplacmentAbsolute?.next() : undefined!;
+                        const ScanningReplacmentValueFetched: boolean = IteratedScanningReplacment != null && IteratedScanningReplacment.done !== undefined ? IteratedScanningReplacment.done : false;
+                        const CurrentlySelectedReplacmentValue: string = IteratedScanningReplacment != null && ScanningReplacmentValueFetched.valueOf() ? IteratedScanningReplacment.value : null;
+
+                        (ExpressionExecutionIndex?.valueOf?.() && Boolean(ExecutionIndexExpectedRange) ? ((): void => {
+                            if (CurrentlySelectedReplacmentValue === null || undefined) return undefined;
+                            if (typeof CurrentlySelectedReplacmentValue !== "string") return undefined;
+                            // include selected template value from static property;
+                            // converting `{name}` into the window's target name.
+                            const SelectedTemplateValue = HtWebzDockWindow ? HtWebzDockWindow
+                            .WindowContentsConstructionDataTemplate?.[Number(ExpressionExecutionIndex)]
+                            .valueOf() : new String().toString().trim().valueOf() ?? undefined;
+                            if (SelectedTemplateValue != null && typeof SelectedTemplateValue === 'string') {
+
+                            } else {
+                                console.warn("Template value doesn't exist for index:\t" + ExpressionExecutionIndex);
                             }
-                        }) : undefined);
-                    })() : console.warn("There was NO replacment descriptor name value(s) found!"));
+                        }).bind(DataConstructionLocalizedThread)?.() : (() => {
+                            throw new globalThis.Error("").message.toString();
+                        })());
+                    }
                 } else {
-                    return void globalThis.Number(0);
+                    /// @ts-check
+                    debugger; ///
+                    console.trace([]);
+                    console.error();
+                    return undefined;
                 }
             } catch (DataImplementationError) {
                 if (DataImplementationError === null || !(DataImplementationError instanceof Error)) return;
@@ -262,7 +281,11 @@ class HtWebzDockWindow implements WindowDockPrimative {
      * @param WindowDockName 
      * @param StartMinimized 
      */
-    public constructor(public WindowDockName: string = "New Window (1)", private StartMinimized: boolean | string = false) {
+    public constructor (
+        public WindowDockName: string = "New Window (1)",
+        private StartMinimized: boolean | string = false,
+        public UseDebuggingMode: boolean = false
+    ) /* */ {
         let DockWindowContentConstructionThread = null;
         this.WindowComponentsConstructed = false as boolean;
         this.WindowMenuMinimized = (new Boolean(StartMinimized ?? "false")).valueOf() ?? false;
@@ -438,6 +461,8 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
 ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
     if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
-        globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow;
+        (HtWebzAPIs.HtWebzEngine.HtWebzDockWindow === undefined || !(HtWebzAPIs.HtWebzEngine.HtWebzDockWindow instanceof HtWebzDockWindow)) ? 
+        globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow || undefined || null : 
+        console.warn(`HtWebzDockWindow construction class is already assigned to the API:\t${String(HtWebzAPIs.HtWebzEngine.HtWebzDockWindow?.name ?? null)}`);
     }
-}, { once: true, passive: true }) ?? undefined : (void null));
+}, { once: true, passive: true, capture: false }) ?? undefined : (void globalThis.parseInt('0', 10)));
