@@ -169,7 +169,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
                     /// @ts-nocheck
                     globalThis.console.debug("Attempting attribute name replacment in progress...");
                     /// @ts-check
-                    const ReplacementExpression: RegExp = new globalThis.RegExp(/(([^\n|\r]+)((?<![a-zA-Z0-9_])\{name\}(?![a-zA-Z0-9_])))/gi);
+                    const ReplacementExpression: RegExp = new globalThis.RegExp(/((?<![a-zA-Z0-9_])\{name\}(?![a-zA-Z0-9_]))/gi);
                     const IncludesReplacmentValues: boolean = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     const ReplacementValuesExecution: RegExpExecArray | null = ReplacementExpression.exec(RawTemplateValue);
                     const ReplacmentAbsolute = ReplacementValuesExecution !== null ? ReplacementValuesExecution?.values() : null;
