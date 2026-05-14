@@ -341,6 +341,7 @@
   background: var(--theme-buttonBackground);
   border-color: var(--theme-border);
   transition: all 0.3s cubic-bezier(0.6, -0.28, 0.735, 1.28) !important;
+  color: rgb(220, 250, 255) !important;
   /* Smooth transition for background and color */
 }
 
