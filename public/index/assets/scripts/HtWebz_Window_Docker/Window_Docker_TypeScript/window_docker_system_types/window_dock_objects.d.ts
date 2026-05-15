@@ -1,4 +1,11 @@
-declare abstract class WindowDockPrimative {
+import { WindowDockSizeConstraints } from "../window_dock_constructor";
+
+export abstract class WindowDockPrimative {
+    static WindowContentsConstructionDataTemplate: Readonly<Array<string>>;
+    /**
+     * 
+     */
+    public ConstructWindowContents(): Promise<void>;
     /**
      * Destroys the dock window from the rendering memmory.
      */
@@ -12,6 +19,7 @@ declare abstract class WindowDockPrimative {
      * 
      * @param ConstraintData 
      */
-    public RefactorDockWindowSizeConstraints(ConstraintData: WindowDockSizeConstraints.ComputationParameterObject): WindowDockSizeConstraints.WindowDockSizeConstraintsChange | null;
-    // private computeNewSizeConstraints(): WindowDockSizeConstraints.WindowDockSizeConstraintAbstract | undefined;
+    public RefactorDockWindowSizeConstraints(
+        ConstraintData: WindowDockSizeConstraints.ComputationParameterObject
+    ): WindowDockSizeConstraints.WindowDockSizeConstraintsChange | null;
 }

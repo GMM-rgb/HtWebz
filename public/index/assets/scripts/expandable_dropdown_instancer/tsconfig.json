@@ -1,0 +1,29 @@
+{
+    "buildOptions": {
+        "dry": true,
+        "verbose": true,
+        "traceResolution": true
+    },
+    "compilerOptions": {
+        "pretty": true,
+        "strict": true,
+        "allowJs": true,
+        "sourceMap": true,
+        "alwaysStrict": true,
+        "experimentalDecorators": true,
+        // "traceResolution": true,
+        "removeComments": true,
+        "diagnostics": true,
+        // "charset": "UTF-16",
+        "target": "es2022",
+        "module": "es2022",
+        "sourceRoot": "./source",
+        "moduleResolution": "bundler",
+        "outDir": "CustomDropdownBuild",
+        "rootDir": "../",
+    },
+    // "include": [
+    //     "**/*", /* Current project */
+    //     "../../window_scope_definitions.d.ts" /* Global definitions */
+    // ],
+}

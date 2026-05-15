@@ -1,20 +1,8 @@
-// **./*/HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_constructor.ts
-/// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
-/// <reference path="./../../window_scope_definitions.d.ts" />
-//let HtWebzEngineObjectAssignEvent = new Event("", {
-// 
-//});
 var HtWebzDockWindowStatistics;
 (function (HtWebzDockWindowStatistics) {
     HtWebzDockWindowStatistics.ActiveDockWindows = [];
     HtWebzDockWindowStatistics.MinimizedDockWindows = [];
 })(HtWebzDockWindowStatistics || (HtWebzDockWindowStatistics = {}));
-/**
- * ---
- * External process container providing managment utilitys towards all windows within the active rendering document.
- * @author @GMM-rgb -> Maximus F.
- * @namespace
- */
 var HtWebzWindowDockerExternalManagment;
 (function (HtWebzWindowDockerExternalManagment) {
     let NamingManagment;
@@ -48,16 +36,19 @@ var HtWebzWindowDockerExternalManagment;
     })(NamingManagment = HtWebzWindowDockerExternalManagment.NamingManagment || (HtWebzWindowDockerExternalManagment.NamingManagment = {}));
 })(HtWebzWindowDockerExternalManagment || (HtWebzWindowDockerExternalManagment = {}));
 export class HtWebzDockWindow {
-    /**
-     *
-     * @param WindowDockName
-     * @param StartMinimized
-     */
+    WindowDockName;
+    StartMinimized;
+    UseDebuggingMode;
+    WindowMenuMinimized;
+    WindowComponentNames;
+    WindowComponentsConstructed;
+    _StoredPositions;
+    WindowDockCoreElement;
+    WindowConstructionData = [];
     constructor(WindowDockName = "New Window (1)", StartMinimized = false, UseDebuggingMode = false) {
         this.WindowDockName = WindowDockName;
         this.StartMinimized = StartMinimized;
         this.UseDebuggingMode = UseDebuggingMode;
-        this.WindowConstructionData = [];
         let DockWindowContentConstructionThread = null;
         this.WindowComponentsConstructed = false;
         this.WindowMenuMinimized = (new Boolean(StartMinimized ?? "false")).valueOf() ?? false;
@@ -70,10 +61,22 @@ export class HtWebzDockWindow {
                 PositionFromOrigin: {},
             },
         };
-        // this.WindowDockCoreElement !== null ? (async () => {
-        //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
-        // }) : (void null);
     }
+    static WindowContentElementMutationReference = {
+        ["...-toolbar-component"]: {
+            ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
+            ELEMENT_STYLE_CLASS: ["toolbar"],
+        },
+        ["...-content-control-dropdown"]: {
+            ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
+            ELEMENT_STYLE_CLASS: ["dropdown-content"],
+        },
+    };
+    static WindowContentsConstructionDataTemplate = [
+        '{name}-toolbar-component',
+        '{name}-dock-container-component',
+        '{name}-content-control-dropdown',
+    ];
     async ConstructWindowContents() {
         if (this.WindowConstructionData === undefined || !(Array.isArray(this.WindowConstructionData))) {
             return undefined;
@@ -85,9 +88,7 @@ export class HtWebzDockWindow {
         this.WindowConstructionData.forEach((RawTemplateValue = undefined) => {
             try {
                 if (RawTemplateValue !== undefined && typeof (RawTemplateValue) === "string") {
-                    /// @ts-nocheck
                     globalThis.console.debug("Attempting attribute name replacment in progress...");
-                    /// @ts-check
                     const ReplacementExpression = new globalThis.RegExp(/((?<![a-zA-Z0-9_])\{name\}(?![a-zA-Z0-9_]))/gi);
                     const IncludesReplacmentValues = Boolean(ReplacementExpression.test(RawTemplateValue)).valueOf();
                     const ReplacementValuesExecution = ReplacementExpression.exec(RawTemplateValue);
@@ -107,8 +108,6 @@ export class HtWebzDockWindow {
                                 return undefined;
                             if (typeof CurrentlySelectedReplacmentValue !== "string")
                                 return undefined;
-                            // include selected template value from static property;
-                            // converting `{name}` into the window's target name.
                             const SelectedTemplateValue = HtWebzDockWindow ? HtWebzDockWindow
                                 .WindowContentsConstructionDataTemplate?.[Number(ExpressionExecutionIndex)]
                                 .valueOf() : new String().toString().trim().valueOf() ?? undefined;
@@ -123,8 +122,7 @@ export class HtWebzDockWindow {
                     }
                 }
                 else {
-                    /// @ts-check
-                    debugger; ///
+                    debugger;
                     console.trace([]);
                     console.error();
                     return undefined;
@@ -173,15 +171,14 @@ export class HtWebzDockWindow {
         });
         async function ComposeWindowComponent(SelectedComponent) {
         }
-        /**
-         *
-         * @returns
-         */
         function PostObjectElements() {
             let PostedWindowDockerContents = [];
             return PostedWindowDockerContents ?? [];
         }
     }
+    static WindowElementConfiguration = {
+        is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us"))
+    };
     SetMinimized(NewMinimizedStatus) {
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean"))
             return undefined;
@@ -193,12 +190,6 @@ export class HtWebzDockWindow {
                     let ReferenceProperElement = globalThis.document.createElement(String(ElementNodeType));
                     ReferenceProperElement.nodeValue ??= ((ElementNodeRootValue ?? new Node().nodeValue) ?? (null));
                     ReferenceProperElement.className ??= SelectedElementNode.parentElement?.className ?? "classNameParseError";
-                    // const ContentVisualStyle: CSSStyleValue = CSSStyleValue.parse("display", "none") as typeof CSSStyleValue.prototype;
-                    // const DockerContentElement: HTMLElement | null = globalThis.document.querySelector(`.${this.WindowDockCoreElement.className} .${ReferenceProperElement.className.trim()}`);
-                    // global.console.debug(String(ContentVisualStyle).trim());
-                    // global.console.debug(DockerContentElement ?? undefined);
-                    // if (DockerContentElement === null || !(DockerContentElement instanceof HTMLElement)) return undefined;
-                    // DockerContentElement.style.cssText ??= new String(ContentVisualStyle.toString()).valueOf();
                     function toggleMinimizedStatusInto(RequestStatus = false, WindowCore = undefined) {
                         const ConvertedStatusValue = typeof RequestStatus === 'number' ? new Boolean(RequestStatus).valueOf() : false;
                         if (ConvertedStatusValue === undefined || typeof ConvertedStatusValue !== 'boolean')
@@ -247,9 +238,6 @@ export class HtWebzDockWindow {
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
     computeNewSizeConstraints(TargetComputationData = undefined) {
-        /**
-         * Computed sizing constraint info data for finalized display managment statistics.
-         */
         let InstanceComputedConstraintInfo = {};
         const DockWindowBoundingBoxDimensions = (this?.WindowDockCoreElement?.getBoundingClientRect() ?? null);
         if (TargetComputationData === undefined || typeof (TargetComputationData) !== "object" || this.WindowDockCoreElement === null)
@@ -324,33 +312,6 @@ export class HtWebzDockWindow {
         return isConstraintsChangeInfoDataValid === true ? ConstraintsChangeInfo : null;
     }
 }
-/**
- * ---
- *
- */
-HtWebzDockWindow.WindowContentElementMutationReference = {
-    ["...-toolbar-component"]: {
-        ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
-        ELEMENT_STYLE_CLASS: ["toolbar"],
-    },
-    ["...-content-control-dropdown"]: {
-        ELEMENT_TYPE: { "div": HTMLDivElement.prototype },
-        ELEMENT_STYLE_CLASS: ["dropdown-content"],
-    },
-};
-/**
- * ---
- * Static reference property for computing component names,
- * which implements from the object name into each core descriptor.
- */
-HtWebzDockWindow.WindowContentsConstructionDataTemplate = [
-    '{name}-toolbar-component',
-    '{name}-dock-container-component',
-    '{name}-content-control-dropdown',
-];
-HtWebzDockWindow.WindowElementConfiguration = {
-    is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us"))
-};
 ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
     if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
         (HtWebzAPIs.HtWebzEngine.HtWebzDockWindow === undefined ||

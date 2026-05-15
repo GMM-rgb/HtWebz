@@ -1,0 +1,7 @@
+.dynamically-expandable-content-registery {
+    position: relative !important;
+    contain: style, paint !important;
+    background-clip: padding-box;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+}

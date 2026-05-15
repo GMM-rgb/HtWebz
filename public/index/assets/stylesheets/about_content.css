@@ -1,10 +1,3 @@
-#aboutTag {
-    margin-left: 5px;
-    -webkit-user-select: none !important;
-    user-select: none;
-    -webkit-user-drag: none !important;
-}
-
 .about-page-container {
     position: relative;
     border: 2px solid #ccc;
@@ -42,6 +35,19 @@
     box-shadow: inset 0 0 17.5px rgba(0, 0, 0, 0.45);
 }
 
-.questionOneText {
-    font-weight: bold;
+.about-text {
+    position: relative;
+    font-display: swap;
+    font-variant: normal;
+    font-feature-settings: on, "vpal";
+    font-variant-ligatures: contextual;
+    font-variant-alternates: historical-forms;
+    break-inside: avoid-page;
+    text-justify: distribute-all-lines;
+    text-overflow: clip !important;
+    text-wrap-style: auto;
+    text-wrap-mode: wrap;
+    text-rendering: auto;
+    text-anchor: middle;
+    line-break: loose;
 }

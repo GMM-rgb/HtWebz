@@ -2,6 +2,8 @@
 /// <reference path="./window_docker_system_types/window_dock_objects.d.ts" />
 /// <reference path="./../../window_scope_definitions.d.ts" />
 
+import { WindowDockPrimative } from "./window_docker_system_types/window_dock_objects"
+
 //let HtWebzEngineObjectAssignEvent = new Event("", {
 // 
 //});
@@ -23,7 +25,7 @@ namespace HtWebzWindowDockerExternalManagment {
             return new Boolean(WindowDockConstructor !== undefined && WindowDockConstructor instanceof HtWebzDockWindow).valueOf();
         }
 
-        export const getPlaceholderName = function(PassedWindowConstructor: HtWebzDockWindow) {
+        export const getPlaceholderName = function (PassedWindowConstructor: HtWebzDockWindow) {
             (PassedWindowConstructor !== undefined && PassedWindowConstructor instanceof HtWebzDockWindow ? (() => {
                 if (Object.getOwnPropertyDescriptor(PassedWindowConstructor, "prototype")?.value != null && Symbol.unscopables.description !== undefined) {
                     let PrototypeNameExists: boolean = (Object.keys(Object.getPrototypeOf(PassedWindowConstructor)).includes("WindowDockName").valueOf() === true);
@@ -44,7 +46,7 @@ namespace HtWebzWindowDockerExternalManagment {
     }
 }
 
-declare namespace WindowDockSizeConstraints {
+export declare namespace WindowDockSizeConstraints {
     export type WindowDockSizeConstraintAbstract = {
         ASPECT_CONSTRAINT_DIAGONAL?: ArrayIterator<typeof Number.prototype>;
         GeneralSizingConstraints?: {
@@ -115,7 +117,7 @@ declare namespace PositionRasterizing {
     };
 }
 
-class HtWebzDockWindow implements WindowDockPrimative {
+export class HtWebzDockWindow implements WindowDockPrimative {
     /// Runtime accessable variables outside of scope
     public WindowMenuMinimized: boolean | true | false;
     public WindowComponentNames: WindowComponents.ComponentRuntimeNames;
@@ -124,6 +126,34 @@ class HtWebzDockWindow implements WindowDockPrimative {
     private _StoredPositions: PositionRasterizing.PositionStorageRasterize;
     private WindowDockCoreElement: HTMLUnknownElement | HTMLElement;
     private WindowConstructionData: Array<string> = [];
+
+    /**
+     * 
+     * @param WindowDockName 
+     * @param StartMinimized 
+     */
+    public constructor(
+        public WindowDockName: string = "New Window (1)",
+        private StartMinimized: boolean | string = false,
+        public UseDebuggingMode: boolean = false
+    ) /* */ {
+        let DockWindowContentConstructionThread = null;
+        this.WindowComponentsConstructed = false as boolean;
+        this.WindowMenuMinimized = (new Boolean(StartMinimized ?? "false")).valueOf() ?? false;
+        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", HtWebzDockWindow.WindowElementConfiguration);
+        this.WindowDockCoreElement.style.display ??= (new String("inline-block")).toString().toLocaleLowerCase(Intl.getCanonicalLocales("EN-US"));
+        this.WindowComponentNames = Array.from((new Array<string>(globalThis.parseInt("0", Number(10.00)))).values());
+        this._StoredPositions ??= {
+            ProcessingPositions: {},
+            CurrentPositions: { ///
+                PositionFromOrigin: {},
+            },
+        };
+
+        // this.WindowDockCoreElement !== null ? (async () => {
+        //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
+        // }) : (void null);
+    }
 
     /**
      * ---
@@ -193,8 +223,8 @@ class HtWebzDockWindow implements WindowDockPrimative {
                             // include selected template value from static property;
                             // converting `{name}` into the window's target name.
                             const SelectedTemplateValue = HtWebzDockWindow ? HtWebzDockWindow
-                            .WindowContentsConstructionDataTemplate?.[Number(ExpressionExecutionIndex)]
-                            .valueOf() : new String().toString().trim().valueOf() ?? undefined;
+                                .WindowContentsConstructionDataTemplate?.[Number(ExpressionExecutionIndex)]
+                                .valueOf() : new String().toString().trim().valueOf() ?? undefined;
                             if (SelectedTemplateValue != null && typeof SelectedTemplateValue === 'string') {
 
                             } else {
@@ -237,7 +267,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
                         const MatchedReplacmentSymbols = SelectedClassAttribute.matchAll(new RegExp(/(\b[...]+\b)\1/gi));
                         let CorrelatedAttributeClass: string | null = null;
-                                
+
                         for (let ReplacmentSymbolIndex: number = 0; (ReplacmentSymbolIndex < (MatchedReplacmentSymbols.return?.length?.valueOf() ?? 0)); ReplacmentSymbolIndex++) {
                             if (ReplacmentSymbolIndex != null && Object.is(new Number(ReplacmentSymbolIndex), new Number("0")).valueOf() === true) {
                                 const IteratedReplacmentSymbolComputation = MatchedReplacmentSymbols.next?.() ?? new Array().values().next();
@@ -275,34 +305,6 @@ class HtWebzDockWindow implements WindowDockPrimative {
     static WindowElementConfiguration = {
         is: HTMLUnknownElement.name.toLocaleLowerCase(Intl.getCanonicalLocales("en-us"))
     };
-
-    /**
-     * 
-     * @param WindowDockName 
-     * @param StartMinimized 
-     */
-    public constructor (
-        public WindowDockName: string = "New Window (1)",
-        private StartMinimized: boolean | string = false,
-        public UseDebuggingMode: boolean = false
-    ) /* */ {
-        let DockWindowContentConstructionThread = null;
-        this.WindowComponentsConstructed = false as boolean;
-        this.WindowMenuMinimized = (new Boolean(StartMinimized ?? "false")).valueOf() ?? false;
-        this.WindowDockCoreElement = document.createElement("htwebz-docking-window", HtWebzDockWindow.WindowElementConfiguration);
-        this.WindowDockCoreElement.style.display ??= (new String("inline-block")).toString().toLocaleLowerCase(Intl.getCanonicalLocales("EN-US"));
-        this.WindowComponentNames = Array.from((new Array<string>(globalThis.parseInt("0", Number(10.00)))).values());
-        this._StoredPositions ??= {
-            ProcessingPositions: {},
-            CurrentPositions: { ///
-                PositionFromOrigin: {},
-            },
-        };
-
-        // this.WindowDockCoreElement !== null ? (async () => {
-        //     await this.ConstructWindowContents.bind(DockWindowContentConstructionThread)();
-        // }) : (void null);
-    }
 
     public SetMinimized(NewMinimizedStatus: boolean): void {
         if (NewMinimizedStatus === undefined || !(typeof (NewMinimizedStatus) === "boolean")) return undefined;
@@ -369,7 +371,7 @@ class HtWebzDockWindow implements WindowDockPrimative {
         }).then(() => void null).finally(() => console.debug(`Attempted to remove WindowDock:\t${String(this.WindowDockName ?? "NAME_UNVAILABLE").trim()}`));
     }
 
-    protected computeNewSizeConstraints(TargetComputationData: WindowDockSizeConstraints.ComputationParameterObject | undefined = undefined): WindowDockSizeConstraints.WindowDockSizeConstraintAbstract | undefined {
+    private computeNewSizeConstraints(TargetComputationData: WindowDockSizeConstraints.ComputationParameterObject | undefined = undefined): WindowDockSizeConstraints.WindowDockSizeConstraintAbstract | undefined {
         /**
          * Computed sizing constraint info data for finalized display managment statistics.
          */
@@ -461,8 +463,9 @@ class HtWebzDockWindow implements WindowDockPrimative {
 
 ((self !== undefined && self instanceof Window).valueOf() === true ? self?.window?.document?.addEventListener("DOMContentLoaded", () => {
     if (HtWebzDockWindow !== null && typeof (HtWebzDockWindow) !== "undefined" && HtWebzDockWindow.prototype !== null) {
-        (HtWebzAPIs.HtWebzEngine.HtWebzDockWindow === undefined || !(HtWebzAPIs.HtWebzEngine.HtWebzDockWindow instanceof HtWebzDockWindow)) ? 
-        globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow || undefined || null : 
-        console.warn(`HtWebzDockWindow construction class is already assigned to the API:\t${String(HtWebzAPIs.HtWebzEngine.HtWebzDockWindow?.name ?? null)}`);
+        (HtWebzAPIs.HtWebzEngine.HtWebzDockWindow === undefined ||
+            !(HtWebzAPIs.HtWebzEngine.HtWebzDockWindow instanceof HtWebzDockWindow)) ?
+            globalThis.HtWebzAPIs.HtWebzEngine.HtWebzDockWindow ??= HtWebzDockWindow :
+            console.warn(`HtWebzDockWindow construction class is already assigned to the API:\t${String(HtWebzAPIs.HtWebzEngine.HtWebzDockWindow?.name ?? null)}`);
     }
 }, { once: true, passive: true, capture: false }) ?? undefined : (void globalThis.parseInt('0', 10)));

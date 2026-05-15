@@ -3,11 +3,13 @@
 // scope_definitions.d.ts
 //
 // Import Notification Main Interface file exports; for the Notification System function declaration types.
-import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
 import { Socket, RemoteSocket } from "socket.io";
-// ...
+import * as NotifyUtility from "./notification_system/notification_utility_modules/notification_main_interface";
+import { HtWebzDockWindow } from "./HtWebz_Window_Docker/Window_Docker_TypeScript/window_dock_constructor.ts";
+import type { WindowDockPrimative } from "./HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_system_types/window_dock_objects";
+/// <reference path="./HtWebz_Window_Docker/Window_Docker_TypeScript/window_docker_system_types/window_dock_objects.d.ts" />
 declare type VariableReactionEventResult = [...any];
-// ...
+
 declare global {
     /**
      * ---

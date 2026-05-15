@@ -8,6 +8,7 @@
         "target": "es2021",
         "module": "es2020",
         "moduleResolution": "bundler",
+        "disableSourceOfProjectReferenceRedirect": true,
         "allowUmdGlobalAccess": true,
         "experimentalDecorators": true,
         "allowJs": true,
@@ -21,15 +22,18 @@
         "generateCpuProfile": "profile.cpuprofile",
         "typeRoots": [
             "./window_docker_system_types/"
-        ]
+        ],
     },
     "include": [
         "**/*", /* Current project */
         "../notification_system/**/*", /* Sibling project */
-        "../../window_scope_definitions.d.ts" /* Global definitions */
+        "../../window_scope_definitions.d.ts", /* Global definitions */
     ],
     "exclude": [
         "node_modules",
-        "WindowDockerBuild"
-    ]
+        "WindowDockerBuild",
+    ],
+    "typeAcquisition": {
+        "enable": true,
+    }
 }
