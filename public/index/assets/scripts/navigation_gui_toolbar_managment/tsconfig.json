@@ -1,0 +1,18 @@
+{
+    "buildOptions": {
+        "verbose": true,
+        "traceResolution": true,
+    },
+    "compilerOptions": {
+        "pretty": true,
+        "allowJs": true,
+        "alwaysStrict": true,
+        "diagnostics": true,
+        "sourceMap": true,
+        "removeComments": true,
+        "moduleResolution": "bundler",
+        "outDir": ".\\Toolbar_Navigation_BUILD",
+        "rootDir": "../",
+        "target": "es2022",
+    }
+}
