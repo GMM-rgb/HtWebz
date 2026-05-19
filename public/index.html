@@ -95,8 +95,10 @@ ___        ___        ___  ,________,  ,___    ,________
     <script type="module"
         src="./index/assets/scripts/modules/content_arragment_managment_modules/content_status_observer.js"></script>
     <script type="module" src="./index/assets/scripts/recent_logic/user_recents_loader.js"></script>
+    <!-- Navigation Toolbar Bootloader -->
+    <script type="module" src="./index/assets/scripts/navigation_gui_toolbar_managment/Toolbar_Navigation_BUILD/navigation_gui_toolbar_managment/Navigation_GUI_TypeScript_Source/navigation_toolbar_core.js"></script>
     <!-- Onboarding -->
-    <script type="text/javascript" src="./index/assets/scripts/welcome_services/page_load_onboard.js"></script>
+    <script type="text/javascript" dir="auto" rel="preload" fetch-priority="high" src="./index/assets/scripts/welcome_services/page_load_onboard.js" nonce></script>
     <!-- Notification System Scripts -->
     <!-- Notification Modules -->
     <script type="module"
@@ -108,7 +110,7 @@ ___        ___        ___  ,________,  ,___    ,________
         src="./index/assets/scripts/account_profiler_client/modules/profiler_toast_widget.js"></script>
     <script type="module" src="./index/assets/scripts/account_profiler_client/profiler.js"></script>
 
-    <script type="module" src="./index/assets/scripts/HtWebz_Window_Docker/WindowDockerBuild//HtWebz_Window_Docker/Window_Docker_TypeScript/window_dock_constructor.js"></script>
+    <script type="module" src="./index/assets/scripts/HtWebz_Window_Docker/WindowDockerBuild/HtWebz_Window_Docker/Window_Docker_TypeScript/window_dock_constructor.js"></script>
 
     <link rel="icon" type="image/svg+xml" href="./index/assets/images/Tab_Icons/Main_Logo_Favicon.svg">
     <title id="WebsiteDocumentTitle">HtWebz &ndash; Homepage</title>
@@ -478,7 +480,7 @@ ___        ___        ___  ,________,  ,___    ,________
 
             <script name="TruncateTextScript"
                 src="index/assets/scripts/text_overflow_managment/text_truncate.js"></script>
-            <script>
+            <script type="text/javascript">
                 // Run once on load
                 self.onload = async () => {
                     truncateEllipsis('pageTitle');

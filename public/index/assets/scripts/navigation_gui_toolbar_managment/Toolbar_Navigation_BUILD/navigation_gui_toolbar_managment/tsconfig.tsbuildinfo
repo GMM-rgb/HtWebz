@@ -1,1 +1,1 @@
-{"root":["../../navigation_gui_typescript_source/controller_configurations.d.ts","../../navigation_gui_typescript_source/navigation_toolbar_core.ts","../../navigation_gui_typescript_source/navigation_toolbar_process.ts"],"errors":true,"version":"6.0.2"}
+{"root":["../../navigation_gui_typescript_source/controller_configurations.d.ts","../../navigation_gui_typescript_source/navigation_toolbar_core.ts","../../navigation_gui_typescript_source/toolbar_service_process.ts","../../navigation_gui_typescript_source/services/toolbar_updating.ts"],"version":"5.9.3"}

@@ -8,5 +8,5 @@ navigator.serviceWorker.register("/index/assets/scripts/service_worker_sys/sw_ma
 .then(worker => {
     console.log(`ServiceWorker "Main" successfully registered & operational.\t\n${worker.scope}`)
 }).catch((err) => {
-    console.error(`ServiceWorker "Main" failed to register:\n${err}`);
+    console.warn(`ServiceWorker "Main" failed to register:\n${err}`);
 });

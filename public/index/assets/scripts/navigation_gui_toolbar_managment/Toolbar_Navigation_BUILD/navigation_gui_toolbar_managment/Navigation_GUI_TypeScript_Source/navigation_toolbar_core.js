@@ -1,41 +1,6 @@
-const NavigationToolbarGuiServices = new ServiceWorkerContainer();
-const AbortFailureServiceWorkerGUI = new AbortSignal();
-const EventReasonServiceWorkerGUI = new Event("ToolbarGuiErrorEvent", {
-    composed: true,
-});
-if (AbortFailureServiceWorkerGUI != null && EventReasonServiceWorkerGUI != null) {
-    NavigationToolbarGuiServices.dispatchEvent(EventReasonServiceWorkerGUI);
-    NavigationToolbarGuiServices.controller.
-    ;
-}
-((new AsyncDisposableStack())?.adopt((async function () {
-    globalThis.console.debug();
-})(), async () => {
-    const CurrentComponentServices = await NavigationToolbarGuiServices.getRegistrations();
-    for await (let ComponentService of CurrentComponentServices) {
-        const ComponentServiceHasValue = ((ComponentService !== undefined && ComponentService !== null).valueOf());
-        const ComponentServiceValid = (ComponentServiceHasValue ? ((ComponentService instanceof ServiceWorkerRegistration).valueOf()) : false).valueOf();
-        ComponentServiceHasValue && ComponentServiceValid ? (() => {
-            ComponentService.addEventListener("updatefound", (ServiceUpdate) => {
-                ServiceUpdate.stopPropagation();
-                ComponentService.update();
-            }, { passive: true });
-        })() : null;
-    }
-    await NavigationToolbarGuiServices.register(new URL("navigation_toolbar_process.js", "./"), {
-        updateViaCache: "imports",
-        type: "classic",
-    }).then((RegisteredService) => {
-        if (RegisteredService !== null && RegisteredService instanceof ServiceWorkerRegistration && (RegisteredService.active?.state ?? 'redundant') === 'activated') {
-        }
-        else {
-            const NavigationToolbarServiceError = new Error(`Registered navigator GUI controller was invalid and failed.`);
-            globalThis.console.error(NavigationToolbarServiceError.message);
-        }
-    });
-}) ?? (void null));
-var NavigationToolbarCoreController;
+export var NavigationToolbarCoreController;
 (function (NavigationToolbarCoreController) {
+    NavigationToolbarCoreController.CoreControllerBooted = false;
     class ToolbarController {
         NavigationToolbarConfigs;
         ActiveConfigurations;
@@ -54,9 +19,16 @@ var NavigationToolbarCoreController;
             }
         }
     }
-    async function BootController() {
+    NavigationToolbarCoreController.ToolbarController = ToolbarController;
+    async function BootNavigationController() {
+        console.debug("BOOTING Navigation Controller...");
     }
-    NavigationToolbarCoreController.BootController = BootController;
+    NavigationToolbarCoreController.BootNavigationController = BootNavigationController;
+    function FindRootNavigation() {
+        const FoundRoot = globalThis.window.document.body.querySelector(".staticStickyUiFlex");
+        return (FoundRoot !== null && (FoundRoot instanceof Element && FoundRoot instanceof HTMLElement) ? FoundRoot : null);
+    }
+    NavigationToolbarCoreController.FindRootNavigation = FindRootNavigation;
 })(NavigationToolbarCoreController || (NavigationToolbarCoreController = {}));
-export {};
+NavigationToolbarCoreController.BootNavigationController();
 //# sourceMappingURL=navigation_toolbar_core.js.map
