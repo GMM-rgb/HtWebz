@@ -4,11 +4,31 @@ import {
     DropdownContextInteractivity,
 } from "./dropdown_handling";
 
+const DropdownInstanceTemplate: DropdownContextInfo = {
+    Selection: parseFloat("0"),
+    Name: String("foobar").trim(),
+    Source: [
+        {
+            DropdownCategoryName: "foo",
+            DropdownItemIndexOrder: 1,
+        },
+    ],
+};
+
+declare type DropdownContextStyles = "VERTICAL" | "HORIZONTAL";
 declare type DropdownDataRecord = Record<DropdownDataName, DropdownSourceContents>;
 declare type DropdownDataName = string;
 declare type DropdownSourceContents = {
-    ['SourceElementReference']: HTMLElement;
-    ['DropdownItemIndexOrder']?: number;
+    ['SourceElementReference']?: HTMLElement;
+    ['DropdownItemIndexOrder']?: number | Number;
+    ['DropdownCategoryName']?: string | String,
+};
+
+declare type DropdownContextInfo = {
+    Name?: DropdownDataName;
+    Style?: DropdownContextStyles;
+    Source: Array<DropdownSourceContents>;
+    Selection: ((keyof DropdownContextInfo["Source"]) & DropdownSourceContents);
 };
 
 namespace DropdownInstanceManagment {
@@ -49,6 +69,16 @@ namespace DropdownInstanceManagment {
             }).catch((InitalizationFataError: Error) => {
                 console.error(String(InitalizationFataError.message));
             }));
+        }
+
+        /// @ts-check
+        /**
+         * 
+         * @returns 
+         */
+        public GetSelectionSourceData(): DropdownSourceContents | undefined {
+            let CollectedSourceData: DropdownSourceContents | null = null;
+            return CollectedSourceData !== null ? CollectedSourceData : undefined;
         }
 
         protected async InitalizeDropdownCore(): Promise<void> {
