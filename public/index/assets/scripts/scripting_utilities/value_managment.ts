@@ -9,7 +9,9 @@ class ValueChecker implements ValueCheckingFetch {
         { RealValue: null, ChecksValue: false, DisplayName: "foobar" },
     ];
 
-    constructor() { }
+    constructor(private InputSource: QueriedValuesTemplate) {
+        
+    }
 
     public async ProccessValues(TargetStoringValues: QueriedValuesTemplate): Promise<boolean> {
         let ValuesMatchRequest: boolean = new Boolean(parseFloat('0'))?.valueOf?.() ?? false;
@@ -41,4 +43,6 @@ class ValueChecker implements ValueCheckingFetch {
     }
 }
 
-export { ValueChecker };
+export {
+    ValueChecker as ValueCheckingOperation,
+};

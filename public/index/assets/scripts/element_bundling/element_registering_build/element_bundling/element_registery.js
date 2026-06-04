@@ -1,19 +1,19 @@
 let con = console ?? null;
 ;
-let ElementRegisterys = [];
-export var ParsingModeLiterals;
+let ElementRegisterys = globalThis.Array.of();
+var ParsingModeLiterals;
 (function (ParsingModeLiterals) {
-    ParsingModeLiterals[ParsingModeLiterals["standard"] = 0] = "standard";
     ParsingModeLiterals[ParsingModeLiterals["collection"] = 1] = "collection";
+    ParsingModeLiterals[ParsingModeLiterals["standard"] = 0] = "standard";
 })(ParsingModeLiterals || (ParsingModeLiterals = {}));
 ;
-export var ParsingModeNames;
+var ParsingModeNames;
 (function (ParsingModeNames) {
     ParsingModeNames["COLLECTION"] = "collection";
     ParsingModeNames["STANDARD"] = "standard";
 })(ParsingModeNames || (ParsingModeNames = {}));
 ;
-export var RegisteryScanner;
+var RegisteryScanner;
 (function (RegisteryScanner) {
     class ElementBundleParser {
         ElementsJSON;
@@ -23,11 +23,11 @@ export var RegisteryScanner;
         constructor(ElementsJSON, HtmlCollectionParse = "standard") {
             this.ElementsJSON = ElementsJSON;
             this.HtmlCollectionParse = HtmlCollectionParse;
-            this.ConstructedElementMapping = {};
+            con.group('[BUNDLE PARSER SETUP]');
+            this.ConstructedElementMapping = null;
             this.DetectedRequestElements ??= [];
             this.setupBundleParser.bind(this)();
-            console.group('BUNDLE PARSER SETUP');
-            console.groupEnd();
+            con.groupEnd();
         }
         setupBundleParser() {
             con.groupCollapsed('[BUNDLE PARSER SETUP]');
@@ -46,7 +46,19 @@ export var RegisteryScanner;
                     con.warn("Parse Mode Literal has an un-identified invalid value!");
                 }
             }
-            async function RecursiveScanOperation(TransferedScannerProtocol) {
+            function ValidateScanningRegistery(ChecksValue) {
+                let ValidationChecksum = null;
+                let IsScanningRegisteryValid = new Boolean("false");
+                const HasChecksumValue = typeof ChecksValue !== "undefined";
+                function RunValidation() {
+                }
+                if (RunValidation !== undefined && typeof RunValidation === 'function') {
+                    typeof HasChecksumValue == 'boolean' && HasChecksumValue.valueOf() ?
+                        RunValidation.bind(ValidationChecksum) : void null;
+                }
+                return IsScanningRegisteryValid instanceof Boolean && IsScanningRegisteryValid.valueOf();
+            }
+            async function ExecuteScanOperation(TransferedProtocol, TargetScanRegistery = undefined) {
             }
             if (ParseLiteralsReference !== undefined && Array.isArray(ParseLiteralsReference)) {
                 for (let ModeIndex = 0; (ModeIndex < ParseLiteralsReference.length).valueOf(); ModeIndex++) {
@@ -63,4 +75,5 @@ export var RegisteryScanner;
     }
     RegisteryScanner.ElementBundleParser = ElementBundleParser;
 })(RegisteryScanner || (RegisteryScanner = {}));
+export { ElementRegisterys as ElementSesssionRegisterys, RegisteryScanner as RegisteryScanningUtility, ParsingModeLiterals, ParsingModeNames, };
 //# sourceMappingURL=element_registery.js.map

@@ -4,7 +4,7 @@ import type {
 } from "./../scripting_utilities/scripting_utilties_types";
 
 import {
-    ValueChecker,
+    ValueCheckingOperation,
 } from "./../scripting_utilities/value_managment";
 
 let con: Readonly<typeof console> = console ?? null;
@@ -12,38 +12,37 @@ let con: Readonly<typeof console> = console ?? null;
 declare namespace RegisteryTypeComponents {
     export type ParsingModes =
         "standard" | "collection";
-    export type SessionElementRegister = {
+    export type SessionElementRegister = globalThis.Array<{
         SourceContents?: SessionElementRegister;
         ElementNodeType?: globalThis.HTMLElementTagNameMap;
         /**
          * ---
          * `OVERVIEW`: Holds the element's target name.
          * `CLASS`   : Marks style listing class definition.
-         * `_ID`      : Sets high priority fetching origin.
+         * `_ID`     : Sets high priority fetching origin.
          */
         ElementNameComponent?: {
             OVERVIEW?: string;
             CLASS?: string;
             _ID?: string;
         };
-    };
+    }>;
 };
 
-declare type ElementRegistersType =
-    Array<RegisteryTypeComponents.SessionElementRegister>;
-let ElementRegisterys: ElementRegistersType = [];
+declare type ElementRegistersType = RegisteryTypeComponents.SessionElementRegister[];
+let ElementRegisterys: ElementRegistersType = globalThis.Array.of();
 
-export enum ParsingModeLiterals {
-    standard = 0,
+enum ParsingModeLiterals {
     collection = 1,
+    standard = 0,
 };
 
-export enum ParsingModeNames {
+enum ParsingModeNames {
     COLLECTION = "collection",
     STANDARD = "standard",
 };
 
-export namespace RegisteryScanner {
+namespace RegisteryScanner {
     interface _scanner {
         /**
          * ---
@@ -51,28 +50,34 @@ export namespace RegisteryScanner {
          * in the parameter JSON object for procedural bundling.
          */
         DetectedRequestElements: HTMLElementTagNameMap[];
+        ConstructedElementMapping: HTMLElement | null;
     }
 
+    /**
+     * ---
+     * expands to: `RegisteryTypeComponents.SessionElementRegister`
+     */
+    declare type ShortRegister = RegisteryTypeComponents.SessionElementRegister;
+    declare type BundlingParserRegisteryInput = Record<string, ShortRegister>;
+
     declare abstract class BundleParsingReference {
-        public HtmlCollectionParse:
-            RegisteryTypeComponents.ParsingModes;
-        public ElementsJSON?:
-            typeof Object.prototype;
+        public ElementsJSON?: RegisteryTypeComponents.SessionElementRegister;
+        public HtmlCollectionParse: RegisteryTypeComponents.ParsingModes;
     }
 
     export class ElementBundleParser implements _scanner, BundleParsingReference {
         public DetectedRequestElements: HTMLElementTagNameMap[];
-        public ConstructedElementMapping: object;
+        public ConstructedElementMapping: HTMLElement | null;
 
         public constructor(
-            public ElementsJSON?: typeof Object.prototype,
+            public ElementsJSON?: RegisteryTypeComponents.SessionElementRegister,
             public HtmlCollectionParse: RegisteryTypeComponents.ParsingModes = "standard",
-        ) /* . . . */ {
-            this.ConstructedElementMapping = {};
+        ) {
+            con.group('[BUNDLE PARSER SETUP]');
+            this.ConstructedElementMapping = null;
             this.DetectedRequestElements ??= [];
             this.setupBundleParser.bind(this)();
-            console.group('BUNDLE PARSER SETUP');
-            console.groupEnd();
+            con.groupEnd();
         }
 
         private setupBundleParser(): void {
@@ -93,7 +98,27 @@ export namespace RegisteryScanner {
                 }
             }
 
-            async function RecursiveScanOperation(TransferedScannerProtocol: ThisType<typeof ElementBundleParser>) {
+            function ValidateScanningRegistery(ChecksValue: ShortRegister): boolean {
+                let ValidationChecksum: any = null;
+                let IsScanningRegisteryValid: globalThis.Boolean = new Boolean("false");
+                const HasChecksumValue: boolean = typeof ChecksValue !== "undefined";
+
+                function RunValidation(): void {
+
+                }
+
+                if (RunValidation !== undefined && typeof RunValidation === 'function') {
+                    typeof HasChecksumValue == 'boolean' && HasChecksumValue.valueOf() ?
+                        RunValidation.bind(ValidationChecksum) : void null;
+                }
+
+                return IsScanningRegisteryValid instanceof Boolean && IsScanningRegisteryValid.valueOf();
+            }
+
+            async function ExecuteScanOperation(
+                TransferedProtocol: ThisType<typeof ElementBundleParser>,
+                TargetScanRegistery: ShortRegister | undefined = undefined,
+            ): Promise<void> {
 
             }
 
@@ -113,3 +138,10 @@ export namespace RegisteryScanner {
         }
     }
 }
+
+export {
+    ElementRegisterys as ElementSesssionRegisterys,
+    RegisteryScanner as RegisteryScanningUtility,
+    ParsingModeLiterals,
+    ParsingModeNames,
+};

@@ -1,5 +1,5 @@
 declare interface ValueCheckingFetch {
-
+    
 }
 
 declare type QueryValuesTemplateKeys = 

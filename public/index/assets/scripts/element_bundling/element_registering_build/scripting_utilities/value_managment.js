@@ -1,11 +1,14 @@
 class ValueChecker {
+    InputSource;
     #QueryCapableKeys_accessor_storage = Array();
     get QueryCapableKeys() { return this.#QueryCapableKeys_accessor_storage; }
     set QueryCapableKeys(value) { this.#QueryCapableKeys_accessor_storage = value; }
     static ValueQueryChecksTemplate = [
         { RealValue: null, ChecksValue: false, DisplayName: "foobar" },
     ];
-    constructor() { }
+    constructor(InputSource) {
+        this.InputSource = InputSource;
+    }
     async ProccessValues(TargetStoringValues) {
         let ValuesMatchRequest = new Boolean(parseFloat('0'))?.valueOf?.() ?? false;
         const _TemplateValueREF = Object.seal(ValueChecker.ValueQueryChecksTemplate[0]);
@@ -30,5 +33,5 @@ class ValueChecker {
         });
     }
 }
-export { ValueChecker };
+export { ValueChecker as ValueCheckingOperation, };
 //# sourceMappingURL=value_managment.js.map
