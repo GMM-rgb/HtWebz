@@ -1,0 +1,18 @@
+{
+    "buildOptions": {
+        "dry": false,
+        "verbose": true,
+        "force": true
+    },
+    "compilerOptions": {
+        "pretty": true,
+        "allowJs": true,
+        "sourceMap": true,
+        "alwaysStrict": true,
+        "diagnostics": true,
+        "module": "es2022",
+        "moduleResolution": "bundler",
+        "outDir": "./element_registering_build/",
+        "rootDir": "../",
+    }
+}
