@@ -51,6 +51,12 @@ var RegisteryScanner;
                 let IsScanningRegisteryValid = new Boolean("false");
                 const HasChecksumValue = typeof ChecksValue !== "undefined";
                 function RunValidation() {
+                    ChecksValue.every((SelectedRegister) => {
+                        if (SelectedRegister && !Object.isFrozen(SelectedRegister)) {
+                            for (const RegisterKey in SelectedRegister) {
+                            }
+                        }
+                    });
                 }
                 if (RunValidation !== undefined && typeof RunValidation === 'function') {
                     typeof HasChecksumValue == 'boolean' && HasChecksumValue.valueOf() ?

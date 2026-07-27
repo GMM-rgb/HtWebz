@@ -1,9 +1,6 @@
 import { ParsingModeNames, RegisteryScanningUtility, } from "./element_registery";
 const ElementConstructionParser = new RegisteryScanningUtility.ElementBundleParser([
     {
-        ElementNodeType: {
-            "div": HTMLDivElement.prototype,
-        },
         SourceContents: [
             {},
         ],

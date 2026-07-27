@@ -99,17 +99,25 @@ namespace RegisteryScanner {
             }
 
             function ValidateScanningRegistery(ChecksValue: ShortRegister): boolean {
-                let ValidationChecksum: any = null;
                 let IsScanningRegisteryValid: globalThis.Boolean = new Boolean("false");
                 const HasChecksumValue: boolean = typeof ChecksValue !== "undefined";
+                type ValidRegisterKeys = keyof typeof ChecksValue;
 
                 function RunValidation(): void {
+                    ChecksValue.every((SelectedRegister) => {
+                        if (SelectedRegister && !Object.isFrozen(SelectedRegister)) {
+                            for (const RegisterKey in SelectedRegister) {
+                                // if (SelectedRegister[RegisterKey] !== null) {
+
+                                // }
+                            }
+                        }
+                    });
 
                 }
 
                 if (RunValidation !== undefined && typeof RunValidation === 'function') {
-                    typeof HasChecksumValue == 'boolean' && HasChecksumValue.valueOf() ?
-                        RunValidation.bind(ValidationChecksum) : void null;
+                    typeof HasChecksumValue == 'boolean' && HasChecksumValue.valueOf() ? RunValidation.bind(null) : void null;
                 }
 
                 return IsScanningRegisteryValid instanceof Boolean && IsScanningRegisteryValid.valueOf();
